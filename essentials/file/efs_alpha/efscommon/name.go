@@ -1,8 +1,9 @@
 package efscommon
 
 import (
-	"github.com/watermint/toolbox/essentials/file/efs_alpha"
 	"strings"
+
+	"github.com/watermint/toolbox/essentials/file/efs_alpha"
 )
 
 type NameOpt func(opts nameOpts) nameOpts
@@ -25,7 +26,7 @@ func (z nameOpts) Apply(opts []NameOpt) nameOpts {
 	}
 }
 
-func (z nameOpts) Accept(name string) efs_alpha.NameOutcome {
+func (z nameOpts) Accept(name string) error {
 	if l := len(name); 0 < z.maxLength && z.maxLength < l {
 		return NewNameOutcomeNameTooLong(l, z.maxLength)
 	}
@@ -47,7 +48,7 @@ func (z nameOpts) Accept(name string) efs_alpha.NameOutcome {
 			return NewNameOutcomeNameReserved(r)
 		}
 	}
-	return NewChildOutcomeSuccess()
+	return nil
 }
 
 func DefineNameInvalidChars(chars ...rune) NameOpt {
@@ -89,6 +90,6 @@ type nameImpl struct {
 	opts nameOpts
 }
 
-func (z nameImpl) Accept(name string) efs_alpha.NameOutcome {
+func (z nameImpl) Accept(name string) error {
 	return z.opts.Accept(name)
 }

@@ -1,11 +1,12 @@
 package eg_image
 
 import (
-	"github.com/watermint/toolbox/essentials/graphic/eg_color"
-	eg_geom2 "github.com/watermint/toolbox/essentials/graphic/eg_geom"
 	"image"
 	"image/png"
 	"os"
+
+	"github.com/watermint/toolbox/essentials/graphic/eg_color"
+	eg_geom2 "github.com/watermint/toolbox/essentials/graphic/eg_geom"
 )
 
 func NewRgba(width, height int) Image {
@@ -20,7 +21,7 @@ type rgbaImpl struct {
 	img *image.RGBA
 }
 
-func (z rgbaImpl) ExportTo(format ImageFormat, path string) ExportOutcome {
+func (z rgbaImpl) ExportTo(format ImageFormat, path string) error {
 	f, err := os.Create(path)
 	if err != nil {
 		return NewExportOutcomeWriteFailure(err)
@@ -38,7 +39,7 @@ func (z rgbaImpl) ExportTo(format ImageFormat, path string) ExportOutcome {
 		return NewExportOutcomeUnsupportedFormat(format)
 
 	}
-	return NewExportOutcomeSuccess()
+	return nil
 }
 
 func (z rgbaImpl) Bounds() eg_geom2.Rectangle {

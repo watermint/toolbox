@@ -2,14 +2,15 @@ package esl_rotate
 
 import (
 	"context"
+	"os"
+	"sync"
+	"time"
+
 	"github.com/watermint/toolbox/essentials/concurrency/es_mutex"
 	"github.com/watermint/toolbox/essentials/concurrency/es_timeout"
 	"github.com/watermint/toolbox/essentials/file/es_gzip"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_shutdown"
-	"os"
-	"sync"
-	"time"
 )
 
 const (
@@ -42,9 +43,6 @@ var (
 
 	// logs which unable to remove
 	poisonLogs = make(map[string]error)
-
-	// out process in progress
-	outInProgress = sync.Map{}
 )
 
 func purgeLoop() {
@@ -110,9 +108,6 @@ func outLoop() {
 }
 
 func execOut(m MsgOut) {
-	outInProgress.Store(m.Path, true)
-	defer outInProgress.Delete(m.Path)
-
 	if !m.Opts.IsCompress() {
 		return
 	}

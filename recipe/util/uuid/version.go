@@ -1,12 +1,13 @@
 package uuid
 
 import (
+	"strings"
+
 	"github.com/watermint/toolbox/essentials/strings/es_uuid"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
-	"strings"
 )
 
 type Version struct {
@@ -22,9 +23,9 @@ func (z *Version) Exec(c app_control.Control) error {
 	if err := z.Metadata.Open(); err != nil {
 		return err
 	}
-	u, oc := es_uuid.Parse(strings.TrimSpace(z.Uuid))
-	if oc.IsError() {
-		return oc.Cause()
+	u, err := es_uuid.Parse(strings.TrimSpace(z.Uuid))
+	if err != nil {
+		return err
 	}
 	z.Metadata.Row(u.Metadata())
 	return nil

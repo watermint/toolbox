@@ -1,11 +1,11 @@
 package eg_placeholder
 
 import (
-	"github.com/watermint/toolbox/essentials/go/es_idiom_deprecated"
-	"github.com/watermint/toolbox/essentials/graphic/eg_color"
-	eg_geom2 "github.com/watermint/toolbox/essentials/graphic/eg_geom"
 	"image"
 	"image/draw"
+
+	"github.com/watermint/toolbox/essentials/graphic/eg_color"
+	eg_geom2 "github.com/watermint/toolbox/essentials/graphic/eg_geom"
 )
 
 type placeholderOpts struct {
@@ -42,8 +42,4 @@ func NewPlaceholder(width, height int, opts ...PlaceholderOpt) {
 		draw.Draw(img, img.Bounds(), image.NewUniform(po.Fill), image.Point{}, draw.Src)
 	}
 
-}
-
-type PlaceholderOutcome interface {
-	es_idiom_deprecated.Outcome
 }

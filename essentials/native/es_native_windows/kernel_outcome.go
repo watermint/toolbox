@@ -1,65 +1,85 @@
 package es_native_windows
 
 import (
-	"github.com/watermint/toolbox/essentials/go/es_idiom_deprecated"
-	"github.com/watermint/toolbox/essentials/go/es_idiom_deprecated/eoutcome"
+	"errors"
 	"syscall"
 )
 
-// KernelOutcome consumer need to verify procedure's output to determine weather the process failed or not.
-// KernelOutcome marks as error only when the procedure is not found or could not bind to kernel module, etc.
-type KernelOutcome interface {
-	es_idiom_deprecated.UnconfirmedOutcome
-
-	IsCouldNotResolveProc() bool
-
-	Errno() syscall.Errno
-
-	// LastError Returns the proc's last error
-	LastError() error
+// KernelOutcome は特定のエラー状態を表します
+type KernelError struct {
+	error
+	cause   int
+	lastErr error
 }
 
+// エラーのタイプを識別するための定数
 const (
 	kernelOutcomeNoObviousError = iota
 	kernelOutcomeCouldNotResolveProc
 )
 
-func NewKernelOutcomeNoObviousError(lastErr error) KernelOutcome {
-	return &kernelOutcomeImpl{
-		UnconfirmedOutcomeBase: eoutcome.UnconfirmedOutcomeBase{ObviousErr: nil},
-		cause:                  kernelOutcomeNoObviousError,
-		lastErr:                lastErr,
+// エラー識別用の関数
+func IsCouldNotResolveProcError(err error) bool {
+	var ke *KernelError
+	if errors.As(err, &ke) {
+		return ke.cause == kernelOutcomeCouldNotResolveProc
 	}
+	return false
 }
 
-func NewKernelOutcomeCouldNotResolveProc(resolveError error) KernelOutcome {
-	return &kernelOutcomeImpl{
-		UnconfirmedOutcomeBase: eoutcome.UnconfirmedOutcomeBase{ObviousErr: resolveError},
-		cause:                  kernelOutcomeCouldNotResolveProc,
-		lastErr:                resolveError,
-	}
-}
-
-type kernelOutcomeImpl struct {
-	eoutcome.UnconfirmedOutcomeBase
-	cause   int
-	lastErr error
-}
-
-func (z kernelOutcomeImpl) Errno() syscall.Errno {
-	if z.lastErr == nil {
-		return 0
-	}
-	if en, ok := z.lastErr.(syscall.Errno); ok {
-		return en
+// エラーのErrnoを取得する関数
+func GetErrno(err error) syscall.Errno {
+	var ke *KernelError
+	if errors.As(err, &ke) {
+		if ke.lastErr == nil {
+			return 0
+		}
+		if en, ok := ke.lastErr.(syscall.Errno); ok {
+			return en
+		}
 	}
 	return 0
 }
 
-func (z kernelOutcomeImpl) IsCouldNotResolveProc() bool {
-	return z.cause == kernelOutcomeCouldNotResolveProc
+// エラーの元になったLastErrorを取得する関数
+func GetLastError(err error) error {
+	var ke *KernelError
+	if errors.As(err, &ke) {
+		return ke.lastErr
+	}
+	return nil
 }
 
-func (z kernelOutcomeImpl) LastError() error {
-	return z.lastErr
+// エラーメッセージの実装
+func (z *KernelError) Error() string {
+	if z.error != nil {
+		return z.error.Error()
+	}
+	return "kernel operation error"
+}
+
+// Unwrap()メソッドの実装
+func (z *KernelError) Unwrap() error {
+	return z.error
+}
+
+// エラーなしの状態を表すファクトリー関数
+func NewKernelOutcomeNoObviousError(lastErr error) error {
+	if lastErr == nil {
+		return nil
+	}
+	return &KernelError{
+		error:   lastErr,
+		cause:   kernelOutcomeNoObviousError,
+		lastErr: lastErr,
+	}
+}
+
+// プロシージャの解決失敗を表すファクトリー関数
+func NewKernelOutcomeCouldNotResolveProc(resolveError error) error {
+	return &KernelError{
+		error:   resolveError,
+		cause:   kernelOutcomeCouldNotResolveProc,
+		lastErr: resolveError,
+	}
 }

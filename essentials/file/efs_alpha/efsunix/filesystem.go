@@ -20,7 +20,7 @@ func (z fsImpl) Identity() string {
 	return identity
 }
 
-func (z fsImpl) Path(path string) (efs_deprecated2.Path, efs_deprecated2.PathOutcome) {
+func (z fsImpl) Path(path string) (efs_deprecated2.Path, error) {
 	//ap, err := filepath.Abs(path)
 	//
 	//// the error of filepath.Abs may be caused by retrieving current path
@@ -34,7 +34,7 @@ func (z fsImpl) Equals(other efs_deprecated2.FileSystem) bool {
 	return other.Identity() == identity
 }
 
-func (z fsImpl) CurrentPath() (efs_deprecated2.Path, efs_deprecated2.CurrentPathOutcome) {
+func (z fsImpl) CurrentPath() (efs_deprecated2.Path, error) {
 	panic("implement me")
 }
 

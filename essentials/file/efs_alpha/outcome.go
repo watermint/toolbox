@@ -1,15 +1,23 @@
 package efs_alpha
 
 import (
-	"github.com/watermint/toolbox/essentials/go/es_idiom_deprecated"
+	"errors"
 )
 
-type FileSystemOutcome interface {
-	es_idiom_deprecated.Outcome
+var (
+	// ErrTimeout indicates a timeout error
+	ErrTimeout = errors.New("operation timed out")
 
-	// IsTimeout returns true if an operation failed with timeout.
-	IsTimeout() bool
+	// ErrOperationNotAllowed indicates an operation is not allowed
+	ErrOperationNotAllowed = errors.New("operation not allowed")
+)
 
-	// IsOperationNotAllowed returns true if an operation is not allowed.
-	IsOperationNotAllowed() bool
+// IsTimeoutError determines if an error indicates a timeout
+func IsTimeoutError(err error) bool {
+	return err != nil && errors.Is(err, ErrTimeout)
+}
+
+// IsOperationNotAllowedError determines if an error indicates an operation is not allowed
+func IsOperationNotAllowedError(err error) bool {
+	return err != nil && errors.Is(err, ErrOperationNotAllowed)
 }

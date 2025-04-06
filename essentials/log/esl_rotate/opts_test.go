@@ -3,11 +3,12 @@ package esl_rotate
 import (
 	"crypto/rand"
 	"fmt"
-	"github.com/watermint/toolbox/essentials/collections/es_array_deprecated"
-	"github.com/watermint/toolbox/quality/infra/qt_file"
-	"io/ioutil"
+	"os"
 	"path/filepath"
+	"sort"
 	"testing"
+
+	"github.com/watermint/toolbox/quality/infra/qt_file"
 )
 
 func TestRotateOpts_Apply(t *testing.T) {
@@ -39,7 +40,7 @@ func TestRotateOpts_PurgeTargets_ByCount(t *testing.T) {
 		for i := 0; i < numPurged; i++ {
 			name := fmt.Sprintf("by_count.%04d.log", i)
 			fp := filepath.Join(path, name)
-			if err := ioutil.WriteFile(fp, []byte(name), 0644); err != nil {
+			if err := os.WriteFile(fp, []byte(name), 0644); err != nil {
 				t.Error(err)
 			}
 			expectedFiles = append(expectedFiles, fp)
@@ -50,7 +51,7 @@ func TestRotateOpts_PurgeTargets_ByCount(t *testing.T) {
 		for i := 0; i < numBackup; i++ {
 			name := fmt.Sprintf("by_count.%04d.log", i+1000)
 			fp := filepath.Join(path, name)
-			if err := ioutil.WriteFile(fp, []byte(name), 0644); err != nil {
+			if err := os.WriteFile(fp, []byte(name), 0644); err != nil {
 				t.Error(err)
 			}
 			preserveFiles = append(preserveFiles, fp)
@@ -61,18 +62,43 @@ func TestRotateOpts_PurgeTargets_ByCount(t *testing.T) {
 			t.Error(err)
 		}
 
-		pa := es_array_deprecated.NewByString(preserveFiles...)
-		ea := es_array_deprecated.NewByString(expectedFiles...)
-		ta := es_array_deprecated.NewByString(targetFiles...)
+		// Sort all slices for consistent comparison
+		sort.Strings(preserveFiles)
+		sort.Strings(expectedFiles)
+		sort.Strings(targetFiles)
 
-		// Preserve/Target
-		if cf := pa.Intersection(ta); cf.Size() != 0 {
-			t.Error(cf)
+		// Check for intersections using maps
+		preserveMap := make(map[string]bool)
+		for _, f := range preserveFiles {
+			preserveMap[f] = true
 		}
 
-		// Purge/Target
-		if cf := ea.Intersection(ta); cf.Size() != numPurged {
-			t.Error(ea)
+		expectedMap := make(map[string]bool)
+		for _, f := range expectedFiles {
+			expectedMap[f] = true
+		}
+
+		targetMap := make(map[string]bool)
+		for _, f := range targetFiles {
+			targetMap[f] = true
+		}
+
+		// Check preserve/target intersection
+		for _, f := range targetFiles {
+			if preserveMap[f] {
+				t.Errorf("Target file %s should not be in preserve files", f)
+			}
+		}
+
+		// Check expected/target intersection
+		expectedCount := 0
+		for _, f := range targetFiles {
+			if expectedMap[f] {
+				expectedCount++
+			}
+		}
+		if expectedCount != numPurged {
+			t.Errorf("Expected %d files to be purged, got %d", numPurged, expectedCount)
 		}
 	})
 }
@@ -98,7 +124,7 @@ func TestRotateOpts_PurgeTargets_ByQuota(t *testing.T) {
 				t.Error(err)
 			}
 			fp := filepath.Join(path, name)
-			if err := ioutil.WriteFile(fp, data, 0644); err != nil {
+			if err := os.WriteFile(fp, data, 0644); err != nil {
 				t.Error(err)
 			}
 			expectedFiles = append(expectedFiles, fp)
@@ -113,7 +139,7 @@ func TestRotateOpts_PurgeTargets_ByQuota(t *testing.T) {
 				t.Error(err)
 			}
 			fp := filepath.Join(path, name)
-			if err := ioutil.WriteFile(fp, data, 0644); err != nil {
+			if err := os.WriteFile(fp, data, 0644); err != nil {
 				t.Error(err)
 			}
 			preserveFiles = append(preserveFiles, fp)
@@ -124,18 +150,43 @@ func TestRotateOpts_PurgeTargets_ByQuota(t *testing.T) {
 			t.Error(err)
 		}
 
-		pa := es_array_deprecated.NewByString(preserveFiles...)
-		ea := es_array_deprecated.NewByString(expectedFiles...)
-		ta := es_array_deprecated.NewByString(targetFiles...)
+		// Sort all slices for consistent comparison
+		sort.Strings(preserveFiles)
+		sort.Strings(expectedFiles)
+		sort.Strings(targetFiles)
 
-		// Preserve/Target
-		if cf := pa.Intersection(ta); cf.Size() != 0 {
-			t.Error(cf)
+		// Check for intersections using maps
+		preserveMap := make(map[string]bool)
+		for _, f := range preserveFiles {
+			preserveMap[f] = true
 		}
 
-		// Purge/Target
-		if cf := ea.Intersection(ta); cf.Size() != numPurge {
-			t.Error(ea)
+		expectedMap := make(map[string]bool)
+		for _, f := range expectedFiles {
+			expectedMap[f] = true
+		}
+
+		targetMap := make(map[string]bool)
+		for _, f := range targetFiles {
+			targetMap[f] = true
+		}
+
+		// Check preserve/target intersection
+		for _, f := range targetFiles {
+			if preserveMap[f] {
+				t.Errorf("Target file %s should not be in preserve files", f)
+			}
+		}
+
+		// Check expected/target intersection
+		expectedCount := 0
+		for _, f := range targetFiles {
+			if expectedMap[f] {
+				expectedCount++
+			}
+		}
+		if expectedCount != numPurge {
+			t.Errorf("Expected %d files to be purged, got %d", numPurge, expectedCount)
 		}
 	})
 }

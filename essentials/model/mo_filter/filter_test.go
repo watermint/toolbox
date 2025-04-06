@@ -1,7 +1,8 @@
 package mo_filter
 
 import (
-	"github.com/watermint/toolbox/essentials/collections/es_array_deprecated"
+	"reflect"
+	"sort"
 	"testing"
 )
 
@@ -19,9 +20,14 @@ func TestFilterImpl_Accept(t *testing.T) {
 		t.Error(x)
 	}
 	fl.SetOptions(NewNameFilter(), NewNameSuffixFilter())
-	fields := es_array_deprecated.NewByString(fl.Fields()...)
-	expected := es_array_deprecated.NewByString("HelloName", "HelloNameSuffix")
-	if x := fields.Intersection(expected); x.Size() != 2 {
-		t.Error(x)
+	fields := fl.Fields()
+	expected := []string{"HelloName", "HelloNameSuffix"}
+
+	// Sort both slices for comparison
+	sort.Strings(fields)
+	sort.Strings(expected)
+
+	if !reflect.DeepEqual(fields, expected) {
+		t.Errorf("Expected fields %v but got %v", expected, fields)
 	}
 }

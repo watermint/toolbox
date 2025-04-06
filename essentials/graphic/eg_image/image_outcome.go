@@ -1,54 +1,52 @@
 package eg_image
 
 import (
-	"github.com/watermint/toolbox/essentials/go/es_idiom_deprecated/eoutcome"
+	"errors"
+	"fmt"
 )
 
-const (
-	exportOutcomeSuccess = iota
-	exportOutcomeUnsupportedFormat
-	exportOutcomeEncodeFailure
-	exportOutcomeWriteFailure
+var (
+	// ErrUnsupportedFormatError is an error for unsupported formats
+	ErrUnsupportedFormatError = errors.New(ErrUnsupportedFormat)
+
+	// ErrEncodeFailureError is an encoding error
+	ErrEncodeFailureError = errors.New(ErrEncodeFailure)
+
+	// ErrWriteFailureError is a writing error
+	ErrWriteFailureError = errors.New(ErrWriteFailure)
 )
 
-func NewExportOutcomeSuccess() ExportOutcome {
-	return &imgExportOutcomeImpl{
-		OutcomeBase: eoutcome.NewOutcomeBaseOk(),
-		reason:      exportOutcomeSuccess,
-	}
-}
-func NewExportOutcomeUnsupportedFormat(given ImageFormat) ExportOutcome {
-	return &imgExportOutcomeImpl{
-		OutcomeBase: eoutcome.NewOutcomeBaseWithErrMessage("unsupported format %d", given),
-		reason:      exportOutcomeUnsupportedFormat,
-	}
-}
-func NewExportOutcomeEncodeFailure(err error) ExportOutcome {
-	return &imgExportOutcomeImpl{
-		OutcomeBase: eoutcome.NewOutcomeBaseError(err),
-		reason:      exportOutcomeEncodeFailure,
-	}
-}
-func NewExportOutcomeWriteFailure(err error) ExportOutcome {
-	return &imgExportOutcomeImpl{
-		OutcomeBase: eoutcome.NewOutcomeBaseError(err),
-		reason:      exportOutcomeWriteFailure,
-	}
+// NewExportOutcomeSuccess returns nil to represent success
+func NewExportOutcomeSuccess() error {
+	return nil
 }
 
-type imgExportOutcomeImpl struct {
-	eoutcome.OutcomeBase
-	reason int
+// NewExportOutcomeUnsupportedFormat returns an unsupported format error
+func NewExportOutcomeUnsupportedFormat(given ImageFormat) error {
+	return fmt.Errorf("%w: unsupported format %d", ErrUnsupportedFormatError, given)
 }
 
-func (z imgExportOutcomeImpl) IsUnsupportedFormat() bool {
-	return z.reason == exportOutcomeUnsupportedFormat
+// NewExportOutcomeEncodeFailure returns an encoding error
+func NewExportOutcomeEncodeFailure(err error) error {
+	return fmt.Errorf("%w: %v", ErrEncodeFailureError, err)
 }
 
-func (z imgExportOutcomeImpl) IsEncodeFailure() bool {
-	return z.reason == exportOutcomeEncodeFailure
+// NewExportOutcomeWriteFailure returns a writing error
+func NewExportOutcomeWriteFailure(err error) error {
+	return fmt.Errorf("%w: %v", ErrWriteFailureError, err)
 }
 
-func (z imgExportOutcomeImpl) IsWriteFailure() bool {
-	return z.reason == exportOutcomeWriteFailure
+// IsUnsupportedFormatError determines if an error is an unsupported format error
+func IsUnsupportedFormatError(err error) bool {
+	return err != nil && errors.Is(err, ErrUnsupportedFormatError)
+}
+
+// IsEncodeFailureError determines if an error is an encoding error
+func IsEncodeFailureError(err error) bool {
+	return err != nil && errors.Is(err, ErrEncodeFailureError)
+}
+
+// IsWriteFailureError determines if an error is a writing error
+func IsWriteFailureError(err error) bool {
+	return err != nil && errors.Is(err, ErrWriteFailureError)
 }

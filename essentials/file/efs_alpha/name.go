@@ -1,22 +1,38 @@
 package efs_alpha
 
 import (
-	"github.com/watermint/toolbox/essentials/go/es_idiom_deprecated"
+	"errors"
+)
+
+// Error type constants
+var (
+	// ErrInvalidChar indicates that the name contains an invalid character
+	ErrInvalidChar = errors.New("invalid character in name")
+
+	// ErrNameReserved indicates that the name is reserved
+	ErrNameReserved = errors.New("name is reserved")
+
+	// ErrNameTooLong indicates that the name is too long
+	ErrNameTooLong = errors.New("name is too long")
 )
 
 type Name interface {
-	Accept(name string) NameOutcome
+	Accept(name string) error
 }
 
-type NameOutcome interface {
-	es_idiom_deprecated.Outcome
+// IsInvalidCharError determines if an error indicates an invalid character
+// See more detail about limitation:
+// https://en.wikipedia.org/wiki/Filename#Comparison_of_filename_limitations
+func IsInvalidCharError(err error) bool {
+	return err != nil && errors.Is(err, ErrInvalidChar)
+}
 
-	// IsInvalidChar return true if invalid char found in given name
-	// See more detail about limitation:
-	// https://en.wikipedia.org/wiki/Filename#Comparison_of_filename_limitations
-	IsInvalidChar() bool
+// IsNameReservedError determines if an error indicates a reserved name
+func IsNameReservedError(err error) bool {
+	return err != nil && errors.Is(err, ErrNameReserved)
+}
 
-	// IsNameReserved IsReserved return true if the name is reserved by the system
-	IsNameReserved() bool
-	IsNameTooLong() bool
+// IsNameTooLongError determines if an error indicates a name that is too long
+func IsNameTooLongError(err error) bool {
+	return err != nil && errors.Is(err, ErrNameTooLong)
 }

@@ -1,6 +1,7 @@
 package es_json
 
 import (
+	"strconv"
 	"testing"
 )
 
@@ -73,7 +74,7 @@ func TestParse(t *testing.T) {
 		if s, e := j.Array(); s != nil || e {
 			t.Error(s, e)
 		}
-		if s, e := j.Number(); s != nil || e {
+		if s, e := j.Number(); s != "" || e {
 			t.Error(s, e)
 		}
 		if s, e := j.Bool(); s || e {
@@ -97,7 +98,7 @@ func TestParse(t *testing.T) {
 		if s, e := j.Array(); s != nil || e {
 			t.Error(s, e)
 		}
-		if s, e := j.Number(); s != nil || e {
+		if s, e := j.Number(); s != "" || e {
 			t.Error(s, e)
 		}
 		if s, e := j.Bool(); s || e {
@@ -123,7 +124,7 @@ func TestParse(t *testing.T) {
 		if s, e := j.Array(); s != nil || e {
 			t.Error(s, e)
 		}
-		if s, e := j.Number(); s != nil || e {
+		if s, e := j.Number(); s != "" || e {
 			t.Error(s, e)
 		}
 		if s, e := j.Bool(); !s || !e {
@@ -147,7 +148,7 @@ func TestParse(t *testing.T) {
 		if s, e := j.Array(); s != nil || e {
 			t.Error(s, e)
 		}
-		if s, e := j.Number(); s != nil || e {
+		if s, e := j.Number(); s != "" || e {
 			t.Error(s, e)
 		}
 		if s, e := j.Bool(); s || !e {
@@ -171,8 +172,12 @@ func TestParse(t *testing.T) {
 		if s, e := j.Array(); s != nil || e {
 			t.Error(s, e)
 		}
-		if s, e := j.Number(); s.Int() != 1234 || !e {
+		if s, e := j.Number(); !e {
 			t.Error(s, e)
+		} else {
+			if i, err := strconv.ParseInt(s, 10, 64); err != nil || i != 1234 {
+				t.Error(s, e, i, err)
+			}
 		}
 		if s, e := j.Bool(); s || e {
 			t.Error(s, e)
@@ -195,8 +200,12 @@ func TestParse(t *testing.T) {
 		if s, e := j.Array(); s != nil || e {
 			t.Error(s, e)
 		}
-		if s, e := j.Number(); s.Float64() != 1234.56 || !e {
+		if s, e := j.Number(); !e {
 			t.Error(s, e)
+		} else {
+			if f, err := strconv.ParseFloat(s, 64); err != nil || f != 1234.56 {
+				t.Error(s, e, f, err)
+			}
 		}
 		if s, e := j.Bool(); s || e {
 			t.Error(s, e)
@@ -219,7 +228,7 @@ func TestParse(t *testing.T) {
 		if s, e := j.Array(); s != nil || e {
 			t.Error(s, e)
 		}
-		if s, e := j.Number(); s != nil || e {
+		if s, e := j.Number(); s != "" || e {
 			t.Error(s, e)
 		}
 		if s, e := j.Bool(); s || e {

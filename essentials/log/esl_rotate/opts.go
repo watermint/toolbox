@@ -2,21 +2,22 @@ package esl_rotate
 
 import (
 	"fmt"
-	"github.com/watermint/toolbox/essentials/collections/es_array_deprecated"
-	"github.com/watermint/toolbox/essentials/collections/es_value_deprecated"
-	"github.com/watermint/toolbox/essentials/file/es_gzip"
-	"github.com/watermint/toolbox/essentials/log/esl"
-	"io/ioutil"
 	"math"
 	"os"
 	"path/filepath"
+	"sort"
 	"strings"
+	"sync"
 	"time"
+
+	"github.com/watermint/toolbox/essentials/file/es_gzip"
+	"github.com/watermint/toolbox/essentials/log/esl"
 )
 
 const (
 	UnlimitedBackups = -1
 	UnlimitedQuota   = -1
+	logFileExtension = ".log"
 )
 
 // Hook function that called when the log exceeds num backups.
@@ -41,6 +42,9 @@ type RotateOpts struct {
 	compress   bool
 	rotateHook RotateHook
 }
+
+// outInProgress tracks files that are currently being written to
+var outInProgress sync.Map
 
 func NewRotateOpts() RotateOpts {
 	return RotateOpts{
@@ -87,14 +91,18 @@ func (z RotateOpts) CurrentPath() string {
 func (z RotateOpts) CurrentLogs() (entries []os.FileInfo, err error) {
 	l := esl.ConsoleOnly()
 
-	entries0, err := ioutil.ReadDir(z.BasePath())
+	entries0, err := os.ReadDir(z.BasePath())
 	if err != nil {
 		l.Warn("Unable to read log directory", esl.String("path", z.BasePath()), esl.Error(err))
 		return nil, err
 	}
 	entries = make([]os.FileInfo, 0)
 	for _, entry := range entries0 {
-		name := entry.Name()
+		info, err := entry.Info()
+		if err != nil {
+			continue
+		}
+		name := info.Name()
 		if !strings.HasPrefix(name, z.BaseName()) {
 			continue
 		}
@@ -104,42 +112,68 @@ func (z RotateOpts) CurrentLogs() (entries []os.FileInfo, err error) {
 		if _, ok := outInProgress.Load(filepath.Join(z.BasePath(), name)); ok {
 			continue
 		}
-		entries = append(entries, entry)
+		entries = append(entries, info)
 	}
 	return entries, nil
 }
 
-func (z RotateOpts) targetsByCount(entries []os.FileInfo) (purge es_array_deprecated.Array) {
+func (z RotateOpts) targetsByCount(entries []os.FileInfo) []os.FileInfo {
 	if z.numBackups == UnlimitedBackups || len(entries) < z.numBackups {
-		return es_array_deprecated.Empty()
+		return []os.FileInfo{}
 	}
 
 	numLogs := len(entries)
 	numPurge := numLogs - z.numBackups
 	if numPurge < 1 {
-		return es_array_deprecated.Empty()
+		return []os.FileInfo{}
 	}
 
-	return es_array_deprecated.NewByFileInfo(entries...).
-		Sort().
-		Left(numPurge)
+	// Sort entries by modification time (oldest first)
+	sort.Slice(entries, func(i, j int) bool {
+		return entries[i].ModTime().Before(entries[j].ModTime())
+	})
+
+	// Return the oldest entries up to numPurge
+	return entries[:numPurge]
 }
 
-func (z RotateOpts) targetsByQuota(entries []os.FileInfo) (purge es_array_deprecated.Array) {
+func (z RotateOpts) targetsByQuota(entries []os.FileInfo) []os.FileInfo {
 	if z.quota == UnlimitedQuota {
-		return es_array_deprecated.Empty()
+		return []os.FileInfo{}
 	}
 
+	// Sort entries by modification time (newest first)
+	sort.Slice(entries, func(i, j int) bool {
+		return entries[i].ModTime().After(entries[j].ModTime())
+	})
+
 	var used int64
-	all := es_array_deprecated.NewByFileInfo(entries...)
-	preserve := all.Sort().RightWhile(
-		func(v es_value_deprecated.Value) bool {
-			fi := v.AsInterface().(os.FileInfo)
-			used += fi.Size()
-			return used <= z.quota
-		},
-	)
-	return all.Diff(preserve)
+	var preserve []os.FileInfo
+
+	// Keep the newest files that fit within the quota
+	for _, entry := range entries {
+		used += entry.Size()
+		if used <= z.quota {
+			preserve = append(preserve, entry)
+		} else {
+			break
+		}
+	}
+
+	// Find files to purge (those not in preserve)
+	purge := make([]os.FileInfo, 0)
+	preserveMap := make(map[string]bool)
+	for _, p := range preserve {
+		preserveMap[p.Name()] = true
+	}
+
+	for _, entry := range entries {
+		if !preserveMap[entry.Name()] {
+			purge = append(purge, entry)
+		}
+	}
+
+	return purge
 }
 
 func (z RotateOpts) PurgeTargets() (purge []string, err error) {
@@ -151,11 +185,21 @@ func (z RotateOpts) PurgeTargets() (purge []string, err error) {
 	byCount := z.targetsByCount(logs)
 	byQuota := z.targetsByQuota(logs)
 
-	purge = byCount.Union(byQuota).Map(func(v es_value_deprecated.Value) es_value_deprecated.Value {
-		fi := v.AsInterface().(os.FileInfo)
-		return es_value_deprecated.New(filepath.Join(z.BasePath(), fi.Name()))
-	}).AsStringArray()
-	return
+	// Combine and deduplicate purge targets
+	purgeMap := make(map[string]bool)
+	for _, entry := range byCount {
+		purgeMap[filepath.Join(z.BasePath(), entry.Name())] = true
+	}
+	for _, entry := range byQuota {
+		purgeMap[filepath.Join(z.BasePath(), entry.Name())] = true
+	}
+
+	purge = make([]string, 0, len(purgeMap))
+	for path := range purgeMap {
+		purge = append(purge, path)
+	}
+
+	return purge, nil
 }
 
 // Apply all opts

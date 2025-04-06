@@ -1,59 +1,25 @@
 package efscommon
 
 import (
-	"errors"
 	"fmt"
-	efs_deprecated2 "github.com/watermint/toolbox/essentials/file/efs_alpha"
-	"github.com/watermint/toolbox/essentials/go/es_idiom_deprecated/eoutcome"
+
+	"github.com/watermint/toolbox/essentials/file/efs_alpha"
 )
 
-const (
-	childOutcomeSuccess = iota
-	childOutcomeNameOutcome
-	childOutcomePathTooLong
-)
+// NewChildOutcomeSuccess returns nil to represent success
+func NewChildOutcomeSuccess() error {
+	return nil
+}
 
-func NewChildOutcomeSuccess() efs_deprecated2.ChildOutcome {
-	return &childOutcomeImpl{
-		OutcomeBase: eoutcome.OutcomeBase{Err: nil},
-		reason:      childOutcomeSuccess,
+// NewChildOutcomeByNameOutcome returns an error based on name validation
+func NewChildOutcomeByNameOutcome(err error) error {
+	if err == nil {
+		return nil
 	}
+	return fmt.Errorf("invalid name: %w", err)
 }
 
-func NewChildOutcomeByNameOutcome(noc efs_deprecated2.NameOutcome) efs_deprecated2.ChildOutcome {
-	return &childOutcomeImpl{
-		OutcomeBase: eoutcome.OutcomeBase{Err: noc.Cause()},
-		nameOutcome: noc,
-		reason:      childOutcomeNameOutcome,
-	}
-}
-
-func NewChildOutcomePathTooLong(given, allowed int) efs_deprecated2.ChildOutcome {
-	reason := errors.New(fmt.Sprintf("path too long: given length (%d), allowed length (%d)", given, allowed))
-	return &childOutcomeImpl{
-		OutcomeBase: eoutcome.OutcomeBase{Err: reason},
-		reason:      childOutcomePathTooLong,
-	}
-}
-
-type childOutcomeImpl struct {
-	eoutcome.OutcomeBase
-	nameOutcome efs_deprecated2.NameOutcome
-	reason      int
-}
-
-func (z childOutcomeImpl) IsInvalidChar() bool {
-	return z.nameOutcome != nil && z.nameOutcome.IsInvalidChar()
-}
-
-func (z childOutcomeImpl) IsNameReserved() bool {
-	return z.nameOutcome != nil && z.nameOutcome.IsNameReserved()
-}
-
-func (z childOutcomeImpl) IsNameTooLong() bool {
-	return z.nameOutcome != nil && z.nameOutcome.IsNameTooLong()
-}
-
-func (z childOutcomeImpl) IsPathTooLong() bool {
-	return z.reason == childOutcomePathTooLong
+// NewChildOutcomePathTooLong returns an error indicating that the path is too long
+func NewChildOutcomePathTooLong(given, allowed int) error {
+	return fmt.Errorf("%w: given length (%d), allowed length (%d)", efs_alpha.ErrPathTooLong, given, allowed)
 }

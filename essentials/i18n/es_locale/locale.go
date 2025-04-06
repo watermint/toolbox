@@ -2,9 +2,10 @@ package es_locale
 
 import (
 	"fmt"
-	"github.com/watermint/toolbox/essentials/go/es_idiom_deprecated/eoutcome"
-	"github.com/watermint/toolbox/essentials/strings/es_case"
 	"strings"
+
+	"github.com/watermint/toolbox/essentials/go/es_errors"
+	"github.com/watermint/toolbox/essentials/strings/es_case"
 )
 
 const (
@@ -75,19 +76,19 @@ type LocaleData struct {
 }
 
 func mustParse(langTag string) Locale {
-	if lc, out := Parse(langTag); out.IsError() {
-		panic(out)
+	if lc, err := Parse(langTag); err != nil {
+		panic(err)
 	} else {
 		return lc
 	}
 }
 
-func Parse(langTag string) (local Locale, outcome eoutcome.ParseOutcome) {
+func Parse(langTag string) (local Locale, err error) {
 	lowerCaseLangTag := strings.ToLower(langTag)
 	if lowerCaseLangTag == "c" || lowerCaseLangTag == "posix" ||
 		strings.HasPrefix(lowerCaseLangTag, "c.") ||
 		strings.HasPrefix(lowerCaseLangTag, "posix.") {
-		return mustParse(TagEnglish), eoutcome.NewParseSuccess()
+		return mustParse(TagEnglish), nil
 	}
 
 	// accept tag like "ja_JP" as "ja-JP" (BCP 47 compliant)
@@ -97,13 +98,13 @@ func Parse(langTag string) (local Locale, outcome eoutcome.ParseOutcome) {
 
 	matches := bcp47Lang.FindStringSubmatch(langTag)
 	if len(matches) < 1 {
-		return nil, eoutcome.NewParseInvalidFormat("the given lang-tag does not comply lang tag format")
+		return nil, es_errors.NewInvalidFormatError("the given lang-tag does not comply lang tag format")
 	}
 	language := strings.ToLower(matches[1])
 
 	detail, match := bcp47Re.MatchSubExp(langTag)
 	if !match {
-		return nil, eoutcome.NewParseInvalidFormat("the given lang-tag does not comply lang tag format")
+		return nil, es_errors.NewInvalidFormatError("the given lang-tag does not comply lang tag format")
 	}
 
 	data := LocaleData{
@@ -120,5 +121,5 @@ func Parse(langTag string) (local Locale, outcome eoutcome.ParseOutcome) {
 		CodePage:      detail["codepage"],
 	}
 
-	return &localeImpl{data: data}, eoutcome.NewParseSuccess()
+	return &localeImpl{data: data}, nil
 }

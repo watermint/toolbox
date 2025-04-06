@@ -1,8 +1,9 @@
 package efscommon
 
 import (
+	"fmt"
+
 	"github.com/watermint/toolbox/essentials/file/efs_alpha"
-	"github.com/watermint/toolbox/essentials/go/es_idiom_deprecated/eoutcome"
 )
 
 const (
@@ -12,47 +13,22 @@ const (
 	nameOutcomeNameTooLong
 )
 
-func NewNameOutcomeSuccess() efs_alpha.NameOutcome {
-	return &nameOutcome{
-		OutcomeBase: eoutcome.OutcomeBase{Err: nil},
-		reason:      nameOutcomeSuccess,
-	}
+// NewNameOutcomeSuccess returns nil to represent success
+func NewNameOutcomeSuccess() error {
+	return nil
 }
 
-func NewNameOutcomeInvalidChar(invalidChar string) efs_alpha.NameOutcome {
-	return &nameOutcome{
-		OutcomeBase: eoutcome.NewOutcomeBaseWithErrMessage("invalid char '%s' found", invalidChar),
-		reason:      nameOutcomeInvalidChar,
-	}
+// NewNameOutcomeInvalidChar returns an invalid character error
+func NewNameOutcomeInvalidChar(invalidChar string) error {
+	return fmt.Errorf("%w: invalid char '%s' found", efs_alpha.ErrInvalidChar, invalidChar)
 }
 
-func NewNameOutcomeNameReserved(reserved string) efs_alpha.NameOutcome {
-	return &nameOutcome{
-		OutcomeBase: eoutcome.NewOutcomeBaseWithErrMessage("reserved keyword '%s' found", reserved),
-		reason:      nameOutcomeNameReserved,
-	}
+// NewNameOutcomeNameReserved returns a reserved name error
+func NewNameOutcomeNameReserved(reserved string) error {
+	return fmt.Errorf("%w: reserved keyword '%s' found", efs_alpha.ErrNameReserved, reserved)
 }
 
-func NewNameOutcomeNameTooLong(length, max int) efs_alpha.NameOutcome {
-	return &nameOutcome{
-		OutcomeBase: eoutcome.NewOutcomeBaseWithErrMessage("name is too long (%d). maximum length is %d", length, max),
-		reason:      childOutcomePathTooLong,
-	}
-}
-
-type nameOutcome struct {
-	eoutcome.OutcomeBase
-	reason int
-}
-
-func (z nameOutcome) IsInvalidChar() bool {
-	return z.reason == nameOutcomeInvalidChar
-}
-
-func (z nameOutcome) IsNameReserved() bool {
-	return z.reason == nameOutcomeNameReserved
-}
-
-func (z nameOutcome) IsNameTooLong() bool {
-	return z.reason == nameOutcomeNameTooLong
+// NewNameOutcomeNameTooLong returns a name too long error
+func NewNameOutcomeNameTooLong(length, max int) error {
+	return fmt.Errorf("%w: name is too long (%d). maximum length is %d", efs_alpha.ErrNameTooLong, length, max)
 }

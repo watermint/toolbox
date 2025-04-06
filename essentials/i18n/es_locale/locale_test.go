@@ -18,9 +18,9 @@ func TestThreeToTwoData(t *testing.T) {
 
 func TestParse(t *testing.T) {
 	parseShouldSuccess := func(tag string, verification ...func(t *testing.T, l Locale) bool) {
-		lc, out := Parse(tag)
-		if out.IsError() {
-			t.Error(tag, out)
+		lc, err := Parse(tag)
+		if err != nil {
+			t.Error(tag, err)
 			return
 		}
 
@@ -109,41 +109,41 @@ func TestParse(t *testing.T) {
 }
 
 func TestLocaleImpl_LanguageTwoLetter(t *testing.T) {
-	if lc, out := Parse("ja"); out.IsError() {
-		t.Error(out)
+	if lc, err := Parse("ja"); err != nil {
+		t.Error(err)
 	} else if x := lc.LanguageTwoLetter(); x != "ja" {
 		t.Error(x)
 	}
 
-	if lc, out := Parse("ja-JP"); out.IsError() {
-		t.Error(out)
+	if lc, err := Parse("ja-JP"); err != nil {
+		t.Error(err)
 	} else if x := lc.LanguageTwoLetter(); x != "ja" {
 		t.Error(x)
 	}
 
-	if lc, out := Parse("jpn-Jpan-JP"); out.IsError() {
-		t.Error(out)
+	if lc, err := Parse("jpn-Jpan-JP"); err != nil {
+		t.Error(err)
 	} else if x := lc.LanguageTwoLetter(); x != "ja" {
 		t.Error(x)
 	}
 
-	if lc, out := Parse("ja-JP.UTF-8"); out.IsError() {
-		t.Error(out)
+	if lc, err := Parse("ja-JP.UTF-8"); err != nil {
+		t.Error(err)
 	} else if x := lc.LanguageTwoLetter(); x != "ja" {
 		t.Error(x)
 	}
 
-	if lc, out := Parse("ja_JP.UTF-8"); out.IsError() {
-		t.Error(out)
+	if lc, err := Parse("ja_JP.UTF-8"); err != nil {
+		t.Error(err)
 	} else if x := lc.LanguageTwoLetter(); x != "ja" {
 		t.Error(x)
 	}
 
 	for _, lt := range languageTagSamples {
-		if lc, out := Parse(lt); out.IsError() {
-			t.Error(lt, out)
+		if lc, err := Parse(lt); err != nil {
+			t.Error(lt, err)
 		} else if x := lc.LanguageTwoLetter(); len(x) != 0 && len(x) != 2 {
-			t.Error(x, out)
+			t.Error(x, err)
 		}
 	}
 }

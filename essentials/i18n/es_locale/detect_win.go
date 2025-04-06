@@ -4,36 +4,34 @@
 package es_locale
 
 import (
-	"github.com/watermint/toolbox/essentials/go/es_idiom_deprecated"
-	"github.com/watermint/toolbox/essentials/go/es_idiom_deprecated/eoutcome"
 	"github.com/watermint/toolbox/essentials/native/es_native_windows"
 )
 
-func currentLocaleWithSysCall(apiName string) (string, es_idiom_deprecated.Outcome) {
+func currentLocaleWithSysCall(apiName string) (string, error) {
 	locName := es_native_windows.NewBufferString(localeNameMaxLength)
 	r, _, oc := es_native_windows.Kernel32.Call(apiName, locName.Pointer(), locName.BufSize())
 	switch {
 	case oc.HasError():
-		return "", eoutcome.NewOutcomeBaseError(oc.Cause())
+		return "", oc.Cause()
 	case r == 0:
-		return "", eoutcome.NewOutcomeBaseError(oc.LastError())
+		return "", oc.LastError()
 	default:
-		return locName.String(), eoutcome.NewOutcomeBaseOk()
+		return locName.String(), nil
 	}
 }
 
 func currentLocaleString() (string, error) {
-	ul, oc := currentLocaleWithSysCall("GetUserDefaultLocaleName")
-	if oc.IsOk() {
+	ul, err := currentLocaleWithSysCall("GetUserDefaultLocaleName")
+	if err == nil {
 		return ul, nil
 	}
 
-	sl, oc := currentLocaleWithSysCall("GetSystemDefaultLocaleName")
-	if oc.IsOk() {
+	sl, err := currentLocaleWithSysCall("GetSystemDefaultLocaleName")
+	if err == nil {
 		return sl, nil
 	}
 
-	return "", oc.Cause()
+	return "", err
 }
 
 const (

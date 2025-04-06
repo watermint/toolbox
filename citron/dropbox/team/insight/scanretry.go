@@ -1,6 +1,9 @@
 package insight
 
 import (
+	"os"
+	"path/filepath"
+
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_insight"
@@ -13,8 +16,6 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
-	"os"
-	"path/filepath"
 )
 
 type Scanretry struct {
@@ -90,7 +91,7 @@ func (z *Scanretry) Test(c app_control.Control) error {
 	}
 
 	return rc_exec.ExecMock(c, &Scanretry{}, func(r rc_recipe.Recipe) {
-		m := r.(*Scan)
+		m := r.(*Scanretry)
 		m.Database = mo_path.NewFileSystemPath(filepath.Join(f, "scan.db"))
 	})
 }

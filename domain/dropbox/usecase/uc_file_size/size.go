@@ -1,12 +1,12 @@
 package uc_file_size
 
 import (
+	"strings"
+	"sync"
+
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file_size"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
-	"github.com/watermint/toolbox/essentials/collections/es_array_deprecated"
-	"strings"
-	"sync"
 )
 
 // Sum up file entries. The implementation will not consider namespaces.
@@ -48,8 +48,17 @@ func (z *sumImpl) pathsOfEntry(path string) (paths []string) {
 	for i := 0; i < x; i++ {
 		paths = append(paths, "/"+strings.Join(components[:i], "/"))
 	}
-	paths = es_array_deprecated.NewByString(paths...).Unique().AsStringArray()
-	return paths
+
+	// Remove duplicates using a map
+	uniqueMap := make(map[string]bool)
+	uniquePaths := make([]string, 0, len(paths))
+	for _, p := range paths {
+		if !uniqueMap[p] {
+			uniqueMap[p] = true
+			uniquePaths = append(uniquePaths, p)
+		}
+	}
+	return uniquePaths
 }
 
 func (z *sumImpl) Eval(path string, entries []mo_file.Entry) {

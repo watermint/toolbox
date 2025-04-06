@@ -1,17 +1,17 @@
 package es_uuid
 
 import (
-	"github.com/watermint/toolbox/essentials/go/es_idiom_deprecated/eoutcome"
+	"github.com/watermint/toolbox/essentials/go/es_errors"
 	"github.com/watermint/toolbox/essentials/strings/es_hex"
 )
 
-func New(data []byte) (UUID, eoutcome.ParseOutcome) {
+func New(data []byte) (UUID, error) {
 	if len(data) != 16 {
-		return nil, eoutcome.NewParseInvalidFormat("UUID data length must be 16 bytes")
+		return nil, es_errors.NewInvalidFormatError("UUID data length must be 16 bytes")
 	}
 	d := make([]byte, 16)
 	copy(d[:], data[:])
-	return uuidData{d}, eoutcome.NewParseSuccess()
+	return uuidData{d}, nil
 }
 
 type uuidData struct {

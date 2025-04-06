@@ -6,7 +6,7 @@ package es_native_windows
 import "syscall"
 
 type Kernel interface {
-	Call(procName string, args ...uintptr) (r1, r2 uintptr, outcome KernelOutcome)
+	Call(procName string, args ...uintptr) (r1, r2 uintptr, err error)
 }
 
 var (
@@ -16,7 +16,7 @@ var (
 type kernelWrapper struct {
 }
 
-func (z kernelWrapper) Call(procName string, args ...uintptr) (r1, r2 uintptr, outcome KernelOutcome) {
+func (z kernelWrapper) Call(procName string, args ...uintptr) (r1, r2 uintptr, err error) {
 	k32, resolveErr := syscall.LoadDLL("kernel32")
 	if resolveErr != nil {
 		return 0, 0, NewKernelOutcomeCouldNotResolveProc(resolveErr)

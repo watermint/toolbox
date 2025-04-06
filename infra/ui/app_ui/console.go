@@ -2,6 +2,10 @@ package app_ui
 
 import (
 	"fmt"
+	"io"
+	"io/ioutil"
+	"strings"
+
 	"github.com/watermint/toolbox/essentials/ambient/ea_notification"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/strings/es_width"
@@ -10,9 +14,6 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_artifact"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
-	"io"
-	"io/ioutil"
-	"strings"
 )
 
 func NewDiscard(mc app_msg_container.Container, lg esl.Logger) UI {
@@ -63,8 +64,8 @@ func (z conImpl) Header(m app_msg.Message) {
 	c := es_width.Width(h)
 
 	z.Break()
-	es_color.Boldfln(z.wr, h)
-	es_color.Boldfln(z.wr, strings.Repeat("=", c))
+	es_color.Boldfln(z.wr, "%s", h)
+	es_color.Boldfln(z.wr, "%s", strings.Repeat("=", c))
 	z.Break()
 }
 
@@ -73,8 +74,8 @@ func (z conImpl) SubHeader(m app_msg.Message) {
 	c := es_width.Width(h)
 
 	z.Break()
-	es_color.Boldfln(z.wr, h)
-	es_color.Boldfln(z.wr, strings.Repeat("-", c))
+	es_color.Boldfln(z.wr, "%s", h)
+	es_color.Boldfln(z.wr, "%s", strings.Repeat("-", c))
 	z.Break()
 }
 

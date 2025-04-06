@@ -1,18 +1,22 @@
 package efs_alpha
 
+import (
+	"errors"
+)
+
 // FileOps defines operation set for a file.
 type FileOps interface {
-	CreateFile() (File, CreateFileOutcome)
-	DeleteFile() DeleteFileOutcome
-	DeleteFileIfExists() DeleteFileOutcome
+	CreateFile() (File, error)
+	DeleteFile() error
+	DeleteFileIfExists() error
 }
 
-type CreateFileOutcome interface {
-	FileSystemOutcome
-}
+var (
+	// ErrFileNotFound indicates a file was not found
+	ErrFileNotFound = errors.New("file not found")
+)
 
-type DeleteFileOutcome interface {
-	FileSystemOutcome
-
-	IsFileNotFound() bool
+// IsFileNotFoundError determines if an error indicates a file was not found
+func IsFileNotFoundError(err error) bool {
+	return err != nil && errors.Is(err, ErrFileNotFound)
 }

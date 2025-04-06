@@ -2,6 +2,10 @@ package image
 
 import (
 	"errors"
+	"io/ioutil"
+	"os"
+	"path/filepath"
+
 	"github.com/watermint/toolbox/essentials/graphic/eg_color"
 	"github.com/watermint/toolbox/essentials/graphic/eg_draw"
 	eg_geom2 "github.com/watermint/toolbox/essentials/graphic/eg_geom"
@@ -14,9 +18,6 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
-	"io/ioutil"
-	"os"
-	"path/filepath"
 )
 
 type Placeholder struct {
@@ -49,9 +50,9 @@ func (z *Placeholder) Preset() {
 
 func (z *Placeholder) Exec(c app_control.Control) error {
 	ui := c.UI()
-	bgColor, oc := eg_color.ParseColor(z.Color)
-	if oc.IsError() {
-		return oc.Cause()
+	bgColor, err := eg_color.ParseColor(z.Color)
+	if err != nil {
+		return err
 	}
 
 	img := eg_image2.NewRgba(z.Width, z.Height)
@@ -68,15 +69,15 @@ func (z *Placeholder) Exec(c app_control.Control) error {
 			ui.Error(z.ErrorCantLoadFont.With("Path", z.FontPath.Value()).With("Error", err))
 			return err
 		}
-		ttf, oc := eg_text2.NewTrueTypeParse(fontData)
-		if oc.IsError() {
-			ui.Error(z.ErrorCantLoadFont.With("Path", z.FontPath.Value()).With("Error", oc.Cause()))
-			return oc.Cause()
+		ttf, err := eg_text2.NewTrueTypeParse(fontData)
+		if err != nil {
+			ui.Error(z.ErrorCantLoadFont.With("Path", z.FontPath.Value()).With("Error", err))
+			return err
 		}
 
-		txtColor, oc := eg_color.ParseColor(z.TextColor)
-		if oc.IsError() {
-			return oc.Cause()
+		txtColor, err := eg_color.ParseColor(z.TextColor)
+		if err != nil {
+			return err
 		}
 		var txtAlign eg_text2.Alignment
 		switch z.TextAlign.Value() {
@@ -88,9 +89,9 @@ func (z *Placeholder) Exec(c app_control.Control) error {
 			txtAlign = eg_text2.AlignLeft
 		}
 		txtStyle := eg_text2.NewStyle(ttf.WithSize(z.FontSize), txtColor).WithAlignment(txtAlign)
-		txtPos, oc := eg_geom2.ParsePosition(z.TextPosition)
-		if oc.IsError() {
-			return oc.Cause()
+		txtPos, err := eg_geom2.ParsePosition(z.TextPosition)
+		if err != nil {
+			return err
 		}
 
 		imgDraw.DrawString(
@@ -104,8 +105,8 @@ func (z *Placeholder) Exec(c app_control.Control) error {
 		)
 	}
 
-	if oc := img.ExportTo(eg_image2.FormatPng, z.Path.Path()); oc.IsError() {
-		return oc.Cause()
+	if err := img.ExportTo(eg_image2.FormatPng, z.Path.Path()); err != nil {
+		return err
 	}
 	return nil
 }

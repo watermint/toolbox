@@ -2,8 +2,9 @@ package es_color
 
 import (
 	"fmt"
-	"github.com/watermint/toolbox/essentials/terminal/es_terminfo"
 	"io"
+
+	"github.com/watermint/toolbox/essentials/terminal/es_terminfo"
 )
 
 const (
@@ -30,12 +31,12 @@ func Colorf(w io.Writer, c Color, bold bool, format string, a ...interface{}) {
 	t := fmt.Sprintf(format, a...)
 	if es_terminfo.IsOutColorTerminal() {
 		if bold {
-			_, _ = fmt.Fprintf(w, beginBold+beginColor+"%s"+endFormat, c, t)
+			_, _ = fmt.Fprintf(w, "\x1b[1m\x1b[%dm%s\x1b[0m", c, t)
 		} else {
-			_, _ = fmt.Fprintf(w, beginColor+"%s"+endFormat, c, t)
+			_, _ = fmt.Fprintf(w, "\x1b[%dm%s\x1b[0m", c, t)
 		}
 	} else {
-		_, _ = fmt.Fprintf(w, t)
+		_, _ = fmt.Fprintf(w, "%s", t)
 	}
 }
 
@@ -47,9 +48,9 @@ func Colorfln(w io.Writer, c Color, bold bool, format string, a ...interface{}) 
 func Boldf(w io.Writer, format string, a ...interface{}) {
 	t := fmt.Sprintf(format, a...)
 	if es_terminfo.IsOutColorTerminal() {
-		_, _ = fmt.Fprintf(w, beginBold+"%s"+endFormat, t)
+		_, _ = fmt.Fprintf(w, "\x1b[1m%s\x1b[0m", t)
 	} else {
-		_, _ = fmt.Fprintf(w, t)
+		_, _ = fmt.Fprintf(w, "%s", t)
 	}
 }
 

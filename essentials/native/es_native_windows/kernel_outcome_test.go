@@ -2,30 +2,29 @@ package es_native_windows
 
 import (
 	"errors"
-	"github.com/watermint/toolbox/essentials/go/es_idiom_deprecated/eoutcome"
 	"testing"
 )
 
 func TestNewKernelOutcomeMaySuccess(t *testing.T) {
-	oc := NewKernelOutcomeNoObviousError(nil)
-	if eoutcome.AssertUnconfirmedOutcomeHasObviousError(oc) {
-		t.Error()
-	}
-	if oc.IsCouldNotResolveProc() {
-		t.Error()
+	err := NewKernelOutcomeNoObviousError(nil)
+	if err != nil {
+		t.Error("Expected nil error, got:", err)
 	}
 }
 
 func TestNewKernelOutcomeCouldNotResolveProc(t *testing.T) {
-	e := errors.New("could not resolve proc")
-	oc := NewKernelOutcomeCouldNotResolveProc(e)
-	if eoutcome.AssertUnconfirmedOutcomeNoObviousError(oc) {
-		t.Error()
+	origErr := errors.New("could not resolve proc")
+	err := NewKernelOutcomeCouldNotResolveProc(origErr)
+
+	if err == nil {
+		t.Error("Expected non-nil error")
 	}
-	if !oc.IsCouldNotResolveProc() {
-		t.Error()
+
+	if !IsCouldNotResolveProcError(err) {
+		t.Error("Expected to be CouldNotResolveProc error")
 	}
-	if oc.Cause() != e {
-		t.Error()
+
+	if err.Error() != origErr.Error() {
+		t.Error("Error message mismatch")
 	}
 }

@@ -2,10 +2,11 @@ package es_filesystem_model
 
 import (
 	"errors"
-	"github.com/watermint/toolbox/essentials/collections/es_number_deprecated"
+	"path/filepath"
+	"strconv"
+
 	"github.com/watermint/toolbox/essentials/file/es_filesystem"
 	"github.com/watermint/toolbox/essentials/model/em_file"
-	"path/filepath"
 )
 
 const (
@@ -102,7 +103,18 @@ func (z fileSystem) Entry(data es_filesystem.EntryData) (entry es_filesystem.Ent
 
 	switch {
 	case data.IsFile():
-		contentSeed := es_number_deprecated.New(data.Attributes[em_file.ExtraDataContentSeed]).Int64()
+		contentSeedRaw, ok := data.Attributes[em_file.ExtraDataContentSeed]
+		var contentSeed int64 = 0
+		if ok {
+			contentSeedStr, ok := contentSeedRaw.(string)
+			if ok {
+				var parseErr error
+				contentSeed, parseErr = strconv.ParseInt(contentSeedStr, 10, 64)
+				if parseErr != nil {
+					contentSeed = 0
+				}
+			}
+		}
 		entry = Entry{
 			node:      em_file.NewFile(data.Name(), data.Size(), data.ModTime(), contentSeed),
 			EntryData: data,

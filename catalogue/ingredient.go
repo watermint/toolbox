@@ -17,6 +17,7 @@ func AutoDetectedIngredients() []infra_recipe_rc_recipe.Recipe {
 	return []infra_recipe_rc_recipe.Recipe{
 		&ingredientig_bootstrap.Autodelete{},
 		&ingredientig_bootstrap.Bootstrap{},
+		&ingredientig_bootstrap.OptInFeatureAutodelete{},
 		&ingredientig_dropboxig_file.Download{},
 		&ingredientig_dropboxig_file.Online{},
 		&ingredientig_dropboxig_file.Upload{},

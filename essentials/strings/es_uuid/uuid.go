@@ -2,9 +2,10 @@ package es_uuid
 
 import (
 	"fmt"
-	"github.com/watermint/toolbox/essentials/go/es_idiom_deprecated/eoutcome"
-	"github.com/watermint/toolbox/essentials/strings/es_hex"
 	"regexp"
+
+	"github.com/watermint/toolbox/essentials/go/es_errors"
+	"github.com/watermint/toolbox/essentials/strings/es_hex"
 )
 
 type Version int
@@ -87,17 +88,17 @@ func IsUUID(uuid string) bool {
 	return uuidRe.MatchString(uuid)
 }
 
-func Parse(uuid string) (u UUID, outcome eoutcome.ParseOutcome) {
+func Parse(uuid string) (UUID, error) {
 	if !IsUUID(uuid) {
-		return nil, eoutcome.NewParseInvalidFormat("the given string does not conform UUID format")
+		return nil, es_errors.NewInvalidFormatError("the given string does not conform UUID format")
 	}
 
 	// ----+----|----+----|----+----|----+-
 	// 123e4567-e89b-12d3-a456-426655440000
 	woh := uuid[0:8] + uuid[9:13] + uuid[14:18] + uuid[19:23] + uuid[24:36]
-	ud, outcome := es_hex.Parse(woh)
-	if outcome.IsError() {
-		return nil, outcome
+	ud, err := es_hex.Parse(woh)
+	if err != nil {
+		return nil, err
 	}
 	return New(ud)
 }

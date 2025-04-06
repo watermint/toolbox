@@ -2,6 +2,8 @@ package eg_color
 
 import (
 	"testing"
+
+	"github.com/watermint/toolbox/essentials/go/es_errors"
 )
 
 func TestParseColor(t *testing.T) {
@@ -13,99 +15,99 @@ func TestParseColor(t *testing.T) {
 
 	// R-G-B
 	{
-		c, oc := ParseColor("000")
-		if oc.IsError() || !c.Equals(c0) {
-			t.Error(c, oc)
+		c, err := ParseColor("000")
+		if err != nil || !c.Equals(c0) {
+			t.Error(c, err)
 		}
 	}
 	{
-		c, oc := ParseColor("fff")
-		if oc.IsError() || !c.Equals(c1) {
-			t.Error(c, oc)
+		c, err := ParseColor("fff")
+		if err != nil || !c.Equals(c1) {
+			t.Error(c, err)
 		}
 	}
 	{
-		c, oc := ParseColor("123")
-		if oc.IsError() || !c.Equals(c2) {
-			t.Error(c, oc)
+		c, err := ParseColor("123")
+		if err != nil || !c.Equals(c2) {
+			t.Error(c, err)
 		}
 	}
 
 	// R-G-B-A
 	{
-		c, oc := ParseColor("000f")
-		if oc.IsError() || !c.Equals(c0) {
-			t.Error(c, oc)
+		c, err := ParseColor("000f")
+		if err != nil || !c.Equals(c0) {
+			t.Error(c, err)
 		}
 	}
 	{
-		c, oc := ParseColor("ffff")
-		if oc.IsError() || !c.Equals(c1) {
-			t.Error(c, oc)
+		c, err := ParseColor("ffff")
+		if err != nil || !c.Equals(c1) {
+			t.Error(c, err)
 		}
 	}
 	{
-		c, oc := ParseColor("123f")
-		if oc.IsError() || !c.Equals(c2) {
-			t.Error(c, oc)
+		c, err := ParseColor("123f")
+		if err != nil || !c.Equals(c2) {
+			t.Error(c, err)
 		}
 	}
 	{
-		c, oc := ParseColor("1234")
-		if oc.IsError() || !c.Equals(c3) {
-			t.Error(c, oc)
+		c, err := ParseColor("1234")
+		if err != nil || !c.Equals(c3) {
+			t.Error(c, err)
 		}
 	}
 
 	// RR-GG-BB
 	{
-		c, oc := ParseColor("000")
-		if oc.IsError() || !c.Equals(c0) {
-			t.Error(c, oc)
+		c, err := ParseColor("000")
+		if err != nil || !c.Equals(c0) {
+			t.Error(c, err)
 		}
 	}
 	{
-		c, oc := ParseColor("fff")
-		if oc.IsError() || !c.Equals(c1) {
-			t.Error(c, oc)
+		c, err := ParseColor("fff")
+		if err != nil || !c.Equals(c1) {
+			t.Error(c, err)
 		}
 	}
 	{
-		c, oc := ParseColor("123")
-		if oc.IsError() || !c.Equals(c2) {
-			t.Error(c, oc)
+		c, err := ParseColor("123")
+		if err != nil || !c.Equals(c2) {
+			t.Error(c, err)
 		}
 	}
 
 	// RR-GG-BB-AA
 	{
-		c, oc := ParseColor("000000ff")
-		if oc.IsError() || !c.Equals(c0) {
-			t.Error(c, oc)
+		c, err := ParseColor("000000ff")
+		if err != nil || !c.Equals(c0) {
+			t.Error(c, err)
 		}
 	}
 	{
-		c, oc := ParseColor("ffffffff")
-		if oc.IsError() || !c.Equals(c1) {
-			t.Error(c, oc)
+		c, err := ParseColor("ffffffff")
+		if err != nil || !c.Equals(c1) {
+			t.Error(c, err)
 		}
 	}
 	{
-		c, oc := ParseColor("112233ff")
-		if oc.IsError() || !c.Equals(c2) {
-			t.Error(c, oc)
+		c, err := ParseColor("112233ff")
+		if err != nil || !c.Equals(c2) {
+			t.Error(c, err)
 		}
 	}
 	{
-		c, oc := ParseColor("11223344")
-		if oc.IsError() || !c.Equals(c3) {
-			t.Error(c, oc)
+		c, err := ParseColor("11223344")
+		if err != nil || !c.Equals(c3) {
+			t.Error(c, err)
 		}
 	}
 	{
-		c, oc := ParseColor("01020304")
-		if oc.IsError() || !c.Equals(c4) {
-			t.Error(c, oc)
+		c, err := ParseColor("01020304")
+		if err != nil || !c.Equals(c4) {
+			t.Error(c, err)
 		}
 	}
 
@@ -113,134 +115,134 @@ func TestParseColor(t *testing.T) {
 
 	// R-G-B
 	{
-		c, oc := ParseColor("#000")
-		if oc.IsError() || !c.Equals(c0) {
-			t.Error(c, oc)
+		c, err := ParseColor("#000")
+		if err != nil || !c.Equals(c0) {
+			t.Error(c, err)
 		}
 	}
 	{
-		c, oc := ParseColor("#fff")
-		if oc.IsError() || !c.Equals(c1) {
-			t.Error(c, oc)
+		c, err := ParseColor("#fff")
+		if err != nil || !c.Equals(c1) {
+			t.Error(c, err)
 		}
 	}
 	{
-		c, oc := ParseColor("#123")
-		if oc.IsError() || !c.Equals(c2) {
-			t.Error(c, oc)
+		c, err := ParseColor("#123")
+		if err != nil || !c.Equals(c2) {
+			t.Error(c, err)
 		}
 	}
 
 	// R-G-B-A
 	{
-		c, oc := ParseColor("#000f")
-		if oc.IsError() || !c.Equals(c0) {
-			t.Error(c, oc)
+		c, err := ParseColor("#000f")
+		if err != nil || !c.Equals(c0) {
+			t.Error(c, err)
 		}
 	}
 	{
-		c, oc := ParseColor("#ffff")
-		if oc.IsError() || !c.Equals(c1) {
-			t.Error(c, oc)
+		c, err := ParseColor("#ffff")
+		if err != nil || !c.Equals(c1) {
+			t.Error(c, err)
 		}
 	}
 	{
-		c, oc := ParseColor("#123f")
-		if oc.IsError() || !c.Equals(c2) {
-			t.Error(c, oc)
+		c, err := ParseColor("#123f")
+		if err != nil || !c.Equals(c2) {
+			t.Error(c, err)
 		}
 	}
 	{
-		c, oc := ParseColor("#1234")
-		if oc.IsError() || !c.Equals(c3) {
-			t.Error(c, oc)
+		c, err := ParseColor("#1234")
+		if err != nil || !c.Equals(c3) {
+			t.Error(c, err)
 		}
 	}
 
 	// RR-GG-BB
 	{
-		c, oc := ParseColor("#000")
-		if oc.IsError() || !c.Equals(c0) {
-			t.Error(c, oc)
+		c, err := ParseColor("#000")
+		if err != nil || !c.Equals(c0) {
+			t.Error(c, err)
 		}
 	}
 	{
-		c, oc := ParseColor("#fff")
-		if oc.IsError() || !c.Equals(c1) {
-			t.Error(c, oc)
+		c, err := ParseColor("#fff")
+		if err != nil || !c.Equals(c1) {
+			t.Error(c, err)
 		}
 	}
 	{
-		c, oc := ParseColor("#123")
-		if oc.IsError() || !c.Equals(c2) {
-			t.Error(c, oc)
+		c, err := ParseColor("#123")
+		if err != nil || !c.Equals(c2) {
+			t.Error(c, err)
 		}
 	}
 
 	// RR-GG-BB-AA
 	{
-		c, oc := ParseColor("#000000ff")
-		if oc.IsError() || !c.Equals(c0) {
-			t.Error(c, oc)
+		c, err := ParseColor("#000000ff")
+		if err != nil || !c.Equals(c0) {
+			t.Error(c, err)
 		}
 	}
 	{
-		c, oc := ParseColor("#ffffffff")
-		if oc.IsError() || !c.Equals(c1) {
-			t.Error(c, oc)
+		c, err := ParseColor("#ffffffff")
+		if err != nil || !c.Equals(c1) {
+			t.Error(c, err)
 		}
 	}
 	{
-		c, oc := ParseColor("#112233ff")
-		if oc.IsError() || !c.Equals(c2) {
-			t.Error(c, oc)
+		c, err := ParseColor("#112233ff")
+		if err != nil || !c.Equals(c2) {
+			t.Error(c, err)
 		}
 	}
 	{
-		c, oc := ParseColor("#11223344")
-		if oc.IsError() || !c.Equals(c3) {
-			t.Error(c, oc)
+		c, err := ParseColor("#11223344")
+		if err != nil || !c.Equals(c3) {
+			t.Error(c, err)
 		}
 	}
 	{
-		c, oc := ParseColor("#01020304")
-		if oc.IsError() || !c.Equals(c4) {
-			t.Error(c, oc)
+		c, err := ParseColor("#01020304")
+		if err != nil || !c.Equals(c4) {
+			t.Error(c, err)
 		}
 	}
 
 	// rgb(R, G, B)
 	{
-		c, oc := ParseColor("rgb(0, 0, 0)")
-		if oc.IsError() || !c.Equals(c0) {
-			t.Error(c, oc)
+		c, err := ParseColor("rgb(0, 0, 0)")
+		if err != nil || !c.Equals(c0) {
+			t.Error(c, err)
 		}
 	}
 	{
-		c, oc := ParseColor("rgb( 255, 255, 255 )")
-		if oc.IsError() || !c.Equals(c1) {
-			t.Error(c, oc)
+		c, err := ParseColor("rgb( 255, 255, 255 )")
+		if err != nil || !c.Equals(c1) {
+			t.Error(c, err)
 		}
 	}
 	{
-		c, oc := ParseColor("rgb(  17, 34,51)")
-		if oc.IsError() || !c.Equals(c2) {
-			t.Error(c, oc)
+		c, err := ParseColor("rgb(  17, 34,51)")
+		if err != nil || !c.Equals(c2) {
+			t.Error(c, err)
 		}
 	}
 	{
-		c, oc := ParseColor("rgb(1, 2, 256)")
-		if oc.IsOk() || !oc.IsInvalidFormat() {
-			t.Error(c, oc)
+		c, err := ParseColor("rgb(1, 2, 256)")
+		if err == nil || !es_errors.IsOutOfRangeError(err) {
+			t.Error(c, err)
 		}
 	}
 
 	// ----- CSS Colors
 	{
 		for n, cc := range cssColors {
-			c, oc := ParseColor(n)
-			if oc.IsError() || !c.Equals(cc) {
-				t.Error(n, cc, c, oc)
+			c, err := ParseColor(n)
+			if err != nil || !c.Equals(cc) {
+				t.Error(n, cc, c, err)
 			}
 		}
 	}
@@ -248,34 +250,34 @@ func TestParseColor(t *testing.T) {
 	// ----- Marker colors
 
 	{
-		c, oc := ParseColor("marker(0)")
-		if oc.IsError() || !c.Equals(c1) {
-			t.Error(c, oc)
+		c, err := ParseColor("marker(0)")
+		if err != nil || !c.Equals(c1) {
+			t.Error(c, err)
 		}
 	}
 	{
-		c, oc := ParseColor("marker(bv01)")
+		c, err := ParseColor("marker(bv01)")
 		bv01, _ := ParseColor("C5C9E6")
-		if oc.IsError() || !c.Equals(bv01) {
-			t.Error(c, oc, bv01)
+		if err != nil || !c.Equals(bv01) {
+			t.Error(c, err, bv01)
 		}
 	}
 	{
-		c, oc := ParseColor("marker(z01)")
-		if oc.IsOk() || !oc.IsInvalidFormat() {
-			t.Error(c, oc)
+		c, err := ParseColor("marker(z01)")
+		if err == nil || !es_errors.IsInvalidFormatError(err) {
+			t.Error(c, err)
 		}
 	}
 	{
 		for n, cc := range markerColors {
 			cl := "marker( " + n + " )"
-			c, oc := ParseColor(cl)
-			expect, oc2 := ParseColor(cc)
-			if oc2.IsError() {
-				t.Error(cc, oc2)
+			c, err := ParseColor(cl)
+			expect, err2 := ParseColor(cc)
+			if err2 != nil {
+				t.Error(cc, err2)
 			}
-			if oc.IsError() || !c.Equals(expect) {
-				t.Error(cl, c, oc, expect)
+			if err != nil || !c.Equals(expect) {
+				t.Error(cl, c, err, expect)
 			}
 		}
 	}
@@ -283,18 +285,18 @@ func TestParseColor(t *testing.T) {
 	// ------ x11 color
 	{
 		for n, cc := range xColor {
-			c, oc := ParseColor("  x11( " + n + "  ) ")
-			if oc.IsError() || !c.Equals(cc) {
-				t.Error(n, c, cc, oc)
+			c, err := ParseColor("  x11( " + n + "  ) ")
+			if err != nil || !c.Equals(cc) {
+				t.Error(n, c, cc, err)
 			}
 		}
 	}
 
 	// invalid format
 	{
-		c, oc := ParseColor("xxx")
-		if oc.IsOk() {
-			t.Error(c, oc)
+		c, err := ParseColor("xxx")
+		if err == nil {
+			t.Error(c, err)
 		}
 	}
 }

@@ -1,13 +1,14 @@
 package rc_value
 
 import (
+	"reflect"
+	"strconv"
+
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
 	"github.com/watermint/toolbox/essentials/model/mo_int"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"reflect"
-	"strconv"
 )
 
 func newValueRangeInt() rc_recipe.Value {
@@ -64,8 +65,12 @@ func (z *ValueMoIntRange) Capture(ctl app_control.Control) (v interface{}, err e
 }
 
 func (z *ValueMoIntRange) Restore(v es_json.Json, ctl app_control.Control) error {
-	if w, found := v.Number(); found {
-		z.valInt = w.Int64()
+	if numStr, found := v.Number(); found {
+		var err error
+		z.valInt, err = strconv.ParseInt(numStr, 10, 64)
+		if err != nil {
+			return rc_recipe.ErrorValueRestoreFailed
+		}
 		return nil
 	} else {
 		return rc_recipe.ErrorValueRestoreFailed

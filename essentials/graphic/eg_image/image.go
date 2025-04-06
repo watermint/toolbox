@@ -1,10 +1,10 @@
 package eg_image
 
 import (
-	"github.com/watermint/toolbox/essentials/go/es_idiom_deprecated"
+	"image"
+
 	"github.com/watermint/toolbox/essentials/graphic/eg_color"
 	eg_geom2 "github.com/watermint/toolbox/essentials/graphic/eg_geom"
-	"image"
 )
 
 type ImageFormat int
@@ -27,13 +27,12 @@ type Image interface {
 	GoImageRGBA() *image.RGBA
 
 	// Deprecated: ExportTo exports file to the file. This func will change method signature in the future
-	ExportTo(format ImageFormat, path string) ExportOutcome
+	ExportTo(format ImageFormat, path string) error
 }
 
-type ExportOutcome interface {
-	es_idiom_deprecated.Outcome
-
-	IsUnsupportedFormat() bool
-	IsEncodeFailure() bool
-	IsWriteFailure() bool
-}
+// Constants for determining error types
+const (
+	ErrUnsupportedFormat = "unsupported format"
+	ErrEncodeFailure     = "encode failure"
+	ErrWriteFailure      = "write failure"
+)

@@ -2,12 +2,13 @@ package app_ui
 
 import (
 	"fmt"
-	"github.com/watermint/toolbox/essentials/terminal/es_color"
-	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"io"
 	"strings"
 	"text/tabwriter"
+
+	"github.com/watermint/toolbox/essentials/terminal/es_color"
+	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 )
 
 func newConTable(sy Syntax, wr io.Writer, mc app_msg_container.Container, name string) Table {
@@ -39,7 +40,7 @@ func (z conTableImpl) Header(h ...app_msg.Message) {
 }
 
 func (z conTableImpl) HeaderRaw(h ...string) {
-	es_color.Boldfln(z.wr, strings.Join(h, "\t"))
+	es_color.Boldfln(z.wr, "%s", strings.Join(h, "\t"))
 }
 
 func (z conTableImpl) Row(m ...app_msg.Message) {

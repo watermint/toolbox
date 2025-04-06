@@ -1,8 +1,9 @@
 package eg_geom
 
 import (
-	"github.com/watermint/toolbox/essentials/go/es_idiom_deprecated/eoutcome"
 	"strings"
+
+	"github.com/watermint/toolbox/essentials/go/es_errors"
 )
 
 type Position int
@@ -84,26 +85,26 @@ const (
 	PositionBottomRight
 )
 
-func ParsePosition(p string) (Position, eoutcome.ParseOutcome) {
+func ParsePosition(p string) (Position, error) {
 	switch strings.ToLower(p) {
 	case "center", "centre":
-		return PositionCenter, eoutcome.NewParseSuccess()
+		return PositionCenter, nil
 	case "topleft", "top_left", "top-left", "top left":
-		return PositionTopLeft, eoutcome.NewParseSuccess()
+		return PositionTopLeft, nil
 	case "topcenter", "top_center", "top-center", "top center", "topcentre", "top_centre", "top-centre", "top centre":
-		return PositionTopCenter, eoutcome.NewParseSuccess()
+		return PositionTopCenter, nil
 	case "topright", "top_right", "top-right", "top right":
-		return PositionTopRight, eoutcome.NewParseSuccess()
+		return PositionTopRight, nil
 	case "centerleft", "center_left", "center-left", "center left", "centreleft", "centre_left", "centre-left", "centre left":
-		return PositionCenterLeft, eoutcome.NewParseSuccess()
+		return PositionCenterLeft, nil
 	case "centerright", "center_right", "center-right", "center right", "centreright", "centre_right", "centre-right", "centre right":
-		return PositionCenterRight, eoutcome.NewParseSuccess()
+		return PositionCenterRight, nil
 	case "bottomleft", "bottom_left", "bottom-left", "bottom left":
-		return PositionBottomLeft, eoutcome.NewParseSuccess()
+		return PositionBottomLeft, nil
 	case "bottomcenter", "bottom_center", "bottom-center", "bottom center", "bottomcentre", "bottom_centre", "bottom-centre", "bottom centre":
-		return PositionBottomCenter, eoutcome.NewParseSuccess()
+		return PositionBottomCenter, nil
 	case "bottomright", "bottom_right", "bottom-right", "bottom right":
-		return PositionBottomRight, eoutcome.NewParseSuccess()
+		return PositionBottomRight, nil
 	}
-	return PositionUndefined, eoutcome.NewParseInvalidFormat("invalid position name or format")
+	return PositionUndefined, es_errors.NewInvalidFormatError("invalid position name or format")
 }

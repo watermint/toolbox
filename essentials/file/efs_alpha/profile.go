@@ -1,5 +1,9 @@
 package efs_alpha
 
+import (
+	"errors"
+)
+
 // Profile collection of information about file system with current principle.
 // All profiles are knowledge based on the file system implementation.
 // Some attribute may not true for a specific path. For example,
@@ -37,14 +41,18 @@ type Profile interface {
 	IsReadOnly() bool
 
 	// MaxFileSize returns maximum file size.
-	MaxFileSize() (uint64, ProfileOutcome)
+	MaxFileSize() (uint64, error)
 
 	// MaxNumFiles returns maximum number of files per single namespace.
-	MaxNumFiles(namespace Namespace) (uint64, ProfileOutcome)
+	MaxNumFiles(namespace Namespace) (uint64, error)
 }
 
-type ProfileOutcome interface {
-	FileSystemOutcome
+var (
+	// ErrUnknown indicates an unknown profile attribute
+	ErrUnknown = errors.New("unknown profile attribute")
+)
 
-	IsUnknown() bool
+// IsUnknownError determines if an error indicates an unknown profile attribute
+func IsUnknownError(err error) bool {
+	return err != nil && errors.Is(err, ErrUnknown)
 }

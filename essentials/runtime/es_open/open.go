@@ -2,6 +2,7 @@ package es_open
 
 import (
 	"errors"
+
 	"github.com/watermint/toolbox/essentials/desktop/es_open"
 	"github.com/watermint/toolbox/essentials/log/esl"
 )
@@ -30,7 +31,7 @@ type openWrapper struct {
 }
 
 func (z *openWrapper) Open(input string) error {
-	return es_open.CurrentDesktop().Open(input).Cause()
+	return es_open.CurrentDesktop().Open(input)
 }
 
 type dummyOpener struct {
