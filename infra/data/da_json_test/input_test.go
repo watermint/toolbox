@@ -1,11 +1,16 @@
 package da_json_test
 
 import (
+	"testing"
+
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/data/da_json"
+	"github.com/watermint/toolbox/infra/report/rp_artifact"
+	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"github.com/watermint/toolbox/infra/ui/app_msg_container"
+	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
-	"testing"
 )
 
 func TestNewJsonSpec(t *testing.T) {
@@ -167,4 +172,59 @@ func TestNewJsonSpec(t *testing.T) {
 			})
 		}
 	})
+}
+
+// --- Unit tests for da_json/spec.go ---
+
+type mockUI struct{}
+
+func (m *mockUI) Syntax()                                                          {}
+func (m *mockUI) Exists(app_msg.Message) bool                                      { return true }
+func (m *mockUI) WithTable(string, func(app_ui.Table))                             {}
+func (m *mockUI) Text(msg app_msg.Message) string                                  { return "desc-text" }
+func (m *mockUI) TextOrEmpty(msg app_msg.Message) string                           { return "desc-text" }
+func (m *mockUI) Id() string                                                       { return "mock" }
+func (m *mockUI) WithContainer(mc app_msg_container.Container) app_ui.UI           { return m }
+func (m *mockUI) AskCont(app_msg.Message) bool                                     { return true }
+func (m *mockUI) AskProceed(app_msg.Message)                                       {}
+func (m *mockUI) AskSecure(app_msg.Message) (string, bool)                         { return "", false }
+func (m *mockUI) AskText(app_msg.Message) (string, bool)                           { return "", false }
+func (m *mockUI) Break()                                                           {}
+func (m *mockUI) Code(string)                                                      {}
+func (m *mockUI) Error(app_msg.Message)                                            {}
+func (m *mockUI) Failure(app_msg.Message)                                          {}
+func (m *mockUI) Header(app_msg.Message)                                           {}
+func (m *mockUI) SubHeader(app_msg.Message)                                        {}
+func (m *mockUI) Info(app_msg.Message)                                             {}
+func (m *mockUI) InfoTable(string) app_ui.Table                                    { return nil }
+func (m *mockUI) Success(app_msg.Message)                                          {}
+func (m *mockUI) Progress(app_msg.Message)                                         {}
+func (m *mockUI) Quote(app_msg.Message)                                            {}
+func (m *mockUI) Link(rp_artifact.Artifact)                                        {}
+func (m *mockUI) IsConsole() bool                                                  { return false }
+func (m *mockUI) IsWeb() bool                                                      { return false }
+func (m *mockUI) Messages() app_msg_container.Container                            { return nil }
+func (m *mockUI) WithContainerSyntax(mc app_msg_container.Container) app_ui.Syntax { return m }
+
+func TestJsonSpec_NameDescDoc(t *testing.T) {
+	type dummy struct{}
+	spec := da_json.NewJsonSpec("TestName", &dummy{})
+
+	if spec.Name() != "TestName" {
+		t.Errorf("expected Name to be 'TestName', got '%s'", spec.Name())
+	}
+
+	desc := spec.Desc()
+	if desc == nil || desc.Key() == "" {
+		t.Error("expected Desc to have a key")
+	}
+
+	ui := &mockUI{}
+	doc := spec.Doc(ui)
+	if doc.Name != "TestName" {
+		t.Errorf("expected Doc.Name to be 'TestName', got '%s'", doc.Name)
+	}
+	if doc.Desc != "desc-text" {
+		t.Errorf("expected Doc.Desc to be 'desc-text', got '%s'", doc.Desc)
+	}
 }
