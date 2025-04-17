@@ -198,7 +198,7 @@ Available commands:
 | [dropbox file sync down](docs/commands/dropbox-file-sync-down.md)                                       | Downstream sync with Dropbox                                  |
 | [dropbox file sync online](docs/commands/dropbox-file-sync-online.md)                                   | Sync online files                                             |
 | [dropbox file sync up](docs/commands/dropbox-file-sync-up.md)                                           | Upstream sync with Dropbox                                    |
-| [dropbox file tag add](docs/commands/dropbox-file-tag-add.md)                                           | Add a tag to the file/folder                                  |
+| [dropbox file tag add](docs/commands/dropbox-file-tag-add.md)                                           | Add tag to file or folder                                     |
 | [dropbox file tag delete](docs/commands/dropbox-file-tag-delete.md)                                     | Delete a tag from the file/folder                             |
 | [dropbox file tag list](docs/commands/dropbox-file-tag-list.md)                                         | List tags of the path                                         |
 | [dropbox file template apply](docs/commands/dropbox-file-template-apply.md)                             | Apply file/folder structure template to the Dropbox path      |
@@ -219,131 +219,131 @@ Available commands:
 
 ## Dropbox for teams
 
-| Command                                                                                                                     | Description                                                                         |
-|-----------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|
-| [dropbox team activity batch user](docs/commands/dropbox-team-activity-batch-user.md)                                       | Scan activities for multiple users                                                  |
-| [dropbox team activity daily event](docs/commands/dropbox-team-activity-daily-event.md)                                     | Report activities by day                                                            |
-| [dropbox team activity event](docs/commands/dropbox-team-activity-event.md)                                                 | Event log                                                                           |
-| [dropbox team activity user](docs/commands/dropbox-team-activity-user.md)                                                   | Activities log per user                                                             |
-| [dropbox team admin group role add](docs/commands/dropbox-team-admin-group-role-add.md)                                     | Add the role to members of the group                                                |
-| [dropbox team admin group role delete](docs/commands/dropbox-team-admin-group-role-delete.md)                               | Delete the role from all members except of members of the exception group           |
-| [dropbox team admin list](docs/commands/dropbox-team-admin-list.md)                                                         | List admin roles of members                                                         |
-| [dropbox team admin role add](docs/commands/dropbox-team-admin-role-add.md)                                                 | Add a new role to the member                                                        |
-| [dropbox team admin role clear](docs/commands/dropbox-team-admin-role-clear.md)                                             | Remove all admin roles from the member                                              |
-| [dropbox team admin role delete](docs/commands/dropbox-team-admin-role-delete.md)                                           | Remove a role from the member                                                       |
-| [dropbox team admin role list](docs/commands/dropbox-team-admin-role-list.md)                                               | List admin roles of the team                                                        |
-| [dropbox team backup device status](docs/commands/dropbox-team-backup-device-status.md)                                     | Dropbox Backup device status change in the specified period                         |
-| [dropbox team content legacypaper count](docs/commands/dropbox-team-content-legacypaper-count.md)                           | Count number of Paper documents per member                                          |
-| [dropbox team content legacypaper export](docs/commands/dropbox-team-content-legacypaper-export.md)                         | Export entire team member Paper documents into local path                           |
-| [dropbox team content legacypaper list](docs/commands/dropbox-team-content-legacypaper-list.md)                             | List team member Paper documents                                                    |
-| [dropbox team content member list](docs/commands/dropbox-team-content-member-list.md)                                       | List team folder & shared folder members                                            |
-| [dropbox team content member size](docs/commands/dropbox-team-content-member-size.md)                                       | Count number of members of team folders and shared folders                          |
-| [dropbox team content mount list](docs/commands/dropbox-team-content-mount-list.md)                                         | List all mounted/unmounted shared folders of team members.                          |
-| [dropbox team content policy list](docs/commands/dropbox-team-content-policy-list.md)                                       | List policies of team folders and shared folders in the team                        |
-| [dropbox team device list](docs/commands/dropbox-team-device-list.md)                                                       | List all devices/sessions in the team                                               |
-| [dropbox team device unlink](docs/commands/dropbox-team-device-unlink.md)                                                   | Unlink device sessions                                                              |
-| [dropbox team feature](docs/commands/dropbox-team-feature.md)                                                               | Team feature                                                                        |
-| [dropbox team filerequest list](docs/commands/dropbox-team-filerequest-list.md)                                             | List all file requests in the team                                                  |
-| [dropbox team filesystem](docs/commands/dropbox-team-filesystem.md)                                                         | Identify team's file system version                                                 |
-| [dropbox team group add](docs/commands/dropbox-team-group-add.md)                                                           | Create new group                                                                    |
-| [dropbox team group batch add](docs/commands/dropbox-team-group-batch-add.md)                                               | Bulk adding groups                                                                  |
-| [dropbox team group batch delete](docs/commands/dropbox-team-group-batch-delete.md)                                         | Delete groups                                                                       |
-| [dropbox team group clear externalid](docs/commands/dropbox-team-group-clear-externalid.md)                                 | Clear an external ID of a group                                                     |
-| [dropbox team group delete](docs/commands/dropbox-team-group-delete.md)                                                     | Delete group                                                                        |
-| [dropbox team group folder list](docs/commands/dropbox-team-group-folder-list.md)                                           | List folders of each group                                                          |
-| [dropbox team group list](docs/commands/dropbox-team-group-list.md)                                                         | List group(s)                                                                       |
-| [dropbox team group member add](docs/commands/dropbox-team-group-member-add.md)                                             | Add a member to the group                                                           |
-| [dropbox team group member batch add](docs/commands/dropbox-team-group-member-batch-add.md)                                 | Bulk add members into groups                                                        |
-| [dropbox team group member batch delete](docs/commands/dropbox-team-group-member-batch-delete.md)                           | Delete members from groups                                                          |
-| [dropbox team group member batch update](docs/commands/dropbox-team-group-member-batch-update.md)                           | Add or delete members from groups                                                   |
-| [dropbox team group member delete](docs/commands/dropbox-team-group-member-delete.md)                                       | Delete a member from the group                                                      |
-| [dropbox team group member list](docs/commands/dropbox-team-group-member-list.md)                                           | List members of groups                                                              |
-| [dropbox team group rename](docs/commands/dropbox-team-group-rename.md)                                                     | Rename the group                                                                    |
-| [dropbox team group update type](docs/commands/dropbox-team-group-update-type.md)                                           | Update group management type                                                        |
-| [dropbox team info](docs/commands/dropbox-team-info.md)                                                                     | Team information                                                                    |
-| [dropbox team insight scan](docs/commands/dropbox-team-insight-scan.md)                                                     | Scans team data for analysis                                                        |
-| [dropbox team legalhold add](docs/commands/dropbox-team-legalhold-add.md)                                                   | Creates new legal hold policy.                                                      |
-| [dropbox team legalhold list](docs/commands/dropbox-team-legalhold-list.md)                                                 | Retrieve existing policies                                                          |
-| [dropbox team legalhold member batch update](docs/commands/dropbox-team-legalhold-member-batch-update.md)                   | Update member list of legal hold policy                                             |
-| [dropbox team legalhold member list](docs/commands/dropbox-team-legalhold-member-list.md)                                   | List members of the legal hold                                                      |
-| [dropbox team legalhold release](docs/commands/dropbox-team-legalhold-release.md)                                           | Releases a legal hold by Id                                                         |
-| [dropbox team legalhold revision list](docs/commands/dropbox-team-legalhold-revision-list.md)                               | List revisions of the legal hold policy                                             |
-| [dropbox team legalhold update desc](docs/commands/dropbox-team-legalhold-update-desc.md)                                   | Update description of the legal hold policy                                         |
-| [dropbox team legalhold update name](docs/commands/dropbox-team-legalhold-update-name.md)                                   | Update name of the legal hold policy                                                |
-| [dropbox team linkedapp list](docs/commands/dropbox-team-linkedapp-list.md)                                                 | List linked applications                                                            |
-| [dropbox team member batch delete](docs/commands/dropbox-team-member-batch-delete.md)                                       | Delete members                                                                      |
-| [dropbox team member batch detach](docs/commands/dropbox-team-member-batch-detach.md)                                       | Convert Dropbox for teams accounts to a Basic account                               |
-| [dropbox team member batch invite](docs/commands/dropbox-team-member-batch-invite.md)                                       | Invite member(s)                                                                    |
-| [dropbox team member batch reinvite](docs/commands/dropbox-team-member-batch-reinvite.md)                                   | Reinvite invited status members to the team                                         |
-| [dropbox team member batch suspend](docs/commands/dropbox-team-member-batch-suspend.md)                                     | Bulk suspend members                                                                |
-| [dropbox team member batch unsuspend](docs/commands/dropbox-team-member-batch-unsuspend.md)                                 | Bulk unsuspend members                                                              |
-| [dropbox team member clear externalid](docs/commands/dropbox-team-member-clear-externalid.md)                               | Clear external_id of members                                                        |
-| [dropbox team member feature](docs/commands/dropbox-team-member-feature.md)                                                 | List member feature settings                                                        |
-| [dropbox team member file lock all release](docs/commands/dropbox-team-member-file-lock-all-release.md)                     | Release all locks under the path of the member                                      |
-| [dropbox team member file lock list](docs/commands/dropbox-team-member-file-lock-list.md)                                   | List locks of the member under the path                                             |
-| [dropbox team member file lock release](docs/commands/dropbox-team-member-file-lock-release.md)                             | Release the lock of the path as the member                                          |
-| [dropbox team member file permdelete](docs/commands/dropbox-team-member-file-permdelete.md)                                 | Permanently delete the file or folder at a given path of the team member.           |
-| [dropbox team member folder list](docs/commands/dropbox-team-member-folder-list.md)                                         | List folders for each member                                                        |
-| [dropbox team member folder replication](docs/commands/dropbox-team-member-folder-replication.md)                           | Replicate a folder to another member's personal folder                              |
-| [dropbox team member list](docs/commands/dropbox-team-member-list.md)                                                       | List team member(s)                                                                 |
-| [dropbox team member quota batch update](docs/commands/dropbox-team-member-quota-batch-update.md)                           | Update team member quota                                                            |
-| [dropbox team member quota list](docs/commands/dropbox-team-member-quota-list.md)                                           | List team member quota                                                              |
-| [dropbox team member quota usage](docs/commands/dropbox-team-member-quota-usage.md)                                         | List team member storage usage                                                      |
-| [dropbox team member replication](docs/commands/dropbox-team-member-replication.md)                                         | Replicate team member files                                                         |
-| [dropbox team member suspend](docs/commands/dropbox-team-member-suspend.md)                                                 | Suspend a member                                                                    |
-| [dropbox team member unsuspend](docs/commands/dropbox-team-member-unsuspend.md)                                             | Unsuspend a member                                                                  |
-| [dropbox team member update batch email](docs/commands/dropbox-team-member-update-batch-email.md)                           | Member email operation                                                              |
-| [dropbox team member update batch externalid](docs/commands/dropbox-team-member-update-batch-externalid.md)                 | Update External ID of team members                                                  |
-| [dropbox team member update batch invisible](docs/commands/dropbox-team-member-update-batch-invisible.md)                   | Enable directory restriction to members                                             |
-| [dropbox team member update batch profile](docs/commands/dropbox-team-member-update-batch-profile.md)                       | Update member profile                                                               |
-| [dropbox team member update batch visible](docs/commands/dropbox-team-member-update-batch-visible.md)                       | Disable directory restriction to members                                            |
-| [dropbox team namespace file list](docs/commands/dropbox-team-namespace-file-list.md)                                       | List all files and folders of the team namespaces                                   |
-| [dropbox team namespace file size](docs/commands/dropbox-team-namespace-file-size.md)                                       | List all files and folders of the team namespaces                                   |
-| [dropbox team namespace list](docs/commands/dropbox-team-namespace-list.md)                                                 | List all namespaces of the team                                                     |
-| [dropbox team namespace member list](docs/commands/dropbox-team-namespace-member-list.md)                                   | List members of shared folders and team folders in the team                         |
-| [dropbox team namespace summary](docs/commands/dropbox-team-namespace-summary.md)                                           | Report team namespace status summary.                                               |
-| [dropbox team runas file batch copy](docs/commands/dropbox-team-runas-file-batch-copy.md)                                   | Batch copy files/folders as a member                                                |
-| [dropbox team runas file list](docs/commands/dropbox-team-runas-file-list.md)                                               | List files and folders run as a member                                              |
-| [dropbox team runas file sync batch up](docs/commands/dropbox-team-runas-file-sync-batch-up.md)                             | Batch sync up that run as members                                                   |
-| [dropbox team runas sharedfolder batch leave](docs/commands/dropbox-team-runas-sharedfolder-batch-leave.md)                 | Batch leave from shared folders as a member                                         |
-| [dropbox team runas sharedfolder batch share](docs/commands/dropbox-team-runas-sharedfolder-batch-share.md)                 | Batch share folders for members                                                     |
-| [dropbox team runas sharedfolder batch unshare](docs/commands/dropbox-team-runas-sharedfolder-batch-unshare.md)             | Batch unshare folders for members                                                   |
-| [dropbox team runas sharedfolder isolate](docs/commands/dropbox-team-runas-sharedfolder-isolate.md)                         | Unshare owned shared folders and leave from external shared folders run as a member |
-| [dropbox team runas sharedfolder list](docs/commands/dropbox-team-runas-sharedfolder-list.md)                               | List shared folders run as the member                                               |
-| [dropbox team runas sharedfolder member batch add](docs/commands/dropbox-team-runas-sharedfolder-member-batch-add.md)       | Batch add members to member's shared folders                                        |
-| [dropbox team runas sharedfolder member batch delete](docs/commands/dropbox-team-runas-sharedfolder-member-batch-delete.md) | Batch delete members from member's shared folders                                   |
-| [dropbox team runas sharedfolder mount add](docs/commands/dropbox-team-runas-sharedfolder-mount-add.md)                     | Add the shared folder to the specified member's Dropbox                             |
-| [dropbox team runas sharedfolder mount delete](docs/commands/dropbox-team-runas-sharedfolder-mount-delete.md)               | The specified user unmounts the designated folder.                                  |
-| [dropbox team runas sharedfolder mount list](docs/commands/dropbox-team-runas-sharedfolder-mount-list.md)                   | List all shared folders the specified member mounted                                |
-| [dropbox team runas sharedfolder mount mountable](docs/commands/dropbox-team-runas-sharedfolder-mount-mountable.md)         | List all shared folders the member can mount                                        |
-| [dropbox team sharedlink cap expiry](docs/commands/dropbox-team-sharedlink-cap-expiry.md)                                   | Set expiry cap to shared links in the team                                          |
-| [dropbox team sharedlink cap visibility](docs/commands/dropbox-team-sharedlink-cap-visibility.md)                           | Set visibility cap to shared links in the team                                      |
-| [dropbox team sharedlink delete links](docs/commands/dropbox-team-sharedlink-delete-links.md)                               | Batch delete shared links                                                           |
-| [dropbox team sharedlink delete member](docs/commands/dropbox-team-sharedlink-delete-member.md)                             | Delete all shared links of the member                                               |
-| [dropbox team sharedlink list](docs/commands/dropbox-team-sharedlink-list.md)                                               | List of shared links                                                                |
-| [dropbox team sharedlink update expiry](docs/commands/dropbox-team-sharedlink-update-expiry.md)                             | Update expiration date of public shared links within the team                       |
-| [dropbox team sharedlink update password](docs/commands/dropbox-team-sharedlink-update-password.md)                         | Set or update shared link passwords                                                 |
-| [dropbox team sharedlink update visibility](docs/commands/dropbox-team-sharedlink-update-visibility.md)                     | Update visibility of shared links                                                   |
-| [dropbox team teamfolder add](docs/commands/dropbox-team-teamfolder-add.md)                                                 | Add team folder to the team                                                         |
-| [dropbox team teamfolder archive](docs/commands/dropbox-team-teamfolder-archive.md)                                         | Archive team folder                                                                 |
-| [dropbox team teamfolder batch archive](docs/commands/dropbox-team-teamfolder-batch-archive.md)                             | Archiving team folders                                                              |
-| [dropbox team teamfolder batch permdelete](docs/commands/dropbox-team-teamfolder-batch-permdelete.md)                       | Permanently delete team folders                                                     |
-| [dropbox team teamfolder batch replication](docs/commands/dropbox-team-teamfolder-batch-replication.md)                     | Batch replication of team folders                                                   |
-| [dropbox team teamfolder file list](docs/commands/dropbox-team-teamfolder-file-list.md)                                     | List files in team folders                                                          |
-| [dropbox team teamfolder file lock all release](docs/commands/dropbox-team-teamfolder-file-lock-all-release.md)             | Release all locks under the path of the team folder                                 |
-| [dropbox team teamfolder file lock list](docs/commands/dropbox-team-teamfolder-file-lock-list.md)                           | List locks in the team folder                                                       |
-| [dropbox team teamfolder file lock release](docs/commands/dropbox-team-teamfolder-file-lock-release.md)                     | Release lock of the path in the team folder                                         |
-| [dropbox team teamfolder file size](docs/commands/dropbox-team-teamfolder-file-size.md)                                     | Calculate size of team folders                                                      |
-| [dropbox team teamfolder list](docs/commands/dropbox-team-teamfolder-list.md)                                               | List team folder(s)                                                                 |
-| [dropbox team teamfolder member add](docs/commands/dropbox-team-teamfolder-member-add.md)                                   | Batch adding users/groups to team folders                                           |
-| [dropbox team teamfolder member delete](docs/commands/dropbox-team-teamfolder-member-delete.md)                             | Batch removing users/groups from team folders                                       |
-| [dropbox team teamfolder member list](docs/commands/dropbox-team-teamfolder-member-list.md)                                 | List team folder members                                                            |
-| [dropbox team teamfolder partial replication](docs/commands/dropbox-team-teamfolder-partial-replication.md)                 | Partial team folder replication to the other team                                   |
-| [dropbox team teamfolder permdelete](docs/commands/dropbox-team-teamfolder-permdelete.md)                                   | Permanently delete team folder                                                      |
-| [dropbox team teamfolder policy list](docs/commands/dropbox-team-teamfolder-policy-list.md)                                 | List policies of team folders                                                       |
-| [dropbox team teamfolder replication](docs/commands/dropbox-team-teamfolder-replication.md)                                 | Replicate a team folder to the other team                                           |
-| [dropbox team teamfolder sync setting list](docs/commands/dropbox-team-teamfolder-sync-setting-list.md)                     | List team folder sync settings                                                      |
-| [dropbox team teamfolder sync setting update](docs/commands/dropbox-team-teamfolder-sync-setting-update.md)                 | Batch update team folder sync settings                                              |
+| Command                                                                                                                     | Description                                                               |
+|-----------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------|
+| [dropbox team activity batch user](docs/commands/dropbox-team-activity-batch-user.md)                                       | Scan activities for multiple users                                        |
+| [dropbox team activity daily event](docs/commands/dropbox-team-activity-daily-event.md)                                     | Report activities by day                                                  |
+| [dropbox team activity event](docs/commands/dropbox-team-activity-event.md)                                                 | Event log                                                                 |
+| [dropbox team activity user](docs/commands/dropbox-team-activity-user.md)                                                   | Activities log per user                                                   |
+| [dropbox team admin group role add](docs/commands/dropbox-team-admin-group-role-add.md)                                     | Add the role to members of the group                                      |
+| [dropbox team admin group role delete](docs/commands/dropbox-team-admin-group-role-delete.md)                               | Delete the role from all members except of members of the exception group |
+| [dropbox team admin list](docs/commands/dropbox-team-admin-list.md)                                                         | List admin roles of members                                               |
+| [dropbox team admin role add](docs/commands/dropbox-team-admin-role-add.md)                                                 | Add a new role to the member                                              |
+| [dropbox team admin role clear](docs/commands/dropbox-team-admin-role-clear.md)                                             | Remove all admin roles from the member                                    |
+| [dropbox team admin role delete](docs/commands/dropbox-team-admin-role-delete.md)                                           | Remove a role from the member                                             |
+| [dropbox team admin role list](docs/commands/dropbox-team-admin-role-list.md)                                               | List admin roles of the team                                              |
+| [dropbox team backup device status](docs/commands/dropbox-team-backup-device-status.md)                                     | Dropbox Backup device status change in the specified period               |
+| [dropbox team content legacypaper count](docs/commands/dropbox-team-content-legacypaper-count.md)                           | Count number of Paper documents per member                                |
+| [dropbox team content legacypaper export](docs/commands/dropbox-team-content-legacypaper-export.md)                         | Export entire team member Paper documents into local path                 |
+| [dropbox team content legacypaper list](docs/commands/dropbox-team-content-legacypaper-list.md)                             | List team member Paper documents                                          |
+| [dropbox team content member list](docs/commands/dropbox-team-content-member-list.md)                                       | List team folder & shared folder members                                  |
+| [dropbox team content member size](docs/commands/dropbox-team-content-member-size.md)                                       | Count number of members of team folders and shared folders                |
+| [dropbox team content mount list](docs/commands/dropbox-team-content-mount-list.md)                                         | List all mounted/unmounted shared folders of team members.                |
+| [dropbox team content policy list](docs/commands/dropbox-team-content-policy-list.md)                                       | List policies of team folders and shared folders in the team              |
+| [dropbox team device list](docs/commands/dropbox-team-device-list.md)                                                       | List all devices/sessions in the team                                     |
+| [dropbox team device unlink](docs/commands/dropbox-team-device-unlink.md)                                                   | Unlink device sessions                                                    |
+| [dropbox team feature](docs/commands/dropbox-team-feature.md)                                                               | Team feature                                                              |
+| [dropbox team filerequest list](docs/commands/dropbox-team-filerequest-list.md)                                             | List all file requests in the team                                        |
+| [dropbox team filesystem](docs/commands/dropbox-team-filesystem.md)                                                         | Identify team's file system version                                       |
+| [dropbox team group add](docs/commands/dropbox-team-group-add.md)                                                           | Create new group                                                          |
+| [dropbox team group batch add](docs/commands/dropbox-team-group-batch-add.md)                                               | Bulk adding groups                                                        |
+| [dropbox team group batch delete](docs/commands/dropbox-team-group-batch-delete.md)                                         | Delete groups                                                             |
+| [dropbox team group clear externalid](docs/commands/dropbox-team-group-clear-externalid.md)                                 | Clear an external ID of a group                                           |
+| [dropbox team group delete](docs/commands/dropbox-team-group-delete.md)                                                     | Delete group                                                              |
+| [dropbox team group folder list](docs/commands/dropbox-team-group-folder-list.md)                                           | List folders of each group                                                |
+| [dropbox team group list](docs/commands/dropbox-team-group-list.md)                                                         | List group(s)                                                             |
+| [dropbox team group member add](docs/commands/dropbox-team-group-member-add.md)                                             | Add a member to the group                                                 |
+| [dropbox team group member batch add](docs/commands/dropbox-team-group-member-batch-add.md)                                 | Bulk add members into groups                                              |
+| [dropbox team group member batch delete](docs/commands/dropbox-team-group-member-batch-delete.md)                           | Delete members from groups                                                |
+| [dropbox team group member batch update](docs/commands/dropbox-team-group-member-batch-update.md)                           | Add or delete members from groups                                         |
+| [dropbox team group member delete](docs/commands/dropbox-team-group-member-delete.md)                                       | Delete a member from the group                                            |
+| [dropbox team group member list](docs/commands/dropbox-team-group-member-list.md)                                           | List members of groups                                                    |
+| [dropbox team group rename](docs/commands/dropbox-team-group-rename.md)                                                     | Rename the group                                                          |
+| [dropbox team group update type](docs/commands/dropbox-team-group-update-type.md)                                           | Update group management type                                              |
+| [dropbox team info](docs/commands/dropbox-team-info.md)                                                                     | Team information                                                          |
+| [dropbox team insight scan](docs/commands/dropbox-team-insight-scan.md)                                                     | Scans team data for analysis                                              |
+| [dropbox team legalhold add](docs/commands/dropbox-team-legalhold-add.md)                                                   | Creates new legal hold policy.                                            |
+| [dropbox team legalhold list](docs/commands/dropbox-team-legalhold-list.md)                                                 | Retrieve existing policies                                                |
+| [dropbox team legalhold member batch update](docs/commands/dropbox-team-legalhold-member-batch-update.md)                   | Update member list of legal hold policy                                   |
+| [dropbox team legalhold member list](docs/commands/dropbox-team-legalhold-member-list.md)                                   | List members of the legal hold                                            |
+| [dropbox team legalhold release](docs/commands/dropbox-team-legalhold-release.md)                                           | Releases a legal hold by Id                                               |
+| [dropbox team legalhold revision list](docs/commands/dropbox-team-legalhold-revision-list.md)                               | List revisions under legal hold                                           |
+| [dropbox team legalhold update desc](docs/commands/dropbox-team-legalhold-update-desc.md)                                   | Update description of the legal hold policy                               |
+| [dropbox team legalhold update name](docs/commands/dropbox-team-legalhold-update-name.md)                                   | Update name of the legal hold policy                                      |
+| [dropbox team linkedapp list](docs/commands/dropbox-team-linkedapp-list.md)                                                 | List linked applications                                                  |
+| [dropbox team member batch delete](docs/commands/dropbox-team-member-batch-delete.md)                                       | Delete members                                                            |
+| [dropbox team member batch detach](docs/commands/dropbox-team-member-batch-detach.md)                                       | Convert Dropbox for teams accounts to a Basic account                     |
+| [dropbox team member batch invite](docs/commands/dropbox-team-member-batch-invite.md)                                       | Invite member(s)                                                          |
+| [dropbox team member batch reinvite](docs/commands/dropbox-team-member-batch-reinvite.md)                                   | Reinvite invited status members to the team                               |
+| [dropbox team member batch suspend](docs/commands/dropbox-team-member-batch-suspend.md)                                     | Bulk suspend members                                                      |
+| [dropbox team member batch unsuspend](docs/commands/dropbox-team-member-batch-unsuspend.md)                                 | Bulk unsuspend members                                                    |
+| [dropbox team member clear externalid](docs/commands/dropbox-team-member-clear-externalid.md)                               | Clear external_id of members                                              |
+| [dropbox team member feature](docs/commands/dropbox-team-member-feature.md)                                                 | List member feature settings                                              |
+| [dropbox team member file lock all release](docs/commands/dropbox-team-member-file-lock-all-release.md)                     | Release all locks under the path of the member                            |
+| [dropbox team member file lock list](docs/commands/dropbox-team-member-file-lock-list.md)                                   | List locks of the member under the path                                   |
+| [dropbox team member file lock release](docs/commands/dropbox-team-member-file-lock-release.md)                             | Release the lock of the path as the member                                |
+| [dropbox team member file permdelete](docs/commands/dropbox-team-member-file-permdelete.md)                                 | Permanently delete the file or folder at a given path of the team member. |
+| [dropbox team member folder list](docs/commands/dropbox-team-member-folder-list.md)                                         | List folders for each member                                              |
+| [dropbox team member folder replication](docs/commands/dropbox-team-member-folder-replication.md)                           | Replicate a folder to another member's personal folder                    |
+| [dropbox team member list](docs/commands/dropbox-team-member-list.md)                                                       | List team member(s)                                                       |
+| [dropbox team member quota batch update](docs/commands/dropbox-team-member-quota-batch-update.md)                           | Update team member quota                                                  |
+| [dropbox team member quota list](docs/commands/dropbox-team-member-quota-list.md)                                           | List team member quota                                                    |
+| [dropbox team member quota usage](docs/commands/dropbox-team-member-quota-usage.md)                                         | List team member storage usage                                            |
+| [dropbox team member replication](docs/commands/dropbox-team-member-replication.md)                                         | Replicate team member files                                               |
+| [dropbox team member suspend](docs/commands/dropbox-team-member-suspend.md)                                                 | Suspend a member                                                          |
+| [dropbox team member unsuspend](docs/commands/dropbox-team-member-unsuspend.md)                                             | Unsuspend a member                                                        |
+| [dropbox team member update batch email](docs/commands/dropbox-team-member-update-batch-email.md)                           | Member email operation                                                    |
+| [dropbox team member update batch externalid](docs/commands/dropbox-team-member-update-batch-externalid.md)                 | Update External ID of team members                                        |
+| [dropbox team member update batch invisible](docs/commands/dropbox-team-member-update-batch-invisible.md)                   | Enable directory restriction to members                                   |
+| [dropbox team member update batch profile](docs/commands/dropbox-team-member-update-batch-profile.md)                       | Batch update member profiles                                              |
+| [dropbox team member update batch visible](docs/commands/dropbox-team-member-update-batch-visible.md)                       | Disable directory restriction to members                                  |
+| [dropbox team namespace file list](docs/commands/dropbox-team-namespace-file-list.md)                                       | List all files and folders of the team namespaces                         |
+| [dropbox team namespace file size](docs/commands/dropbox-team-namespace-file-size.md)                                       | List all files and folders of the team namespaces                         |
+| [dropbox team namespace list](docs/commands/dropbox-team-namespace-list.md)                                                 | List all namespaces of the team                                           |
+| [dropbox team namespace member list](docs/commands/dropbox-team-namespace-member-list.md)                                   | List members of shared folders and team folders in the team               |
+| [dropbox team namespace summary](docs/commands/dropbox-team-namespace-summary.md)                                           | Report team namespace status summary.                                     |
+| [dropbox team runas file batch copy](docs/commands/dropbox-team-runas-file-batch-copy.md)                                   | Batch copy files/folders as a member                                      |
+| [dropbox team runas file list](docs/commands/dropbox-team-runas-file-list.md)                                               | List files and folders run as a member                                    |
+| [dropbox team runas file sync batch up](docs/commands/dropbox-team-runas-file-sync-batch-up.md)                             | Batch upstream sync with Dropbox                                          |
+| [dropbox team runas sharedfolder batch leave](docs/commands/dropbox-team-runas-sharedfolder-batch-leave.md)                 | Leave shared folders in batch                                             |
+| [dropbox team runas sharedfolder batch share](docs/commands/dropbox-team-runas-sharedfolder-batch-share.md)                 | Share shared folders in batch                                             |
+| [dropbox team runas sharedfolder batch unshare](docs/commands/dropbox-team-runas-sharedfolder-batch-unshare.md)             | Unshare shared folders in batch                                           |
+| [dropbox team runas sharedfolder isolate](docs/commands/dropbox-team-runas-sharedfolder-isolate.md)                         | Isolate member from shared folder                                         |
+| [dropbox team runas sharedfolder list](docs/commands/dropbox-team-runas-sharedfolder-list.md)                               | List shared folders                                                       |
+| [dropbox team runas sharedfolder member batch add](docs/commands/dropbox-team-runas-sharedfolder-member-batch-add.md)       | Add members to shared folders in batch                                    |
+| [dropbox team runas sharedfolder member batch delete](docs/commands/dropbox-team-runas-sharedfolder-member-batch-delete.md) | Remove members from shared folders in batch                               |
+| [dropbox team runas sharedfolder mount add](docs/commands/dropbox-team-runas-sharedfolder-mount-add.md)                     | Mount a shared folder as another member                                   |
+| [dropbox team runas sharedfolder mount delete](docs/commands/dropbox-team-runas-sharedfolder-mount-delete.md)               | The specified user unmounts the designated folder.                        |
+| [dropbox team runas sharedfolder mount list](docs/commands/dropbox-team-runas-sharedfolder-mount-list.md)                   | List all shared folders the specified member mounted                      |
+| [dropbox team runas sharedfolder mount mountable](docs/commands/dropbox-team-runas-sharedfolder-mount-mountable.md)         | List all shared folders the member can mount                              |
+| [dropbox team sharedlink cap expiry](docs/commands/dropbox-team-sharedlink-cap-expiry.md)                                   | Set expiry cap to shared links in the team                                |
+| [dropbox team sharedlink cap visibility](docs/commands/dropbox-team-sharedlink-cap-visibility.md)                           | Set visibility cap to shared links in the team                            |
+| [dropbox team sharedlink delete links](docs/commands/dropbox-team-sharedlink-delete-links.md)                               | Batch delete shared links                                                 |
+| [dropbox team sharedlink delete member](docs/commands/dropbox-team-sharedlink-delete-member.md)                             | Delete all shared links of the member                                     |
+| [dropbox team sharedlink list](docs/commands/dropbox-team-sharedlink-list.md)                                               | List of shared links                                                      |
+| [dropbox team sharedlink update expiry](docs/commands/dropbox-team-sharedlink-update-expiry.md)                             | Update expiration date of public shared links within the team             |
+| [dropbox team sharedlink update password](docs/commands/dropbox-team-sharedlink-update-password.md)                         | Set or update shared link passwords                                       |
+| [dropbox team sharedlink update visibility](docs/commands/dropbox-team-sharedlink-update-visibility.md)                     | Update visibility of shared links                                         |
+| [dropbox team teamfolder add](docs/commands/dropbox-team-teamfolder-add.md)                                                 | Add team folder to the team                                               |
+| [dropbox team teamfolder archive](docs/commands/dropbox-team-teamfolder-archive.md)                                         | Archive team folder                                                       |
+| [dropbox team teamfolder batch archive](docs/commands/dropbox-team-teamfolder-batch-archive.md)                             | Archiving team folders                                                    |
+| [dropbox team teamfolder batch permdelete](docs/commands/dropbox-team-teamfolder-batch-permdelete.md)                       | Permanently delete team folders                                           |
+| [dropbox team teamfolder batch replication](docs/commands/dropbox-team-teamfolder-batch-replication.md)                     | Batch replication of team folders                                         |
+| [dropbox team teamfolder file list](docs/commands/dropbox-team-teamfolder-file-list.md)                                     | List files in team folders                                                |
+| [dropbox team teamfolder file lock all release](docs/commands/dropbox-team-teamfolder-file-lock-all-release.md)             | Release all locks under the path of the team folder                       |
+| [dropbox team teamfolder file lock list](docs/commands/dropbox-team-teamfolder-file-lock-list.md)                           | List locks in the team folder                                             |
+| [dropbox team teamfolder file lock release](docs/commands/dropbox-team-teamfolder-file-lock-release.md)                     | Release lock of the path in the team folder                               |
+| [dropbox team teamfolder file size](docs/commands/dropbox-team-teamfolder-file-size.md)                                     | Calculate size of team folders                                            |
+| [dropbox team teamfolder list](docs/commands/dropbox-team-teamfolder-list.md)                                               | List team folder(s)                                                       |
+| [dropbox team teamfolder member add](docs/commands/dropbox-team-teamfolder-member-add.md)                                   | Batch adding users/groups to team folders                                 |
+| [dropbox team teamfolder member delete](docs/commands/dropbox-team-teamfolder-member-delete.md)                             | Batch removing users/groups from team folders                             |
+| [dropbox team teamfolder member list](docs/commands/dropbox-team-teamfolder-member-list.md)                                 | List team folder members                                                  |
+| [dropbox team teamfolder partial replication](docs/commands/dropbox-team-teamfolder-partial-replication.md)                 | Partial team folder replication to the other team                         |
+| [dropbox team teamfolder permdelete](docs/commands/dropbox-team-teamfolder-permdelete.md)                                   | Permanently delete team folder                                            |
+| [dropbox team teamfolder policy list](docs/commands/dropbox-team-teamfolder-policy-list.md)                                 | List policies of team folders                                             |
+| [dropbox team teamfolder replication](docs/commands/dropbox-team-teamfolder-replication.md)                                 | Replicate a team folder to the other team                                 |
+| [dropbox team teamfolder sync setting list](docs/commands/dropbox-team-teamfolder-sync-setting-list.md)                     | List team folder sync settings                                            |
+| [dropbox team teamfolder sync setting update](docs/commands/dropbox-team-teamfolder-sync-setting-update.md)                 | Batch update team folder sync settings                                    |
 
 ## Figma
 
@@ -376,72 +376,72 @@ Available commands:
 
 ## Utilities
 
-| Command                                                                                                       | Description                                                              |
-|---------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------|
-| [config auth delete](docs/commands/config-auth-delete.md)                                                     | Delete existing auth credential                                          |
-| [config auth list](docs/commands/config-auth-list.md)                                                         | List all auth credentials                                                |
-| [config feature disable](docs/commands/config-feature-disable.md)                                             | Disable a feature.                                                       |
-| [config feature enable](docs/commands/config-feature-enable.md)                                               | Enable a feature.                                                        |
-| [config feature list](docs/commands/config-feature-list.md)                                                   | List available optional features.                                        |
-| [config license install](docs/commands/config-license-install.md)                                             | Install a license key                                                    |
-| [config license list](docs/commands/config-license-list.md)                                                   | List available license keys                                              |
-| [dropbox team insight report teamfoldermember](docs/commands/dropbox-team-insight-report-teamfoldermember.md) | Report team folder members                                               |
-| [license](docs/commands/license.md)                                                                           | Show license information                                                 |
-| [local file template apply](docs/commands/local-file-template-apply.md)                                       | Apply file/folder structure template to the local path                   |
-| [local file template capture](docs/commands/local-file-template-capture.md)                                   | Capture file/folder structure as template from local path                |
-| [log api job](docs/commands/log-api-job.md)                                                                   | Show statistics of the API log of the job specified by the job ID        |
-| [log api name](docs/commands/log-api-name.md)                                                                 | Show statistics of the API log of the job specified by the job name      |
-| [log cat curl](docs/commands/log-cat-curl.md)                                                                 | Format capture logs as `curl` sample                                     |
-| [log cat job](docs/commands/log-cat-job.md)                                                                   | Retrieve logs of specified Job ID                                        |
-| [log cat kind](docs/commands/log-cat-kind.md)                                                                 | Concatenate and print logs of specified log kind                         |
-| [log cat last](docs/commands/log-cat-last.md)                                                                 | Print the last job log files                                             |
-| [log job archive](docs/commands/log-job-archive.md)                                                           | Archive jobs                                                             |
-| [log job delete](docs/commands/log-job-delete.md)                                                             | Delete old job history                                                   |
-| [log job list](docs/commands/log-job-list.md)                                                                 | Show job history                                                         |
-| [util archive unzip](docs/commands/util-archive-unzip.md)                                                     | Extract the zip archive file                                             |
-| [util archive zip](docs/commands/util-archive-zip.md)                                                         | Compress target files into the zip archive                               |
-| [util cert selfsigned](docs/commands/util-cert-selfsigned.md)                                                 | Generate self-signed certificate and key                                 |
-| [util database exec](docs/commands/util-database-exec.md)                                                     | Execute query on SQLite3 database file                                   |
-| [util database query](docs/commands/util-database-query.md)                                                   | Query SQLite3 database                                                   |
-| [util date today](docs/commands/util-date-today.md)                                                           | Display current date                                                     |
-| [util datetime now](docs/commands/util-datetime-now.md)                                                       | Display current date/time                                                |
-| [util decode base32](docs/commands/util-decode-base32.md)                                                     | Decode text from Base32 (RFC 4648) format                                |
-| [util decode base64](docs/commands/util-decode-base64.md)                                                     | Decode text from Base64 (RFC 4648) format                                |
-| [util desktop open](docs/commands/util-desktop-open.md)                                                       | Open a file or folder with the default application                       |
-| [util encode base32](docs/commands/util-encode-base32.md)                                                     | Encode text into Base32 (RFC 4648) format                                |
-| [util encode base64](docs/commands/util-encode-base64.md)                                                     | Encode text into Base64 (RFC 4648) format                                |
-| [util feed json](docs/commands/util-feed-json.md)                                                             | Load feed from the URL and output the content as JSON                    |
-| [util file hash](docs/commands/util-file-hash.md)                                                             | Print file digest                                                        |
-| [util git clone](docs/commands/util-git-clone.md)                                                             | Clone git repository                                                     |
-| [util image exif](docs/commands/util-image-exif.md)                                                           | Print EXIF metadata of image file                                        |
-| [util image placeholder](docs/commands/util-image-placeholder.md)                                             | Create placeholder image                                                 |
-| [util json query](docs/commands/util-json-query.md)                                                           | Query JSON data                                                          |
-| [util net download](docs/commands/util-net-download.md)                                                       | Download a file                                                          |
-| [util qrcode create](docs/commands/util-qrcode-create.md)                                                     | Create a QR code image file                                              |
-| [util qrcode wifi](docs/commands/util-qrcode-wifi.md)                                                         | Generate QR code for WIFI configuration                                  |
-| [util table format xlsx](docs/commands/util-table-format-xlsx.md)                                             | Formatting xlsx file into text                                           |
-| [util text case down](docs/commands/util-text-case-down.md)                                                   | Print lower case text                                                    |
-| [util text case up](docs/commands/util-text-case-up.md)                                                       | Print upper case text                                                    |
-| [util text encoding from](docs/commands/util-text-encoding-from.md)                                           | Convert text encoding to UTF-8 text file from specified encoding.        |
-| [util text encoding to](docs/commands/util-text-encoding-to.md)                                               | Convert text encoding to specified encoding from UTF-8 text file.        |
-| [util text nlp english entity](docs/commands/util-text-nlp-english-entity.md)                                 | Split English text into entities                                         |
-| [util text nlp english sentence](docs/commands/util-text-nlp-english-sentence.md)                             | Split English text into sentences                                        |
-| [util text nlp english token](docs/commands/util-text-nlp-english-token.md)                                   | Split English text into tokens                                           |
-| [util text nlp japanese token](docs/commands/util-text-nlp-japanese-token.md)                                 | Tokenize Japanese text                                                   |
-| [util text nlp japanese wakati](docs/commands/util-text-nlp-japanese-wakati.md)                               | Wakati gaki (tokenize Japanese text)                                     |
-| [util tidy move dispatch](docs/commands/util-tidy-move-dispatch.md)                                           | Dispatch files                                                           |
-| [util tidy move simple](docs/commands/util-tidy-move-simple.md)                                               | Archive local files                                                      |
-| [util time now](docs/commands/util-time-now.md)                                                               | Display current time                                                     |
-| [util unixtime format](docs/commands/util-unixtime-format.md)                                                 | Time format to convert the unix time (epoch seconds from 1970-01-01)     |
-| [util unixtime now](docs/commands/util-unixtime-now.md)                                                       | Display current time in unixtime                                         |
-| [util uuid timestamp](docs/commands/util-uuid-timestamp.md)                                                   | Parse UUID timestamp                                                     |
-| [util uuid ulid](docs/commands/util-uuid-ulid.md)                                                             | Generate ULID (Universally Unique Lexicographically Sortable Identifier) |
-| [util uuid v4](docs/commands/util-uuid-v4.md)                                                                 | Generate UUID v4 (random UUID)                                           |
-| [util uuid v7](docs/commands/util-uuid-v7.md)                                                                 | Generate UUID v7                                                         |
-| [util uuid version](docs/commands/util-uuid-version.md)                                                       | Parse version and variant of UUID                                        |
-| [util xlsx create](docs/commands/util-xlsx-create.md)                                                         | Create an empty spreadsheet                                              |
-| [util xlsx sheet export](docs/commands/util-xlsx-sheet-export.md)                                             | Export data from the xlsx file                                           |
-| [util xlsx sheet import](docs/commands/util-xlsx-sheet-import.md)                                             | Import data into xlsx file                                               |
-| [util xlsx sheet list](docs/commands/util-xlsx-sheet-list.md)                                                 | List sheets of the xlsx file                                             |
-| [version](docs/commands/version.md)                                                                           | Show version                                                             |
+| Command                                                                                                       | Description                                                          |
+|---------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------|
+| [config auth delete](docs/commands/config-auth-delete.md)                                                     | Delete existing auth credential                                      |
+| [config auth list](docs/commands/config-auth-list.md)                                                         | List all auth credentials                                            |
+| [config feature disable](docs/commands/config-feature-disable.md)                                             | Disable a feature.                                                   |
+| [config feature enable](docs/commands/config-feature-enable.md)                                               | Enable a feature.                                                    |
+| [config feature list](docs/commands/config-feature-list.md)                                                   | List available optional features.                                    |
+| [config license install](docs/commands/config-license-install.md)                                             | Install a license key                                                |
+| [config license list](docs/commands/config-license-list.md)                                                   | List available license keys                                          |
+| [dropbox team insight report teamfoldermember](docs/commands/dropbox-team-insight-report-teamfoldermember.md) | Report team folder members                                           |
+| [license](docs/commands/license.md)                                                                           | Show license information                                             |
+| [local file template apply](docs/commands/local-file-template-apply.md)                                       | Apply file/folder structure template to the local path               |
+| [local file template capture](docs/commands/local-file-template-capture.md)                                   | Capture file/folder structure as template from local path            |
+| [log api job](docs/commands/log-api-job.md)                                                                   | Show statistics of the API log of the job specified by the job ID    |
+| [log api name](docs/commands/log-api-name.md)                                                                 | Show statistics of the API log of the job specified by the job name  |
+| [log cat curl](docs/commands/log-cat-curl.md)                                                                 | Format capture logs as `curl` sample                                 |
+| [log cat job](docs/commands/log-cat-job.md)                                                                   | Retrieve logs of specified Job ID                                    |
+| [log cat kind](docs/commands/log-cat-kind.md)                                                                 | Concatenate and print logs of specified log kind                     |
+| [log cat last](docs/commands/log-cat-last.md)                                                                 | Print the last job log files                                         |
+| [log job archive](docs/commands/log-job-archive.md)                                                           | Archive jobs                                                         |
+| [log job delete](docs/commands/log-job-delete.md)                                                             | Delete old job history                                               |
+| [log job list](docs/commands/log-job-list.md)                                                                 | Show job history                                                     |
+| [util archive unzip](docs/commands/util-archive-unzip.md)                                                     | Extract the zip archive file                                         |
+| [util archive zip](docs/commands/util-archive-zip.md)                                                         | Compress target files into the zip archive                           |
+| [util cert selfsigned](docs/commands/util-cert-selfsigned.md)                                                 | Generate self-signed certificate and key                             |
+| [util database exec](docs/commands/util-database-exec.md)                                                     | Execute query on SQLite3 database file                               |
+| [util database query](docs/commands/util-database-query.md)                                                   | Query SQLite3 database                                               |
+| [util date today](docs/commands/util-date-today.md)                                                           | Display current date                                                 |
+| [util datetime now](docs/commands/util-datetime-now.md)                                                       | Display current date/time                                            |
+| [util decode base32](docs/commands/util-decode-base32.md)                                                     | Decode text from Base32 (RFC 4648) format                            |
+| [util decode base64](docs/commands/util-decode-base64.md)                                                     | Decode text from Base64 (RFC 4648) format                            |
+| [util desktop open](docs/commands/util-desktop-open.md)                                                       | Open a file or folder with the default application                   |
+| [util encode base32](docs/commands/util-encode-base32.md)                                                     | Encode text into Base32 (RFC 4648) format                            |
+| [util encode base64](docs/commands/util-encode-base64.md)                                                     | Encode text into Base64 (RFC 4648) format                            |
+| [util feed json](docs/commands/util-feed-json.md)                                                             | Load feed from the URL and output the content as JSON                |
+| [util file hash](docs/commands/util-file-hash.md)                                                             | File Hash                                                            |
+| [util git clone](docs/commands/util-git-clone.md)                                                             | Clone git repository                                                 |
+| [util image exif](docs/commands/util-image-exif.md)                                                           | Print EXIF metadata of image file                                    |
+| [util image placeholder](docs/commands/util-image-placeholder.md)                                             | Create placeholder image                                             |
+| [util json query](docs/commands/util-json-query.md)                                                           | Query JSON data                                                      |
+| [util net download](docs/commands/util-net-download.md)                                                       | Download a file                                                      |
+| [util qrcode create](docs/commands/util-qrcode-create.md)                                                     | Create a QR code image file                                          |
+| [util qrcode wifi](docs/commands/util-qrcode-wifi.md)                                                         | Generate QR code for WIFI configuration                              |
+| [util table format xlsx](docs/commands/util-table-format-xlsx.md)                                             | Formatting xlsx file into text                                       |
+| [util text case down](docs/commands/util-text-case-down.md)                                                   | Print lower case text                                                |
+| [util text case up](docs/commands/util-text-case-up.md)                                                       | Print upper case text                                                |
+| [util text encoding from](docs/commands/util-text-encoding-from.md)                                           | Convert text encoding to UTF-8 text file from specified encoding.    |
+| [util text encoding to](docs/commands/util-text-encoding-to.md)                                               | Convert text encoding to specified encoding from UTF-8 text file.    |
+| [util text nlp english entity](docs/commands/util-text-nlp-english-entity.md)                                 | Split English text into entities                                     |
+| [util text nlp english sentence](docs/commands/util-text-nlp-english-sentence.md)                             | Split English text into sentences                                    |
+| [util text nlp english token](docs/commands/util-text-nlp-english-token.md)                                   | Split English text into tokens                                       |
+| [util text nlp japanese token](docs/commands/util-text-nlp-japanese-token.md)                                 | Tokenize Japanese text                                               |
+| [util text nlp japanese wakati](docs/commands/util-text-nlp-japanese-wakati.md)                               | Wakati gaki (tokenize Japanese text)                                 |
+| [util tidy move dispatch](docs/commands/util-tidy-move-dispatch.md)                                           | Dispatch files                                                       |
+| [util tidy move simple](docs/commands/util-tidy-move-simple.md)                                               | Archive local files                                                  |
+| [util time now](docs/commands/util-time-now.md)                                                               | Display current time                                                 |
+| [util unixtime format](docs/commands/util-unixtime-format.md)                                                 | Time format to convert the unix time (epoch seconds from 1970-01-01) |
+| [util unixtime now](docs/commands/util-unixtime-now.md)                                                       | Display current time in unixtime                                     |
+| [util uuid timestamp](docs/commands/util-uuid-timestamp.md)                                                   | UUID Timestamp                                                       |
+| [util uuid ulid](docs/commands/util-uuid-ulid.md)                                                             | ULID Utility                                                         |
+| [util uuid v4](docs/commands/util-uuid-v4.md)                                                                 | Generate UUID v4 (random UUID)                                       |
+| [util uuid v7](docs/commands/util-uuid-v7.md)                                                                 | Generate UUID v7                                                     |
+| [util uuid version](docs/commands/util-uuid-version.md)                                                       | Parse version and variant of UUID                                    |
+| [util xlsx create](docs/commands/util-xlsx-create.md)                                                         | Create an empty spreadsheet                                          |
+| [util xlsx sheet export](docs/commands/util-xlsx-sheet-export.md)                                             | Export data from the xlsx file                                       |
+| [util xlsx sheet import](docs/commands/util-xlsx-sheet-import.md)                                             | Import data into xlsx file                                           |
+| [util xlsx sheet list](docs/commands/util-xlsx-sheet-list.md)                                                 | List sheets of the xlsx file                                         |
+| [version](docs/commands/version.md)                                                                           | Show version                                                         |
 

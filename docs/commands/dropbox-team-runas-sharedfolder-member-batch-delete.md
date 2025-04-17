@@ -6,7 +6,7 @@ lang: en
 
 # dropbox team runas sharedfolder member batch delete
 
-Batch delete members from member's shared folders 
+Remove members from shared folders in batch 
 
 # Security
 
@@ -88,12 +88,12 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option        | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|---------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`  | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-file`       | Path to data file                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |         |
-| `-leave-copy` | If true, members of this shared folder will get a copy of this folder after it's unshared.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | false   |
-| `-peer`       | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
+| Option        | Description                                       | Default |
+|---------------|---------------------------------------------------|---------|
+| `-base-path`  | Base path of the shared folder to remove members. | root    |
+| `-file`       | Path to data file                                 |         |
+| `-leave-copy` | Leave a copy after removing member.               | false   |
+| `-peer`       | Account alias                                     | default |
 
 ## Common options:
 
@@ -123,18 +123,18 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Format: File
 
-Data record for deleting member from member's shared folders
+Details of the member to remove.
 
-| Column         | Description                        | Example          |
-|----------------|------------------------------------|------------------|
-| member_email   | Team member email address          | emma@example.com |
-| path           | Shared folder path of the member   | /share/project_a |
-| group_or_email | Group name or member email address | Sales            |
+| Column         | Description                            | Example                      |
+|----------------|----------------------------------------|------------------------------|
+| member_email   | Email address of the member to remove. | member@example.com           |
+| path           | Path to the shared folder.             | /Team Folder/Shared/file.txt |
+| group_or_email | Group name or email address to remove. | group@example.com            |
 
 The first line is a header line. The program will accept a file without the header.
 ```
 member_email,path,group_or_email
-emma@example.com,/share/project_a,Sales
+member@example.com,/Team Folder/Shared/file.txt,group@example.com
 ```
 
 # Results
@@ -156,9 +156,9 @@ The command will generate a report in three different formats. `operation_log.cs
 |----------------------|----------------------------------------|
 | status               | Status of the operation                |
 | reason               | Reason of failure or skipped operation |
-| input.member_email   | Team member email address              |
-| input.path           | Shared folder path of the member       |
-| input.group_or_email | Group name or member email address     |
+| input.member_email   | Email address of the member to remove. |
+| input.path           | Path to the shared folder.             |
+| input.group_or_email | Group name or email address to remove. |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 

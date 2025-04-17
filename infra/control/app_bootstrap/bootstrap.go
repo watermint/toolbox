@@ -2,8 +2,16 @@ package app_bootstrap
 
 import (
 	"bytes"
+	"errors"
 	"flag"
 	"fmt"
+	"os"
+	"os/signal"
+	"runtime"
+	"strings"
+	"syscall"
+	"time"
+
 	"github.com/itchyny/gojq"
 	"github.com/pkg/profile"
 	"github.com/watermint/toolbox/essentials/ambient/ea_indicator"
@@ -39,12 +47,6 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"github.com/watermint/toolbox/ingredient/ig_bootstrap"
 	"github.com/watermint/toolbox/quality/infra/qt_msgusage"
-	"os"
-	"os/signal"
-	"runtime"
-	"strings"
-	"syscall"
-	"time"
 )
 
 type msgRun struct {
@@ -63,6 +65,7 @@ type msgRun struct {
 	ErrorLicenseExpired                   app_msg.Message
 	ErrorLicenseRequired                  app_msg.Message
 	ErrorLifecycleEnded                   app_msg.Message
+	ErrorLicenseNetwork                   app_msg.Message
 	ErrorInvalidOutputFilterQuery         app_msg.Message
 	WarnLifecycleNearEnd                  app_msg.Message
 	WarnLifecycleErrorOnNonProductionMode app_msg.Message
@@ -260,13 +263,23 @@ func (z *bsImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 	}
 
 	// License
+	var licenseErr error
 	license := app_license.NewLicenseBundleFromKeys(
 		app_license_key.AvailableKeys(wb.Workspace()),
 		wb.Workspace().Secrets(),
 	)
-
-	// Check license
 	if !license.IsValid() {
+		// Try to detect network error
+		for _, key := range app_license_key.AvailableKeys(wb.Workspace()) {
+			_, err := app_license.LoadAndCacheLicense(key, app_definitions.SupplementRepositoryLicenseUrl, wb.Workspace().Secrets())
+			if errors.Is(err, app_license.ErrorLicenseNetwork) {
+				ui.Failure(MRun.ErrorLicenseNetwork)
+				app_exit.Abort(app_exit.FailureLicenseExpired)
+			}
+			if licenseErr == nil && err != nil {
+				licenseErr = err
+			}
+		}
 		if app_definitions.IsProduction() {
 			ui.Failure(MRun.ErrorLicenseExpired)
 			app_exit.Abort(app_exit.FailureLicenseExpired)

@@ -6,7 +6,7 @@ lang: en
 
 # dropbox team member update batch profile
 
-Update member profile (Irreversible operation)
+Batch update member profiles (Irreversible operation)
 
 # Security
 
@@ -117,7 +117,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Format: File
 
-Data file for updating member profile.
+Data file for batch profile updates.
 
 | Column     | Description                  | Example          |
 |------------|------------------------------|------------------|

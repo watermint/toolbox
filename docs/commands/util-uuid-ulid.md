@@ -6,7 +6,7 @@ lang: en
 
 # util uuid ulid
 
-Generate ULID (Universally Unique Lexicographically Sortable Identifier) 
+ULID Utility 
 
 # Installation
 

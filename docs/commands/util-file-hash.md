@@ -6,7 +6,7 @@ lang: en
 
 # util file hash
 
-Print file digest 
+File Hash 
 
 # Installation
 

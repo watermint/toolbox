@@ -1283,7 +1283,7 @@ URL: https://toolbox.watermint.org/commands/util/file/hash.md
 
 # util file hash
 
-Print file digest 
+File Hash 
 
 
 
@@ -1324,7 +1324,7 @@ Clone git repository
 
 This document uses the Desktop folder for command example.
 ```
-tbx util git clone -local-path /LOCAL/PATH/TO/clone -url https://git.repository.url
+tbx util git clone -local-path /LOCAL/PATH/TO/CLONE -url https://github.com/username/repository.git
 ```
 
 
@@ -1332,12 +1332,12 @@ tbx util git clone -local-path /LOCAL/PATH/TO/clone -url https://git.repository.
 
 
 
-| Option         | Description         | Default |
-|----------------|---------------------|---------|
-| `-local-path`  | Local path to clone |         |
-| `-reference`   | Reference name      |         |
-| `-remote-name` | Name of the remote  | origin  |
-| `-url`         | Git repository url  |         |
+| Option         | Description                    | Default |
+|----------------|--------------------------------|---------|
+| `-local-path`  | Local path to clone repository |         |
+| `-reference`   | Reference name                 |         |
+| `-remote-name` | Name of the remote             | origin  |
+| `-url`         | Git repository url             |         |
 
 
 
@@ -2285,7 +2285,7 @@ URL: https://toolbox.watermint.org/commands/util/uuid/timestamp.md
 
 # util uuid timestamp
 
-Parse UUID timestamp 
+UUID Timestamp 
 
 
 
@@ -2317,7 +2317,7 @@ URL: https://toolbox.watermint.org/commands/util/uuid/ulid.md
 
 # util uuid ulid
 
-Generate ULID (Universally Unique Lexicographically Sortable Identifier) 
+ULID Utility 
 
 
 
@@ -2356,7 +2356,7 @@ tbx util uuid v4
 
 | Option        | Description               | Default |
 |---------------|---------------------------|---------|
-| `-upper-case` | Use upper case characters | false   |
+| `-upper-case` | Output UUID in upper case | false   |
 
 
 
@@ -6071,7 +6071,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/tag/add.md
 
 # dropbox file tag add
 
-Add a tag to the file/folder 
+Add tag to file or folder 
 
 
 
@@ -6087,12 +6087,12 @@ tbx dropbox file tag add -path /DROPBOX/PATH/TO/TARGET -tag TAG_NAME
 
 
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-path`      | Target path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |         |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-| `-tag`       | Tag name                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |         |
+| Option       | Description                       | Default |
+|--------------|-----------------------------------|---------|
+| `-base-path` | Base path for adding a tag.       | root    |
+| `-path`      | File or folder path to add a tag. |         |
+| `-peer`      | Account alias                     | default |
+| `-tag`       | Tag to add to the file or folder. |         |
 
 
 
@@ -6114,7 +6114,7 @@ Delete a tag from the file/folder
 
 This document uses the Desktop folder for command example.
 ```
-tbx dropbox file tag delete -path /DROPBOX/PATH/TO/TARGET -tag TAG_NAME
+tbx dropbox file tag delete -path /DROPBOX/PATH/TO/PROCESS -tag TAG_NAME
 ```
 
 
@@ -6122,12 +6122,12 @@ tbx dropbox file tag delete -path /DROPBOX/PATH/TO/TARGET -tag TAG_NAME
 
 
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-path`      | Target path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |         |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-| `-tag`       | Tag name                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |         |
+| Option       | Description                          | Default |
+|--------------|--------------------------------------|---------|
+| `-base-path` | Base path for removing a tag.        | root    |
+| `-path`      | File or folder path to remove a tag. |         |
+| `-peer`      | Account alias                        | default |
+| `-tag`       | Tag name                             |         |
 
 
 
@@ -6658,7 +6658,7 @@ tbx dropbox team feature
 
 ## Report: feature
 
-This report shows a list of team features and their settings.
+Team feature
 The command will generate a report in three different formats. `feature.csv`, `feature.json`, and `feature.xlsx`.
 
 | Column                      | Description                                       |
@@ -6666,9 +6666,9 @@ The command will generate a report in three different formats. `feature.csv`, `f
 | upload_api_rate_limit       | The number of upload API calls allowed per month. |
 | upload_api_rate_limit_count | The number of upload API called this month.       |
 | has_team_shared_dropbox     | Does this team have a shared team root.           |
-| has_team_file_events        | Does this team have file events.                  |
-| has_team_selective_sync     | Does this team have team selective sync enabled.  |
-| has_distinct_member_homes   | Does this team have team member folder.           |
+| has_team_file_events        | Team supports file events                         |
+| has_team_selective_sync     | Team supports selective sync                      |
+| has_distinct_member_homes   | Team has distinct member home folders             |
 
 
 
@@ -9667,7 +9667,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/legalhold/revision/list
 
 # dropbox team legalhold revision list
 
-List revisions of the legal hold policy 
+List revisions under legal hold 
 
 
 
@@ -9687,7 +9687,7 @@ tbx dropbox team legalhold revision list -after DATE_TIME -policy-id POLICY_ID
 |--------------|--------------------------------------------------|---------|
 | `-after`     | Get revisions after this specified date and time |         |
 | `-peer`      | Account alias                                    | default |
-| `-policy-id` | Legal hold policy ID                             |         |
+| `-policy-id` | Legal hold policy ID.                            |         |
 
 
 
@@ -9725,7 +9725,7 @@ Update description of the legal hold policy
 
 This document uses the Desktop folder for command example.
 ```
-tbx dropbox team legalhold update desc -desc NEW_DESCRIPTION -policy-id POLICY_ID
+tbx dropbox team legalhold update desc -desc DESCRIPTION -policy-id POLICY_ID
 ```
 
 
@@ -11459,7 +11459,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/member/update/batch/pro
 
 # dropbox team member update batch profile
 
-Update member profile (Irreversible operation)
+Batch update member profiles (Irreversible operation)
 
 
 
@@ -11489,7 +11489,7 @@ tbx dropbox team member update batch profile -file /path/to/data/file.csv
 ## Format: File
 
 
-Data file for updating member profile.
+Data file for batch profile updates.
 
 | Column     | Description                  | Example          |
 |------------|------------------------------|------------------|
@@ -11919,7 +11919,7 @@ tbx dropbox team namespace file size
 
 ## Report: namespace_size
 
-Namespace size
+Namespace size in bytes
 The command will generate a report in three different formats. `namespace_size.csv`, `namespace_size.json`, and `namespace_size.xlsx`.
 
 | Column               | Description                                                                                |
@@ -11933,9 +11933,9 @@ The command will generate a report in three different formats. `namespace_size.c
 | count_folder         | Number of folders under the folder                                                         |
 | count_descendant     | Number of files and folders under the folder                                               |
 | size                 | Size of the folder                                                                         |
-| depth                | Folder depth                                                                               |
-| mod_time_earliest    | The earliest modification time of a file in this folder or child folders.                  |
-| mod_time_latest      | The latest modification time of a file in this folder or child folders                     |
+| depth                | Namespace depth                                                                            |
+| mod_time_earliest    | Earliest modification time in namespace                                                    |
+| mod_time_latest      | Latest modification time in namespace                                                      |
 | api_complexity       | Folder complexity index for API operations                                                 |
 
 
@@ -12147,7 +12147,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/runas/file/sync/batch/u
 
 # dropbox team runas file sync batch up
 
-Batch sync up that run as members (Irreversible operation)
+Batch upstream sync with Dropbox (Irreversible operation)
 
 
 
@@ -12170,11 +12170,11 @@ tbx dropbox team runas file sync batch up -file /PATH/TO/DATA_FILE.csv
 | `-delete`              | Delete Dropbox file if a file removed locally                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | false   |
 | `-exit-on-failure`     | Exit the program on failure                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | false   |
 | `-file`                | Path to data file                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |         |
-| `-name-disable-ignore` | Filter by name. Filter system file or ignore files.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |         |
-| `-name-name`           | Filter by name. Filter by exact match to the name.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |         |
-| `-name-name-prefix`    | Filter by name. Filter by name match to the prefix.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |         |
-| `-name-name-suffix`    | Filter by name. Filter by name match to the suffix.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |         |
-| `-overwrite`           | Overwrite existing file on the target path if that exists.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | false   |
+| `-name-disable-ignore` | Name for the sync batch operation. Filter system file or ignore files.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |         |
+| `-name-name`           | Name for the sync batch operation. Filter by exact match to the name.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |         |
+| `-name-name-prefix`    | Name for the sync batch operation. Filter by name match to the prefix.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |         |
+| `-name-name-suffix`    | Name for the sync batch operation. Filter by name match to the suffix.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |         |
+| `-overwrite`           | Overwrite existing files if they exist.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | false   |
 | `-peer`                | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
 
 
@@ -12186,20 +12186,20 @@ tbx dropbox team runas file sync batch up -file /PATH/TO/DATA_FILE.csv
 ## Format: File
 
 
-Mapping of local to destination paths
+Mapping of local files to Dropbox paths for batch upload.
 
-| Column       | Description                     | Example           |
-|--------------|---------------------------------|-------------------|
-| member_email | The email address of the member | emma@example.com  |
-| local_path   | Local file path                 | /file_server/emma |
-| dropbox_path | Destination Dropbox path        | /data             |
+| Column       | Description                               | Example                         |
+|--------------|-------------------------------------------|---------------------------------|
+| member_email | Email address of the Dropbox team member. | user@example.com                |
+| local_path   | Local file path to upload.                | /Users/alice/Documents/file.txt |
+| dropbox_path | Destination path in Dropbox.              | /Team Folder/Project/file.txt   |
 
 
 
 The first line is a header line. The program will accept a file without the header.
 ```
 member_email,local_path,dropbox_path
-emma@example.com,/file_server/emma,/data
+user@example.com,/Users/alice/Documents/file.txt,/Team Folder/Project/file.txt
 ```
 
 # Results
@@ -12228,13 +12228,13 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 This report shows the transaction result.
 The command will generate a report in three different formats. `operation_log.csv`, `operation_log.json`, and `operation_log.xlsx`.
 
-| Column             | Description                            |
-|--------------------|----------------------------------------|
-| status             | Status of the operation                |
-| reason             | Reason of failure or skipped operation |
-| input.member_email | The email address of the member        |
-| input.local_path   | Local file path                        |
-| input.dropbox_path | Destination Dropbox path               |
+| Column             | Description                               |
+|--------------------|-------------------------------------------|
+| status             | Status of the operation                   |
+| reason             | Reason of failure or skipped operation    |
+| input.member_email | Email address of the Dropbox team member. |
+| input.local_path   | Local file path to upload.                |
+| input.dropbox_path | Destination path in Dropbox.              |
 
 
 
@@ -12313,7 +12313,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/runas/sharedfolder/isol
 
 # dropbox team runas sharedfolder isolate
 
-Unshare owned shared folders and leave from external shared folders run as a member (Irreversible operation)
+Isolate member from shared folder (Irreversible operation)
 
 
 
@@ -12329,12 +12329,12 @@ tbx dropbox team runas sharedfolder isolate -member-email EMAIL
 
 
 
-| Option          | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|-----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`    | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-keep-copy`    | Keep a copy of the folder's contents upon relinquishing membership.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | false   |
-| `-member-email` | Member email address                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |         |
-| `-peer`         | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
+| Option          | Description                                | Default |
+|-----------------|--------------------------------------------|---------|
+| `-base-path`    | Base path of the shared folder to isolate. | root    |
+| `-keep-copy`    | Keep a copy after isolation.               | false   |
+| `-member-email` | Email address of the member to isolate.    |         |
+| `-peer`         | Account alias                              | default |
 
 
 
@@ -12379,7 +12379,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/runas/sharedfolder/list
 
 # dropbox team runas sharedfolder list
 
-List shared folders run as the member 
+List shared folders 
 
 
 
@@ -12395,11 +12395,11 @@ tbx dropbox team runas sharedfolder list -member-email EMAIL
 
 
 
-| Option          | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|-----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`    | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-member-email` | Member email address                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |         |
-| `-peer`         | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
+| Option          | Description                             | Default |
+|-----------------|-----------------------------------------|---------|
+| `-base-path`    | Base path of the shared folder to list. | root    |
+| `-member-email` | Email address of the member to list.    |         |
+| `-peer`         | Account alias                           | default |
 
 
 
@@ -12442,7 +12442,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/runas/sharedfolder/batc
 
 # dropbox team runas sharedfolder batch leave
 
-Batch leave from shared folders as a member 
+Leave shared folders in batch 
 
 
 
@@ -12458,12 +12458,12 @@ tbx dropbox team runas sharedfolder batch leave -file /PATH/TO/DATA_FILE.csv
 
 
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-file`      | Path to data file                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |         |
-| `-keep-copy` | Keep a copy of the folder's contents upon relinquishing membership.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | false   |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
+| Option       | Description                              | Default |
+|--------------|------------------------------------------|---------|
+| `-base-path` | Base path of the shared folder to leave. | root    |
+| `-file`      | Path to data file                        |         |
+| `-keep-copy` | Keep a copy of the folder after leaving. | false   |
+| `-peer`      | Account alias                            | default |
 
 
 
@@ -12474,19 +12474,19 @@ tbx dropbox team runas sharedfolder batch leave -file /PATH/TO/DATA_FILE.csv
 ## Format: File
 
 
-Member folder data
+List of member folders for batch operations.
 
-| Column       | Description          | Example              |
-|--------------|----------------------|----------------------|
-| member_email | Member email address | john@example.com     |
-| path         | Path to share        | /projects/my_project |
+| Column       | Description                  | Example                      |
+|--------------|------------------------------|------------------------------|
+| member_email | Email address of the member. | member@example.com           |
+| path         | Path to the member's folder. | /Team Folder/Shared/file.txt |
 
 
 
 The first line is a header line. The program will accept a file without the header.
 ```
 member_email,path
-john@example.com,/projects/my_project
+member@example.com,/Team Folder/Shared/file.txt
 ```
 
 # Results
@@ -12502,8 +12502,8 @@ The command will generate a report in three different formats. `operation_log.cs
 |--------------------------------|-------------------------------------------------------------------------------------------------------------------------|
 | status                         | Status of the operation                                                                                                 |
 | reason                         | Reason of failure or skipped operation                                                                                  |
-| input.member_email             | Member email address                                                                                                    |
-| input.path                     | Path to share                                                                                                           |
+| input.member_email             | Email address of the member.                                                                                            |
+| input.path                     | Path to the member's folder.                                                                                            |
 | result.shared_folder_id        | The ID of the shared folder.                                                                                            |
 | result.parent_shared_folder_id | The ID of the parent shared folder. This field is present only if the folder is contained within another shared folder. |
 | result.name                    | The name of the this shared folder.                                                                                     |
@@ -12533,7 +12533,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/runas/sharedfolder/batc
 
 # dropbox team runas sharedfolder batch share
 
-Batch share folders for members 
+Share shared folders in batch 
 
 
 
@@ -12549,14 +12549,14 @@ tbx dropbox team runas sharedfolder batch share -file /PATH/TO/DATA_FILE.csv
 
 
 
-| Option                | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|-----------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-acl-update-policy`  | Who can add and remove members of this shared folder.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | owner   |
-| `-base-path`          | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-file`               | Path to data file                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |         |
-| `-member-policy`      | Who can be a member of this shared folder.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | anyone  |
-| `-peer`               | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-| `-shared-link-policy` | The policy to apply to shared links created for content inside this shared folder.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | anyone  |
+| Option                | Description                              | Default |
+|-----------------------|------------------------------------------|---------|
+| `-acl-update-policy`  | Access control update policy.            | owner   |
+| `-base-path`          | Base path of the shared folder to share. | root    |
+| `-file`               | Path to data file                        |         |
+| `-member-policy`      | Policy for shared folder members.        | anyone  |
+| `-peer`               | Account alias                            | default |
+| `-shared-link-policy` | Policy for shared links.                 | anyone  |
 
 
 
@@ -12567,19 +12567,19 @@ tbx dropbox team runas sharedfolder batch share -file /PATH/TO/DATA_FILE.csv
 ## Format: File
 
 
-Member folder data
+List of member folders for batch operations.
 
-| Column       | Description          | Example              |
-|--------------|----------------------|----------------------|
-| member_email | Member email address | john@example.com     |
-| path         | Path to share        | /projects/my_project |
+| Column       | Description                  | Example                      |
+|--------------|------------------------------|------------------------------|
+| member_email | Email address of the member. | member@example.com           |
+| path         | Path to the member's folder. | /Team Folder/Shared/file.txt |
 
 
 
 The first line is a header line. The program will accept a file without the header.
 ```
 member_email,path
-john@example.com,/projects/my_project
+member@example.com,/Team Folder/Shared/file.txt
 ```
 
 # Results
@@ -12595,8 +12595,8 @@ The command will generate a report in three different formats. `operation_log.cs
 |--------------------------------|-------------------------------------------------------------------------------------------------------------------------|
 | status                         | Status of the operation                                                                                                 |
 | reason                         | Reason of failure or skipped operation                                                                                  |
-| input.member_email             | Member email address                                                                                                    |
-| input.path                     | Path to share                                                                                                           |
+| input.member_email             | Email address of the member.                                                                                            |
+| input.path                     | Path to the member's folder.                                                                                            |
 | result.shared_folder_id        | The ID of the shared folder.                                                                                            |
 | result.parent_shared_folder_id | The ID of the parent shared folder. This field is present only if the folder is contained within another shared folder. |
 | result.name                    | The name of the this shared folder.                                                                                     |
@@ -12626,7 +12626,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/runas/sharedfolder/batc
 
 # dropbox team runas sharedfolder batch unshare
 
-Batch unshare folders for members 
+Unshare shared folders in batch 
 
 
 
@@ -12642,12 +12642,12 @@ tbx dropbox team runas sharedfolder batch unshare -file /PATH/TO/DATA_FILE.csv
 
 
 
-| Option        | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|---------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`  | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-file`       | Path to data file                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |         |
-| `-leave-copy` | If true, members of this shared folder will get a copy of this folder after it's unshared.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | false   |
-| `-peer`       | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
+| Option        | Description                                | Default |
+|---------------|--------------------------------------------|---------|
+| `-base-path`  | Base path of the shared folder to unshare. | root    |
+| `-file`       | Path to data file                          |         |
+| `-leave-copy` | Leave a copy after unsharing.              | false   |
+| `-peer`       | Account alias                              | default |
 
 
 
@@ -12658,19 +12658,19 @@ tbx dropbox team runas sharedfolder batch unshare -file /PATH/TO/DATA_FILE.csv
 ## Format: File
 
 
-Member folder data
+List of member folders for batch operations.
 
-| Column       | Description          | Example              |
-|--------------|----------------------|----------------------|
-| member_email | Member email address | john@example.com     |
-| path         | Path to share        | /projects/my_project |
+| Column       | Description                  | Example                      |
+|--------------|------------------------------|------------------------------|
+| member_email | Email address of the member. | member@example.com           |
+| path         | Path to the member's folder. | /Team Folder/Shared/file.txt |
 
 
 
 The first line is a header line. The program will accept a file without the header.
 ```
 member_email,path
-john@example.com,/projects/my_project
+member@example.com,/Team Folder/Shared/file.txt
 ```
 
 # Results
@@ -12686,8 +12686,8 @@ The command will generate a report in three different formats. `operation_log.cs
 |--------------------------------|-------------------------------------------------------------------------------------------------------------------------|
 | status                         | Status of the operation                                                                                                 |
 | reason                         | Reason of failure or skipped operation                                                                                  |
-| input.member_email             | Member email address                                                                                                    |
-| input.path                     | Path to share                                                                                                           |
+| input.member_email             | Email address of the member.                                                                                            |
+| input.path                     | Path to the member's folder.                                                                                            |
 | result.shared_folder_id        | The ID of the shared folder.                                                                                            |
 | result.parent_shared_folder_id | The ID of the parent shared folder. This field is present only if the folder is contained within another shared folder. |
 | result.name                    | The name of the this shared folder.                                                                                     |
@@ -12717,7 +12717,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/runas/sharedfolder/memb
 
 # dropbox team runas sharedfolder member batch add
 
-Batch add members to member's shared folders 
+Add members to shared folders in batch 
 
 
 
@@ -12733,13 +12733,13 @@ tbx dropbox team runas sharedfolder member batch add -file /PATH/TO/DATA_FILE.cs
 
 
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-file`      | Path to data file                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |         |
-| `-message`   | Custom message for invitation                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |         |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-| `-silent`    | Do not send invitation email                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | false   |
+| Option       | Description                                    | Default |
+|--------------|------------------------------------------------|---------|
+| `-base-path` | Base path of the shared folder to add members. | root    |
+| `-file`      | Path to data file                              |         |
+| `-message`   | Message to send to new members.                |         |
+| `-peer`      | Account alias                                  | default |
+| `-silent`    | Add members silently without notification.     | false   |
 
 
 
@@ -12750,21 +12750,21 @@ tbx dropbox team runas sharedfolder member batch add -file /PATH/TO/DATA_FILE.cs
 ## Format: File
 
 
-Data record for adding member to member's shared folders
+Details of the member to add.
 
-| Column         | Description                        | Example          |
-|----------------|------------------------------------|------------------|
-| member_email   | Team member email address          | emma@example.com |
-| path           | Shared folder path of the member   | /share/project_a |
-| access_level   | Access type (viewer/editor)        | editor           |
-| group_or_email | Group name or member email address | Sales            |
+| Column         | Description                          | Example                      |
+|----------------|--------------------------------------|------------------------------|
+| member_email   | Email address of the member to add.  | member@example.com           |
+| path           | Path to the shared folder.           | /Team Folder/Shared/file.txt |
+| access_level   | Access level to grant to the member. | editor                       |
+| group_or_email | Group name or email address to add.  | group@example.com            |
 
 
 
 The first line is a header line. The program will accept a file without the header.
 ```
 member_email,path,access_level,group_or_email
-emma@example.com,/share/project_a,editor,Sales
+member@example.com,/Team Folder/Shared/file.txt,editor,group@example.com
 ```
 
 # Results
@@ -12780,10 +12780,10 @@ The command will generate a report in three different formats. `operation_log.cs
 |----------------------|----------------------------------------|
 | status               | Status of the operation                |
 | reason               | Reason of failure or skipped operation |
-| input.member_email   | Team member email address              |
-| input.path           | Shared folder path of the member       |
-| input.access_level   | Access type (viewer/editor)            |
-| input.group_or_email | Group name or member email address     |
+| input.member_email   | Email address of the member to add.    |
+| input.path           | Path to the shared folder.             |
+| input.access_level   | Access level to grant to the member.   |
+| input.group_or_email | Group name or email address to add.    |
 
 
 
@@ -12798,7 +12798,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/runas/sharedfolder/memb
 
 # dropbox team runas sharedfolder member batch delete
 
-Batch delete members from member's shared folders 
+Remove members from shared folders in batch 
 
 
 
@@ -12814,12 +12814,12 @@ tbx dropbox team runas sharedfolder member batch delete -file /PATH/TO/DATA_FILE
 
 
 
-| Option        | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|---------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`  | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-file`       | Path to data file                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |         |
-| `-leave-copy` | If true, members of this shared folder will get a copy of this folder after it's unshared.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | false   |
-| `-peer`       | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
+| Option        | Description                                       | Default |
+|---------------|---------------------------------------------------|---------|
+| `-base-path`  | Base path of the shared folder to remove members. | root    |
+| `-file`       | Path to data file                                 |         |
+| `-leave-copy` | Leave a copy after removing member.               | false   |
+| `-peer`       | Account alias                                     | default |
 
 
 
@@ -12830,20 +12830,20 @@ tbx dropbox team runas sharedfolder member batch delete -file /PATH/TO/DATA_FILE
 ## Format: File
 
 
-Data record for deleting member from member's shared folders
+Details of the member to remove.
 
-| Column         | Description                        | Example          |
-|----------------|------------------------------------|------------------|
-| member_email   | Team member email address          | emma@example.com |
-| path           | Shared folder path of the member   | /share/project_a |
-| group_or_email | Group name or member email address | Sales            |
+| Column         | Description                            | Example                      |
+|----------------|----------------------------------------|------------------------------|
+| member_email   | Email address of the member to remove. | member@example.com           |
+| path           | Path to the shared folder.             | /Team Folder/Shared/file.txt |
+| group_or_email | Group name or email address to remove. | group@example.com            |
 
 
 
 The first line is a header line. The program will accept a file without the header.
 ```
 member_email,path,group_or_email
-emma@example.com,/share/project_a,Sales
+member@example.com,/Team Folder/Shared/file.txt,group@example.com
 ```
 
 # Results
@@ -12859,9 +12859,9 @@ The command will generate a report in three different formats. `operation_log.cs
 |----------------------|----------------------------------------|
 | status               | Status of the operation                |
 | reason               | Reason of failure or skipped operation |
-| input.member_email   | Team member email address              |
-| input.path           | Shared folder path of the member       |
-| input.group_or_email | Group name or member email address     |
+| input.member_email   | Email address of the member to remove. |
+| input.path           | Path to the shared folder.             |
+| input.group_or_email | Group name or email address to remove. |
 
 
 
@@ -12876,7 +12876,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/runas/sharedfolder/moun
 
 # dropbox team runas sharedfolder mount add
 
-Add the shared folder to the specified member's Dropbox 
+Mount a shared folder as another member 
 
 
 
@@ -12892,12 +12892,12 @@ tbx dropbox team runas sharedfolder mount add -member-email EMAIL -shared-folder
 
 
 
-| Option              | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|---------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`        | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-member-email`     | Member email address                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |         |
-| `-peer`             | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-| `-shared-folder-id` | The ID for the shared folder.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |         |
+| Option              | Description                              | Default |
+|---------------------|------------------------------------------|---------|
+| `-base-path`        | Base path of the shared folder to mount. | root    |
+| `-member-email`     | Email address of the member              |         |
+| `-peer`             | Account alias                            | default |
+| `-shared-folder-id` | Shared folder ID                         |         |
 
 
 
@@ -12956,12 +12956,12 @@ tbx dropbox team runas sharedfolder mount delete -member-email EMAIL -shared-fol
 
 
 
-| Option              | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|---------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`        | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-member-email`     | Member email address                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |         |
-| `-peer`             | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-| `-shared-folder-id` | The ID for the shared folder.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |         |
+| Option              | Description                                | Default |
+|---------------------|--------------------------------------------|---------|
+| `-base-path`        | Base path of the shared folder to unmount. | root    |
+| `-member-email`     | Email address of the member                |         |
+| `-peer`             | Account alias                              | default |
+| `-shared-folder-id` | The ID for the shared folder.              |         |
 
 
 
@@ -14322,7 +14322,7 @@ tbx dropbox team teamfolder file size
 
 ## Report: namespace_size
 
-Namespace size
+Namespace size in bytes
 The command will generate a report in three different formats. `namespace_size.csv`, `namespace_size.json`, and `namespace_size.xlsx`.
 
 | Column               | Description                                                                                |
@@ -14336,9 +14336,9 @@ The command will generate a report in three different formats. `namespace_size.c
 | count_folder         | Number of folders under the folder                                                         |
 | count_descendant     | Number of files and folders under the folder                                               |
 | size                 | Size of the folder                                                                         |
-| depth                | Folder depth                                                                               |
-| mod_time_earliest    | The earliest modification time of a file in this folder or child folders.                  |
-| mod_time_latest      | The latest modification time of a file in this folder or child folders                     |
+| depth                | Namespace depth                                                                            |
+| mod_time_earliest    | Earliest modification time in namespace                                                    |
+| mod_time_latest      | Latest modification time in namespace                                                      |
 | api_complexity       | Folder complexity index for API operations                                                 |
 
 
@@ -14815,15 +14815,15 @@ tbx dropbox team teamfolder partial replication -src-team-folder-name SRC_TEAMFO
 
 
 
-| Option                  | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|-------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`            | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-dst`                  | Peer name for the destination team                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | dst     |
-| `-dst-path`             | Relative path from the team folder (please specify '/' for the team folder root)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |         |
-| `-dst-team-folder-name` | Destination team folder name                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |         |
-| `-src`                  | Peer name for the src team                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | src     |
-| `-src-path`             | Relative path from the team folder (please specify '/' for the team folder root)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |         |
-| `-src-team-folder-name` | Source team folder name                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |         |
+| Option                  | Description                                                                      | Default |
+|-------------------------|----------------------------------------------------------------------------------|---------|
+| `-base-path`            | Base path for partial replication                                                | root    |
+| `-dst`                  | Destination account alias                                                        | dst     |
+| `-dst-path`             | Destination path                                                                 |         |
+| `-dst-team-folder-name` | Destination team folder name                                                     |         |
+| `-src`                  | Peer name for the src team                                                       | src     |
+| `-src-path`             | Relative path from the team folder (please specify '/' for the team folder root) |         |
+| `-src-team-folder-name` | Source team folder name                                                          |         |
 
 
 
@@ -15687,13 +15687,13 @@ tbx github release draft -owner OWNER -repository REPO -body-file /LOCAL/PATH/TO
 Release on GitHub
 The command will generate a report in three different formats. `release.csv`, `release.json`, and `release.xlsx`.
 
-| Column   | Description                     |
-|----------|---------------------------------|
-| id       | Id of the release               |
-| tag_name | Tag name                        |
-| name     | Name of the release             |
-| draft    | True when the release is draft. |
-| url      | URL of the release              |
+| Column   | Description        |
+|----------|--------------------|
+| id       | Release ID         |
+| tag_name | Release tag name   |
+| name     | Release name       |
+| draft    | Release is a draft |
+| url      | URL of the release |
 
 
 
@@ -15742,12 +15742,12 @@ tbx github release list -owner OWNER -repository REPO
 Release on GitHub
 The command will generate a report in three different formats. `releases.csv`, `releases.json`, and `releases.xlsx`.
 
-| Column   | Description                     |
-|----------|---------------------------------|
-| tag_name | Tag name                        |
-| name     | Name of the release             |
-| draft    | True when the release is draft. |
-| url      | URL of the release              |
+| Column   | Description        |
+|----------|--------------------|
+| tag_name | Release tag name   |
+| name     | Release name       |
+| draft    | Release is a draft |
+| url      | URL of the release |
 
 
 
@@ -16275,7 +16275,7 @@ Below commands are for managing team member accounts. Those commands are for a b
 | [dropbox team member batch detach](dropbox-team-member-batch-detach.md)                     | Convert Dropbox for teams accounts to a Basic account |
 | [dropbox team member batch reinvite](dropbox-team-member-batch-reinvite.md)                 | Reinvite invited status members to the team           |
 | [dropbox team member update batch email](dropbox-team-member-update-batch-email.md)         | Member email operation                                |
-| [dropbox team member update batch profile](dropbox-team-member-update-batch-profile.md)     | Update member profile                                 |
+| [dropbox team member update batch profile](dropbox-team-member-update-batch-profile.md)     | Batch update member profiles                          |
 | [dropbox team member update batch visible](dropbox-team-member-update-batch-visible.md)     | Disable directory restriction to members              |
 | [dropbox team member update batch invisible](dropbox-team-member-update-batch-invisible.md) | Enable directory restriction to members               |
 | [dropbox team member quota batch update](dropbox-team-member-quota-batch-update.md)         | Update team member quota                              |
@@ -16286,10 +16286,10 @@ Member profile commands are for bulk updating member profile information.
 If you need to update the members' email addresses, use the 'member update email` command. The command 'member update email` receives a CSV file to bulk update email addresses.
 If you need to update the member's display name, use the 'member update profile` command.
 
-| Command                                                                                 | Description            |
-|-----------------------------------------------------------------------------------------|------------------------|
-| [dropbox team member update batch email](dropbox-team-member-update-batch-email.md)     | Member email operation |
-| [dropbox team member update batch profile](dropbox-team-member-update-batch-profile.md) | Update member profile  |
+| Command                                                                                 | Description                  |
+|-----------------------------------------------------------------------------------------|------------------------------|
+| [dropbox team member update batch email](dropbox-team-member-update-batch-email.md)     | Member email operation       |
+| [dropbox team member update batch profile](dropbox-team-member-update-batch-profile.md) | Batch update member profiles |
 
 ## Member storage quota control commands
 
@@ -16499,11 +16499,11 @@ If you are familiar with jq command, then they can send data directly from the p
 tbx team sharedlink list -visibility public -output json | tbx team sharedlink delete links -file -
 ```
 
-# File lock
+# File lock title
 
-File lock commands are capable of listing current file locks or releasing file locks as admin.
+Dropbox Business file lock information
 
-## File lock commands for members
+## File lock member title
 
 | Command                                                                                   | Description                                    |
 |-------------------------------------------------------------------------------------------|------------------------------------------------|
@@ -16511,7 +16511,7 @@ File lock commands are capable of listing current file locks or releasing file l
 | [dropbox team member file lock list](dropbox-team-member-file-lock-list.md)               | List locks of the member under the path        |
 | [dropbox team member file lock release](dropbox-team-member-file-lock-release.md)         | Release the lock of the path as the member     |
 
-## File lock commands for team folders
+## File lock team folder title
 
 | Command                                                                                           | Description                                         |
 |---------------------------------------------------------------------------------------------------|-----------------------------------------------------|
@@ -16611,26 +16611,26 @@ Below commands are for managing team admins.
 
 You can run a command as a team member. For example, you can upload a file into member's folder by using `dropbox team runas file sync batch up`.
 
-| Command                                                                                                       | Description                                                                         |
-|---------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|
-| [dropbox team runas file list](dropbox-team-runas-file-list.md)                                               | List files and folders run as a member                                              |
-| [dropbox team runas file batch copy](dropbox-team-runas-file-batch-copy.md)                                   | Batch copy files/folders as a member                                                |
-| [dropbox team runas file sync batch up](dropbox-team-runas-file-sync-batch-up.md)                             | Batch sync up that run as members                                                   |
-| [dropbox team runas sharedfolder list](dropbox-team-runas-sharedfolder-list.md)                               | List shared folders run as the member                                               |
-| [dropbox team runas sharedfolder isolate](dropbox-team-runas-sharedfolder-isolate.md)                         | Unshare owned shared folders and leave from external shared folders run as a member |
-| [dropbox team runas sharedfolder mount add](dropbox-team-runas-sharedfolder-mount-add.md)                     | Add the shared folder to the specified member's Dropbox                             |
-| [dropbox team runas sharedfolder mount delete](dropbox-team-runas-sharedfolder-mount-delete.md)               | The specified user unmounts the designated folder.                                  |
-| [dropbox team runas sharedfolder mount list](dropbox-team-runas-sharedfolder-mount-list.md)                   | List all shared folders the specified member mounted                                |
-| [dropbox team runas sharedfolder mount mountable](dropbox-team-runas-sharedfolder-mount-mountable.md)         | List all shared folders the member can mount                                        |
-| [dropbox team runas sharedfolder batch leave](dropbox-team-runas-sharedfolder-batch-leave.md)                 | Batch leave from shared folders as a member                                         |
-| [dropbox team runas sharedfolder batch share](dropbox-team-runas-sharedfolder-batch-share.md)                 | Batch share folders for members                                                     |
-| [dropbox team runas sharedfolder batch unshare](dropbox-team-runas-sharedfolder-batch-unshare.md)             | Batch unshare folders for members                                                   |
-| [dropbox team runas sharedfolder member batch add](dropbox-team-runas-sharedfolder-member-batch-add.md)       | Batch add members to member's shared folders                                        |
-| [dropbox team runas sharedfolder member batch delete](dropbox-team-runas-sharedfolder-member-batch-delete.md) | Batch delete members from member's shared folders                                   |
+| Command                                                                                                       | Description                                          |
+|---------------------------------------------------------------------------------------------------------------|------------------------------------------------------|
+| [dropbox team runas file list](dropbox-team-runas-file-list.md)                                               | List files and folders run as a member               |
+| [dropbox team runas file batch copy](dropbox-team-runas-file-batch-copy.md)                                   | Batch copy files/folders as a member                 |
+| [dropbox team runas file sync batch up](dropbox-team-runas-file-sync-batch-up.md)                             | Batch upstream sync with Dropbox                     |
+| [dropbox team runas sharedfolder list](dropbox-team-runas-sharedfolder-list.md)                               | List shared folders                                  |
+| [dropbox team runas sharedfolder isolate](dropbox-team-runas-sharedfolder-isolate.md)                         | Isolate member from shared folder                    |
+| [dropbox team runas sharedfolder mount add](dropbox-team-runas-sharedfolder-mount-add.md)                     | Mount a shared folder as another member              |
+| [dropbox team runas sharedfolder mount delete](dropbox-team-runas-sharedfolder-mount-delete.md)               | The specified user unmounts the designated folder.   |
+| [dropbox team runas sharedfolder mount list](dropbox-team-runas-sharedfolder-mount-list.md)                   | List all shared folders the specified member mounted |
+| [dropbox team runas sharedfolder mount mountable](dropbox-team-runas-sharedfolder-mount-mountable.md)         | List all shared folders the member can mount         |
+| [dropbox team runas sharedfolder batch leave](dropbox-team-runas-sharedfolder-batch-leave.md)                 | Leave shared folders in batch                        |
+| [dropbox team runas sharedfolder batch share](dropbox-team-runas-sharedfolder-batch-share.md)                 | Share shared folders in batch                        |
+| [dropbox team runas sharedfolder batch unshare](dropbox-team-runas-sharedfolder-batch-unshare.md)             | Unshare shared folders in batch                      |
+| [dropbox team runas sharedfolder member batch add](dropbox-team-runas-sharedfolder-member-batch-add.md)       | Add members to shared folders in batch               |
+| [dropbox team runas sharedfolder member batch delete](dropbox-team-runas-sharedfolder-member-batch-delete.md) | Remove members from shared folders in batch          |
 
 # Legal hold
 
-With legal holds, admins can place a legal hold on members of their team and view and export all the content that’s been created or modified by those members.
+With legal holds, admins can place a legal hold on members of their team and view and export all the content that's been created or modified by those members.
 
 | Command                                                                                     | Description                                 |
 |---------------------------------------------------------------------------------------------|---------------------------------------------|
@@ -16639,13 +16639,13 @@ With legal holds, admins can place a legal hold on members of their team and vie
 | [dropbox team legalhold member batch update](dropbox-team-legalhold-member-batch-update.md) | Update member list of legal hold policy     |
 | [dropbox team legalhold member list](dropbox-team-legalhold-member-list.md)                 | List members of the legal hold              |
 | [dropbox team legalhold release](dropbox-team-legalhold-release.md)                         | Releases a legal hold by Id                 |
-| [dropbox team legalhold revision list](dropbox-team-legalhold-revision-list.md)             | List revisions of the legal hold policy     |
+| [dropbox team legalhold revision list](dropbox-team-legalhold-revision-list.md)             | List revisions under legal hold             |
 | [dropbox team legalhold update desc](dropbox-team-legalhold-update-desc.md)                 | Update description of the legal hold policy |
 | [dropbox team legalhold update name](dropbox-team-legalhold-update-name.md)                 | Update name of the legal hold policy        |
 
 # Notes:
 
-Commands of Dropbox for teams require admin permissions to execute them. Auth tokens must not share with anyone, including Dropbox support.
+Dropbox Business footnote information
 
 
 
@@ -16655,21 +16655,21 @@ Title: Specification changes
 URL: https://toolbox.watermint.org/guides/spec-change.md
 ---
 
-# Specification changes
+# Spec Change Section
 
-# Command path changes
+# Path change
 
-If you continue to use your current version, this will not affect you, but changes will be applied in future versions. If a date is specified, the change is applied to versions released after that date.
+Details about path changes in the spec
 
-| Former path | Current path | Command description | Date |
-|-------------|--------------|---------------------|------|
+| CLI path (from) | CLI path (to) | Description of path change | Prune after build date |
+|-----------------|---------------|----------------------------|------------------------|
 
-# Deprecation
+# Prune change
 
-Below commands will be removed in the future release. If you continue to use your current version, this will not affect you, but changes will be applied in future versions. If a date is specified, the change is applied to versions released after that date.
+Details about prune changes in the spec
 
-| Path | Command description | Date |
-|------|---------------------|------|
+| CLI path for prune | Description of prune | Prune after build date |
+|--------------------|----------------------|------------------------|
 
 
 

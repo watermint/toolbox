@@ -6,7 +6,7 @@ lang: en
 
 # dropbox team runas file sync batch up
 
-Batch sync up that run as members (Irreversible operation)
+Batch upstream sync with Dropbox (Irreversible operation)
 
 # Security
 
@@ -93,11 +93,11 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-delete`              | Delete Dropbox file if a file removed locally                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | false   |
 | `-exit-on-failure`     | Exit the program on failure                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | false   |
 | `-file`                | Path to data file                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |         |
-| `-name-disable-ignore` | Filter by name. Filter system file or ignore files.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |         |
-| `-name-name`           | Filter by name. Filter by exact match to the name.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |         |
-| `-name-name-prefix`    | Filter by name. Filter by name match to the prefix.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |         |
-| `-name-name-suffix`    | Filter by name. Filter by name match to the suffix.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |         |
-| `-overwrite`           | Overwrite existing file on the target path if that exists.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | false   |
+| `-name-disable-ignore` | Name for the sync batch operation. Filter system file or ignore files.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |         |
+| `-name-name`           | Name for the sync batch operation. Filter by exact match to the name.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |         |
+| `-name-name-prefix`    | Name for the sync batch operation. Filter by name match to the prefix.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |         |
+| `-name-name-suffix`    | Name for the sync batch operation. Filter by name match to the suffix.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |         |
+| `-overwrite`           | Overwrite existing files if they exist.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | false   |
 | `-peer`                | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
 
 ## Common options:
@@ -128,18 +128,18 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Format: File
 
-Mapping of local to destination paths
+Mapping of local files to Dropbox paths for batch upload.
 
-| Column       | Description                     | Example           |
-|--------------|---------------------------------|-------------------|
-| member_email | The email address of the member | emma@example.com  |
-| local_path   | Local file path                 | /file_server/emma |
-| dropbox_path | Destination Dropbox path        | /data             |
+| Column       | Description                               | Example                         |
+|--------------|-------------------------------------------|---------------------------------|
+| member_email | Email address of the Dropbox team member. | user@example.com                |
+| local_path   | Local file path to upload.                | /Users/alice/Documents/file.txt |
+| dropbox_path | Destination path in Dropbox.              | /Team Folder/Project/file.txt   |
 
 The first line is a header line. The program will accept a file without the header.
 ```
 member_email,local_path,dropbox_path
-emma@example.com,/file_server/emma,/data
+user@example.com,/Users/alice/Documents/file.txt,/Team Folder/Project/file.txt
 ```
 
 # Results
@@ -173,13 +173,13 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 This report shows the transaction result.
 The command will generate a report in three different formats. `operation_log.csv`, `operation_log.json`, and `operation_log.xlsx`.
 
-| Column             | Description                            |
-|--------------------|----------------------------------------|
-| status             | Status of the operation                |
-| reason             | Reason of failure or skipped operation |
-| input.member_email | The email address of the member        |
-| input.local_path   | Local file path                        |
-| input.dropbox_path | Destination Dropbox path               |
+| Column             | Description                               |
+|--------------------|-------------------------------------------|
+| status             | Status of the operation                   |
+| reason             | Reason of failure or skipped operation    |
+| input.member_email | Email address of the Dropbox team member. |
+| input.local_path   | Local file path to upload.                |
+| input.dropbox_path | Destination path in Dropbox.              |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 

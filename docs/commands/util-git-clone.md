@@ -22,12 +22,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe util git clone -local-path /LOCAL/PATH/TO/clone -url https://git.repository.url
+.\tbx.exe util git clone -local-path /LOCAL/PATH/TO/CLONE -url https://github.com/username/repository.git
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx util git clone -local-path /LOCAL/PATH/TO/clone -url https://git.repository.url
+$HOME/Desktop/tbx util git clone -local-path /LOCAL/PATH/TO/CLONE -url https://github.com/username/repository.git
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -38,12 +38,12 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option         | Description         | Default |
-|----------------|---------------------|---------|
-| `-local-path`  | Local path to clone |         |
-| `-reference`   | Reference name      |         |
-| `-remote-name` | Name of the remote  | origin  |
-| `-url`         | Git repository url  |         |
+| Option         | Description                    | Default |
+|----------------|--------------------------------|---------|
+| `-local-path`  | Local path to clone repository |         |
+| `-reference`   | Reference name                 |         |
+| `-remote-name` | Name of the remote             | origin  |
+| `-url`         | Git repository url             |         |
 
 ## Common options:
 

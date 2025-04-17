@@ -6,7 +6,7 @@ lang: en
 
 # dropbox team legalhold revision list
 
-List revisions of the legal hold policy 
+List revisions under legal hold 
 
 # Security
 
@@ -84,7 +84,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 |--------------|--------------------------------------------------|---------|
 | `-after`     | Get revisions after this specified date and time |         |
 | `-peer`      | Account alias                                    | default |
-| `-policy-id` | Legal hold policy ID                             |         |
+| `-policy-id` | Legal hold policy ID.                            |         |
 
 ## Common options:
 

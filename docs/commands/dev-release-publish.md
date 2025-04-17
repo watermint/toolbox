@@ -77,12 +77,18 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option           | Description            | Default |
-|------------------|------------------------|---------|
-| `-artifact-path` | Path to artifacts      |         |
-| `-branch`        | Target branch          | main    |
-| `-conn-github`   | Account alias          | default |
-| `-skip-tests`    | Skip end to end tests. | false   |
+| Option                  | Description                                                      | Default          |
+|-------------------------|------------------------------------------------------------------|------------------|
+| `-artifact-path`        | Path to artifacts                                                |                  |
+| `-branch`               | Target branch                                                    | main             |
+| `-conn-github`          | Account alias                                                    | default          |
+| `-executable-name`      | The name of the executable file to be published.                 | tbx              |
+| `-homebrew-repo-branch` | The branch of the Homebrew tap repository to use for publishing. | master           |
+| `-homebrew-repo-name`   | The name of the Homebrew tap repository.                         | homebrew-toolbox |
+| `-homebrew-repo-owner`  | The owner of the Homebrew tap repository.                        | watermint        |
+| `-repo-name`            | The name of the repository to publish the release to.            | toolbox          |
+| `-repo-owner`           | The owner of the repository to publish the release to.           | watermint        |
+| `-skip-tests`           | Skip end to end tests.                                           | false            |
 
 ## Common options:
 

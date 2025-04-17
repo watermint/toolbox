@@ -40,7 +40,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 | Option        | Description               | Default |
 |---------------|---------------------------|---------|
-| `-upper-case` | Use upper case characters | false   |
+| `-upper-case` | Output UUID in upper case | false   |
 
 ## Common options:
 

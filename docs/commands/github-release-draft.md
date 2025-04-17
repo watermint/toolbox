@@ -126,13 +126,13 @@ Report file path will be displayed last line of the command line output. If you 
 Release on GitHub
 The command will generate a report in three different formats. `release.csv`, `release.json`, and `release.xlsx`.
 
-| Column   | Description                     |
-|----------|---------------------------------|
-| id       | Id of the release               |
-| tag_name | Tag name                        |
-| name     | Name of the release             |
-| draft    | True when the release is draft. |
-| url      | URL of the release              |
+| Column   | Description        |
+|----------|--------------------|
+| id       | Release ID         |
+| tag_name | Release tag name   |
+| name     | Release name       |
+| draft    | Release is a draft |
+| url      | URL of the release |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 

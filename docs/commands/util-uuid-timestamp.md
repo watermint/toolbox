@@ -6,7 +6,7 @@ lang: en
 
 # util uuid timestamp
 
-Parse UUID timestamp 
+UUID Timestamp 
 
 # Installation
 

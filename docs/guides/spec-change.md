@@ -4,20 +4,20 @@ title: Specification changes
 lang: en
 ---
 
-# Specification changes
+# Spec Change Section
 
-# Command path changes
+# Path change
 
-If you continue to use your current version, this will not affect you, but changes will be applied in future versions. If a date is specified, the change is applied to versions released after that date.
+Details about path changes in the spec
 
-| Former path | Current path | Command description | Date |
-|-------------|--------------|---------------------|------|
+| CLI path (from) | CLI path (to) | Description of path change | Prune after build date |
+|-----------------|---------------|----------------------------|------------------------|
 
-# Deprecation
+# Prune change
 
-Below commands will be removed in the future release. If you continue to use your current version, this will not affect you, but changes will be applied in future versions. If a date is specified, the change is applied to versions released after that date.
+Details about prune changes in the spec
 
-| Path | Command description | Date |
-|------|---------------------|------|
+| CLI path for prune | Description of prune | Prune after build date |
+|--------------------|----------------------|------------------------|
 
 

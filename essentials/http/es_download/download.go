@@ -3,13 +3,27 @@ package es_download
 import (
 	"bytes"
 	"errors"
-	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/essentials/network/nw_bandwidth"
 	"io"
 	"net/http"
 	"os"
 	"strconv"
+
+	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/network/nw_bandwidth"
 )
+
+// ErrorNetworkDetail encapsulates the original error for network issues.
+type ErrorNetworkDetail struct {
+	Err error
+}
+
+func (e *ErrorNetworkDetail) Error() string {
+	return "network error: unable to connect to the server (possible firewall, proxy, or network issue)"
+}
+
+func (e *ErrorNetworkDetail) Unwrap() error {
+	return e.Err
+}
 
 var (
 	ErrorNotFound = errors.New("not found")
@@ -21,7 +35,7 @@ func Download(l esl.Logger, url string, path string) error {
 	resp, err := http.Get(url)
 	if err != nil {
 		l.Debug("Unable to create download request")
-		return err
+		return &ErrorNetworkDetail{Err: err}
 	}
 	defer resp.Body.Close()
 
@@ -46,7 +60,7 @@ func DownloadText(l esl.Logger, url string) (string, error) {
 	resp, err := http.Get(url)
 	if err != nil {
 		l.Debug("Unable to create download request")
-		return "", err
+		return "", &ErrorNetworkDetail{Err: err}
 	}
 	defer func() {
 		_ = resp.Body.Close()

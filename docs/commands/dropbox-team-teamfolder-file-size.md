@@ -130,7 +130,7 @@ Report file path will be displayed last line of the command line output. If you 
 
 ## Report: namespace_size
 
-Namespace size
+Namespace size in bytes
 The command will generate a report in three different formats. `namespace_size.csv`, `namespace_size.json`, and `namespace_size.xlsx`.
 
 | Column               | Description                                                                                |
@@ -144,9 +144,9 @@ The command will generate a report in three different formats. `namespace_size.c
 | count_folder         | Number of folders under the folder                                                         |
 | count_descendant     | Number of files and folders under the folder                                               |
 | size                 | Size of the folder                                                                         |
-| depth                | Folder depth                                                                               |
-| mod_time_earliest    | The earliest modification time of a file in this folder or child folders.                  |
-| mod_time_latest      | The latest modification time of a file in this folder or child folders                     |
+| depth                | Namespace depth                                                                            |
+| mod_time_earliest    | Earliest modification time in namespace                                                    |
+| mod_time_latest      | Latest modification time in namespace                                                      |
 | api_complexity       | Folder complexity index for API operations                                                 |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.

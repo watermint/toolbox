@@ -64,12 +64,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe dropbox team legalhold update desc -desc NEW_DESCRIPTION -policy-id POLICY_ID
+.\tbx.exe dropbox team legalhold update desc -desc DESCRIPTION -policy-id POLICY_ID
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx dropbox team legalhold update desc -desc NEW_DESCRIPTION -policy-id POLICY_ID
+$HOME/Desktop/tbx dropbox team legalhold update desc -desc DESCRIPTION -policy-id POLICY_ID
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.

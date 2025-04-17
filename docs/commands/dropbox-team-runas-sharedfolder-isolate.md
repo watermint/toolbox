@@ -6,7 +6,7 @@ lang: en
 
 # dropbox team runas sharedfolder isolate
 
-Unshare owned shared folders and leave from external shared folders run as a member (Irreversible operation)
+Isolate member from shared folder (Irreversible operation)
 
 # Security
 
@@ -87,12 +87,12 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option          | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|-----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`    | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-keep-copy`    | Keep a copy of the folder's contents upon relinquishing membership.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | false   |
-| `-member-email` | Member email address                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |         |
-| `-peer`         | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
+| Option          | Description                                | Default |
+|-----------------|--------------------------------------------|---------|
+| `-base-path`    | Base path of the shared folder to isolate. | root    |
+| `-keep-copy`    | Keep a copy after isolation.               | false   |
+| `-member-email` | Email address of the member to isolate.    |         |
+| `-peer`         | Account alias                              | default |
 
 ## Common options:
 

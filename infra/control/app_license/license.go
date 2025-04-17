@@ -5,16 +5,17 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"errors"
+	"os"
+	"path/filepath"
+	"strings"
+	"time"
+
 	"github.com/watermint/toolbox/essentials/http/es_download"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/security/sc_obfuscate"
 	"github.com/watermint/toolbox/infra/security/sc_random"
 	"golang.org/x/crypto/sha3"
-	"os"
-	"path/filepath"
-	"strings"
-	"time"
 )
 
 type License interface {
@@ -93,6 +94,7 @@ var (
 	ErrorUnknownLicenseType = errors.New("unknown license type")
 	ErrorCacheNotFound      = errors.New("cache not found")
 	ErrorCacheExpired       = errors.New("cache expired")
+	ErrorLicenseNetwork     = errors.New("network error: unable to connect to the license server. Please check your network, firewall, or proxy settings.")
 )
 
 const (
@@ -448,6 +450,11 @@ func loadLicenseUrl(key, url string) (ld *LicenseData, err error) {
 	if errors.Is(err, es_download.ErrorNotFound) {
 		l.Debug("License not found", esl.String("url", fileUrl))
 		return nil, ErrorLicenseNotFound
+	}
+	var netErr *es_download.ErrorNetworkDetail
+	if errors.As(err, &netErr) {
+		l.Debug("Network error while downloading license", esl.Error(err))
+		return nil, ErrorLicenseNetwork
 	}
 	if err != nil {
 		l.Debug("Unable to download the data", esl.Error(err))
