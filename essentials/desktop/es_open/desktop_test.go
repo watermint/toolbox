@@ -16,12 +16,9 @@ func TestCurrentDesktop(t *testing.T) {
 		return
 	}
 	err = d.Open(p)
-	switch {
-	case err == nil:
+    if err == nil {
 		t.Log("success")
-	case IsOpenFailure(err):
-		t.Log("open failure", err)
-	case IsOperationUnsupported(err):
-		t.Log("unsupported", err)
+    } else {
+        t.Log("open failure or unsupported", err)
 	}
 }

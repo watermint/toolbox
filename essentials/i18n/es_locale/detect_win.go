@@ -4,17 +4,19 @@
 package es_locale
 
 import (
+    "errors"
+
 	"github.com/watermint/toolbox/essentials/native/es_native_windows"
 )
 
 func currentLocaleWithSysCall(apiName string) (string, error) {
 	locName := es_native_windows.NewBufferString(localeNameMaxLength)
-	r, _, oc := es_native_windows.Kernel32.Call(apiName, locName.Pointer(), locName.BufSize())
+    r, _, err := es_native_windows.Kernel32.Call(apiName, locName.Pointer(), locName.BufSize())
 	switch {
-	case oc.HasError():
-		return "", oc.Cause()
+    case err != nil:
+        return "", err
 	case r == 0:
-		return "", oc.LastError()
+        return "", errors.New("failed to get locale name")
 	default:
 		return locName.String(), nil
 	}

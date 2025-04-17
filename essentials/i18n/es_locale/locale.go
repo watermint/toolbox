@@ -92,7 +92,7 @@ func Parse(langTag string) (local Locale, err error) {
 	}
 
 	// accept tag like "ja_JP" as "ja-JP" (BCP 47 compliant)
-	if strings.Index(langTag, "_") >= 0 {
+    if strings.Contains(langTag, "_") {
 		langTag = strings.ReplaceAll(langTag, "_", "-")
 	}
 
