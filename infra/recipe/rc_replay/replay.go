@@ -113,7 +113,7 @@ func (z rpImpl) Preserve(target app_workspace.Job, destPath string) error {
 
 	l.Debug("Preserve the job")
 
- reportEntries, err := os.ReadDir(target.Report())
+	reportEntries, err := os.ReadDir(target.Report())
 	if err != nil {
 		l.Debug("Unable to read dir", esl.Error(err))
 		return err
