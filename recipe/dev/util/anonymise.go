@@ -5,6 +5,12 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io"
+	"net/url"
+	"regexp"
+	"strconv"
+	"strings"
+
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/io/es_stdout"
@@ -17,10 +23,6 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_job_impl"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"io"
-	"net/url"
-	"regexp"
-	"strings"
 )
 
 const (
@@ -154,10 +156,20 @@ func (z Anon) handleValue(j es_json.Json) interface{} {
 		return y
 	}
 	if x, ok := j.Number(); ok {
-		if x.IsInt() {
-			return x.Int64()
+		if strings.Contains(x, ".") {
+			f, err := strconv.ParseFloat(x, 64)
+			if err != nil {
+				l.Warn("Failed to parse float", esl.String("value", x), esl.Error(err))
+				return x
+			}
+			return f
 		} else {
-			return x.Float64()
+			i, err := strconv.ParseInt(x, 10, 64)
+			if err != nil {
+				l.Warn("Failed to parse int", esl.String("value", x), esl.Error(err))
+				return x
+			}
+			return i
 		}
 	}
 	if x, ok := j.Object(); ok {

@@ -2,15 +2,15 @@ package es_filesystem_copier
 
 import (
 	"errors"
+	"os"
+	"time"
+
 	"github.com/watermint/toolbox/essentials/file/es_filesystem"
 	"github.com/watermint/toolbox/essentials/file/es_filesystem_local"
 	"github.com/watermint/toolbox/essentials/file/es_filesystem_model"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/em_file"
 	"github.com/watermint/toolbox/essentials/queue/eq_queue"
-	"io/ioutil"
-	"os"
-	"time"
 )
 
 func NewModelToLocal(l esl.Logger, sourceRoot em_file.Folder) es_filesystem.Connector {
@@ -73,7 +73,7 @@ func (z modelToLocalCopier) Copy(source es_filesystem.Entry, target es_filesyste
 
 	content := sourceNode.(em_file.File).Content()
 
-	if errIO := ioutil.WriteFile(target.Path(), content, 0644); errIO != nil {
+	if errIO := os.WriteFile(target.Path(), content, 0644); errIO != nil {
 		l.Debug("Unable to write to the file", esl.Error(errIO))
 		onFailure(cp, es_filesystem_local.NewError(errIO))
 		return

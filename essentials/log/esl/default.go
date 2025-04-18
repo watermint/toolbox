@@ -1,22 +1,22 @@
 package esl
 
 import (
+	"io"
+	"strconv"
+
 	"github.com/watermint/toolbox/essentials/io/es_stdout"
 	"github.com/watermint/toolbox/essentials/runtime/es_env"
 	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"go.uber.org/atomic"
 	zapuber "go.uber.org/zap"
 	zapcoreuber "go.uber.org/zap/zapcore"
-	"io"
-	"io/ioutil"
-	"strconv"
 )
 
 var (
-	currentDefault Tee = newDefault()
-	currentConsole     = newConsole(ConsoleDefaultLevel())
-	currentStats       = newEmpty()
-	capture            = newEmpty()
+	currentDefault = newDefault()
+	currentConsole = newConsole(ConsoleDefaultLevel())
+	currentStats   = newEmpty()
+	capture        = newEmpty()
 	loggerName     atomic.Int64
 )
 
@@ -41,7 +41,7 @@ func Stats() Logger {
 }
 
 func newEmpty() Logger {
-	return New(ConsoleDefaultLevel(), FlavorConsole, ioutil.Discard)
+	return New(ConsoleDefaultLevel(), FlavorConsole, io.Discard)
 }
 
 func newDefault() Tee {

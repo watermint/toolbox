@@ -2,6 +2,9 @@ package content
 
 import (
 	"fmt"
+	"os"
+	"time"
+
 	"github.com/watermint/toolbox/domain/github/api/gh_conn"
 	"github.com/watermint/toolbox/domain/github/model/mo_commit"
 	"github.com/watermint/toolbox/domain/github/service/sv_content"
@@ -12,9 +15,6 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
-	"io/ioutil"
-	"os"
-	"time"
 )
 
 type Put struct {
@@ -34,7 +34,7 @@ func (z *Put) Preset() {
 
 func (z *Put) Exec(c app_control.Control) error {
 	l := c.Log().With(esl.String("contentPath", z.Content.Path()))
-	content, err := ioutil.ReadFile(z.Content.Path())
+	content, err := os.ReadFile(z.Content.Path())
 	if err != nil {
 		l.Debug("Unable to read file", esl.Error(err))
 		return err
@@ -72,7 +72,7 @@ func (z *Put) Exec(c app_control.Control) error {
 }
 
 func (z *Put) Test(c app_control.Control) error {
-	f, err := ioutil.TempFile("", "content-put")
+	f, err := os.CreateTemp("", "content-put")
 	if err != nil {
 		return err
 	}

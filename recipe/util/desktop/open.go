@@ -15,7 +15,7 @@ func (z *Open) Preset() {
 }
 
 func (z *Open) Exec(c app_control.Control) error {
-	return es_open.CurrentDesktop().Open(z.Path.Path()).Cause()
+	return es_open.CurrentDesktop().Open(z.Path.Path())
 }
 
 func (z *Open) Test(c app_control.Control) error {

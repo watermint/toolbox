@@ -1,7 +1,7 @@
 package es_timeout
 
 import (
-	"io/ioutil"
+	"io"
 	"testing"
 	"time"
 )
@@ -17,7 +17,7 @@ func (w waitWriter) Write(p []byte) (n int, err error) {
 func TestToWriter_Write(t *testing.T) {
 	// Write return immediately
 	{
-		tw := New(ioutil.Discard, 10*time.Millisecond)
+		tw := New(io.Discard, 10*time.Millisecond)
 		n, _ := tw.Write([]byte("hello"))
 		if n != 5 {
 			t.Error(n)

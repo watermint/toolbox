@@ -1,15 +1,15 @@
 package es_zip
 
 import (
-	"github.com/watermint/toolbox/essentials/log/esl"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"testing"
+
+	"github.com/watermint/toolbox/essentials/log/esl"
 )
 
 func TestZwImpl_AddFile(t *testing.T) {
-	basePath, err := ioutil.TempDir("", "zip")
+	basePath, err := os.MkdirTemp("", "zip")
 	if err != nil {
 		t.Error(err)
 		return
@@ -21,11 +21,11 @@ func TestZwImpl_AddFile(t *testing.T) {
 	testFilePath2 := filepath.Join(basePath, "thank_you.txt")
 	archivePath := filepath.Join(basePath, "test.zip")
 
-	if err = ioutil.WriteFile(testFilePath1, []byte("hello"), 0644); err != nil {
+	if err = os.WriteFile(testFilePath1, []byte("hello"), 0644); err != nil {
 		t.Error(err)
 		return
 	}
-	if err = ioutil.WriteFile(testFilePath2, []byte("thank you"), 0644); err != nil {
+	if err = os.WriteFile(testFilePath2, []byte("thank you"), 0644); err != nil {
 		t.Error(err)
 		return
 	}
@@ -50,7 +50,7 @@ func TestZwImpl_AddFile(t *testing.T) {
 		t.Error(err)
 	}
 
-	extractFile1, err := ioutil.ReadFile(filepath.Join(basePath, "extract", "greetings", "hello.txt"))
+	extractFile1, err := os.ReadFile(filepath.Join(basePath, "extract", "greetings", "hello.txt"))
 	if err != nil {
 		t.Error(err)
 	}
@@ -59,7 +59,7 @@ func TestZwImpl_AddFile(t *testing.T) {
 		t.Error(err)
 	}
 
-	extractFile2, err := ioutil.ReadFile(filepath.Join(basePath, "extract", "greetings", "thank_you.txt"))
+	extractFile2, err := os.ReadFile(filepath.Join(basePath, "extract", "greetings", "thank_you.txt"))
 	if err != nil {
 		t.Error(err)
 	}

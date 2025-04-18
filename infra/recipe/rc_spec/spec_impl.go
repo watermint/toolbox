@@ -3,7 +3,12 @@ package rc_spec
 import (
 	"flag"
 	"fmt"
-	"github.com/watermint/toolbox/essentials/collections/es_array_deprecated"
+	"math"
+	"os"
+	"path/filepath"
+	"sort"
+	"strings"
+
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/go/es_lang"
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
@@ -25,11 +30,6 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
-	"math"
-	"os"
-	"path/filepath"
-	"sort"
-	"strings"
 )
 
 type MsgSelfContained struct {
@@ -442,7 +442,7 @@ func (z specValueSelfContained) Remarks() app_msg.MessageOptional {
 
 func (z specValueSelfContained) CliNameRef(media dc_index.MediaType, lg es_lang.Lang, relPath string) app_msg.Message {
 	switch media {
-	case dc_index.MediaRepository:
+	case dc_index.MediaRepository, dc_index.MediaKnowledge:
 		path := filepath.ToSlash(filepath.Join(relPath, z.SpecId()+".md"))
 		return app_msg.Raw(fmt.Sprintf("[%s](%s)", z.CliPath(), path))
 	case dc_index.MediaWeb:
@@ -499,10 +499,15 @@ func (z specValueSelfContained) Feeds() map[string]fd_file.Spec {
 func (z specValueSelfContained) ScopeLabels() []string {
 	services := make([]string, 0)
 	conns := z.repo.Conns()
+	serviceMap := make(map[string]bool)
 	for _, c := range conns {
-		services = append(services, c.ScopeLabel())
+		serviceMap[c.ScopeLabel()] = true
 	}
-	return es_array_deprecated.NewByString(services...).Unique().Sort().AsStringArray()
+	for service := range serviceMap {
+		services = append(services, service)
+	}
+	sort.Strings(services)
+	return services
 }
 
 func (z specValueSelfContained) ConnUseDropboxPersonal() bool {

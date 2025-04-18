@@ -1,14 +1,15 @@
 package esl_container
 
 import (
+	"os"
+	"path/filepath"
+	"strings"
+	"testing"
+
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_budget"
 	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
-	"io/ioutil"
-	"path/filepath"
-	"strings"
-	"testing"
 )
 
 func TestNewToolboxCaller(t *testing.T) {
@@ -21,7 +22,7 @@ func TestNewToolboxCaller(t *testing.T) {
 		lg := l.Logger()
 
 		err = esl.EnsureCallerSkip(lg, "msg", "caller", func() string {
-			entries, err := ioutil.ReadDir(path)
+			entries, err := os.ReadDir(path)
 			if err != nil {
 				t.Error(err)
 				return ""
@@ -29,7 +30,7 @@ func TestNewToolboxCaller(t *testing.T) {
 			for _, entry := range entries {
 				if strings.HasPrefix(entry.Name(), app_definitions.LogToolbox) {
 					logPath := filepath.Join(path, entry.Name())
-					content, err := ioutil.ReadFile(logPath)
+					content, err := os.ReadFile(logPath)
 					if err != nil {
 						t.Error(err)
 					} else {

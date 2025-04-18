@@ -2,8 +2,7 @@ package dc_command
 
 import (
 	"encoding/csv"
-	"github.com/watermint/toolbox/essentials/collections/es_array_deprecated"
-	"github.com/watermint/toolbox/essentials/collections/es_value_deprecated"
+
 	"github.com/watermint/toolbox/essentials/encoding/es_csv"
 	"github.com/watermint/toolbox/infra/doc/dc_section"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
@@ -56,9 +55,11 @@ func (z Feed) bodyFeed(ui app_ui.UI, fs fd_file.Spec) {
 
 	sample := es_csv.MakeCsv(func(w *csv.Writer) {
 		cols := fs.Columns()
-		vals := es_array_deprecated.NewByString(cols...).Map(func(v es_value_deprecated.Value) es_value_deprecated.Value {
-			return es_value_deprecated.New(ui.Text(fs.ColumnExample(v.String())))
-		}).AsStringArray()
+		vals := make([]string, len(cols))
+
+		for i, col := range cols {
+			vals[i] = ui.Text(fs.ColumnExample(col))
+		}
 
 		_ = w.Write(cols)
 		_ = w.Write(vals)

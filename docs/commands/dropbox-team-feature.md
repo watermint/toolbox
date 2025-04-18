@@ -28,7 +28,6 @@ Please see below help article for more detail:
 
 | Description                                                                                              |
 |----------------------------------------------------------------------------------------------------------|
-| Dropbox for teams: View and edit basic information about your Dropbox account such as your profile photo |
 | Dropbox for teams: View basic information about your team including names, user count, and team settings |
 
 # Authorization
@@ -122,7 +121,7 @@ Report file path will be displayed last line of the command line output. If you 
 
 ## Report: feature
 
-This report shows a list of team features and their settings.
+Team feature
 The command will generate a report in three different formats. `feature.csv`, `feature.json`, and `feature.xlsx`.
 
 | Column                      | Description                                       |
@@ -130,16 +129,12 @@ The command will generate a report in three different formats. `feature.csv`, `f
 | upload_api_rate_limit       | The number of upload API calls allowed per month. |
 | upload_api_rate_limit_count | The number of upload API called this month.       |
 | has_team_shared_dropbox     | Does this team have a shared team root.           |
-| has_team_file_events        | Does this team have file events.                  |
-| has_team_selective_sync     | Does this team have team selective sync enabled.  |
-| has_distinct_member_homes   | Does this team have team member folder.           |
+| has_team_file_events        | Team supports file events                         |
+| has_team_selective_sync     | Team supports selective sync                      |
+| has_distinct_member_homes   | Team has distinct member home folders             |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `feature_0000.xlsx`, `feature_0001.xlsx`, `feature_0002.xlsx`, ...
-
-# Proxy configuration
-
-The executable automatically detects your proxy configuration from the environment. However, if you got an error or you want to specify explicitly, please add -proxy option, like -proxy hostname:port. Currently, the executable doesn't support proxies which require authentication.
 
 

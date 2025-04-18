@@ -64,12 +64,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe dropbox team legalhold update desc -desc NEW_DESCRIPTION -policy-id POLICY_ID
+.\tbx.exe dropbox team legalhold update desc -desc DESCRIPTION -policy-id POLICY_ID
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx dropbox team legalhold update desc -desc NEW_DESCRIPTION -policy-id POLICY_ID
+$HOME/Desktop/tbx dropbox team legalhold update desc -desc DESCRIPTION -policy-id POLICY_ID
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -139,9 +139,5 @@ The command will generate a report in three different formats. `policy.csv`, `po
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `policy_0000.xlsx`, `policy_0001.xlsx`, `policy_0002.xlsx`, ...
-
-# Proxy configuration
-
-The executable automatically detects your proxy configuration from the environment. However, if you got an error or you want to specify explicitly, please add -proxy option, like -proxy hostname:port. Currently, the executable doesn't support proxies which require authentication.
 
 

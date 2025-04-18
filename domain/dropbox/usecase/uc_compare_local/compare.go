@@ -1,6 +1,10 @@
 package uc_compare_local
 
 import (
+	"os"
+	"path/filepath"
+	"strings"
+
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
@@ -11,10 +15,6 @@ import (
 	mo_path2 "github.com/watermint/toolbox/essentials/model/mo_path"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
-	"io/ioutil"
-	"os"
-	"path/filepath"
-	"strings"
 )
 
 type MsgCompare struct {
@@ -84,17 +84,22 @@ func (z *compareImpl) cmpLevel(local mo_path2.FileSystemPath, dropbox mo_path.Dr
 	{
 		l.Debug("Scan local")
 		localPath := filepath.Join(local.Path(), path)
-		entries, err := ioutil.ReadDir(localPath)
+		entries, err := os.ReadDir(localPath)
 		if err != nil {
 			l.Debug("Unable to read dir")
 			return 0, err
 		}
 		for _, entry := range entries {
-			name := strings.ToLower(entry.Name())
-			if entry.IsDir() {
-				localFolders[name] = entry
+			info, err := entry.Info()
+			if err != nil {
+				l.Debug("Unable to get file info", esl.Error(err))
+				continue
+			}
+			name := strings.ToLower(info.Name())
+			if info.IsDir() {
+				localFolders[name] = info
 			} else {
-				localFiles[name] = entry
+				localFiles[name] = info
 			}
 		}
 	}

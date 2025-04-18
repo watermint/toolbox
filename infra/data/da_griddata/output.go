@@ -1,16 +1,17 @@
 package da_griddata
 
 import (
+	"io"
+
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_multi"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"io"
 )
 
 const (
 	OutputTypeAll = "all"
 	OutputTypeCsv = "csv"
-	//OutputTypeXlsx = "xlsx"
+	// OutputTypeXlsx = "xlsx"
 	OutputTypeJson = "json"
 )
 
@@ -18,7 +19,7 @@ var (
 	OutputTypes = []string{
 		OutputTypeAll,
 		OutputTypeCsv,
-		//OutputTypeXlsx,
+		// OutputTypeXlsx,
 		OutputTypeJson,
 	}
 )
@@ -42,10 +43,10 @@ type GridDataWriter interface {
 }
 
 type PlainGridDataWriter interface {
-	// Data type file suffix starts with . (e.g. `.json`, or `.csv`)
+	// FileSuffix returns the data type file suffix starting with a dot (e.g. `.json`, or `.csv`).
 	FileSuffix() string
 
-	// Write a row
+	// WriteRow writes a single row to the output.
 	WriteRow(l esl.Logger, w io.Writer, formatter GridDataFormatter, row int, column []interface{}) error
 }
 

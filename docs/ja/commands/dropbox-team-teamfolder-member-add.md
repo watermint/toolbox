@@ -60,7 +60,6 @@ tbx teamfolder member add -file /PATH/TO/DATA.csv
 
 | 説明                                                                                               |
 |----------------------------------------------------------------------------------------------------|
-| Dropbox for teams：プロフィール写真など、Dropboxアカウントの基本情報の表示と編集                   |
 | Dropbox for teams：Dropboxのファイルやフォルダの内容を表示                                         |
 | Dropbox for teams：Dropboxのファイルやフォルダの内容を編集する                                     |
 | Dropbox for teams：チームのグループ メンバーシップを表示                                           |
@@ -198,9 +197,5 @@ team_folder_name,path,access_type,group_name_or_member_email
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
-
-# ネットワークプロクシの設定
-
-プログラムはシステム設定から自動的にプロクシ設定情報を取得します. しかしながら、それでもエラーが発生する場合には明示的にプロクシを指定することができます. `-proxy` オプションを利用します, `-proxy ホスト名:ポート番号`のように指定してください. なお、現在のところ認証が必要なプロクシには対応していません.
 
 

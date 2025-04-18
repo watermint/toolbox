@@ -2,11 +2,12 @@ package es_gzip
 
 import (
 	"compress/gzip"
-	"github.com/watermint/toolbox/quality/infra/qt_file"
-	"io/ioutil"
+	"io"
 	"os"
 	"testing"
 	"time"
+
+	"github.com/watermint/toolbox/quality/infra/qt_file"
 )
 
 func TestExecCompress(t *testing.T) {
@@ -37,7 +38,7 @@ func TestExecCompress(t *testing.T) {
 		if err != nil {
 			t.Error(err)
 		}
-		dc, err := ioutil.ReadAll(cr)
+		dc, err := io.ReadAll(cr)
 		if err != nil {
 			t.Error(err)
 		}

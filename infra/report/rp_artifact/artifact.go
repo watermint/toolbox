@@ -1,11 +1,12 @@
 package rp_artifact
 
 import (
-	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/control/app_workspace"
-	"io/ioutil"
+	"os"
 	"path/filepath"
 	"strings"
+
+	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/infra/control/app_workspace"
 )
 
 type Artifact interface {
@@ -22,7 +23,7 @@ func Artifacts(job app_workspace.Job) (artifacts []Artifact) {
 	l := esl.Default()
 	artifacts = make([]Artifact, 0)
 	path := job.Report()
-	entries, err := ioutil.ReadDir(path)
+	entries, err := os.ReadDir(path)
 	if err != nil {
 		l.Debug("Unable to read directory", esl.Error(err))
 		return

@@ -1,12 +1,13 @@
 package bulk
 
 import (
+	"os"
+
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_group_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_group"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_group_member"
-	"github.com/watermint/toolbox/essentials/collections/es_array_deprecated"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -15,7 +16,6 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
-	"os"
 )
 
 type Update struct {
@@ -112,23 +112,41 @@ func (z *Update) Exec(c app_control.Control) error {
 
 		for groupName, expectedMembers := range expectedGroupAndMembers {
 			currentMembers := currentGroupAndMembers[groupName]
-			em := es_array_deprecated.NewByString(expectedMembers...)
-			cm := es_array_deprecated.NewByString(currentMembers...)
 
-			// add : expected members - current members
-			am := em.Diff(cm)
-			l.Debug("Add members", esl.String("group", groupName), esl.Strings("members", am.AsStringArray()))
-			for _, m := range am.AsStringArray() {
+			// Create maps for efficient lookup
+			expectedMap := make(map[string]bool)
+			currentMap := make(map[string]bool)
+			for _, m := range expectedMembers {
+				expectedMap[m] = true
+			}
+			for _, m := range currentMembers {
+				currentMap[m] = true
+			}
+
+			// Find members to add (in expected but not in current)
+			var membersToAdd []string
+			for _, m := range expectedMembers {
+				if !currentMap[m] {
+					membersToAdd = append(membersToAdd, m)
+				}
+			}
+			l.Debug("Add members", esl.String("group", groupName), esl.Strings("members", membersToAdd))
+			for _, m := range membersToAdd {
 				qa.Enqueue(&MemberRecord{
 					GroupName:   groupName,
 					MemberEmail: m,
 				})
 			}
 
-			// delete : current members - expected members
-			dm := cm.Diff(em)
-			l.Debug("Delete members", esl.String("group", groupName), esl.Strings("members", dm.AsStringArray()))
-			for _, m := range dm.AsStringArray() {
+			// Find members to delete (in current but not in expected)
+			var membersToDelete []string
+			for _, m := range currentMembers {
+				if !expectedMap[m] {
+					membersToDelete = append(membersToDelete, m)
+				}
+			}
+			l.Debug("Delete members", esl.String("group", groupName), esl.Strings("members", membersToDelete))
+			for _, m := range membersToDelete {
 				qd.Enqueue(&MemberRecord{
 					GroupName:   groupName,
 					MemberEmail: m,

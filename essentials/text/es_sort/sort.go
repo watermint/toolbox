@@ -4,13 +4,13 @@ import (
 	"bufio"
 	"compress/zlib"
 	"errors"
-	"github.com/watermint/toolbox/essentials/log/esl"
 	"io"
-	"io/ioutil"
 	"os"
-	"sort"
+	"slices"
 	"strings"
 	"sync"
+
+	"github.com/watermint/toolbox/essentials/log/esl"
 )
 
 const (
@@ -22,17 +22,17 @@ var (
 	ErrorAlreadyClosed = errors.New("the sorter resources already flushed and closed")
 )
 
-// Sorter Sort large text data
+// Sorter sorts large text data
 type Sorter interface {
-	// WriteLine Write single line. The function will split into multiple lines if a line contains '\n'.
+	// writeLine writes a single line. the function will split into multiple lines if a line contains '\n'.
 	WriteLine(line string) error
 
-	// Close and flush the result into destination stream, then close all resources.
+	// close and flush the result into destination stream, then close all resources.
 	Close() error
 }
 
 // Compare returns an integer comparing two lines.
-// The result will be 0 if a==b, -1 if a < b, and +1 if a > b.
+// the result will be 0 if a==b, -1 if a < b, and +1 if a > b.
 type Compare func(x, y string) int
 
 type sorterOpts struct {
@@ -78,7 +78,7 @@ func Uniq(enabled bool) SorterOpt {
 	}
 }
 
-// TempFolder Specify temporary folder. It's caller's responsibility to remove the temp folder if specified.
+// TempFolder specifies a temporary folder. it's the caller's responsibility to remove the temp folder if specified.
 func TempFolder(path string) SorterOpt {
 	return func(opts sorterOpts) sorterOpts {
 		opts.TempFolder = path
@@ -177,7 +177,7 @@ func (z *sorterImpl) createBufFileCompress(f func(w io.Writer) error) (path stri
 
 func (z *sorterImpl) createBufFilePlain(f func(w io.Writer) error) (path string, err error) {
 	l := z.log()
-	bf, err := ioutil.TempFile(z.opts.TempFolder, "sort")
+	bf, err := os.CreateTemp(z.opts.TempFolder, "sort")
 	if err != nil {
 		l.Debug("Unable to create temp file", esl.Error(err))
 		return "", err
@@ -260,7 +260,7 @@ func (z *sorterImpl) readBufFilePlain(path string, f func(line string) error) er
 	return z.readBufFileWithWrapper(
 		path,
 		func(r io.Reader) (rc io.ReadCloser, shouldClose bool, err error) {
-			return ioutil.NopCloser(r), false, nil
+			return io.NopCloser(r), false, nil
 		},
 		f,
 	)
@@ -277,7 +277,7 @@ func (z *sorterImpl) readBufFile(path string, f func(line string) error) error {
 func (z *sorterImpl) clearBuffer(path string) {
 	l := z.log()
 	z.bufFile = path
-	z.buf = make([]string, 0)
+	z.buf = make([]string, 0, z.opts.MemoryLimit/32) // Estimate capacity assuming average string length of 32
 	z.bufSize = 0
 	l.Debug("Buf file created", esl.String("path", path))
 }
@@ -318,8 +318,8 @@ func (z *sorterImpl) simpleFlush(w io.Writer) error {
 	bw := bufio.NewWriter(w)
 	l := z.log()
 	l.Debug("Simple flush", esl.Int("lines", len(z.buf)))
-	sort.Slice(z.buf, func(i, j int) bool {
-		return z.compare(z.buf[i], z.buf[j]) < 0
+	slices.SortFunc(z.buf, func(i, j string) int {
+		return z.compare(i, j)
 	})
 	for _, line := range z.buf {
 		_, wErr := bw.WriteString(line + "\n")
@@ -339,8 +339,8 @@ func (z *sorterImpl) mergeFlush(w io.Writer) error {
 	l.Debug("Merge flush", esl.Int("lines", bufLines))
 	bufIndex := 0
 	var bufFileIndex int64
-	sort.Slice(z.buf, func(i, j int) bool {
-		return z.compare(z.buf[i], z.buf[j]) < 0
+	slices.SortFunc(z.buf, func(i, j string) int {
+		return z.compare(i, j)
 	})
 
 	rbErr := z.readBufFile(z.bufFile, func(line string) error {
@@ -360,7 +360,7 @@ func (z *sorterImpl) mergeFlush(w io.Writer) error {
 				bufIndex++
 				continue
 			}
-			// end loop when buf[bufIndex] grater than the current line
+			// end loop when buf[bufIndex] greater than the current line
 			if 0 < cmp {
 				break
 			}

@@ -3,11 +3,12 @@ package es_filesystem_model
 import (
 	"bytes"
 	"errors"
+	"io"
+	"time"
+
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
 	"github.com/watermint/toolbox/essentials/file/es_filesystem"
 	"github.com/watermint/toolbox/essentials/model/em_file"
-	"io/ioutil"
-	"time"
 )
 
 func NewEntry(path string, node em_file.Node) es_filesystem.Entry {
@@ -63,7 +64,7 @@ func (z Entry) ContentHash() (string, es_filesystem.FileSystemError) {
 	switch n := z.node.(type) {
 	case em_file.File:
 		content := n.Content()
-		hash, err := dbx_util.ContentHash(ioutil.NopCloser(bytes.NewReader(content)), int64(len(content)))
+		hash, err := dbx_util.ContentHash(io.NopCloser(bytes.NewReader(content)), int64(len(content)))
 		if err != nil {
 			return "", NewError(errors.New("invalid type"), ErrorTypeOther)
 		}

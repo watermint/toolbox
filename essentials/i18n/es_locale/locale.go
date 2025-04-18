@@ -2,9 +2,10 @@ package es_locale
 
 import (
 	"fmt"
-	"github.com/watermint/toolbox/essentials/go/es_idiom_deprecated/eoutcome"
-	"github.com/watermint/toolbox/essentials/strings/es_case"
 	"strings"
+
+	"github.com/watermint/toolbox/essentials/go/es_errors"
+	"github.com/watermint/toolbox/essentials/strings/es_case"
 )
 
 const (
@@ -21,36 +22,36 @@ var (
 
 // Locale represents a specific geopolitical region.
 type Locale interface {
-	// Stringer Language tag
+	// stringer returns the language tag
 	fmt.Stringer
 
-	// Language ISO 639 code (2-3 letter code, always lower case)
+	// language returns the ISO 639 code (2-3 letter code, always lower case)
 	Language() string
 
-	// LanguageTwoLetter ISO 639-1 Two-letter code (always lower case).
-	// Returns empty if the language is not defined in ISO 639-1.
+	// languageTwoLetter returns the ISO 639-1 two-letter code (always lower case).
+	// returns empty if the language is not defined in ISO 639-1.
 	LanguageTwoLetter() string
 
-	// LanguageExtended Extended language subtag
+	// languageExtended returns the extended language subtag
 	LanguageExtended() string
 
-	// Extension provide a mechanism for extending language tags for use in various applications.
+	// extension provides a mechanism for extending language tags for use in various applications.
 	Extension() string
 
-	// Script subtags are used to indicate the script or writing system
+	// script subtags are used to indicate the script or writing system
 	//   variations that distinguish the written forms of a language or its
 	//   dialects. ISO 15924.
-	//   First letter always upper case. Following letters are lower case like Xxxx (upper camel case).
+	//   first letter always upper case. following letters are lower case like Xxxx (upper camel case).
 	Script() string
 
-	// Variant subtags are used to indicate additional, well-recognized
+	// variant subtags are used to indicate additional, well-recognized
 	//   variations that define a language or its dialects that are not
 	//   covered by other available subtags.
 	Variant() string
 
-	// Region subtags are used to indicate linguistic variations associated
+	// region subtags are used to indicate linguistic variations associated
 	//   with or appropriate to a specific country, territory, or region.
-	//   Typically, a region subtag is used to indicate variations such as
+	//   typically, a region subtag is used to indicate variations such as
 	//   regional dialects or usage, or region-specific spelling conventions.
 	//   ISO 3166 country code or UN M49 region code.
 	//   (always upper case).
@@ -60,7 +61,7 @@ type Locale interface {
 }
 
 type LocaleData struct {
-	// BCP 47 language tag
+	// bcp 47 language tag
 	Tag           string `json:"tag"`
 	Lang          string `json:"lang"`
 	LangExtended  string `json:"lang_extended"`
@@ -75,35 +76,35 @@ type LocaleData struct {
 }
 
 func mustParse(langTag string) Locale {
-	if lc, out := Parse(langTag); out.IsError() {
-		panic(out)
+	if lc, err := Parse(langTag); err != nil {
+		panic(err)
 	} else {
 		return lc
 	}
 }
 
-func Parse(langTag string) (local Locale, outcome eoutcome.ParseOutcome) {
+func Parse(langTag string) (local Locale, err error) {
 	lowerCaseLangTag := strings.ToLower(langTag)
 	if lowerCaseLangTag == "c" || lowerCaseLangTag == "posix" ||
 		strings.HasPrefix(lowerCaseLangTag, "c.") ||
 		strings.HasPrefix(lowerCaseLangTag, "posix.") {
-		return mustParse(TagEnglish), eoutcome.NewParseSuccess()
+		return mustParse(TagEnglish), nil
 	}
 
 	// accept tag like "ja_JP" as "ja-JP" (BCP 47 compliant)
-	if strings.Index(langTag, "_") >= 0 {
+	if strings.Contains(langTag, "_") {
 		langTag = strings.ReplaceAll(langTag, "_", "-")
 	}
 
 	matches := bcp47Lang.FindStringSubmatch(langTag)
 	if len(matches) < 1 {
-		return nil, eoutcome.NewParseInvalidFormat("the given lang-tag does not comply lang tag format")
+		return nil, es_errors.NewInvalidFormatError("the given lang-tag does not comply lang tag format")
 	}
 	language := strings.ToLower(matches[1])
 
 	detail, match := bcp47Re.MatchSubExp(langTag)
 	if !match {
-		return nil, eoutcome.NewParseInvalidFormat("the given lang-tag does not comply lang tag format")
+		return nil, es_errors.NewInvalidFormatError("the given lang-tag does not comply lang tag format")
 	}
 
 	data := LocaleData{
@@ -120,5 +121,5 @@ func Parse(langTag string) (local Locale, outcome eoutcome.ParseOutcome) {
 		CodePage:      detail["codepage"],
 	}
 
-	return &localeImpl{data: data}, eoutcome.NewParseSuccess()
+	return &localeImpl{data: data}, nil
 }

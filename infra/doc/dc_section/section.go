@@ -61,7 +61,7 @@ func Generate(media dc_index.MediaType, layout LayoutType, mc app_msg_container.
 	}
 
 	switch media {
-	case dc_index.MediaRepository:
+	case dc_index.MediaRepository, dc_index.MediaKnowledge:
 		return body
 	case dc_index.MediaWeb:
 		tmpl, err := template.New("web").Parse(WebHeader)

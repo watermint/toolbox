@@ -2,14 +2,15 @@ package nw_simulator
 
 import (
 	"bytes"
+	"io"
+	"math/rand"
+	"net/http"
+
 	"github.com/watermint/toolbox/essentials/api/api_client"
 	"github.com/watermint/toolbox/essentials/http/es_response"
 	"github.com/watermint/toolbox/essentials/http/es_response_impl"
 	"github.com/watermint/toolbox/essentials/network/nw_client"
 	"github.com/watermint/toolbox/essentials/network/nw_throttle"
-	"io/ioutil"
-	"math/rand"
-	"net/http"
 )
 
 func NewServerError(client nw_client.Rest, rate, code int, decorator ResponseDecorator) nw_client.Rest {
@@ -50,7 +51,7 @@ func (z serverErrorClient) Call(ctx api_client.Client, req nw_client.RequestBuil
 			z.decorator(req.Endpoint(), hr)
 		}
 		if hr.Body == nil {
-			hr.Body = ioutil.NopCloser(&bytes.Buffer{})
+			hr.Body = io.NopCloser(&bytes.Buffer{})
 		}
 
 		nw_throttle.Throttle(ctx.ClientHash(), req.Endpoint(), func() {

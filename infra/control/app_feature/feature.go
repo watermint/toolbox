@@ -133,15 +133,15 @@ func (z *OptInStatus) OptInCommit(enable bool) {
 	z.Timestamp = time.Now().Format(time.RFC3339)
 }
 
-func (z OptInStatus) OptInTimestamp() string {
+func (z *OptInStatus) OptInTimestamp() string {
 	return z.Timestamp
 }
 
-func (z OptInStatus) OptInUser() string {
+func (z *OptInStatus) OptInUser() string {
 	return z.User
 }
 
-func (z OptInStatus) OptInIsEnabled() bool {
+func (z *OptInStatus) OptInIsEnabled() bool {
 	return z.Status
 }
 

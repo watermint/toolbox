@@ -6,7 +6,7 @@ lang: en
 
 # dropbox file tag add
 
-Add a tag to the file/folder 
+Add tag to file or folder 
 
 # Security
 
@@ -83,12 +83,12 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-path`      | Target path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |         |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-| `-tag`       | Tag name                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |         |
+| Option       | Description                       | Default |
+|--------------|-----------------------------------|---------|
+| `-base-path` | Base path for adding a tag.       | root    |
+| `-path`      | File or folder path to add a tag. |         |
+| `-peer`      | Account alias                     | default |
+| `-tag`       | Tag to add to the file or folder. |         |
 
 ## Common options:
 
@@ -113,9 +113,5 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-skip-logging`    | Skip logging in the local storage                                                                                                                     | false                |
 | `-verbose`         | Show current operations for more detail.                                                                                                              | false                |
 | `-workspace`       | Workspace path                                                                                                                                        |                      |
-
-# Proxy configuration
-
-The executable automatically detects your proxy configuration from the environment. However, if you got an error or you want to specify explicitly, please add -proxy option, like -proxy hostname:port. Currently, the executable doesn't support proxies which require authentication.
 
 

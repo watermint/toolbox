@@ -1,13 +1,14 @@
 package es_response_impl
 
 import (
+	"os"
+
 	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/http/es_client"
 	"github.com/watermint/toolbox/essentials/http/es_response"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/log/esl_encode"
-	"io/ioutil"
 )
 
 func newFileBody(ctx es_client.Client, path string, contentLength int64) es_response.Body {
@@ -46,7 +47,7 @@ func (z bodyFileImpl) AsJson() (es_json.Json, error) {
 		l.Debug("content is too large for parse", esl.Int64("size", z.contentLength))
 		return nil, es_response.ErrorContentIsTooLarge
 	}
-	content, err := ioutil.ReadFile(z.path)
+	content, err := os.ReadFile(z.path)
 	if err != nil {
 		l.Debug("unable to read file", esl.Error(err))
 		return nil, err

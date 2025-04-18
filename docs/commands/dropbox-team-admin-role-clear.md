@@ -28,7 +28,6 @@ Please see below help article for more detail:
 
 | Description                                                                                              |
 |----------------------------------------------------------------------------------------------------------|
-| Dropbox for teams: View and edit basic information about your Dropbox account such as your profile photo |
 | Dropbox for teams: View your team membership                                                             |
 | Dropbox for teams: View and manage your team membership                                                  |
 | Dropbox for teams: View basic information about your team including names, user count, and team settings |
@@ -112,9 +111,5 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-skip-logging`    | Skip logging in the local storage                                                                                                                     | false                |
 | `-verbose`         | Show current operations for more detail.                                                                                                              | false                |
 | `-workspace`       | Workspace path                                                                                                                                        |                      |
-
-# Proxy configuration
-
-The executable automatically detects your proxy configuration from the environment. However, if you got an error or you want to specify explicitly, please add -proxy option, like -proxy hostname:port. Currently, the executable doesn't support proxies which require authentication.
 
 

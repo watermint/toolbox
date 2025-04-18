@@ -2,14 +2,14 @@ package sv_desktop
 
 import (
 	"errors"
+	"os"
+	"path/filepath"
+	"runtime"
+
 	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_desktop"
 	"github.com/watermint/toolbox/essentials/api/api_parser"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"io/ioutil"
-	"os"
-	"path/filepath"
-	"runtime"
 )
 
 type Desktop interface {
@@ -37,7 +37,7 @@ func (z *desktopImpl) findInfo() (gjson.Result, error) {
 	}
 	findInfoFile := func(path string) (gjson.Result, error) {
 		ll := l.With(esl.String("path", path))
-		b, err := ioutil.ReadFile(path)
+		b, err := os.ReadFile(path)
 		if err != nil {
 			ll.Debug("Unable to read info.json", esl.Error(err))
 			return gjson.Parse("{}"), err

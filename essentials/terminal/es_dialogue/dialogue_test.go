@@ -1,12 +1,12 @@
 package es_dialogue
 
 import (
-	"github.com/watermint/toolbox/essentials/io/es_stdout"
-	"github.com/watermint/toolbox/essentials/log/esl"
 	"io"
-	"io/ioutil"
 	"os"
 	"testing"
+
+	"github.com/watermint/toolbox/essentials/io/es_stdout"
+	"github.com/watermint/toolbox/essentials/log/esl"
 )
 
 func TestNew(t *testing.T) {
@@ -71,7 +71,7 @@ func TestDenyAll(t *testing.T) {
 }
 
 func testWithFile(t *testing.T, content string, f func(in *os.File, out io.Writer)) {
-	g, err := ioutil.TempFile("", "dialogue")
+	g, err := os.CreateTemp("", "dialogue")
 	if err != nil {
 		t.Error(err)
 		return

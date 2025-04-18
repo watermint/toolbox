@@ -7,6 +7,6 @@ func CurrentDesktop() Desktop {
 type desktopImpl struct {
 }
 
-func (z desktopImpl) Open(p string) OpenOutcome {
+func (z desktopImpl) Open(p string) error {
 	return desktopOpen(p)
 }

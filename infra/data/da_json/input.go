@@ -5,15 +5,16 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
+	"io"
+	"os"
+	"strings"
+
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
 	"github.com/watermint/toolbox/essentials/io/es_file_read"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"io"
-	"os"
-	"strings"
 )
 
 type MsgJsonInput struct {
@@ -31,7 +32,7 @@ type JsonInput interface {
 	Debug() interface{}
 	Open(ctl app_control.Control) error
 
-	// Unmarshal the file content to the model
+	// Unmarshal unmarshals the file content to the model.
 	Unmarshal() (interface{}, error)
 
 	SetModel(model interface{})
@@ -123,7 +124,7 @@ func (z *jsInput) EachModel(f func(m interface{}) error) error {
 			return err
 		}
 
-		// try parse as JSON array
+		// Try to parse as JSON array.
 		if j, err := es_json.Parse(data); err != nil {
 			l.Debug("Unable to parse, fallback to JSON line parse", esl.Error(err))
 		} else {
@@ -137,7 +138,7 @@ func (z *jsInput) EachModel(f func(m interface{}) error) error {
 			})
 
 			if errors.Is(err, es_json.ErrorNotAnArray) {
-				// try parse as single object
+				// Try to parse as a single object.
 				v := es_reflect.NewInstance(z.model)
 				if err := j.Model(v); err != nil {
 					l.Debug("Unable to parse", esl.Error(err))
@@ -152,7 +153,7 @@ func (z *jsInput) EachModel(f func(m interface{}) error) error {
 			return nil
 		}
 
-		// try parse as JSON lines
+		// Try to parse as JSON lines.
 
 		scanner := bufio.NewScanner(bytes.NewReader(data))
 		lines := 0

@@ -3,16 +3,17 @@ package nw_simulator
 import (
 	"bytes"
 	"fmt"
+	"io"
+	"math/rand"
+	"net/http"
+	"time"
+
 	"github.com/watermint/toolbox/essentials/api/api_client"
 	"github.com/watermint/toolbox/essentials/http/es_response"
 	"github.com/watermint/toolbox/essentials/http/es_response_impl"
 	"github.com/watermint/toolbox/essentials/network/nw_client"
 	"github.com/watermint/toolbox/essentials/network/nw_retry"
 	"github.com/watermint/toolbox/essentials/network/nw_throttle"
-	"io/ioutil"
-	"math/rand"
-	"net/http"
-	"time"
 )
 
 const (
@@ -87,7 +88,7 @@ func (z rateLimitClient) Call(ctx api_client.Client, req nw_client.RequestBuilde
 			z.decorator(req.Endpoint(), hr)
 		}
 		if hr.Body == nil {
-			hr.Body = ioutil.NopCloser(&bytes.Buffer{})
+			hr.Body = io.NopCloser(&bytes.Buffer{})
 		}
 
 		nw_throttle.Throttle(ctx.ClientHash(), req.Endpoint(), func() {

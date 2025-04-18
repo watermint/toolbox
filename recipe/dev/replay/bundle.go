@@ -3,6 +3,11 @@ package replay
 import (
 	"context"
 	"errors"
+	"os"
+	"path/filepath"
+	"strings"
+	"time"
+
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client_impl"
@@ -24,10 +29,6 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_replay"
 	"github.com/watermint/toolbox/ingredient/ig_dropbox/ig_file"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
-	"io/ioutil"
-	"path/filepath"
-	"strings"
-	"time"
 )
 
 type Bundle struct {
@@ -115,7 +116,7 @@ func (z *Bundle) Exec(c app_control.Control) error {
 		return nil
 	}
 
-	entries, err := ioutil.ReadDir(replayPath)
+	entries, err := os.ReadDir(replayPath)
 	if err != nil {
 		return err
 	}

@@ -6,7 +6,7 @@ lang: en
 
 # dropbox team legalhold revision list
 
-List revisions of the legal hold policy 
+List revisions under legal hold 
 
 # Security
 
@@ -84,7 +84,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 |--------------|--------------------------------------------------|---------|
 | `-after`     | Get revisions after this specified date and time |         |
 | `-peer`      | Account alias                                    | default |
-| `-policy-id` | Legal hold policy ID                             |         |
+| `-policy-id` | Legal hold policy ID.                            |         |
 
 ## Common options:
 
@@ -131,9 +131,5 @@ The command will generate a report in three different formats. `revision.csv`, `
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `revision_0000.xlsx`, `revision_0001.xlsx`, `revision_0002.xlsx`, ...
-
-# Proxy configuration
-
-The executable automatically detects your proxy configuration from the environment. However, if you got an error or you want to specify explicitly, please add -proxy option, like -proxy hostname:port. Currently, the executable doesn't support proxies which require authentication.
 
 

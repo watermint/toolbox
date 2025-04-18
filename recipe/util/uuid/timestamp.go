@@ -2,13 +2,14 @@ package uuid
 
 import (
 	"errors"
+	"strings"
+	"time"
+
 	"github.com/watermint/toolbox/essentials/strings/es_uuid"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/ui_out"
-	"strings"
-	"time"
 )
 
 type Timestamp struct {
@@ -19,9 +20,9 @@ func (z *Timestamp) Preset() {
 }
 
 func (z *Timestamp) Exec(c app_control.Control) error {
-	u, oc := es_uuid.Parse(strings.TrimSpace(z.Uuid))
-	if oc.IsError() {
-		return oc.Cause()
+	u, err := es_uuid.Parse(strings.TrimSpace(z.Uuid))
+	if err != nil {
+		return err
 	}
 	switch u.Version() {
 	case es_uuid.Version1, es_uuid.Version2, es_uuid.Version6:

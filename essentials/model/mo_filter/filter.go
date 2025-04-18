@@ -2,6 +2,7 @@ package mo_filter
 
 import (
 	"flag"
+
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/model/mo_multi"
 	"github.com/watermint/toolbox/essentials/strings/es_case"
@@ -96,7 +97,7 @@ func (z *filterImpl) IsEnabled() bool {
 }
 
 func (z *filterImpl) Debug() interface{} {
-	filterNames := make([]string, 0)
+	filterNames := make([]string, 0, len(z.filters))
 	for _, f := range z.filters {
 		filterNames = append(filterNames, f.NameSuffix())
 	}
@@ -150,7 +151,7 @@ func (z *filterImpl) SetOptions(o ...FilterOpt) {
 }
 
 func (z *filterImpl) Fields() []string {
-	fields := make([]string, 0)
+	fields := make([]string, 0, len(z.filters))
 	for _, f := range z.filters {
 		fields = append(fields, z.Name()+f.NameSuffix())
 	}

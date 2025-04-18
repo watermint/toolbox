@@ -28,7 +28,6 @@ Please see below help article for more detail:
 
 | Description                                                                                              |
 |----------------------------------------------------------------------------------------------------------|
-| Dropbox for teams: View and edit basic information about your Dropbox account such as your profile photo |
 | Dropbox for teams: View your team's activity log                                                         |
 | Dropbox for teams: View your team membership                                                             |
 | Dropbox for teams: View basic information about your team including names, user count, and team settings |
@@ -193,9 +192,5 @@ The command will generate a report in three different formats. `user.csv`, `user
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `user_0000.xlsx`, `user_0001.xlsx`, `user_0002.xlsx`, ...
-
-# Proxy configuration
-
-The executable automatically detects your proxy configuration from the environment. However, if you got an error or you want to specify explicitly, please add -proxy option, like -proxy hostname:port. Currently, the executable doesn't support proxies which require authentication.
 
 

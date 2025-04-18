@@ -6,7 +6,7 @@ lang: en
 
 # dropbox team runas sharedfolder batch unshare
 
-Batch unshare folders for members 
+Unshare shared folders in batch 
 
 # Security
 
@@ -28,7 +28,6 @@ Please see below help article for more detail:
 
 | Description                                                                                              |
 |----------------------------------------------------------------------------------------------------------|
-| Dropbox for teams: View and edit basic information about your Dropbox account such as your profile photo |
 | Dropbox for teams: View content of your Dropbox files and folders                                        |
 | Dropbox for teams: View your team membership                                                             |
 | Dropbox for teams: View your Dropbox sharing settings and collaborators                                  |
@@ -87,12 +86,12 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option        | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|---------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`  | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-file`       | Path to data file                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |         |
-| `-leave-copy` | If true, members of this shared folder will get a copy of this folder after it's unshared.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | false   |
-| `-peer`       | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
+| Option        | Description                                | Default |
+|---------------|--------------------------------------------|---------|
+| `-base-path`  | Base path of the shared folder to unshare. | root    |
+| `-file`       | Path to data file                          |         |
+| `-leave-copy` | Leave a copy after unsharing.              | false   |
+| `-peer`       | Account alias                              | default |
 
 ## Common options:
 
@@ -122,17 +121,17 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Format: File
 
-Member folder data
+List of member folders for batch operations.
 
-| Column       | Description          | Example              |
-|--------------|----------------------|----------------------|
-| member_email | Member email address | john@example.com     |
-| path         | Path to share        | /projects/my_project |
+| Column       | Description                  | Example                      |
+|--------------|------------------------------|------------------------------|
+| member_email | Email address of the member. | member@example.com           |
+| path         | Path to the member's folder. | /Team Folder/Shared/file.txt |
 
 The first line is a header line. The program will accept a file without the header.
 ```
 member_email,path
-john@example.com,/projects/my_project
+member@example.com,/Team Folder/Shared/file.txt
 ```
 
 # Results
@@ -154,8 +153,8 @@ The command will generate a report in three different formats. `operation_log.cs
 |--------------------------------|-------------------------------------------------------------------------------------------------------------------------|
 | status                         | Status of the operation                                                                                                 |
 | reason                         | Reason of failure or skipped operation                                                                                  |
-| input.member_email             | Member email address                                                                                                    |
-| input.path                     | Path to share                                                                                                           |
+| input.member_email             | Email address of the member.                                                                                            |
+| input.path                     | Path to the member's folder.                                                                                            |
 | result.shared_folder_id        | The ID of the shared folder.                                                                                            |
 | result.parent_shared_folder_id | The ID of the parent shared folder. This field is present only if the folder is contained within another shared folder. |
 | result.name                    | The name of the this shared folder.                                                                                     |
@@ -175,9 +174,5 @@ The command will generate a report in three different formats. `operation_log.cs
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
-
-# Proxy configuration
-
-The executable automatically detects your proxy configuration from the environment. However, if you got an error or you want to specify explicitly, please add -proxy option, like -proxy hostname:port. Currently, the executable doesn't support proxies which require authentication.
 
 

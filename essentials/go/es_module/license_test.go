@@ -1,12 +1,12 @@
 package es_module
 
 import (
-	"io/ioutil"
+	"os"
 	"testing"
 )
 
 func testFile(t *testing.T, filename string, s func(body string)) {
-	body, err := ioutil.ReadFile(filename)
+	body, err := os.ReadFile(filename)
 	if err != nil {
 		t.Error(err)
 		return

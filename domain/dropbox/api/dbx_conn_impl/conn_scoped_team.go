@@ -57,9 +57,6 @@ func (z *connScopedTeam) SetScopes(scopes ...string) {
 	copy(ss[:], scopes[:])
 
 	// To determine which file system is being used.
-	if !dbx_auth.HasAccountInfoRead(scopes) {
-		ss = append(ss, dbx_auth.ScopeAccountInfoRead)
-	}
 	if !dbx_auth.HasTeamInfoRead(scopes) {
 		ss = append(ss, dbx_auth.ScopeTeamInfoRead)
 	}

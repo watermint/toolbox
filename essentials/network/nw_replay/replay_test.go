@@ -2,7 +2,7 @@ package nw_replay
 
 import (
 	"encoding/json"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"testing"
 )
@@ -94,7 +94,7 @@ func TestReplay_Call(t *testing.T) {
 	if res1.StatusCode != 200 || res1.Header.Get("Date") != "Wed, 06 May 2020 15:03:47 GMT" {
 		t.Error(res1)
 	}
-	body1, err := ioutil.ReadAll(res1.Body)
+	body1, err := io.ReadAll(res1.Body)
 	if err != nil {
 		t.Error(err)
 	}
@@ -109,7 +109,7 @@ func TestReplay_Call(t *testing.T) {
 	if res2.StatusCode != 409 || res2.Header.Get("Date") != "Wed, 06 May 2020 15:03:02 GMT" {
 		t.Error(res2)
 	}
-	body2, err := ioutil.ReadAll(res2.Body)
+	body2, err := io.ReadAll(res2.Body)
 	if err != nil {
 		t.Error(err)
 	}

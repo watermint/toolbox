@@ -77,12 +77,18 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option           | Description            | Default |
-|------------------|------------------------|---------|
-| `-artifact-path` | Path to artifacts      |         |
-| `-branch`        | Target branch          | main    |
-| `-conn-github`   | Account alias          | default |
-| `-skip-tests`    | Skip end to end tests. | false   |
+| Option                  | Description                                                      | Default          |
+|-------------------------|------------------------------------------------------------------|------------------|
+| `-artifact-path`        | Path to artifacts                                                |                  |
+| `-branch`               | Target branch                                                    | main             |
+| `-conn-github`          | Account alias                                                    | default          |
+| `-executable-name`      | The name of the executable file to be published.                 | tbx              |
+| `-homebrew-repo-branch` | The branch of the Homebrew tap repository to use for publishing. | master           |
+| `-homebrew-repo-name`   | The name of the Homebrew tap repository.                         | homebrew-toolbox |
+| `-homebrew-repo-owner`  | The owner of the Homebrew tap repository.                        | watermint        |
+| `-repo-name`            | The name of the repository to publish the release to.            | toolbox          |
+| `-repo-owner`           | The owner of the repository to publish the release to.           | watermint        |
+| `-skip-tests`           | Skip end to end tests.                                           | false            |
 
 ## Common options:
 
@@ -170,9 +176,5 @@ The command will generate a report in three different formats. `result.csv`, `re
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `result_0000.xlsx`, `result_0001.xlsx`, `result_0002.xlsx`, ...
-
-# Proxy configuration
-
-The executable automatically detects your proxy configuration from the environment. However, if you got an error or you want to specify explicitly, please add -proxy option, like -proxy hostname:port. Currently, the executable doesn't support proxies which require authentication.
 
 

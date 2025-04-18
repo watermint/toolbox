@@ -10,9 +10,9 @@ func TestParseLocatePosition(t *testing.T) {
 	pad := NewPaddingFixed(1, 3)
 
 	{
-		pp, oc := ParsePosition("top-left")
-		if oc.IsError() {
-			t.Error(oc)
+		pp, err := ParsePosition("top-left")
+		if err != nil {
+			t.Error(err)
 		}
 		p := pp.Locate(artboard, obj, pad)
 		if p.X() != 1 || p.Y() != 3 {
@@ -21,9 +21,9 @@ func TestParseLocatePosition(t *testing.T) {
 	}
 
 	{
-		pp, oc := ParsePosition("top-center")
-		if oc.IsError() {
-			t.Error(oc)
+		pp, err := ParsePosition("top-center")
+		if err != nil {
+			t.Error(err)
 		}
 		p := pp.Locate(artboard, obj, pad)
 		if p.X() != 304 || p.Y() != 3 {
@@ -32,9 +32,9 @@ func TestParseLocatePosition(t *testing.T) {
 	}
 
 	{
-		pp, oc := ParsePosition("top-right")
-		if oc.IsError() {
-			t.Error(oc)
+		pp, err := ParsePosition("top-right")
+		if err != nil {
+			t.Error(err)
 		}
 		p := pp.Locate(artboard, obj, pad)
 		if p.X() != 607 || p.Y() != 3 {
@@ -43,9 +43,9 @@ func TestParseLocatePosition(t *testing.T) {
 	}
 
 	{
-		pp, oc := ParsePosition("center-left")
-		if oc.IsError() {
-			t.Error(oc)
+		pp, err := ParsePosition("center-left")
+		if err != nil {
+			t.Error(err)
 		}
 		p := pp.Locate(artboard, obj, pad)
 		if p.X() != 1 || p.Y() != 190 {
@@ -54,9 +54,9 @@ func TestParseLocatePosition(t *testing.T) {
 	}
 
 	{
-		pp, oc := ParsePosition("center")
-		if oc.IsError() {
-			t.Error(oc)
+		pp, err := ParsePosition("center")
+		if err != nil {
+			t.Error(err)
 		}
 		p := pp.Locate(artboard, obj, pad)
 		if p.X() != 304 || p.Y() != 190 {
@@ -65,9 +65,9 @@ func TestParseLocatePosition(t *testing.T) {
 	}
 
 	{
-		pp, oc := ParsePosition("center-right")
-		if oc.IsError() {
-			t.Error(oc)
+		pp, err := ParsePosition("center-right")
+		if err != nil {
+			t.Error(err)
 		}
 		p := pp.Locate(artboard, obj, pad)
 		if p.X() != 607 || p.Y() != 190 {
@@ -76,9 +76,9 @@ func TestParseLocatePosition(t *testing.T) {
 	}
 
 	{
-		pp, oc := ParsePosition("bottom-left")
-		if oc.IsError() {
-			t.Error(oc)
+		pp, err := ParsePosition("bottom-left")
+		if err != nil {
+			t.Error(err)
 		}
 		p := pp.Locate(artboard, obj, pad)
 		if p.X() != 1 || p.Y() != 377 {
@@ -87,9 +87,9 @@ func TestParseLocatePosition(t *testing.T) {
 	}
 
 	{
-		pp, oc := ParsePosition("bottom-center")
-		if oc.IsError() {
-			t.Error(oc)
+		pp, err := ParsePosition("bottom-center")
+		if err != nil {
+			t.Error(err)
 		}
 		p := pp.Locate(artboard, obj, pad)
 		if p.X() != 304 || p.Y() != 377 {
@@ -98,9 +98,9 @@ func TestParseLocatePosition(t *testing.T) {
 	}
 
 	{
-		pp, oc := ParsePosition("bottom-right")
-		if oc.IsError() {
-			t.Error(oc)
+		pp, err := ParsePosition("bottom-right")
+		if err != nil {
+			t.Error(err)
 		}
 		p := pp.Locate(artboard, obj, pad)
 		if p.X() != 607 || p.Y() != 377 {
@@ -109,9 +109,9 @@ func TestParseLocatePosition(t *testing.T) {
 	}
 
 	{
-		pp, oc := ParsePosition("undefined")
-		if oc.IsOk() {
-			t.Error(oc)
+		pp, err := ParsePosition("undefined")
+		if err == nil {
+			t.Error(err)
 		}
 		p := pp.Locate(artboard, obj, pad)
 		if p.X() != 0 || p.Y() != 0 {

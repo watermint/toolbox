@@ -2,11 +2,12 @@ package em_file
 
 import (
 	"bytes"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
-	"github.com/watermint/toolbox/essentials/log/esl"
-	"io/ioutil"
+	"io"
 	"path/filepath"
 	"strings"
+
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
+	"github.com/watermint/toolbox/essentials/log/esl"
 )
 
 func SumNumNode(node Node) int {
@@ -140,7 +141,7 @@ func Display(l esl.Logger, node Node) {
 		p := filepath.Join(path, node.Name())
 		switch n := node.(type) {
 		case File:
-			hash, err := dbx_util.ContentHash(ioutil.NopCloser(bytes.NewReader(n.Content())), n.Size())
+			hash, err := dbx_util.ContentHash(io.NopCloser(bytes.NewReader(n.Content())), n.Size())
 			l.Info("File",
 				esl.String("path", p),
 				esl.Int64("size", n.Size()),

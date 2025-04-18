@@ -3,16 +3,16 @@ package es_sort
 import (
 	"bytes"
 	"fmt"
-	"github.com/watermint/toolbox/essentials/io/es_close"
-	"github.com/watermint/toolbox/essentials/log/esl"
-	"io/ioutil"
 	"math/rand"
 	"os"
-	"sort"
+	"slices"
 	"strconv"
 	"strings"
 	"testing"
 	"time"
+
+	"github.com/watermint/toolbox/essentials/io/es_close"
+	"github.com/watermint/toolbox/essentials/log/esl"
 )
 
 func testSortData(t *testing.T, digits, numLines, numDupLines int, seed int64, desc, uniq bool, sorter Sorter, out *bytes.Buffer) {
@@ -38,18 +38,19 @@ func testSortData(t *testing.T, digits, numLines, numDupLines int, seed int64, d
 		data[i] = fmt.Sprintf(dataFormat, shuffler.Intn(numLines))
 	}
 
-	sort.Slice(data, func(i, j int) bool {
+	slices.SortFunc(data, func(i, j string) int {
 		if desc {
-			return strings.Compare(data[i], data[j]) > 0
+			return strings.Compare(i, j) * -1
 		} else {
-			return strings.Compare(data[i], data[j]) < 0
+			return strings.Compare(i, j)
 		}
 	})
-	sort.Slice(data0, func(i, j int) bool {
+
+	slices.SortFunc(data0, func(i, j string) int {
 		if desc {
-			return strings.Compare(data0[i], data0[j]) > 0
+			return strings.Compare(i, j) * -1
 		} else {
-			return strings.Compare(data0[i], data0[j]) < 0
+			return strings.Compare(i, j)
 		}
 	})
 
@@ -218,15 +219,13 @@ func TestOwnComparator(t *testing.T) {
 	}
 }
 
-func TestOwnTempFolder(t *testing.T) {
-	tf, err := ioutil.TempDir("", "sort")
+func TestSorter_WithTempFolder(t *testing.T) {
+	tf, err := os.MkdirTemp("", "sort")
 	if err != nil {
 		t.Error(err)
 		return
 	}
-	defer func() {
-		_ = os.RemoveAll(tf)
-	}()
+	defer os.RemoveAll(tf)
 	out := &bytes.Buffer{}
 	sorter := New(es_close.NewNopWriteCloser(out), TempFolder(tf))
 	testSortData(t, 10, 100, 5, 0, false, false, sorter, out)

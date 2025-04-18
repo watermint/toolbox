@@ -4,7 +4,10 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"github.com/watermint/toolbox/essentials/collections/es_array_deprecated"
+	"os"
+	"path/filepath"
+	"sort"
+
 	"github.com/watermint/toolbox/essentials/go/es_lang"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_string"
@@ -17,10 +20,6 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_messages"
 	"github.com/watermint/toolbox/quality/infra/qt_msgusage"
-	"io/ioutil"
-	"os"
-	"path/filepath"
-	"sort"
 )
 
 type Preflight struct {
@@ -55,7 +54,20 @@ func (z *Preflight) sortMessages(c app_control.Control, filename string) error {
 	for k := range messages {
 		definedKeys = append(definedKeys, k)
 	}
-	unusedKeys := es_array_deprecated.NewByString(definedKeys...).Diff(es_array_deprecated.NewByString(touchedKeys...)).AsStringArray()
+
+	// Find unused keys (in definedKeys but not in touchedKeys)
+	unusedKeys := make([]string, 0)
+	touchedKeysMap := make(map[string]bool)
+	for _, k := range touchedKeys {
+		touchedKeysMap[k] = true
+	}
+
+	for _, k := range definedKeys {
+		if !touchedKeysMap[k] {
+			unusedKeys = append(unusedKeys, k)
+		}
+	}
+
 	sort.Strings(unusedKeys)
 	for _, k := range unusedKeys {
 		l.Warn("Unused key found, removing it", esl.String("key", k))
@@ -70,7 +82,7 @@ func (z *Preflight) sortMessages(c app_control.Control, filename string) error {
 		l.Warn("Unable to create sorted image", esl.Error(err))
 		return err
 	}
-	if err := ioutil.WriteFile(p, buf.Bytes(), 0644); err != nil {
+	if err := os.WriteFile(p, buf.Bytes(), 0644); err != nil {
 		l.Warn("Unable to update message", esl.Error(err))
 		return err
 	}

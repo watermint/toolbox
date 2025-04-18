@@ -172,8 +172,70 @@ func (z *scannerImpl) findAstInterface(refType reflect.Type) (astType *types.Int
 	return astType, nil
 }
 
+// validateTypeImplementsInterface returns whether the given object's type implements the interface
+// and reports detailed diagnostic information to help debug interface implementation issues
+func (z *scannerImpl) validateTypeImplementsInterface(obj types.Object, astInterface *types.Interface, l esl.Logger) bool {
+	if obj == nil {
+		l.Debug("validateTypeImplementsInterface: object is nil")
+		return false
+	}
+
+	objType := obj.Type()
+	if objType == nil {
+		l.Debug("validateTypeImplementsInterface: object type is nil")
+		return false
+	}
+
+	ptr := types.NewPointer(objType)
+	ut := ptr.Underlying()
+	impl := types.Implements(ut, astInterface)
+
+	// Enhanced diagnostics
+	l.Debug("interface implementation check",
+		esl.String("object", obj.Name()),
+		esl.String("package", obj.Pkg().Name()),
+		esl.String("type", objType.String()),
+		esl.String("underlying", objType.Underlying().String()),
+		esl.String("pointer", ptr.String()),
+		esl.String("interface", astInterface.String()),
+		esl.Bool("implements", impl))
+
+	// List interface methods for debugging
+	for i := 0; i < astInterface.NumMethods(); i++ {
+		method := astInterface.Method(i)
+		methodName := method.Name()
+		methodSig := method.Type().String()
+
+		// Check if the object has this method
+		objMethod, _, objMethodExists := types.LookupFieldOrMethod(types.NewPointer(objType), true, obj.Pkg(), methodName)
+
+		if !objMethodExists {
+			l.Debug("Missing interface method",
+				esl.String("method", methodName),
+				esl.String("required", methodSig))
+			return false
+		} else {
+			objMethodSig := objMethod.Type().String()
+			methodsMatch := objMethodSig == methodSig
+
+			l.Debug("Method compatibility check",
+				esl.String("method", methodName),
+				esl.String("required", methodSig),
+				esl.String("actual", objMethodSig),
+				esl.Bool("compatible", methodsMatch))
+		}
+	}
+
+	return impl
+}
+
 func (z *scannerImpl) FindStructImplements(refType reflect.Type) (sts []*StructType, err error) {
 	l := z.log()
+
+	l.Debug("Finding struct that implements interface",
+		esl.String("interface", refType.String()),
+		esl.String("pkgPath", refType.PkgPath()),
+		esl.String("name", refType.Name()))
 
 	astType, err := z.findAstInterface(refType)
 	if err != nil {
@@ -210,11 +272,10 @@ func (z *scannerImpl) FindStructImplements(refType reflect.Type) (sts []*StructT
 				if _, ok := obj.Type().Underlying().(*types.Struct); !ok {
 					continue
 				}
-				ptr := types.NewPointer(obj.Type())
-				ut := ptr.Underlying()
-				impl := types.Implements(ut, astType)
+				impl := z.validateTypeImplementsInterface(obj, astType, l)
 				if impl {
 					l.Debug("underlying", esl.String("on", obj.Name()), esl.String("pkg", obj.Pkg().Name()), esl.String("f0", f0), esl.String("rel", rel))
+
 					st := &StructType{
 						Package: rel,
 						Name:    obj.Name(),

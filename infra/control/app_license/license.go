@@ -5,16 +5,17 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"errors"
+	"os"
+	"path/filepath"
+	"strings"
+	"time"
+
 	"github.com/watermint/toolbox/essentials/http/es_download"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/security/sc_obfuscate"
 	"github.com/watermint/toolbox/infra/security/sc_random"
 	"golang.org/x/crypto/sha3"
-	"os"
-	"path/filepath"
-	"strings"
-	"time"
 )
 
 type License interface {
@@ -31,16 +32,16 @@ type License interface {
 	// The second return value is true if the license is warned before the expiration.
 	IsLifecycleWithinLimit() (active bool, warning bool)
 
-	// IsEOL returns true if the license is end-of-life.
+	// IsEOL returns true if the license has reached end-of-life.
 	IsEOL() (eol bool, reason string)
 
 	// LifecycleLimit returns the lifecycle limit of the license.
 	LifecycleLimit() time.Time
 
-	// IsScopeEnabled returns true if the scope is enabled.
+	// IsScopeEnabled returns true if the specified scope is enabled.
 	IsScopeEnabled(scope string) bool
 
-	// IsRecipeEnabled returns true if the recipe is enabled.
+	// IsRecipeEnabled returns true if the specified recipe is enabled.
 	IsRecipeEnabled(recipePath string) bool
 
 	// SealWithKey seals the license data with the key.
@@ -92,7 +93,8 @@ var (
 	ErrorLicenseNotFound    = errors.New("license not found")
 	ErrorUnknownLicenseType = errors.New("unknown license type")
 	ErrorCacheNotFound      = errors.New("cache not found")
-	ErrorCacheExpired       = errors.New("license expired")
+	ErrorCacheExpired       = errors.New("cache expired")
+	ErrorLicenseNetwork     = errors.New("network error: unable to connect to the license server. Please check your network, firewall, or proxy settings.")
 )
 
 const (
@@ -116,10 +118,10 @@ type LicenseLifecycle struct {
 	// WarningAfter is the time when the license is warned before the expiration in seconds.
 	WarningAfter int64 `json:"warning_after"`
 
-	// IsEOL is the flag to indicate the license is end-of-life.
+	// IsEOL is the flag to indicate the license has reached end-of-life.
 	IsEOL bool `json:"is_eol"`
 
-	// ReasonEOL is the reason of the end-of-life.
+	// ReasonEOL is the reason for the end-of-life.
 	ReasonEOL string `json:"reason_eol"`
 }
 
@@ -146,7 +148,7 @@ type LicenseData struct {
 	Binding *LicenseReleaseBinding `json:"binding,omitempty"`
 
 	// CopyType is the copy type of the license.
-	CopyType int `json:"cash_status,omitempty"`
+	CopyType int `json:"copy_status,omitempty"`
 
 	// LicenseeName is the name of the licensee.
 	LicenseeName string `json:"licensee_name,omitempty"`
@@ -217,7 +219,7 @@ func (z LicenseData) IsCacheTimeout() bool {
 		if err != nil {
 			return true
 		}
-		if time.Now().Sub(cachedAt) > CacheTimeout {
+		if time.Since(cachedAt) > CacheTimeout {
 			return true
 		}
 	}
@@ -449,6 +451,11 @@ func loadLicenseUrl(key, url string) (ld *LicenseData, err error) {
 		l.Debug("License not found", esl.String("url", fileUrl))
 		return nil, ErrorLicenseNotFound
 	}
+	var netErr *es_download.ErrorNetworkDetail
+	if errors.As(err, &netErr) {
+		l.Debug("Network error while downloading license", esl.Error(err))
+		return nil, ErrorLicenseNetwork
+	}
 	if err != nil {
 		l.Debug("Unable to download the data", esl.Error(err))
 		return nil, err
@@ -554,7 +561,7 @@ func ParseLicense(data []byte, license string) (ld *LicenseData, err error) {
 	return
 }
 
-// DefaultWarningPeriod returns the default warning period for the expiration in seconds.
+// DefaultWarningPeriod returns the default warning period for expiration in seconds.
 func DefaultWarningPeriod(expiration time.Duration) time.Duration {
 	warningPeriod := time.Duration(expiration.Seconds()*DefaultWarningPeriodFraction) * time.Second
 	if warningPeriod < DefaultWarningMinimumPeriod {

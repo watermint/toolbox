@@ -28,7 +28,6 @@ Please see below help article for more detail:
 
 | Description                                                                                              |
 |----------------------------------------------------------------------------------------------------------|
-| Dropbox for teams: View and edit basic information about your Dropbox account such as your profile photo |
 | Dropbox for teams: View information about your Dropbox files and folders                                 |
 | Dropbox for teams: View your team membership                                                             |
 | Dropbox for teams: View structure of your team's and members' folders                                    |
@@ -130,7 +129,7 @@ Report file path will be displayed last line of the command line output. If you 
 
 ## Report: namespace_size
 
-Namespace size
+Namespace size in bytes
 The command will generate a report in three different formats. `namespace_size.csv`, `namespace_size.json`, and `namespace_size.xlsx`.
 
 | Column               | Description                                                                                |
@@ -144,17 +143,13 @@ The command will generate a report in three different formats. `namespace_size.c
 | count_folder         | Number of folders under the folder                                                         |
 | count_descendant     | Number of files and folders under the folder                                               |
 | size                 | Size of the folder                                                                         |
-| depth                | Folder depth                                                                               |
-| mod_time_earliest    | The earliest modification time of a file in this folder or child folders.                  |
-| mod_time_latest      | The latest modification time of a file in this folder or child folders                     |
+| depth                | Namespace depth                                                                            |
+| mod_time_earliest    | Earliest modification time in namespace                                                    |
+| mod_time_latest      | Latest modification time in namespace                                                      |
 | api_complexity       | Folder complexity index for API operations                                                 |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `namespace_size_0000.xlsx`, `namespace_size_0001.xlsx`, `namespace_size_0002.xlsx`, ...
-
-# Proxy configuration
-
-The executable automatically detects your proxy configuration from the environment. However, if you got an error or you want to specify explicitly, please add -proxy option, like -proxy hostname:port. Currently, the executable doesn't support proxies which require authentication.
 
 

@@ -1,6 +1,11 @@
 package replay
 
 import (
+	"os"
+	"path/filepath"
+	"regexp"
+	"strings"
+
 	"github.com/watermint/toolbox/essentials/http/es_download"
 	"github.com/watermint/toolbox/essentials/io/es_zip"
 	"github.com/watermint/toolbox/essentials/log/esl"
@@ -10,11 +15,6 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
-	"io/ioutil"
-	"os"
-	"path/filepath"
-	"regexp"
-	"strings"
 )
 
 type Remote struct {
@@ -53,16 +53,21 @@ func (z *Remote) Exec(c app_control.Control) error {
 		return err
 	}
 
-	entries, err := ioutil.ReadDir(replayPath)
+	entries, err := os.ReadDir(replayPath)
 	if err != nil {
 		l.Debug("Unable to read replay path", esl.Error(err))
 		return err
 	}
 	for _, entry := range entries {
-		if entry.IsDir() || !strings.HasSuffix(strings.ToLower(entry.Name()), ".zip") {
+		info, err := entry.Info()
+		if err != nil {
+			l.Debug("Unable to get file info", esl.Error(err))
 			continue
 		}
-		l.Info("Replay", esl.String("Entry", entry.Name()), esl.Int64("Size", entry.Size()))
+		if info.IsDir() || !strings.HasSuffix(strings.ToLower(info.Name()), ".zip") {
+			continue
+		}
+		l.Info("Replay", esl.String("Entry", info.Name()), esl.Int64("Size", info.Size()))
 	}
 
 	l.Debug("Run replay bundle", esl.String("replayPath", replayPath))

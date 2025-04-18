@@ -30,7 +30,7 @@ Below commands are for managing team member accounts. Those commands are for a b
 | [dropbox team member batch detach]({{ site.baseurl }}/commands/dropbox-team-member-batch-detach.html)                     | Convert Dropbox for teams accounts to a Basic account |
 | [dropbox team member batch reinvite]({{ site.baseurl }}/commands/dropbox-team-member-batch-reinvite.html)                 | Reinvite invited status members to the team           |
 | [dropbox team member update batch email]({{ site.baseurl }}/commands/dropbox-team-member-update-batch-email.html)         | Member email operation                                |
-| [dropbox team member update batch profile]({{ site.baseurl }}/commands/dropbox-team-member-update-batch-profile.html)     | Update member profile                                 |
+| [dropbox team member update batch profile]({{ site.baseurl }}/commands/dropbox-team-member-update-batch-profile.html)     | Batch update member profiles                          |
 | [dropbox team member update batch visible]({{ site.baseurl }}/commands/dropbox-team-member-update-batch-visible.html)     | Disable directory restriction to members              |
 | [dropbox team member update batch invisible]({{ site.baseurl }}/commands/dropbox-team-member-update-batch-invisible.html) | Enable directory restriction to members               |
 | [dropbox team member quota batch update]({{ site.baseurl }}/commands/dropbox-team-member-quota-batch-update.html)         | Update team member quota                              |
@@ -41,10 +41,10 @@ Member profile commands are for bulk updating member profile information.
 If you need to update the members' email addresses, use the 'member update email` command. The command 'member update email` receives a CSV file to bulk update email addresses.
 If you need to update the member's display name, use the 'member update profile` command.
 
-| Command                                                                                                               | Description            |
-|-----------------------------------------------------------------------------------------------------------------------|------------------------|
-| [dropbox team member update batch email]({{ site.baseurl }}/commands/dropbox-team-member-update-batch-email.html)     | Member email operation |
-| [dropbox team member update batch profile]({{ site.baseurl }}/commands/dropbox-team-member-update-batch-profile.html) | Update member profile  |
+| Command                                                                                                               | Description                  |
+|-----------------------------------------------------------------------------------------------------------------------|------------------------------|
+| [dropbox team member update batch email]({{ site.baseurl }}/commands/dropbox-team-member-update-batch-email.html)     | Member email operation       |
+| [dropbox team member update batch profile]({{ site.baseurl }}/commands/dropbox-team-member-update-batch-profile.html) | Batch update member profiles |
 
 ## Member storage quota control commands
 
@@ -254,11 +254,11 @@ If you are familiar with jq command, then they can send data directly from the p
 tbx team sharedlink list -visibility public -output json | tbx team sharedlink delete links -file -
 ```
 
-# File lock
+# File lock title
 
-File lock commands are capable of listing current file locks or releasing file locks as admin.
+Dropbox Business file lock information
 
-## File lock commands for members
+## File lock member title
 
 | Command                                                                                                                 | Description                                    |
 |-------------------------------------------------------------------------------------------------------------------------|------------------------------------------------|
@@ -266,7 +266,7 @@ File lock commands are capable of listing current file locks or releasing file l
 | [dropbox team member file lock list]({{ site.baseurl }}/commands/dropbox-team-member-file-lock-list.html)               | List locks of the member under the path        |
 | [dropbox team member file lock release]({{ site.baseurl }}/commands/dropbox-team-member-file-lock-release.html)         | Release the lock of the path as the member     |
 
-## File lock commands for team folders
+## File lock team folder title
 
 | Command                                                                                                                         | Description                                         |
 |---------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------|
@@ -366,26 +366,26 @@ Below commands are for managing team admins.
 
 You can run a command as a team member. For example, you can upload a file into member's folder by using `dropbox team runas file sync batch up`.
 
-| Command                                                                                                                                     | Description                                                                         |
-|---------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|
-| [dropbox team runas file list]({{ site.baseurl }}/commands/dropbox-team-runas-file-list.html)                                               | List files and folders run as a member                                              |
-| [dropbox team runas file batch copy]({{ site.baseurl }}/commands/dropbox-team-runas-file-batch-copy.html)                                   | Batch copy files/folders as a member                                                |
-| [dropbox team runas file sync batch up]({{ site.baseurl }}/commands/dropbox-team-runas-file-sync-batch-up.html)                             | Batch sync up that run as members                                                   |
-| [dropbox team runas sharedfolder list]({{ site.baseurl }}/commands/dropbox-team-runas-sharedfolder-list.html)                               | List shared folders run as the member                                               |
-| [dropbox team runas sharedfolder isolate]({{ site.baseurl }}/commands/dropbox-team-runas-sharedfolder-isolate.html)                         | Unshare owned shared folders and leave from external shared folders run as a member |
-| [dropbox team runas sharedfolder mount add]({{ site.baseurl }}/commands/dropbox-team-runas-sharedfolder-mount-add.html)                     | Add the shared folder to the specified member's Dropbox                             |
-| [dropbox team runas sharedfolder mount delete]({{ site.baseurl }}/commands/dropbox-team-runas-sharedfolder-mount-delete.html)               | The specified user unmounts the designated folder.                                  |
-| [dropbox team runas sharedfolder mount list]({{ site.baseurl }}/commands/dropbox-team-runas-sharedfolder-mount-list.html)                   | List all shared folders the specified member mounted                                |
-| [dropbox team runas sharedfolder mount mountable]({{ site.baseurl }}/commands/dropbox-team-runas-sharedfolder-mount-mountable.html)         | List all shared folders the member can mount                                        |
-| [dropbox team runas sharedfolder batch leave]({{ site.baseurl }}/commands/dropbox-team-runas-sharedfolder-batch-leave.html)                 | Batch leave from shared folders as a member                                         |
-| [dropbox team runas sharedfolder batch share]({{ site.baseurl }}/commands/dropbox-team-runas-sharedfolder-batch-share.html)                 | Batch share folders for members                                                     |
-| [dropbox team runas sharedfolder batch unshare]({{ site.baseurl }}/commands/dropbox-team-runas-sharedfolder-batch-unshare.html)             | Batch unshare folders for members                                                   |
-| [dropbox team runas sharedfolder member batch add]({{ site.baseurl }}/commands/dropbox-team-runas-sharedfolder-member-batch-add.html)       | Batch add members to member's shared folders                                        |
-| [dropbox team runas sharedfolder member batch delete]({{ site.baseurl }}/commands/dropbox-team-runas-sharedfolder-member-batch-delete.html) | Batch delete members from member's shared folders                                   |
+| Command                                                                                                                                     | Description                                          |
+|---------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------|
+| [dropbox team runas file list]({{ site.baseurl }}/commands/dropbox-team-runas-file-list.html)                                               | List files and folders run as a member               |
+| [dropbox team runas file batch copy]({{ site.baseurl }}/commands/dropbox-team-runas-file-batch-copy.html)                                   | Batch copy files/folders as a member                 |
+| [dropbox team runas file sync batch up]({{ site.baseurl }}/commands/dropbox-team-runas-file-sync-batch-up.html)                             | Batch upstream sync with Dropbox                     |
+| [dropbox team runas sharedfolder list]({{ site.baseurl }}/commands/dropbox-team-runas-sharedfolder-list.html)                               | List shared folders                                  |
+| [dropbox team runas sharedfolder isolate]({{ site.baseurl }}/commands/dropbox-team-runas-sharedfolder-isolate.html)                         | Isolate member from shared folder                    |
+| [dropbox team runas sharedfolder mount add]({{ site.baseurl }}/commands/dropbox-team-runas-sharedfolder-mount-add.html)                     | Mount a shared folder as another member              |
+| [dropbox team runas sharedfolder mount delete]({{ site.baseurl }}/commands/dropbox-team-runas-sharedfolder-mount-delete.html)               | The specified user unmounts the designated folder.   |
+| [dropbox team runas sharedfolder mount list]({{ site.baseurl }}/commands/dropbox-team-runas-sharedfolder-mount-list.html)                   | List all shared folders the specified member mounted |
+| [dropbox team runas sharedfolder mount mountable]({{ site.baseurl }}/commands/dropbox-team-runas-sharedfolder-mount-mountable.html)         | List all shared folders the member can mount         |
+| [dropbox team runas sharedfolder batch leave]({{ site.baseurl }}/commands/dropbox-team-runas-sharedfolder-batch-leave.html)                 | Leave shared folders in batch                        |
+| [dropbox team runas sharedfolder batch share]({{ site.baseurl }}/commands/dropbox-team-runas-sharedfolder-batch-share.html)                 | Share shared folders in batch                        |
+| [dropbox team runas sharedfolder batch unshare]({{ site.baseurl }}/commands/dropbox-team-runas-sharedfolder-batch-unshare.html)             | Unshare shared folders in batch                      |
+| [dropbox team runas sharedfolder member batch add]({{ site.baseurl }}/commands/dropbox-team-runas-sharedfolder-member-batch-add.html)       | Add members to shared folders in batch               |
+| [dropbox team runas sharedfolder member batch delete]({{ site.baseurl }}/commands/dropbox-team-runas-sharedfolder-member-batch-delete.html) | Remove members from shared folders in batch          |
 
 # Legal hold
 
-With legal holds, admins can place a legal hold on members of their team and view and export all the content that’s been created or modified by those members.
+With legal holds, admins can place a legal hold on members of their team and view and export all the content that's been created or modified by those members.
 
 | Command                                                                                                                   | Description                                 |
 |---------------------------------------------------------------------------------------------------------------------------|---------------------------------------------|
@@ -394,12 +394,12 @@ With legal holds, admins can place a legal hold on members of their team and vie
 | [dropbox team legalhold member batch update]({{ site.baseurl }}/commands/dropbox-team-legalhold-member-batch-update.html) | Update member list of legal hold policy     |
 | [dropbox team legalhold member list]({{ site.baseurl }}/commands/dropbox-team-legalhold-member-list.html)                 | List members of the legal hold              |
 | [dropbox team legalhold release]({{ site.baseurl }}/commands/dropbox-team-legalhold-release.html)                         | Releases a legal hold by Id                 |
-| [dropbox team legalhold revision list]({{ site.baseurl }}/commands/dropbox-team-legalhold-revision-list.html)             | List revisions of the legal hold policy     |
+| [dropbox team legalhold revision list]({{ site.baseurl }}/commands/dropbox-team-legalhold-revision-list.html)             | List revisions under legal hold             |
 | [dropbox team legalhold update desc]({{ site.baseurl }}/commands/dropbox-team-legalhold-update-desc.html)                 | Update description of the legal hold policy |
 | [dropbox team legalhold update name]({{ site.baseurl }}/commands/dropbox-team-legalhold-update-name.html)                 | Update name of the legal hold policy        |
 
 # Notes:
 
-Commands of Dropbox for teams require admin permissions to execute them. Auth tokens must not share with anyone, including Dropbox support.
+Dropbox Business footnote information
 
 

@@ -3,6 +3,12 @@ package move
 import (
 	"bytes"
 	"fmt"
+	"html/template"
+	"os"
+	"path/filepath"
+	"regexp"
+	"strings"
+
 	"github.com/watermint/toolbox/essentials/file/es_filemove"
 	"github.com/watermint/toolbox/essentials/file/es_filepath"
 	"github.com/watermint/toolbox/essentials/log/esl"
@@ -14,12 +20,6 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_writer_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
-	"html/template"
-	"io/ioutil"
-	"os"
-	"path/filepath"
-	"regexp"
-	"strings"
 )
 
 type MsgLocal struct {
@@ -139,7 +139,7 @@ func (z *DispatchPattern) Exec(c app_control.Control, op func(src, dst string, c
 	if err != nil {
 		return err
 	}
-	entries, err := ioutil.ReadDir(srcPath)
+	entries, err := os.ReadDir(srcPath)
 	if err != nil {
 		ui.Error(MLocal.ErrorUnableToReadSourcePath.With("Path", srcPath))
 		return err
@@ -235,7 +235,7 @@ func (z *Dispatch) Test(c app_control.Control) error {
 	name := "TBX-2020-04-01.txt"
 	srcFile := filepath.Join(src, name)
 
-	err = ioutil.WriteFile(srcFile, []byte(app_definitions.BuildId), 0644)
+	err = os.WriteFile(srcFile, []byte(app_definitions.BuildId), 0644)
 	if err != nil {
 		return err
 	}

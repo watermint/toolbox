@@ -5,13 +5,14 @@ import (
 	"compress/gzip"
 	"encoding/json"
 	"errors"
+	"io"
+	"os"
+	"path/filepath"
+	"strings"
+
 	"github.com/watermint/toolbox/essentials/go/es_project"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/network/nw_replay"
-	"io"
-	"io/ioutil"
-	"path/filepath"
-	"strings"
 )
 
 func LoadReplay(name string) (rr []nw_replay.Response, err error) {
@@ -25,7 +26,7 @@ func LoadReplay(name string) (rr []nw_replay.Response, err error) {
 	rp := filepath.Join(tp, "replay", name)
 
 	l.Debug("Loading replay", esl.String("path", rp))
-	all, err := ioutil.ReadFile(rp)
+	all, err := os.ReadFile(rp)
 	if err != nil {
 		l.Debug("Unable to load", esl.Error(err))
 		return nil, err

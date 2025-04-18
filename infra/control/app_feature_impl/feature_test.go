@@ -1,12 +1,12 @@
 package app_feature_impl
 
 import (
+	"os"
+	"testing"
+
 	"github.com/watermint/toolbox/infra/control/app_feature"
 	"github.com/watermint/toolbox/infra/control/app_opt"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
-	"io/ioutil"
-	"os"
-	"testing"
 )
 
 type SampleFeatureOptIn struct {
@@ -14,7 +14,7 @@ type SampleFeatureOptIn struct {
 }
 
 func TestFeatureImpl_OptInGetSet(t *testing.T) {
-	p, err := ioutil.TempDir("", "feature")
+	p, err := os.MkdirTemp("", "feature")
 	if err != nil {
 		t.Error(err)
 		return
@@ -50,7 +50,7 @@ func TestFeatureImpl_OptInGetSet(t *testing.T) {
 }
 
 func TestFeatureImpl_Experiment(t *testing.T) {
-	p, err := ioutil.TempDir("", "feature")
+	p, err := os.MkdirTemp("", "feature")
 	if err != nil {
 		t.Error(err)
 		return

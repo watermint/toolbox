@@ -1,7 +1,6 @@
 package app_workspace
 
 import (
-	"io/ioutil"
 	"os"
 	"strings"
 	"testing"
@@ -26,7 +25,7 @@ func TestDefaultAppPath(t *testing.T) {
 }
 
 func TestNewWorkspace(t *testing.T) {
-	p, err := ioutil.TempDir("", "ws")
+	p, err := os.MkdirTemp("", "ws")
 	if err != nil {
 		t.Error(err)
 		return

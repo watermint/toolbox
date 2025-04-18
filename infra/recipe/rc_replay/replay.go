@@ -21,7 +21,6 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_workspace"
 	"github.com/watermint/toolbox/infra/recipe/rc_value"
 	"github.com/watermint/toolbox/infra/security/sc_random"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"reflect"
@@ -114,7 +113,7 @@ func (z rpImpl) Preserve(target app_workspace.Job, destPath string) error {
 
 	l.Debug("Preserve the job")
 
-	reportEntries, err := ioutil.ReadDir(target.Report())
+	reportEntries, err := os.ReadDir(target.Report())
 	if err != nil {
 		l.Debug("Unable to read dir", esl.Error(err))
 		return err
@@ -134,7 +133,7 @@ func (z rpImpl) Preserve(target app_workspace.Job, destPath string) error {
 		}
 	}
 
-	logEntries, err := ioutil.ReadDir(target.Log())
+	logEntries, err := os.ReadDir(target.Log())
 	if err != nil {
 		l.Debug("Unable to read dir", esl.Error(err))
 		return err
@@ -245,7 +244,7 @@ func (z rpImpl) Replay(target app_workspace.Job, ctl app_control.Control) error 
 	}
 
 	l.Debug("Copy backup files")
-	logEntries, err := ioutil.ReadDir(target.Log())
+	logEntries, err := os.ReadDir(target.Log())
 	if err != nil {
 		l.Debug("Unable to read log folder", esl.Error(err))
 		return err
@@ -380,7 +379,7 @@ func (z rpImpl) compareTextReport(approved app_workspace.Job, reportName string,
 
 func (z rpImpl) Compare(approved app_workspace.Job, replay app_workspace.Job) (err error) {
 	l := z.logger.With(esl.String("preserved", approved.Job()), esl.String("replay", replay.Job()))
-	preservedReportEntries, err := ioutil.ReadDir(approved.Report())
+	preservedReportEntries, err := os.ReadDir(approved.Report())
 	if err != nil {
 		l.Debug("Unable to read reports folder", esl.Error(err))
 		return err

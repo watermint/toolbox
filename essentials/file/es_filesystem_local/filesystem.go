@@ -1,10 +1,10 @@
 package es_filesystem_local
 
 import (
-	"github.com/watermint/toolbox/essentials/file/es_filesystem"
-	"io/ioutil"
 	"os"
 	"path/filepath"
+
+	"github.com/watermint/toolbox/essentials/file/es_filesystem"
 )
 
 const (
@@ -51,13 +51,17 @@ func (z fsLocal) FileSystemType() string {
 }
 
 func (z fsLocal) List(path es_filesystem.Path) (entries []es_filesystem.Entry, err es_filesystem.FileSystemError) {
-	osEntries, osErr := ioutil.ReadDir(path.Path())
+	osEntries, osErr := os.ReadDir(path.Path())
 	if osErr != nil {
 		return nil, NewError(osErr)
 	}
 	entries = make([]es_filesystem.Entry, 0)
 	for _, osEntry := range osEntries {
-		entries = append(entries, NewEntry(filepath.Join(path.Path(), osEntry.Name()), osEntry))
+		info, err := osEntry.Info()
+		if err != nil {
+			return nil, NewError(err)
+		}
+		entries = append(entries, NewEntry(filepath.Join(path.Path(), osEntry.Name()), info))
 	}
 	return
 }

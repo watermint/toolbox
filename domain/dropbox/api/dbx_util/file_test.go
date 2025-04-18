@@ -1,9 +1,10 @@
 package dbx_util
 
 import (
-	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
-	"io/ioutil"
+	"os"
 	"testing"
+
+	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 )
 
 func TestContentHash(t *testing.T) {
@@ -11,7 +12,7 @@ func TestContentHash(t *testing.T) {
 		t.Skipped()
 		return
 	}
-	tmpf, err := ioutil.TempFile("", "hash_test")
+	tmpf, err := os.CreateTemp("", "hash_test")
 	if err != nil {
 		t.Error("Unable to create temp file", err)
 	}

@@ -2,6 +2,12 @@ package app_job_impl
 
 import (
 	"encoding/json"
+	"os"
+	"path/filepath"
+	"sort"
+	"strings"
+	"time"
+
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/file/es_zip"
 	"github.com/watermint/toolbox/essentials/log/esl"
@@ -10,12 +16,6 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_job"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"io/ioutil"
-	"os"
-	"path/filepath"
-	"sort"
-	"strings"
-	"time"
 )
 
 type HistoryMetadata struct {
@@ -88,7 +88,7 @@ func getRecipe(name string) (r rc_recipe.Spec, found bool) {
 func getLogs(path string) (logs []app_job.LogFile, err error) {
 	l := esl.Default()
 	logs = make([]app_job.LogFile, 0)
-	entries, err := ioutil.ReadDir(path)
+	entries, err := os.ReadDir(path)
 	if err != nil {
 		l.Debug("")
 		return nil, err

@@ -2,11 +2,11 @@ package es_zip
 
 import (
 	"archive/zip"
-	"github.com/watermint/toolbox/essentials/log/esl"
 	"io"
-	"io/ioutil"
 	"os"
 	"path/filepath"
+
+	"github.com/watermint/toolbox/essentials/log/esl"
 )
 
 // CompressPath creates zip archive `arcPath` for `targetPath`
@@ -23,7 +23,7 @@ func CompressPath(arcPath, targetPath, arcComment string) error {
 
 	var archive func(b, d string) error
 	archive = func(b, d string) error {
-		entries, err := ioutil.ReadDir(filepath.Join(b, d))
+		entries, err := os.ReadDir(filepath.Join(b, d))
 		if err != nil {
 			l.Error("Unable to read dir", esl.Error(err))
 			return err
@@ -36,11 +36,18 @@ func CompressPath(arcPath, targetPath, arcComment string) error {
 			} else {
 				ep := filepath.Join(d, e.Name())
 				l.Debug("Add file into the archive", esl.String("EntryPath", ep))
+
+				info, err := e.Info()
+				if err != nil {
+					l.Debug("Unable to get file info", esl.Error(err))
+					continue
+				}
+
 				w, err := arc.CreateHeader(&zip.FileHeader{
 					Name:     filepath.ToSlash(ep),
 					Comment:  e.Name(),
 					Method:   zip.Deflate,
-					Modified: e.ModTime(),
+					Modified: info.ModTime(),
 				})
 				if err != nil {
 					l.Debug("Unable to add file to the archive", esl.Error(err))

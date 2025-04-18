@@ -1,11 +1,20 @@
 package eg_image
 
 import (
-	"github.com/watermint/toolbox/essentials/graphic/eg_color"
-	eg_geom2 "github.com/watermint/toolbox/essentials/graphic/eg_geom"
+	"fmt"
 	"image"
 	"image/png"
 	"os"
+
+	"github.com/watermint/toolbox/essentials/graphic/eg_color"
+	eg_geom2 "github.com/watermint/toolbox/essentials/graphic/eg_geom"
+	"github.com/watermint/toolbox/essentials/log/esl"
+)
+
+var (
+	ErrUnsupportedFormatError = fmt.Errorf("%s", ErrUnsupportedFormat)
+	ErrEncodeFailureError     = fmt.Errorf("%s", ErrEncodeFailure)
+	ErrWriteFailureError      = fmt.Errorf("%s", ErrWriteFailure)
 )
 
 func NewRgba(width, height int) Image {
@@ -20,10 +29,12 @@ type rgbaImpl struct {
 	img *image.RGBA
 }
 
-func (z rgbaImpl) ExportTo(format ImageFormat, path string) ExportOutcome {
+func (z rgbaImpl) ExportTo(format ImageFormat, path string) error {
+	l := esl.Default()
 	f, err := os.Create(path)
 	if err != nil {
-		return NewExportOutcomeWriteFailure(err)
+		l.Debug("Failed to create file", esl.String("path", path), esl.Error(err))
+		return ErrWriteFailureError
 	}
 	defer func() {
 		_ = f.Close()
@@ -32,13 +43,14 @@ func (z rgbaImpl) ExportTo(format ImageFormat, path string) ExportOutcome {
 	switch format {
 	case FormatPng:
 		if encErr := png.Encode(f, z.GoImageRGBA()); encErr != nil {
-			return NewExportOutcomeEncodeFailure(encErr)
+			l.Debug("Failed to encode PNG", esl.String("path", path), esl.Error(encErr))
+			return ErrEncodeFailureError
 		}
 	default:
-		return NewExportOutcomeUnsupportedFormat(format)
-
+		l.Debug("Unsupported format", esl.String("path", path), esl.Int("format", int(format)))
+		return ErrUnsupportedFormatError
 	}
-	return NewExportOutcomeSuccess()
+	return nil
 }
 
 func (z rgbaImpl) Bounds() eg_geom2.Rectangle {

@@ -1,12 +1,12 @@
 package es_hex
 
 import (
-	"github.com/watermint/toolbox/essentials/go/es_idiom_deprecated/eoutcome"
+	"github.com/watermint/toolbox/essentials/go/es_errors"
 )
 
-func Parse(hex string) ([]byte, eoutcome.ParseOutcome) {
+func Parse(hex string) ([]byte, error) {
 	if len(hex)%2 == 1 {
-		return nil, eoutcome.NewParseInvalidFormat("hex string must have pair of digits")
+		return nil, es_errors.NewInvalidFormatError("hex string must have pair of digits")
 	}
 	hr := []rune(hex)
 	s := len(hr) / 2
@@ -16,11 +16,11 @@ func Parse(hex string) ([]byte, eoutcome.ParseOutcome) {
 		hi := ParseSingleHex(hr[i*2])
 		lo := ParseSingleHex(hr[i*2+1])
 		if hi > 0x10 || lo > 0x10 {
-			return nil, eoutcome.NewParseInvalidChar("hex string must consists of [0-9a-fA-F]")
+			return nil, es_errors.NewInvalidFormatError("hex string must consists of [0-9a-fA-F]")
 		}
 		d[i] = hi<<4 | lo
 	}
-	return d, eoutcome.NewParseSuccess()
+	return d, nil
 }
 
 func ParseSingleHex(hex rune) byte {

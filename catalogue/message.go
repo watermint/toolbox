@@ -38,6 +38,7 @@ import (
 	infradatada_json "github.com/watermint/toolbox/infra/data/da_json"
 	infradocdc_command "github.com/watermint/toolbox/infra/doc/dc_command"
 	infradocdc_contributor "github.com/watermint/toolbox/infra/doc/dc_contributor"
+	infradocdc_knowledge "github.com/watermint/toolbox/infra/doc/dc_knowledge"
 	infradocdc_license "github.com/watermint/toolbox/infra/doc/dc_license"
 	infradocdc_options "github.com/watermint/toolbox/infra/doc/dc_options"
 	infradocdc_supplemental "github.com/watermint/toolbox/infra/doc/dc_supplemental"
@@ -95,12 +96,14 @@ func AutoDetectedMessageObjects() []interface{} {
 		&infradatada_json.MsgJsonInput{},
 		&infradocdc_command.MsgHeader{},
 		&infradocdc_contributor.MsgDeveloper{},
+		&infradocdc_knowledge.MsgKnowledge{},
 		&infradocdc_license.MsgLicense{},
 		&infradocdc_options.MsgDoc{},
 		&infradocdc_supplemental.MsgDropboxBusiness{},
 		&infradocdc_supplemental.MsgExperimentalFeature{},
 		&infradocdc_supplemental.MsgPathVariable{},
 		&infradocdc_supplemental.MsgReportingOptions{},
+		&infradocdc_supplemental.MsgSpecChange{},
 		&infradocdc_supplemental.MsgTroubleshooting{},
 		&infrafeedfd_file_impl.MsgRowFeed{},
 		&infrareciperc_exec.MsgPanic{},

@@ -2,17 +2,17 @@ package esl_rotate
 
 import (
 	"errors"
-	"github.com/watermint/toolbox/essentials/concurrency/es_mutex"
-	"github.com/watermint/toolbox/essentials/io/es_timeout"
-	"github.com/watermint/toolbox/essentials/log/esl"
 	"io"
 	"os"
 	"time"
+
+	"github.com/watermint/toolbox/essentials/concurrency/es_mutex"
+	"github.com/watermint/toolbox/essentials/io/es_timeout"
+	"github.com/watermint/toolbox/essentials/log/esl"
 )
 
 const (
-	logFileExtension = ".log"
-	logWriteTimeout  = 15 * time.Second
+	logWriteTimeout = 15 * time.Second
 )
 
 var (

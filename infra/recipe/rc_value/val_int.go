@@ -1,10 +1,12 @@
 package rc_value
 
 import (
+	"reflect"
+	"strconv"
+
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"reflect"
 )
 
 func newValueInt() rc_recipe.Value {
@@ -64,8 +66,12 @@ func (z *ValueInt) Capture(ctl app_control.Control) (v interface{}, err error) {
 }
 
 func (z *ValueInt) Restore(v es_json.Json, ctl app_control.Control) error {
-	if w, found := v.Number(); found {
-		z.v = w.Int64()
+	if numStr, found := v.Number(); found {
+		var err error
+		z.v, err = strconv.ParseInt(numStr, 10, 64)
+		if err != nil {
+			return rc_recipe.ErrorValueRestoreFailed
+		}
 		return nil
 	} else {
 		return rc_recipe.ErrorValueRestoreFailed

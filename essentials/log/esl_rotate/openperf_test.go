@@ -2,13 +2,12 @@ package esl_rotate
 
 import (
 	"fmt"
-	"io/ioutil"
 	"os"
 	"testing"
 )
 
 func BenchmarkOpen(b *testing.B) {
-	f, err := ioutil.TempFile("", "open")
+	f, err := os.CreateTemp("", "open")
 	if err != nil {
 		b.Error(err)
 		return
@@ -28,7 +27,7 @@ func BenchmarkOpen(b *testing.B) {
 }
 
 func BenchmarkAppend(b *testing.B) {
-	f, err := ioutil.TempFile("", "open")
+	f, err := os.CreateTemp("", "open")
 	if err != nil {
 		b.Error(err)
 		return

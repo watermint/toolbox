@@ -1,13 +1,14 @@
 package es_module
 
 import (
-	"github.com/watermint/toolbox/essentials/http/es_download"
-	"github.com/watermint/toolbox/essentials/log/esl"
+	"io"
 	"io/fs"
-	"io/ioutil"
 	"path"
 	"regexp"
 	"strings"
+
+	"github.com/watermint/toolbox/essentials/http/es_download"
+	"github.com/watermint/toolbox/essentials/log/esl"
 )
 
 const (
@@ -105,7 +106,7 @@ func ScanLicense(target fs.FS) (licenses []License, err error) {
 				ll.Debug("Unable to open the license file", esl.Error(err))
 				return err
 			}
-			body, err := ioutil.ReadAll(lf)
+			body, err := io.ReadAll(lf)
 			if err != nil {
 				ll.Debug("Unable to read the license file", esl.Error(err))
 				return err

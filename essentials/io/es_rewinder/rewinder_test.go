@@ -2,7 +2,6 @@ package es_rewinder
 
 import (
 	"io"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"testing"
@@ -26,7 +25,7 @@ func TestNewReadRewinderJsonStruct(t *testing.T) {
 }
 
 func TestReaderRewinderWithLimit_Read(t *testing.T) {
-	d, err := ioutil.TempDir("", "read_rewinder")
+	d, err := os.MkdirTemp("", "read_rewinder")
 	if err != nil {
 		t.Error(err)
 		return
@@ -61,7 +60,7 @@ func TestReaderRewinderWithLimit_Read(t *testing.T) {
 		if lr.Length() != 10 {
 			t.Error(lr.Length())
 		}
-		b0_10, err := ioutil.ReadAll(lr)
+		b0_10, err := io.ReadAll(lr)
 		if err != nil {
 			t.Error(err)
 			return
@@ -78,7 +77,7 @@ func TestReaderRewinderWithLimit_Read(t *testing.T) {
 			t.Error(err)
 			return
 		}
-		b10_20, err := ioutil.ReadAll(lr)
+		b10_20, err := io.ReadAll(lr)
 		if err != nil {
 			t.Error(err)
 			return
@@ -91,7 +90,7 @@ func TestReaderRewinderWithLimit_Read(t *testing.T) {
 			return
 		}
 		lr.Rewind()
-		b10_20, err = ioutil.ReadAll(lr)
+		b10_20, err = io.ReadAll(lr)
 		if err != nil {
 			t.Error(err)
 			return
@@ -108,7 +107,7 @@ func TestReaderRewinderWithLimit_Read(t *testing.T) {
 			t.Error(err)
 			return
 		}
-		b20_30, err := ioutil.ReadAll(lr)
+		b20_30, err := io.ReadAll(lr)
 		if err != nil {
 			t.Error(err)
 			return
@@ -121,7 +120,7 @@ func TestReaderRewinderWithLimit_Read(t *testing.T) {
 			return
 		}
 		lr.Rewind()
-		b20_30, err = ioutil.ReadAll(lr)
+		b20_30, err = io.ReadAll(lr)
 		if err != nil {
 			t.Error(err)
 			return
@@ -141,7 +140,7 @@ func TestReaderRewinderWithLimit_Read(t *testing.T) {
 		if lr.Length() != 10 {
 			t.Error(lr.Length())
 		}
-		b0_10, err := ioutil.ReadAll(lr)
+		b0_10, err := io.ReadAll(lr)
 		if err != nil {
 			t.Error(err)
 			return
@@ -158,7 +157,7 @@ func TestReaderRewinderWithLimit_Read(t *testing.T) {
 			t.Error(err)
 			return
 		}
-		b25_30, err := ioutil.ReadAll(lr)
+		b25_30, err := io.ReadAll(lr)
 		if err != nil {
 			t.Error(err)
 			return
@@ -171,7 +170,7 @@ func TestReaderRewinderWithLimit_Read(t *testing.T) {
 			return
 		}
 		lr.Rewind()
-		b25_30, err = ioutil.ReadAll(lr)
+		b25_30, err = io.ReadAll(lr)
 		if err != nil {
 			t.Error(err)
 			return

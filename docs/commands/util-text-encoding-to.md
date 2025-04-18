@@ -74,8 +74,4 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 Text to change encoding
 
-# Proxy configuration
-
-The executable automatically detects your proxy configuration from the environment. However, if you got an error or you want to specify explicitly, please add -proxy option, like -proxy hostname:port. Currently, the executable doesn't support proxies which require authentication.
-
 

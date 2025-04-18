@@ -1,7 +1,6 @@
 package es_fileentry
 
 import (
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
@@ -41,13 +40,17 @@ func NewLocalEntry(path string, entry os.FileInfo) LocalEntry {
 }
 
 func ReadLocalEntries(path string) (entries []LocalEntry, err error) {
-	osEntries, err := ioutil.ReadDir(path)
+	osEntries, err := os.ReadDir(path)
 	if err != nil {
 		return
 	}
 	entries = make([]LocalEntry, len(osEntries))
 	for i, osEntry := range osEntries {
-		entries[i] = NewLocalEntry(path, osEntry)
+		info, err := osEntry.Info()
+		if err != nil {
+			return nil, err
+		}
+		entries[i] = NewLocalEntry(path, info)
 	}
 	return
 }

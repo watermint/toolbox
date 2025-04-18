@@ -3,14 +3,14 @@ package rc_value
 import (
 	"encoding/json"
 	"flag"
+	"os"
+	"testing"
+
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/quality/infra/qt_control"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
-	"io/ioutil"
-	"os"
-	"testing"
 )
 
 type ValueFdFileRowTestModel struct {
@@ -156,7 +156,7 @@ func TestValueFdFileRowFeedEmpty(t *testing.T) {
 func TestValueFdFileRowFeed_Capture(t *testing.T) {
 	err := qt_control.WithControl(func(c app_control.Control) error {
 		// Prepare test data
-		testDataFile, err := ioutil.TempFile("", "row_feed*.csv")
+		testDataFile, err := os.CreateTemp("", "row_feed*.csv")
 		if err != nil {
 			t.Error(err)
 			return err
@@ -206,7 +206,7 @@ func TestValueFdFileRowFeed_Capture(t *testing.T) {
 				t.Error("empty file path")
 			}
 
-			restoreData, err := ioutil.ReadFile(vrf2.FilePath())
+			restoreData, err := os.ReadFile(vrf2.FilePath())
 			if err != nil {
 				t.Error(err)
 				return err

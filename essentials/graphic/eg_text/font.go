@@ -2,7 +2,7 @@ package eg_text
 
 import (
 	"github.com/golang/freetype/truetype"
-	"github.com/watermint/toolbox/essentials/go/es_idiom_deprecated/eoutcome"
+	"github.com/watermint/toolbox/essentials/go/es_errors"
 	"github.com/watermint/toolbox/essentials/graphic/eg_geom"
 	"golang.org/x/image/font"
 )
@@ -23,19 +23,19 @@ type Font interface {
 }
 
 func MustNewTrueTypeParse(fontData []byte) Font {
-	f, oc := NewTrueTypeParse(fontData)
-	if oc.IsError() {
-		panic(oc.String())
+	f, err := NewTrueTypeParse(fontData)
+	if err != nil {
+		panic(err.Error())
 	}
 	return f
 }
 
-func NewTrueTypeParse(fontData []byte) (f Font, oc eoutcome.ParseOutcome) {
+func NewTrueTypeParse(fontData []byte) (f Font, err error) {
 	ttf, err := truetype.Parse(fontData)
 	if err != nil {
-		return nil, eoutcome.NewParseInvalidFormat(err.Error())
+		return nil, es_errors.NewInvalidFormatError("invalid font format: %s", err.Error())
 	}
-	return NewTrueType(ttf), eoutcome.NewParseSuccess()
+	return NewTrueType(ttf), nil
 }
 
 func NewTrueType(f *truetype.Font) Font {

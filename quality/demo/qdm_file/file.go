@@ -1,11 +1,11 @@
 package qdm_file
 
 import (
-	"github.com/watermint/toolbox/essentials/log/esl"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"time"
+
+	"github.com/watermint/toolbox/essentials/log/esl"
 )
 
 type Scenario struct {
@@ -20,7 +20,7 @@ type Scenario struct {
 
 func NewScenario(short bool) (sc Scenario, err error) {
 	l := esl.Default()
-	sc.LocalPath, err = ioutil.TempDir("", "file-upload-scenario")
+	sc.LocalPath, err = os.MkdirTemp("", "file-upload-scenario")
 	if err != nil {
 		l.Error("unable to create temp dir", esl.Error(err))
 		return
@@ -72,13 +72,13 @@ func NewScenario(short bool) (sc Scenario, err error) {
 	// Create test files
 	{
 		for f, c := range sc.Files {
-			if err = ioutil.WriteFile(filepath.Join(sc.LocalPath, f), []byte(c), 0644); err != nil {
+			if err = os.WriteFile(filepath.Join(sc.LocalPath, f), []byte(c), 0644); err != nil {
 				l.Error("Unable to create file", esl.Error(err), esl.String("f", f))
 				return
 			}
 		}
 		for f, c := range sc.Ignore {
-			if err = ioutil.WriteFile(filepath.Join(sc.LocalPath, f), []byte(c), 0644); err != nil {
+			if err = os.WriteFile(filepath.Join(sc.LocalPath, f), []byte(c), 0644); err != nil {
 				l.Error("Unable to create file", esl.Error(err), esl.String("f", f))
 				return
 			}
