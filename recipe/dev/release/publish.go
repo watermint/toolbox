@@ -339,7 +339,7 @@ func (z *Publish) updateHomebrewFormula(c app_control.Control, macArm, linuxInte
 		m.Repository = z.HomebrewRepoName
 		m.Branch = z.HomebrewRepoBranch
 		m.Message = "Release " + app_definitions2.BuildId
-		m.FormulaName = strings.TrimPrefix(z.RepoName, "toolbox") + ".rb"
+		m.FormulaName = z.RepoName + ".rb"
 
 		m.AssetPathMacArm = mo_path2.NewExistingFileSystemPath(macArm.Name)
 		m.DownloadUrlMacArm = baseUrl + macArm.Name
