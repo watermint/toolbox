@@ -18,9 +18,9 @@ import (
 	"github.com/watermint/toolbox/essentials/file/es_filehash"
 	"github.com/watermint/toolbox/essentials/go/es_lang"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	mo_path2 "github.com/watermint/toolbox/essentials/model/mo_path"
+	"github.com/watermint/toolbox/essentials/model/mo_path"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	app_definitions2 "github.com/watermint/toolbox/infra/control/app_definitions"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
@@ -47,7 +47,7 @@ const (
 type Publish struct {
 	rc_recipe.RemarkConsole
 	rc_recipe.RemarkSecret
-	ArtifactPath mo_path2.FileSystemPath
+	ArtifactPath mo_path.FileSystemPath
 	Branch       string
 	ConnGithub   gh_conn.ConnGithubRepo
 	SkipTests    bool
@@ -89,9 +89,9 @@ type ArtifactSum struct {
 
 func (z *Publish) Preset() {
 	z.Branch = "main"
-	z.RepoOwner = app_definitions2.CoreRepositoryOwner
-	z.RepoName = app_definitions2.CoreRepositoryName
-	z.ExecutableName = app_definitions2.ExecutableName
+	z.RepoOwner = app_definitions.CoreRepositoryOwner
+	z.RepoName = app_definitions.CoreRepositoryName
+	z.ExecutableName = app_definitions.ExecutableName
 	z.HomebrewRepoOwner = homebrewRepoOwner
 	z.HomebrewRepoName = homebrewRepoName
 	z.HomebrewRepoBranch = homebrewRepoBranch
@@ -107,7 +107,7 @@ func (z *Publish) artifactAssets(c app_control.Control) (paths []string, sizes m
 	paths = make([]string, 0)
 	sizes = make(map[string]int64)
 	for _, e := range entries {
-		if !strings.HasPrefix(e.Name(), z.ExecutableName+"-"+app_definitions2.BuildId) || !strings.HasSuffix(e.Name(), ".zip") {
+		if !strings.HasPrefix(e.Name(), z.ExecutableName+"-"+app_definitions.BuildId) || !strings.HasSuffix(e.Name(), ".zip") {
 			l.Debug("Ignore non artifact file", esl.Any("file", e))
 			continue
 		}
@@ -155,8 +155,8 @@ func (z *Publish) verifyArtifacts(c app_control.Control) (a []*ArtifactSum, err 
 
 func (z *Publish) releaseNotes(c app_control.Control, sum []*ArtifactSum) (relNote string, err error) {
 	l := c.Log()
-	baseUrl := fmt.Sprintf("https://github.com/%s/%s/blob/%s", z.RepoOwner, z.RepoName, app_definitions2.BuildId)
-	if app_definitions2.Release == "" {
+	baseUrl := fmt.Sprintf("https://github.com/%s/%s/blob/%s", z.RepoOwner, z.RepoName, app_definitions.BuildId)
+	if app_definitions.Release == "" {
 		l.Error("Release number undefined")
 		return "", errors.New("release number undefined")
 	}
@@ -171,7 +171,7 @@ func (z *Publish) releaseNotes(c app_control.Control, sum []*ArtifactSum) (relNo
 
 		for _, la := range es_lang.Supported {
 			mui.Info(z.ListSpecChange.
-				With("Link", baseUrl+fmt.Sprintf("/docs/releases/changes%s.md", app_definitions2.Release)).
+				With("Link", baseUrl+fmt.Sprintf("/docs/releases/changes%s.md", app_definitions.Release)).
 				With("Lang", la.Self()),
 			)
 		}
@@ -237,13 +237,13 @@ func (z *Publish) createTag(c app_control.Control) error {
 	l := c.Log().With(
 		esl.String("owner", z.RepoOwner),
 		esl.String("repository", z.RepoName),
-		esl.String("version", app_definitions2.BuildId),
-		esl.String("hash", app_definitions2.BuildInfo.Hash))
+		esl.String("version", app_definitions.BuildId),
+		esl.String("hash", app_definitions.BuildInfo.Hash))
 	svt := sv_reference.New(z.ghCtx(c), z.RepoOwner, z.RepoName)
 	l.Debug("Create tag")
 	tag, err := svt.Create(
-		"refs/tags/"+app_definitions2.BuildId,
-		app_definitions2.BuildInfo.Hash,
+		"refs/tags/"+app_definitions.BuildId,
+		app_definitions.BuildInfo.Hash,
 	)
 	if err != nil && err != qt_errors.ErrorMock {
 		l.Debug("Unable to create tag", esl.Error(err))
@@ -260,23 +260,23 @@ func (z *Publish) createReleaseDraft(c app_control.Control, relNote string) (rel
 	l := c.Log().With(
 		esl.String("owner", z.RepoOwner),
 		esl.String("repository", z.RepoName),
-		esl.String("version", app_definitions2.BuildId),
-		esl.String("hash", app_definitions2.BuildInfo.Hash))
+		esl.String("version", app_definitions.BuildId),
+		esl.String("hash", app_definitions.BuildInfo.Hash))
 	ui := c.UI()
 
 	relName := ""
-	switch app_definitions2.ReleaseStage() {
-	case app_definitions2.StageDev:
-		relName = ui.Text(z.ReleaseNameDev.With("Version", app_definitions2.BuildId))
-	case app_definitions2.StageBeta:
-		relName = ui.Text(z.ReleaseNameBeta.With("Version", app_definitions2.BuildId))
-	case app_definitions2.StageRelease:
-		relName = ui.Text(z.ReleaseName.With("Version", app_definitions2.BuildId))
+	switch app_definitions.ReleaseStage() {
+	case app_definitions.StageDev:
+		relName = ui.Text(z.ReleaseNameDev.With("Version", app_definitions.BuildId))
+	case app_definitions.StageBeta:
+		relName = ui.Text(z.ReleaseNameBeta.With("Version", app_definitions.BuildId))
+	case app_definitions.StageRelease:
+		relName = ui.Text(z.ReleaseName.With("Version", app_definitions.BuildId))
 	}
 
 	svr := sv_release.New(z.ghCtx(c), z.RepoOwner, z.RepoName)
 	rel, err = svr.CreateDraft(
-		app_definitions2.BuildId,
+		app_definitions.BuildId,
 		relName,
 		relNote,
 		z.Branch,
@@ -305,7 +305,7 @@ func (z *Publish) uploadAssets(c app_control.Control, rel *mo_release.Release) (
 	uploaded = make(map[string]*mo_release_asset.Asset)
 	for _, p := range assets {
 		l.Info("Uploading asset", esl.String("path", p))
-		a, err := sva.Upload(mo_path2.NewExistingFileSystemPath(p))
+		a, err := sva.Upload(mo_path.NewExistingFileSystemPath(p))
 		if err != nil && err != qt_errors.ErrorMock {
 			return nil, err
 		}
@@ -332,20 +332,20 @@ func (z *Publish) publishRelease(c app_control.Control, release *mo_release.Rele
 }
 
 func (z *Publish) updateHomebrewFormula(c app_control.Control, macArm, linuxIntel, linuxArm *mo_release_asset.Asset) error {
-	baseUrl := fmt.Sprintf("https://github.com/%s/%s/releases/download/%s/", z.RepoOwner, z.RepoName, app_definitions2.BuildId)
+	baseUrl := fmt.Sprintf("https://github.com/%s/%s/releases/download/%s/", z.RepoOwner, z.RepoName, app_definitions.BuildId)
 	return rc_exec.Exec(c, z.Formula, func(r rc_recipe.Recipe) {
 		m := r.(*ig_homebrew.Formula)
 		m.Owner = z.HomebrewRepoOwner
 		m.Repository = z.HomebrewRepoName
 		m.Branch = z.HomebrewRepoBranch
-		m.Message = "Release " + app_definitions2.BuildId
+		m.Message = "Release " + app_definitions.BuildId
 		m.FormulaName = z.RepoName + ".rb"
 
-		m.AssetPathMacArm = mo_path2.NewExistingFileSystemPath(macArm.Name)
+		m.AssetPathMacArm = mo_path.NewExistingFileSystemPath(macArm.Name)
 		m.DownloadUrlMacArm = baseUrl + macArm.Name
-		m.AssetPathLinuxIntel = mo_path2.NewExistingFileSystemPath(linuxIntel.Name)
+		m.AssetPathLinuxIntel = mo_path.NewExistingFileSystemPath(linuxIntel.Name)
 		m.DownloadUrlLinuxIntel = baseUrl + linuxIntel.Name
-		m.AssetPathLinuxArm = mo_path2.NewExistingFileSystemPath(linuxArm.Name)
+		m.AssetPathLinuxArm = mo_path.NewExistingFileSystemPath(linuxArm.Name)
 		m.DownloadUrlLinuxArm = baseUrl + linuxArm.Name
 	})
 }
@@ -354,7 +354,7 @@ func (z *Publish) Exec(c app_control.Control) error {
 	l := c.Log()
 	ready := true
 
-	if app_definitions2.IsProduction() {
+	if app_definitions.IsProduction() {
 		l.Info("Verify embedded resources")
 		qt_runtime.Suite(c)
 	} else {
@@ -452,8 +452,8 @@ func (z *Publish) Test(c app_control.Control) error {
 
 	platforms := []string{"linux", "mac", "win"}
 	for _, platform := range platforms {
-		app_definitions2.BuildId = "dev-test"
-		err = os.WriteFile(filepath.Join(d, app_definitions2.ExecutableName+"-"+app_definitions2.BuildId+"-"+platform+".zip"), []byte("Test artifact"), 0644)
+		app_definitions.BuildId = "dev-test"
+		err = os.WriteFile(filepath.Join(d, app_definitions.ExecutableName+"-"+app_definitions.BuildId+"-"+platform+".zip"), []byte("Test artifact"), 0644)
 		if err != nil {
 			c.Log().Warn("Unable to create test artifact", esl.Error(err))
 			return err
@@ -463,10 +463,10 @@ func (z *Publish) Test(c app_control.Control) error {
 
 	err = rc_exec.ExecMock(c, &Publish{}, func(r rc_recipe.Recipe) {
 		m := r.(*Publish)
-		m.ArtifactPath = mo_path2.NewFileSystemPath(d)
-		m.RepoOwner = app_definitions2.CoreRepositoryOwner
-		m.RepoName = app_definitions2.CoreRepositoryName
-		m.ExecutableName = app_definitions2.ExecutableName
+		m.ArtifactPath = mo_path.NewFileSystemPath(d)
+		m.RepoOwner = app_definitions.CoreRepositoryOwner
+		m.RepoName = app_definitions.CoreRepositoryName
+		m.ExecutableName = app_definitions.ExecutableName
 	})
 	if err, _ = qt_errors.ErrorsForTest(c.Log(), err); !errors.Is(err, ErrorBuildIsNotReadyForRelease) && err != nil {
 		return err
