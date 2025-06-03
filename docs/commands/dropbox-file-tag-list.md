@@ -8,6 +8,8 @@ lang: en
 
 List tags of the path 
 
+Display all tags associated with a specific file or folder in Dropbox. This command helps you see what tags have been applied to organize and categorize your content. The output shows each tag along with the file path.
+
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:

@@ -6073,7 +6073,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/tag/add.md
 
 Add tag to file or folder 
 
-
+Add a custom tag to a file or folder in Dropbox. Tags help organize and categorize your content for easier searching and management. You can add multiple tags to the same file or folder.
 
 # Usage
 
@@ -6108,7 +6108,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/tag/delete.md
 
 Delete a tag from the file/folder 
 
-
+Remove a specific tag from a file or folder in Dropbox. This operation only removes the tag association and does not affect the file or folder itself. Use this command to clean up outdated or incorrect tags.
 
 # Usage
 
@@ -6143,7 +6143,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/tag/list.md
 
 List tags of the path 
 
-
+Display all tags associated with a specific file or folder in Dropbox. This command helps you see what tags have been applied to organize and categorize your content. The output shows each tag along with the file path.
 
 # Usage
 
