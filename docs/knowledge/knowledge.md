@@ -16,29 +16,62 @@ URL: https://toolbox.watermint.org/commands/common-options.md
 ## Common command options
 
 
+**-auth-database**
+: Custom path to auth database (default: $HOME/.toolbox/secrets/secrets.db)
 
-| Option             | Description                                                                                                                                           | Default              |
-|--------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------|
-| `-auth-database`   | Custom path to auth database (default: $HOME/.toolbox/secrets/secrets.db)                                                                             |                      |
-| `-auto-open`       | Auto open URL or artifact folder                                                                                                                      | false                |
-| `-bandwidth-kb`    | Bandwidth limit in K bytes per sec for upload/download content. 0 for unlimited                                                                       | 0                    |
-| `-budget-memory`   | Memory budget (limits some feature to reduce memory footprint) (Options: low, normal)                                                                 | normal               |
-| `-budget-storage`  | Storage budget (limits logs or some feature to reduce storage usage) (Options: low, normal, unlimited)                                                | normal               |
-| `-concurrency`     | Maximum concurrency for running operation                                                                                                             | Number of processors |
-| `-debug`           | Enable debug mode                                                                                                                                     | false                |
-| `-experiment`      | Enable experimental feature(s).                                                                                                                       |                      |
-| `-extra`           | Extra parameter file path                                                                                                                             |                      |
-| `-lang`            | Display language (Options: auto, en, ja)                                                                                                              | auto                 |
-| `-output`          | Output format (none/text/markdown/json) (Options: text, markdown, json, none)                                                                         | text                 |
-| `-output-filter`   | Output filter query (jq syntax). The output of the report is filtered using jq syntax. This option is only applied when the report is output as JSON. |                      |
-| `-proxy`           | HTTP/HTTPS proxy (hostname:port). Please specify `DIRECT` if you want to skip setting proxy.                                                          |                      |
-| `-quiet`           | Suppress non-error messages, and make output readable by a machine (JSON format)                                                                      | false                |
-| `-retain-job-data` | Job data retain policy (Options: default, on_error, none)                                                                                             | default              |
-| `-secure`          | Do not store tokens into a file                                                                                                                       | false                |
-| `-skip-logging`    | Skip logging in the local storage                                                                                                                     | false                |
-| `-verbose`         | Show current operations for more detail.                                                                                                              | false                |
-| `-workspace`       | Workspace path                                                                                                                                        |                      |
+**-auto-open**
+: Auto open URL or artifact folder. Default: false
 
+**-bandwidth-kb**
+: Bandwidth limit in K bytes per sec for upload/download content. 0 for unlimited. Default: 0
+
+**-budget-memory**
+: Memory budget (limits some feature to reduce memory footprint). Options: low, normal. Default: normal
+
+**-budget-storage**
+: Storage budget (limits logs or some feature to reduce storage usage). Options: low, normal, unlimited. Default: normal
+
+**-concurrency**
+: Maximum concurrency for running operation. Default: Number of processors
+
+**-debug**
+: Enable debug mode. Default: false
+
+**-experiment**
+: Enable experimental feature(s).
+
+**-extra**
+: Extra parameter file path
+
+**-lang**
+: Display language. Options: auto, en, ja. Default: auto
+
+**-output**
+: Output format (none/text/markdown/json). Options: text, markdown, json, none. Default: text
+
+**-output-filter**
+: Output filter query (jq syntax). The output of the report is filtered using jq syntax. This option is only applied when the report is output as JSON.
+
+**-proxy**
+: HTTP/HTTPS proxy (hostname:port). Please specify `DIRECT` if you want to skip setting proxy.
+
+**-quiet**
+: Suppress non-error messages, and make output readable by a machine (JSON format). Default: false
+
+**-retain-job-data**
+: Job data retain policy. Options: default, on_error, none. Default: default
+
+**-secure**
+: Do not store tokens into a file. Default: false
+
+**-skip-logging**
+: Skip logging in the local storage. Default: false
+
+**-verbose**
+: Show current operations for more detail.. Default: false
+
+**-workspace**
+: Workspace path
 
 
 
@@ -128,12 +161,11 @@ tbx config auth delete -key-name KEY_NAME -peer-name PEER_NAME
 ## Options:
 
 
+**-key-name**
+: Application key name
 
-| Option       | Description          | Default |
-|--------------|----------------------|---------|
-| `-key-name`  | Application key name |         |
-| `-peer-name` | Peer name            |         |
-
+**-peer-name**
+: Peer name
 
 
 
@@ -224,11 +256,8 @@ tbx config feature disable -key FEATURE
 ## Options:
 
 
-
-| Option | Description  | Default |
-|--------|--------------|---------|
-| `-key` | Feature key. |         |
-
+**-key**
+: Feature key.
 
 
 
@@ -256,11 +285,8 @@ tbx config feature enable -key FEATURE
 ## Options:
 
 
-
-| Option | Description  | Default |
-|--------|--------------|---------|
-| `-key` | Feature key. |         |
-
+**-key**
+: Feature key.
 
 
 
@@ -309,11 +335,8 @@ tbx config license install -key LICENSE_KEY
 ## Options:
 
 
-
-| Option | Description | Default |
-|--------|-------------|---------|
-| `-key` | License key |         |
-
+**-key**
+: License key
 
 
 
@@ -384,13 +407,14 @@ tbx log api job
 ## Options:
 
 
+**-full-url**
+: Show full URL. Default: false
 
-| Option             | Description                             | Default |
-|--------------------|-----------------------------------------|---------|
-| `-full-url`        | Show full URL                           | false   |
-| `-interval-second` | Interval in seconds for the time series | 3600    |
-| `-job-id`          | Job ID                                  |         |
+**-interval-second**
+: Interval in seconds for the time series. Default: 3600
 
+**-job-id**
+: Job ID
 
 
 
@@ -480,13 +504,14 @@ tbx log api name -name JOB_NAME
 ## Options:
 
 
+**-full-url**
+: Show full URL. Default: false
 
-| Option             | Description                                             | Default |
-|--------------------|---------------------------------------------------------|---------|
-| `-full-url`        | Show full URL                                           | false   |
-| `-interval-second` | Interval in seconds for the time series                 | 3600    |
-| `-name`            | Job command line path (e.g. `dropbox team member list`) |         |
+**-interval-second**
+: Interval in seconds for the time series. Default: 3600
 
+**-name**
+: Job command line path (e.g. `dropbox team member list`)
 
 
 
@@ -576,12 +601,11 @@ tbx log cat curl
 ## Options:
 
 
+**-buffer-size**
+: Buffer size for each request. Default: 65536
 
-| Option         | Description                                               | Default |
-|----------------|-----------------------------------------------------------|---------|
-| `-buffer-size` | Buffer size for each request                              | 65536   |
-| `-record`      | Give a record of capture log file via command line option |         |
-
+**-record**
+: Give a record of capture log file via command line option
 
 
 
@@ -609,13 +633,14 @@ tbx log cat job -id JOB_ID
 ## Options:
 
 
+**-id**
+: Job ID
 
-| Option  | Description                                                      | Default |
-|---------|------------------------------------------------------------------|---------|
-| `-id`   | Job ID                                                           |         |
-| `-kind` | Kind of log (Options: toolbox, capture, summary, recipe, result) | toolbox |
-| `-path` | Path to the workspace                                            |         |
+**-kind**
+: Kind of log. Options:.   • toolbox (kind: toolbox).   • capture (kind: capture).   • summary (kind: summary).   • recipe (kind: recipe).   • result (kind: result). Default: toolbox
 
+**-path**
+: Path to the workspace
 
 
 
@@ -643,12 +668,11 @@ tbx log cat kind
 ## Options:
 
 
+**-kind**
+: Log kind.. Options:.   • toolbox (kind: toolbox).   • capture (kind: capture).   • summary (kind: summary).   • recipe (kind: recipe).   • result (kind: result). Default: toolbox
 
-| Option  | Description                                                    | Default |
-|---------|----------------------------------------------------------------|---------|
-| `-kind` | Log kind. (Options: toolbox, capture, summary, recipe, result) | toolbox |
-| `-path` | Path to workspace.                                             |         |
-
+**-path**
+: Path to workspace.
 
 
 
@@ -676,12 +700,11 @@ tbx log cat last
 ## Options:
 
 
+**-kind**
+: Log kind. Options:.   • toolbox (kind: toolbox).   • capture (kind: capture).   • summary (kind: summary).   • recipe (kind: recipe).   • result (kind: result). Default: toolbox
 
-| Option  | Description                                                   | Default |
-|---------|---------------------------------------------------------------|---------|
-| `-kind` | Log kind (Options: toolbox, capture, summary, recipe, result) | toolbox |
-| `-path` | Path to workspace.                                            |         |
-
+**-path**
+: Path to workspace.
 
 
 
@@ -709,12 +732,11 @@ tbx log job archive
 ## Options:
 
 
+**-days**
+: Target days old. Default: 7
 
-| Option  | Description           | Default |
-|---------|-----------------------|---------|
-| `-days` | Target days old       | 7       |
-| `-path` | Path to the workspace |         |
-
+**-path**
+: Path to the workspace
 
 
 
@@ -742,12 +764,11 @@ tbx log job delete
 ## Options:
 
 
+**-days**
+: Target days old. Default: 28
 
-| Option  | Description           | Default |
-|---------|-----------------------|---------|
-| `-days` | Target days old       | 28      |
-| `-path` | Path to the workspace |         |
-
+**-path**
+: Path to the workspace
 
 
 
@@ -775,11 +796,8 @@ tbx log job list
 ## Options:
 
 
-
-| Option  | Description       | Default |
-|---------|-------------------|---------|
-| `-path` | Path to workspace |         |
-
+**-path**
+: Path to workspace
 
 
 
@@ -828,12 +846,11 @@ tbx util archive unzip -in /LOCAL/PATH/TO/ARCHIVE.zip -out /LOCAL/PATH/TO/EXTRAC
 ## Options:
 
 
+**-in**
+: Zip archive file path
 
-| Option | Description           | Default |
-|--------|-----------------------|---------|
-| `-in`  | Zip archive file path |         |
-| `-out` | Path to extract files |         |
-
+**-out**
+: Path to extract files
 
 
 
@@ -861,13 +878,14 @@ tbx util archive zip -out /LOCAL/PATH/TO/ARCHIVE.zip -target /LOCAL/PATH/TO/COMP
 ## Options:
 
 
+**-comment**
+: Comment for the zip archive
 
-| Option     | Description                 | Default |
-|------------|-----------------------------|---------|
-| `-comment` | Comment for the zip archive |         |
-| `-out`     | Zip archive file path       |         |
-| `-target`  | Target path to compress     |         |
+**-out**
+: Zip archive file path
 
+**-target**
+: Target path to compress
 
 
 
@@ -895,12 +913,11 @@ tbx util cert selfsigned -out /LOCAL/PATH/TO/GENERATE_CERT_AND_KEY
 ## Options:
 
 
+**-days**
+: Number of validity days of the certificate. Default: 365
 
-| Option  | Description                                | Default |
-|---------|--------------------------------------------|---------|
-| `-days` | Number of validity days of the certificate | 365     |
-| `-out`  | Output folder path                         |         |
-
+**-out**
+: Output folder path
 
 
 
@@ -928,12 +945,11 @@ tbx util database exec -file /LOCAL/PATH/DATA.sql -sql SQL
 ## Options:
 
 
+**-file**
+: Path to data file
 
-| Option  | Description       | Default |
-|---------|-------------------|---------|
-| `-file` | Path to data file |         |
-| `-sql`  | Query             |         |
-
+**-sql**
+: Query
 
 
 
@@ -961,14 +977,17 @@ tbx util database query -file /LOCAL/PATH/DATA.sql -sql SQL
 ## Options:
 
 
+**-file**
+: Path to data file
 
-| Option           | Description       | Default |
-|------------------|-------------------|---------|
-| `-file`          | Path to data file |         |
-| `-result`        | Query result      |         |
-| `-result-format` | Output format     |         |
-| `-sql`           | Query             |         |
+**-result**
+: Query result
 
+**-result-format**
+: Output format
+
+**-sql**
+: Query
 
 
 
@@ -1004,12 +1023,11 @@ tbx util date today
 ## Options:
 
 
+**-offset**
+: Offset (day). Default: 0
 
-| Option    | Description  | Default |
-|-----------|--------------|---------|
-| `-offset` | Offset (day) | 0       |
-| `-utc`    | Use UTC      | false   |
-
+**-utc**
+: Use UTC. Default: false
 
 
 
@@ -1037,15 +1055,20 @@ tbx util datetime now
 ## Options:
 
 
+**-offset-day**
+: Offset (day). Default: 0
 
-| Option         | Description   | Default |
-|----------------|---------------|---------|
-| `-offset-day`  | Offset (day)  | 0       |
-| `-offset-hour` | Offset (hour) | 0       |
-| `-offset-min`  | Offset (min)  | 0       |
-| `-offset-sec`  | Offset (sec)  | 0       |
-| `-utc`         | Use UTC       | false   |
+**-offset-hour**
+: Offset (hour). Default: 0
 
+**-offset-min**
+: Offset (min). Default: 0
+
+**-offset-sec**
+: Offset (sec). Default: 0
+
+**-utc**
+: Use UTC. Default: false
 
 
 
@@ -1073,12 +1096,11 @@ tbx util decode base32 -text /LOCAL/PATH/TO/INPUT.txt
 ## Options:
 
 
+**-no-padding**
+: No padding. Default: false
 
-| Option        | Description | Default |
-|---------------|-------------|---------|
-| `-no-padding` | No padding  | false   |
-| `-text`       | Text        |         |
-
+**-text**
+: Text
 
 
 
@@ -1113,12 +1135,11 @@ tbx util decode base64 -text /LOCAL/PATH/TO/INPUT.txt
 ## Options:
 
 
+**-no-padding**
+: No padding. Default: false
 
-| Option        | Description | Default |
-|---------------|-------------|---------|
-| `-no-padding` | No padding  | false   |
-| `-text`       | Text        |         |
-
+**-text**
+: Text
 
 
 
@@ -1153,11 +1174,8 @@ tbx util desktop open -path /LOCAL/PATH/TO/open
 ## Options:
 
 
-
-| Option  | Description                        | Default |
-|---------|------------------------------------|---------|
-| `-path` | Path to the file or folder to open |         |
-
+**-path**
+: Path to the file or folder to open
 
 
 
@@ -1185,12 +1203,11 @@ tbx util encode base32 -text /LOCAL/PATH/TO/INPUT.txt
 ## Options:
 
 
+**-no-padding**
+: No padding. Default: false
 
-| Option        | Description | Default |
-|---------------|-------------|---------|
-| `-no-padding` | No padding  | false   |
-| `-text`       | Text        |         |
-
+**-text**
+: Text
 
 
 
@@ -1225,12 +1242,11 @@ tbx util encode base64 -text /LOCAL/PATH/TO/INPUT.txt
 ## Options:
 
 
+**-no-padding**
+: No padding. Default: false
 
-| Option        | Description | Default |
-|---------------|-------------|---------|
-| `-no-padding` | No padding  | false   |
-| `-text`       | Text        |         |
-
+**-text**
+: Text
 
 
 
@@ -1265,12 +1281,11 @@ tbx util feed json -url URL
 ## Options:
 
 
+**-compact**
+: Compact output. Default: false
 
-| Option     | Description     | Default |
-|------------|-----------------|---------|
-| `-compact` | Compact output  | false   |
-| `-url`     | URL of the feed |         |
-
+**-url**
+: URL of the feed
 
 
 
@@ -1298,12 +1313,11 @@ tbx util file hash -file /LOCAL/PATH/TO/DIGEST
 ## Options:
 
 
+**-algorithm**
+: Hash algorithm (md5/sha1/sha256). Options:.   • md5 (algorithm: md5).   • sha1 (algorithm: sha1).   • sha256 (algorithm: sha256). Default: sha1
 
-| Option       | Description                                                   | Default |
-|--------------|---------------------------------------------------------------|---------|
-| `-algorithm` | Hash algorithm (md5/sha1/sha256) (Options: md5, sha1, sha256) | sha1    |
-| `-file`      | Path to the file to create digest                             |         |
-
+**-file**
+: Path to the file to create digest
 
 
 
@@ -1331,14 +1345,17 @@ tbx util git clone -local-path /LOCAL/PATH/TO/CLONE -url https://github.com/user
 ## Options:
 
 
+**-local-path**
+: Local path to clone repository
 
-| Option         | Description                    | Default |
-|----------------|--------------------------------|---------|
-| `-local-path`  | Local path to clone repository |         |
-| `-reference`   | Reference name                 |         |
-| `-remote-name` | Name of the remote             | origin  |
-| `-url`         | Git repository URL             |         |
+**-reference**
+: Reference name
 
+**-remote-name**
+: Name of the remote. Default: origin
+
+**-url**
+: Git repository URL
 
 
 
@@ -1366,11 +1383,8 @@ tbx util image exif -file /LOCAL/PATH/TO/IMG.jpg
 ## Options:
 
 
-
-| Option  | Description       | Default |
-|---------|-------------------|---------|
-| `-file` | Path to data file |         |
-
+**-file**
+: Path to data file
 
 
 
@@ -1418,20 +1432,35 @@ tbx util image placeholder -path /LOCAL/PATH/TO/save.png
 ## Options:
 
 
+**-color**
+: Background color. Default: white
 
-| Option           | Description                                               | Default |
-|------------------|-----------------------------------------------------------|---------|
-| `-color`         | Background color                                          | white   |
-| `-font-path`     | Path to TrueType font (required if you need to draw text) |         |
-| `-font-size`     | Font size                                                 | 12      |
-| `-height`        | Height (pixels)                                           | 400     |
-| `-path`          | Path to export generated image                            |         |
-| `-text`          | Text if you need                                          |         |
-| `-text-align`    | Text alignment (Options: left, center, right)             | left    |
-| `-text-color`    | Text color                                                | black   |
-| `-text-position` | Text position                                             | center  |
-| `-width`         | Width (pixels)                                            | 640     |
+**-font-path**
+: Path to TrueType font (required if you need to draw text)
 
+**-font-size**
+: Font size. Default: 12
+
+**-height**
+: Height (pixels). Default: 400
+
+**-path**
+: Path to export generated image
+
+**-text**
+: Text if you need
+
+**-text-align**
+: Text alignment. Options:.   • left (textalign: left).   • center (textalign: center).   • right (textalign: right). Default: left
+
+**-text-color**
+: Text color. Default: black
+
+**-text-position**
+: Text position. Default: center
+
+**-width**
+: Width (pixels). Default: 640
 
 
 
@@ -1459,13 +1488,14 @@ tbx util json query -path /LOCAL/PATH/TO/DATA.json -query QUERY
 ## Options:
 
 
+**-compact**
+: Compact output. Default: false
 
-| Option     | Description    | Default |
-|------------|----------------|---------|
-| `-compact` | Compact output | false   |
-| `-path`    | File path      |         |
-| `-query`   | Query string   |         |
+**-path**
+: File path
 
+**-query**
+: Query string
 
 
 
@@ -1500,12 +1530,11 @@ tbx util net download -out /LOCAL/PATH/TO/STORE -url URL_TO_DOWNLOAD
 ## Options:
 
 
+**-out**
+: Local path to store
 
-| Option | Description         | Default |
-|--------|---------------------|---------|
-| `-out` | Local path to store |         |
-| `-url` | URL to download     |         |
-
+**-url**
+: URL to download
 
 
 
@@ -1533,15 +1562,20 @@ tbx util qrcode create -out /LOCAL/PATH/TO/OUT.png -text /LOCAL/PATH/TO/INPUT.tx
 ## Options:
 
 
+**-error-correction-level**
+: Error correction level (l/m/q/h).. Options:.   • l (errorcorrectionlevel: l).   • m (errorcorrectionlevel: m).   • q (errorcorrectionlevel: q).   • h (errorcorrectionlevel: h). Default: m
 
-| Option                    | Description                                                            | Default |
-|---------------------------|------------------------------------------------------------------------|---------|
-| `-error-correction-level` | Error correction level (l/m/q/h). (Options: l, m, q, h)                | m       |
-| `-mode`                   | QR code encoding mode (Options: auto, numeric, alpha_numeric, unicode) | auto    |
-| `-out`                    | Output path with file name                                             |         |
-| `-size`                   | Image resolution (pixels)                                              | 256     |
-| `-text`                   | Text data                                                              |         |
+**-mode**
+: QR code encoding mode. Options:.   • auto (mode: auto).   • numeric (mode: numeric).   • alpha_numeric (mode: alpha_numeric).   • unicode (mode: unicode). Default: auto
 
+**-out**
+: Output path with file name
+
+**-size**
+: Image resolution (pixels). Default: 256
+
+**-text**
+: Text data
 
 
 
@@ -1576,17 +1610,26 @@ tbx util qrcode wifi -out /LOCAL/PATH/TO/OUT.png -ssid SSID
 ## Options:
 
 
+**-error-correction-level**
+: Error correction level (l/m/q/h).. Options:.   • l (errorcorrectionlevel: l).   • m (errorcorrectionlevel: m).   • q (errorcorrectionlevel: q).   • h (errorcorrectionlevel: h). Default: m
 
-| Option                    | Description                                                                          | Default |
-|---------------------------|--------------------------------------------------------------------------------------|---------|
-| `-error-correction-level` | Error correction level (l/m/q/h). (Options: l, m, q, h)                              | m       |
-| `-hidden`                 | `true` if an SSID is hidden. `false` if an SSID is visible. (Options: , true, false) |         |
-| `-mode`                   | QR code encoding mode (Options: auto, numeric, alpha_numeric, unicode)               | auto    |
-| `-network-type`           | Network type. (Options: WPA, WEP, )                                                  | WPA     |
-| `-out`                    | Output path with file name                                                           |         |
-| `-size`                   | Image resolution (pixels)                                                            | 256     |
-| `-ssid`                   | Network SSID                                                                         |         |
+**-hidden**
+: `true` if an SSID is hidden. `false` if an SSID is visible.. Options:.   •  (hidden: ).   • true (hidden: true).   • false (hidden: false)
 
+**-mode**
+: QR code encoding mode. Options:.   • auto (mode: auto).   • numeric (mode: numeric).   • alpha_numeric (mode: alpha_numeric).   • unicode (mode: unicode). Default: auto
+
+**-network-type**
+: Network type.. Options:.   • WPA.   • WEP.   •  (networktype: ). Default: WPA
+
+**-out**
+: Output path with file name
+
+**-size**
+: Image resolution (pixels). Default: 256
+
+**-ssid**
+: Network SSID
 
 
 
@@ -1614,14 +1657,17 @@ tbx util release install -path /LOCAL/PATH/TO/INSTALL
 ## Options:
 
 
+**-accept-license-agreement**
+: Accept the target release's license agreement. Default: false
 
-| Option                      | Description                                   | Default |
-|-----------------------------|-----------------------------------------------|---------|
-| `-accept-license-agreement` | Accept the target release's license agreement | false   |
-| `-path`                     | Path to install                               |         |
-| `-peer`                     | Account alias                                 | default |
-| `-release`                  | Release tag name                              | latest  |
+**-path**
+: Path to install
 
+**-peer**
+: Account alias. Default: default
+
+**-release**
+: Release tag name. Default: latest
 
 
 
@@ -1649,15 +1695,20 @@ tbx util table format xlsx -sheet SHEET_NAME -dest /LOCAL/PATH/TO/out.txt -templ
 ## Options:
 
 
+**-dest**
+: Destination file path
 
-| Option      | Description             | Default |
-|-------------|-------------------------|---------|
-| `-dest`     | Destination file path   |         |
-| `-position` | Start position of table | A1      |
-| `-sheet`    | Sheet name              |         |
-| `-source`   | Data source xlsx file   |         |
-| `-template` | Template file           |         |
+**-position**
+: Start position of table. Default: A1
 
+**-sheet**
+: Sheet name
+
+**-source**
+: Data source xlsx file
+
+**-template**
+: Template file
 
 
 
@@ -1685,11 +1736,8 @@ tbx util text case down -text /LOCAL/PATH/TO/INPUT.txt
 ## Options:
 
 
-
-| Option  | Description | Default |
-|---------|-------------|---------|
-| `-text` | Text        |         |
-
+**-text**
+: Text
 
 
 
@@ -1724,11 +1772,8 @@ tbx util text case up -text /LOCAL/PATH/TO/INPUT.txt
 ## Options:
 
 
-
-| Option  | Description | Default |
-|---------|-------------|---------|
-| `-text` | Text        |         |
-
+**-text**
+: Text
 
 
 
@@ -1763,13 +1808,14 @@ tbx util text encoding from -in /LOCAL/PATH/TO/INPUT_FILE -out /LOCAL/PATH/TO/OU
 ## Options:
 
 
+**-encoding**
+: Encoding name
 
-| Option      | Description      | Default |
-|-------------|------------------|---------|
-| `-encoding` | Encoding name    |         |
-| `-in`       | Input file path  |         |
-| `-out`      | Output file path |         |
+**-in**
+: Input file path
 
+**-out**
+: Output file path
 
 
 
@@ -1804,13 +1850,14 @@ tbx util text encoding to -in /LOCAL/PATH/TO/INPUT_FILE -out /LOCAL/PATH/TO/OUTP
 ## Options:
 
 
+**-encoding**
+: Encoding name
 
-| Option      | Description      | Default |
-|-------------|------------------|---------|
-| `-encoding` | Encoding name    |         |
-| `-in`       | Input file path  |         |
-| `-out`      | Output file path |         |
+**-in**
+: Input file path
 
+**-out**
+: Output file path
 
 
 
@@ -1845,12 +1892,11 @@ tbx util text nlp english entity -in /LOCAL/PATH/TO/INPUT.txt
 ## Options:
 
 
+**-ignore-line-break**
+: Consider line break as regular white space while tokenizing. Default: false
 
-| Option               | Description                                                 | Default |
-|----------------------|-------------------------------------------------------------|---------|
-| `-ignore-line-break` | Consider line break as regular white space while tokenizing | false   |
-| `-in`                | Input file path                                             |         |
-
+**-in**
+: Input file path
 
 
 
@@ -1885,12 +1931,11 @@ tbx util text nlp english sentence -in /LOCAL/PATH/TO/INPUT.txt
 ## Options:
 
 
+**-ignore-line-break**
+: Consider line break as regular white space while tokenizing. Default: false
 
-| Option               | Description                                                 | Default |
-|----------------------|-------------------------------------------------------------|---------|
-| `-ignore-line-break` | Consider line break as regular white space while tokenizing | false   |
-| `-in`                | Input file path                                             |         |
-
+**-in**
+: Input file path
 
 
 
@@ -1925,12 +1970,11 @@ tbx util text nlp english token -in /LOCAL/PATH/TO/INPUT.txt
 ## Options:
 
 
+**-ignore-line-break**
+: Consider line break as regular white space while tokenizing. Default: false
 
-| Option               | Description                                                 | Default |
-|----------------------|-------------------------------------------------------------|---------|
-| `-ignore-line-break` | Consider line break as regular white space while tokenizing | false   |
-| `-in`                | Input file path                                             |         |
-
+**-in**
+: Input file path
 
 
 
@@ -1965,15 +2009,20 @@ tbx util text nlp japanese token -in /LOCAL/PATH/TO/INPUT.txt
 ## Options:
 
 
+**-dictionary**
+: Dictionary name of the token. Options: ipa (dictionary: ipa), uni (dictionary: uni). Default: ipa
 
-| Option               | Description                                                              | Default |
-|----------------------|--------------------------------------------------------------------------|---------|
-| `-dictionary`        | Dictionary name of the token (Options: ipa, uni)                         | ipa     |
-| `-ignore-line-break` | Ignore line break                                                        | false   |
-| `-in`                | Input file path                                                          |         |
-| `-mode`              | Tokenize mode (normal/search/extended) (Options: normal, search, extend) | normal  |
-| `-omit-bos-eos`      | Omit BOS/EOS tokens                                                      | false   |
+**-ignore-line-break**
+: Ignore line break. Default: false
 
+**-in**
+: Input file path
+
+**-mode**
+: Tokenize mode (normal/search/extended). Options:.   • normal (mode: normal).   • search (mode: search).   • extend (mode: extend). Default: normal
+
+**-omit-bos-eos**
+: Omit BOS/EOS tokens. Default: false
 
 
 
@@ -2008,14 +2057,17 @@ tbx util text nlp japanese wakati -in /LOCAL/PATH/TO/INPUT.txt
 ## Options:
 
 
+**-dictionary**
+: Dictionary name (ipa/uni). Options: ipa (dictionary: ipa), uni (dictionary: uni). Default: ipa
 
-| Option               | Description                                   | Default |
-|----------------------|-----------------------------------------------|---------|
-| `-dictionary`        | Dictionary name (ipa/uni) (Options: ipa, uni) | ipa     |
-| `-ignore-line-break` | Ignore line break                             | false   |
-| `-in`                | Input file path                               |         |
-| `-separator`         | Text separator                                |         |
+**-ignore-line-break**
+: Ignore line break. Default: false
 
+**-in**
+: Input file path
+
+**-separator**
+: Text separator. Default:  
 
 
 
@@ -2050,12 +2102,11 @@ tbx util tidy move dispatch -file /PATH/TO/DATA_FILE.csv
 ## Options:
 
 
+**-file**
+: Path to data file
 
-| Option     | Description       | Default |
-|------------|-------------------|---------|
-| `-file`    | Path to data file |         |
-| `-preview` | Preview mode      | false   |
-
+**-preview**
+: Preview mode. Default: false
 
 
 
@@ -2107,15 +2158,20 @@ tbx util tidy move simple -dst /LOCAL/DEST -src /LOCAL/SRC
 ## Options:
 
 
+**-dst**
+: The destination folder path. The command will create folders if they do not exist on the path.
 
-| Option                  | Description                                                                                    | Default |
-|-------------------------|------------------------------------------------------------------------------------------------|---------|
-| `-dst`                  | The destination folder path. The command will create folders if they do not exist on the path. |         |
-| `-exclude-folders`      | Exclude folders                                                                                | false   |
-| `-include-system-files` | Include system files                                                                           | false   |
-| `-preview`              | Preview mode                                                                                   | false   |
-| `-src`                  | The source folder path.                                                                        |         |
+**-exclude-folders**
+: Exclude folders. Default: false
 
+**-include-system-files**
+: Include system files. Default: false
+
+**-preview**
+: Preview mode. Default: false
+
+**-src**
+: The source folder path.
 
 
 
@@ -2143,13 +2199,14 @@ tbx util tidy pack remote -dropbox-path /DROPBOX/PATH/TO/DOWNLOAD -local-path /L
 ## Options:
 
 
+**-dropbox-path**
+: Dropbox path to download
 
-| Option          | Description                  | Default |
-|-----------------|------------------------------|---------|
-| `-dropbox-path` | Dropbox path to download     |         |
-| `-local-path`   | Local path to store zip file |         |
-| `-peer`         | Account alias                | default |
+**-local-path**
+: Local path to store zip file
 
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -2202,11 +2259,8 @@ tbx util time now
 ## Options:
 
 
-
-| Option | Description | Default |
-|--------|-------------|---------|
-| `-utc` | Use UTC     | false   |
-
+**-utc**
+: Use UTC. Default: false
 
 
 
@@ -2234,13 +2288,14 @@ tbx util unixtime format
 ## Options:
 
 
+**-format**
+: Time format. Options:.   • iso8601 (Format: iso8601).   • rfc1123 (Format: rfc1123).   • rfc1123z (Format: rfc1123z).   • rfc3339 (Format: rfc3339).   • rfc3339_nano (Format: rfc3339_nano).   • rfc822 (Format: rfc822).   • rfc822z (Format: rfc822z). Default: iso8601
 
-| Option       | Description                                                                               | Default |
-|--------------|-------------------------------------------------------------------------------------------|---------|
-| `-format`    | Time format (Options: iso8601, rfc1123, rfc1123z, rfc3339, rfc3339_nano, rfc822, rfc822z) | iso8601 |
-| `-precision` | Time precision (second/ms/ns) (Options: second, ms, ns)                                   | second  |
-| `-time`      | Unix Time                                                                                 | 0       |
+**-precision**
+: Time precision (second/ms/ns). Options:.   • second (precision: second).   • ms (precision: ms).   • ns (precision: ns). Default: second
 
+**-time**
+: Unix Time. Default: 0
 
 
 
@@ -2268,11 +2323,8 @@ tbx util unixtime now
 ## Options:
 
 
-
-| Option       | Description                                             | Default |
-|--------------|---------------------------------------------------------|---------|
-| `-precision` | Time precision (second/ms/ns) (Options: second, ms, ns) | second  |
-
+**-precision**
+: Time precision (second/ms/ns). Options:.   • second (precision: second).   • ms (precision: ms).   • ns (precision: ns). Default: second
 
 
 
@@ -2300,11 +2352,8 @@ tbx util uuid timestamp -uuid UUID
 ## Options:
 
 
-
-| Option  | Description | Default |
-|---------|-------------|---------|
-| `-uuid` | UUID        |         |
-
+**-uuid**
+: UUID
 
 
 
@@ -2353,11 +2402,8 @@ tbx util uuid v4
 ## Options:
 
 
-
-| Option        | Description               | Default |
-|---------------|---------------------------|---------|
-| `-upper-case` | Output UUID in upper case | false   |
-
+**-upper-case**
+: Output UUID in upper case. Default: false
 
 
 
@@ -2385,11 +2431,8 @@ tbx util uuid v7
 ## Options:
 
 
-
-| Option        | Description | Default |
-|---------------|-------------|---------|
-| `-upper-case` | Upper case  | false   |
-
+**-upper-case**
+: Upper case. Default: false
 
 
 
@@ -2417,11 +2460,8 @@ tbx util uuid version -uuid UUID
 ## Options:
 
 
-
-| Option  | Description | Default |
-|---------|-------------|---------|
-| `-uuid` | UUID        |         |
-
+**-uuid**
+: UUID
 
 
 
@@ -2468,12 +2508,11 @@ tbx util xlsx create -file /LOCAL/PATH/TO/CREATE.xlsx -sheet SHEET_NAME
 ## Options:
 
 
+**-file**
+: Path to data file
 
-| Option   | Description       | Default |
-|----------|-------------------|---------|
-| `-file`  | Path to data file |         |
-| `-sheet` | Sheet name        |         |
-
+**-sheet**
+: Sheet name
 
 
 
@@ -2501,14 +2540,17 @@ tbx util xlsx sheet export -file /LOCAL/PATH/TO/EXPORT.xlsx -sheet SHEET_NAME
 ## Options:
 
 
+**-data**
+: Export data path
 
-| Option         | Description       | Default |
-|----------------|-------------------|---------|
-| `-data`        | Export data path  |         |
-| `-data-format` | Output format     |         |
-| `-file`        | Path to data file |         |
-| `-sheet`       | Sheet name        |         |
+**-data-format**
+: Output format
 
+**-file**
+: Path to data file
+
+**-sheet**
+: Sheet name
 
 
 
@@ -2544,15 +2586,20 @@ tbx util xlsx sheet import -data /LOCAL/PATH/TO/INPUT.csv -file /LOCAL/PATH/TO/T
 ## Options:
 
 
+**-create**
+: Create a file if not found. Default: false
 
-| Option      | Description                                             | Default |
-|-------------|---------------------------------------------------------|---------|
-| `-create`   | Create a file if not found                              | false   |
-| `-data`     | Data path                                               |         |
-| `-file`     | Path to data file                                       |         |
-| `-position` | Start position to import in A1 notation. Default: `A1`. | A1      |
-| `-sheet`    | Sheet name                                              |         |
+**-data**
+: Data path
 
+**-file**
+: Path to data file
+
+**-position**
+: Start position to import in A1 notation. Default: `A1`.. Default: A1
+
+**-sheet**
+: Sheet name
 
 
 
@@ -2588,11 +2635,8 @@ tbx util xlsx sheet list -file /LOCAL/PATH/TO/process.xlsx
 ## Options:
 
 
-
-| Option  | Description       | Default |
-|---------|-------------------|---------|
-| `-file` | Path to data file |         |
-
+**-file**
+: Path to data file
 
 
 
@@ -2640,14 +2684,17 @@ tbx deepl translate text -target-lang TARGET_LANG -text TEXT_TO_TRANSLATE
 ## Options:
 
 
+**-peer**
+: Account alias. Default: default
 
-| Option         | Description                                     | Default |
-|----------------|-------------------------------------------------|---------|
-| `-peer`        | Account alias                                   | default |
-| `-source-lang` | Source language code (auto detect when omitted) |         |
-| `-target-lang` | Target language code                            |         |
-| `-text`        | Text to translate                               |         |
+**-source-lang**
+: Source language code (auto detect when omitted)
 
+**-target-lang**
+: Target language code
+
+**-text**
+: Text to translate
 
 
 
@@ -2675,14 +2722,17 @@ tbx dropbox file copy -src /SRC/PATH -dst /DST/PATH
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-dst`       | Destination path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |         |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
-| `-src`       | Source path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |         |
+**-dst**
+: Destination path
 
+**-peer**
+: Account alias. Default: default
+
+**-src**
+: Source path
 
 
 
@@ -2710,13 +2760,14 @@ tbx dropbox file delete -path /PATH/TO/DELETE
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-path`      | Path to delete                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |         |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
+**-path**
+: Path to delete
 
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -2744,13 +2795,14 @@ tbx dropbox file info -path /DROPBOX/PATH/TO/FILE
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-path`      | Path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |         |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
+**-path**
+: Path
 
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -2805,17 +2857,26 @@ tbx dropbox file list -path /path
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option                             | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`                       | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-include-deleted`                 | Include deleted files                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | false   |
-| `-include-explicit-shared-members` | If true, the results will include a flag for each file indicating whether or not that file has any explicit members.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | false   |
-| `-include-mounted-folders`         | If true, the results will include entries under mounted folders which include app folder, shared folder and team folder.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | false   |
-| `-path`                            | Path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |         |
-| `-peer`                            | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
-| `-recursive`                       | List recursively                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | false   |
+**-include-deleted**
+: Include deleted files. Default: false
 
+**-include-explicit-shared-members**
+: If true, the results will include a flag for each file indicating whether or not that file has any explicit members.. Default: false
+
+**-include-mounted-folders**
+: If true, the results will include entries under mounted folders which include app folder, shared folder and team folder.. Default: false
+
+**-path**
+: Path
+
+**-peer**
+: Account alias. Default: default
+
+**-recursive**
+: List recursively. Default: false
 
 
 
@@ -2866,17 +2927,26 @@ Please add `-dry-run=false` option after verifying integrity of expected result.
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option                   | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|--------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`             | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-dry-run`               | Dry run                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | true    |
-| `-from`                  | Source path for merge                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |         |
-| `-keep-empty-folder`     | Keep empty folders after merge                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | false   |
-| `-peer`                  | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
-| `-to`                    | Destination path for merge                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |         |
-| `-within-same-namespace` | Do not cross namespace. This is to preserve sharing permissions including shared links                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        | false   |
+**-dry-run**
+: Dry run. Default: true
 
+**-from**
+: Source path for merge
+
+**-keep-empty-folder**
+: Keep empty folders after merge. Default: false
+
+**-peer**
+: Account alias. Default: default
+
+**-to**
+: Destination path for merge
+
+**-within-same-namespace**
+: Do not cross namespace. This is to preserve sharing permissions including shared links. Default: false
 
 
 
@@ -2904,14 +2974,17 @@ tbx dropbox file move -src /SRC/PATH -dst /DST/PATH
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-dst`       | Destination path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |         |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
-| `-src`       | Source path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |         |
+**-dst**
+: Destination path
 
+**-peer**
+: Account alias. Default: default
+
+**-src**
+: Source path
 
 
 
@@ -2939,15 +3012,20 @@ tbx dropbox file replication -src source -src-path /path/src -dst dest -dst-path
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-dst`       | Account alias (destination)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | dst     |
-| `-dst-path`  | Destination path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |         |
-| `-src`       | Account alias (source)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        | src     |
-| `-src-path`  | Source path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |         |
+**-dst**
+: Account alias (destination). Default: dst
 
+**-dst-path**
+: Destination path
+
+**-src**
+: Account alias (source). Default: src
+
+**-src-path**
+: Source path
 
 
 
@@ -3000,14 +3078,17 @@ tbx dropbox file size -path /
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-depth`     | Report entries for files and folders up to the specified depth                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | 2       |
-| `-path`      | Path to scan                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |         |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
+**-depth**
+: Report entries for files and folders up to the specified depth. Default: 2
 
+**-path**
+: Path to scan
+
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -3059,14 +3140,17 @@ tbx dropbox file watch -path /DROPBOX/PATH/TO/WATCH
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-path`      | Path to watch                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |         |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
-| `-recursive` | Watch path recursively                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        | false   |
+**-path**
+: Path to watch
 
+**-peer**
+: Account alias. Default: default
+
+**-recursive**
+: Watch path recursively. Default: false
 
 
 
@@ -3094,11 +3178,8 @@ tbx dropbox file account feature
 ## Options:
 
 
-
-| Option  | Description   | Default |
-|---------|---------------|---------|
-| `-peer` | Account alias | default |
-
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -3146,11 +3227,8 @@ tbx dropbox file account filesystem
 ## Options:
 
 
-
-| Option  | Description   | Default |
-|---------|---------------|---------|
-| `-peer` | Account alias | default |
-
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -3200,11 +3278,8 @@ tbx dropbox file account info
 ## Options:
 
 
-
-| Option  | Description   | Default |
-|---------|---------------|---------|
-| `-peer` | Account alias | default |
-
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -3253,15 +3328,20 @@ If you want to compare different paths in same account, please specify same alia
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option        | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|---------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`  | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-left`       | Account alias (left)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | left    |
-| `-left-path`  | The path from account root (left)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |         |
-| `-right`      | Account alias (right)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | right   |
-| `-right-path` | The path from account root (right)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |         |
+**-left**
+: Account alias (left). Default: left
 
+**-left-path**
+: The path from account root (left)
+
+**-right**
+: Account alias (right). Default: right
+
+**-right-path**
+: The path from account root (right)
 
 
 
@@ -3314,14 +3394,17 @@ tbx dropbox file compare local -local-path /path/to/local -dropbox-path /path/on
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option          | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|-----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`    | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-dropbox-path` | Dropbox path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |         |
-| `-local-path`   | Local path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |         |
-| `-peer`         | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
+**-dropbox-path**
+: Dropbox path
 
+**-local-path**
+: Local path
+
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -3396,15 +3479,20 @@ tbx dropbox file export doc -dropbox-path /DROPBOX/PATH/TO/FILE -local-path /LOC
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option          | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|-----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`    | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-dropbox-path` | Dropbox document path to export.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |         |
-| `-format`       | Export format                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |         |
-| `-local-path`   | Local path to save                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |         |
-| `-peer`         | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
+**-dropbox-path**
+: Dropbox document path to export.
 
+**-format**
+: Export format
+
+**-local-path**
+: Local path to save
+
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -3455,16 +3543,23 @@ tbx dropbox file export url -local-path /LOCAL/PATH/TO/EXPORT -url DOCUMENT_URL
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option        | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|---------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`  | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-format`     | Export format                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |         |
-| `-local-path` | Local path to export                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |         |
-| `-password`   | Password for the shared link                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |         |
-| `-peer`       | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
-| `-url`        | URL of the document                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |         |
+**-format**
+: Export format
 
+**-local-path**
+: Local path to export
+
+**-password**
+: Password for the shared link
+
+**-peer**
+: Account alias. Default: default
+
+**-url**
+: URL of the document
 
 
 
@@ -3515,14 +3610,17 @@ tbx dropbox file import url -url URL -path /path/to/import
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-path`      | Path to import                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |         |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
-| `-url`       | URL                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |         |
+**-path**
+: Path to import
 
+**-peer**
+: Account alias. Default: default
+
+**-url**
+: URL
 
 
 
@@ -3574,14 +3672,17 @@ tbx dropbox file import batch url -file /path/to/data/file -path /path/to/import
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-file`      | Data file                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |         |
-| `-path`      | Path to import                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |         |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
+**-file**
+: Data file
 
+**-path**
+: Path to import
+
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -3657,13 +3758,14 @@ tbx dropbox file lock acquire -path /DROPBOX/FILE/PATH/TO/LOCK
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-path`      | File path to lock                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |         |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
+**-path**
+: File path to lock
 
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -3717,13 +3819,14 @@ tbx dropbox file lock list -path /DROPBOX/PATH/TO/SEARCH/LOCK
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-path`      | Path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |         |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
+**-path**
+: Path
 
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -3776,13 +3879,14 @@ tbx dropbox file lock release -path /DROPBOX/FILE/PATH/TO/UNLOCK
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-path`      | Path to the file                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |         |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
+**-path**
+: Path to the file
 
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -3836,14 +3940,17 @@ tbx dropbox file lock all release -path /DROPBOX/PATH/TO/RELEASE/LOCK
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option        | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|---------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`  | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-batch-size` | Operation batch size                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | 100     |
-| `-path`       | Path to release locks                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |         |
-| `-peer`       | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
+**-batch-size**
+: Operation batch size. Default: 100
 
+**-path**
+: Path to release locks
+
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -3897,14 +4004,17 @@ tbx dropbox file lock batch acquire -file /PATH/TO/DATA_FILE.csv
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option        | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|---------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`  | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-batch-size` | Operation batch size                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | 100     |
-| `-file`       | Path to data file                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |         |
-| `-peer`       | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
+**-batch-size**
+: Operation batch size. Default: 100
 
+**-file**
+: Path to data file
+
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -3978,13 +4088,14 @@ tbx dropbox file lock batch release -file /PATH/TO/DATA_FILE.csv
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-file`      | Path to data file                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |         |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
+**-file**
+: Path to data file
 
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -4058,16 +4169,23 @@ tbx dropbox file request create -path /DROPBOX/PATH/OF/FILE_REQUEST -title TITLE
 ## Options:
 
 
+**-allow-late-uploads**
+: If set, allow uploads after the deadline has passed (one_day/two_days/seven_days/thirty_days/always)
 
-| Option                | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|-----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-allow-late-uploads` | If set, allow uploads after the deadline has passed (one_day/two_days/seven_days/thirty_days/always)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |         |
-| `-base-path`          | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-deadline`           | The deadline for this file request.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |         |
-| `-path`               | The path for the folder in Dropbox where uploaded files will be sent.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |         |
-| `-peer`               | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
-| `-title`              | The title of the file request                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |         |
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-deadline**
+: The deadline for this file request.
+
+**-path**
+: The path for the folder in Dropbox where uploaded files will be sent.
+
+**-peer**
+: Account alias. Default: default
+
+**-title**
+: The title of the file request
 
 
 
@@ -4120,12 +4238,11 @@ tbx dropbox file request list
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
-
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -4178,12 +4295,11 @@ tbx dropbox file request delete closed
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
-
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -4236,14 +4352,17 @@ tbx dropbox file request delete url -url URL
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-force`     | Force delete the file request.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | false   |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
-| `-url`       | URL of the file request.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |         |
+**-force**
+: Force delete the file request.. Default: false
 
+**-peer**
+: Account alias. Default: default
+
+**-url**
+: URL of the file request.
 
 
 
@@ -4296,13 +4415,14 @@ tbx dropbox file restore all -path /DROPBOX/PATH/TO/RESTORE
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-path`      | Path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |         |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
+**-path**
+: Path
 
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -4356,14 +4476,17 @@ tbx dropbox file restore ext -ext EXT -path /DROPBOX/PATH/TO/RESTORE
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-ext`       | Extension to restore (e.g. jpg, png, pdf)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |         |
-| `-path`      | Path to restore                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |         |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
+**-ext**
+: Extension to restore (e.g. jpg, png, pdf)
 
+**-path**
+: Path to restore
+
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -4417,14 +4540,17 @@ tbx dropbox file revision download -local-path /LOCAL/PATH/TO/DOWNLOAD -revision
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option        | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|---------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`  | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-local-path` | Local path to store downloaded file                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |         |
-| `-peer`       | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
-| `-revision`   | File revision                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |         |
+**-local-path**
+: Local path to store downloaded file
 
+**-peer**
+: Account alias. Default: default
+
+**-revision**
+: File revision
 
 
 
@@ -4477,13 +4603,14 @@ tbx dropbox file revision list -path /DROPBOX/PATH/TO/FILE
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-path`      | File path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |         |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
+**-path**
+: File path
 
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -4536,14 +4663,17 @@ tbx dropbox file revision restore -path /DROPBOX/PATH/TO/RESTORE -revision REVIS
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-path`      | File path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |         |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
-| `-revision`  | File revision                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |         |
+**-path**
+: File path
 
+**-peer**
+: Account alias. Default: default
+
+**-revision**
+: File revision
 
 
 
@@ -4596,17 +4726,26 @@ tbx dropbox file search content -query QUERY
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option         | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`   | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-category`    | Restricts search to only the file categories specified (image/document/pdf/spreadsheet/presentation/audio/video/folder/paper/others). (Options: , image, document, pdf, spreadsheet, presentation, audio, video, folder, paper, others)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |         |
-| `-extension`   | Restricts search to only the extensions specified.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |         |
-| `-max-results` | Maximum number of entries to return                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | 25      |
-| `-path`        | Scopes the search to a path in the user's Dropbox.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |         |
-| `-peer`        | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
-| `-query`       | The string to search for.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |         |
+**-category**
+: Restricts search to only the file categories specified (image/document/pdf/spreadsheet/presentation/audio/video/folder/paper/others).. Options:.   •  (category: ).   • image (category: image).   • document (category: document).   • pdf (category: pdf).   • spreadsheet (category: spreadsheet).   • presentation (category: presentation).   • audio (category: audio).   • video (category: video).   • folder (category: folder).   • paper (category: paper).   • others (category: others)
 
+**-extension**
+: Restricts search to only the extensions specified.
+
+**-max-results**
+: Maximum number of entries to return. Default: 25
+
+**-path**
+: Scopes the search to a path in the user's Dropbox.
+
+**-peer**
+: Account alias. Default: default
+
+**-query**
+: The string to search for.
 
 
 
@@ -4653,16 +4792,23 @@ tbx dropbox file search name -query QUERY
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-category`  | Restricts search to only the file categories specified (image/document/pdf/spreadsheet/presentation/audio/video/folder/paper/others). (Options: , image, document, pdf, spreadsheet, presentation, audio, video, folder, paper, others)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |         |
-| `-extension` | Restricts search to only the extensions specified.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |         |
-| `-path`      | Scopes the search to a path in the user's Dropbox.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |         |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
-| `-query`     | The string to search for.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |         |
+**-category**
+: Restricts search to only the file categories specified (image/document/pdf/spreadsheet/presentation/audio/video/folder/paper/others).. Options:.   •  (category: ).   • image (category: image).   • document (category: document).   • pdf (category: pdf).   • spreadsheet (category: spreadsheet).   • presentation (category: presentation).   • audio (category: audio).   • video (category: video).   • folder (category: folder).   • paper (category: paper).   • others (category: others)
 
+**-extension**
+: Restricts search to only the extensions specified.
+
+**-path**
+: Scopes the search to a path in the user's Dropbox.
+
+**-peer**
+: Account alias. Default: default
+
+**-query**
+: The string to search for.
 
 
 
@@ -4709,13 +4855,14 @@ tbx dropbox file share info -path /DROPBOX/PATH/TO/GET_INFO
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-path`      | File path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |         |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
+**-path**
+: File path
 
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -4772,13 +4919,14 @@ tbx dropbox file sharedfolder info -shared-folder-id NAMESPACE_ID
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option              | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|---------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`        | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-peer`             | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
-| `-shared-folder-id` | Shared folder ID                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |         |
+**-peer**
+: Account alias. Default: default
 
+**-shared-folder-id**
+: Shared folder ID
 
 
 
@@ -4835,14 +4983,17 @@ tbx dropbox file sharedfolder leave -shared-folder-id SHARED_FOLDER_ID
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option              | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|---------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`        | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-keep-copy`        | Keep a copy of the folder's contents upon relinquishing membership.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | false   |
-| `-peer`             | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
-| `-shared-folder-id` | The ID for the shared folder.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |         |
+**-keep-copy**
+: Keep a copy of the folder's contents upon relinquishing membership.. Default: false
 
+**-peer**
+: Account alias. Default: default
+
+**-shared-folder-id**
+: The ID for the shared folder.
 
 
 
@@ -4870,12 +5021,11 @@ tbx dropbox file sharedfolder list
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
-
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -4932,16 +5082,23 @@ tbx dropbox file sharedfolder share -path /DROPBOX/PATH/TO/SHARE
 ## Options:
 
 
+**-acl-update-policy**
+: Who can change a shared folder's access control list (ACL).. Options: owner (aclupdatepolicy: owner), editor (aclupdatepolicy: editor). Default: owner
 
-| Option                | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|-----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-acl-update-policy`  | Who can change a shared folder's access control list (ACL). (Options: owner, editor)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | owner   |
-| `-base-path`          | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-member-policy`      | Who can be a member of this shared folder. (Options: team, anyone)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | anyone  |
-| `-path`               | Path to be shared                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |         |
-| `-peer`               | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
-| `-shared-link-policy` | Who can view shared links in this folder. (Options: anyone, members)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | anyone  |
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-member-policy**
+: Who can be a member of this shared folder.. Options: team (memberpolicy: team), anyone (memberpolicy: anyone). Default: anyone
+
+**-path**
+: Path to be shared
+
+**-peer**
+: Account alias. Default: default
+
+**-shared-link-policy**
+: Who can view shared links in this folder.. Options: anyone (sharedlinkpolicy: anyone), members (sharedlinkpolicy: members). Default: anyone
 
 
 
@@ -5000,14 +5157,17 @@ tbx dropbox file sharedfolder unshare -path /DROPBOX/PATH/TO/UNSHARE
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option        | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|---------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`  | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-leave-copy` | If true, members of this shared folder will get a copy of this folder after it's unshared.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | false   |
-| `-path`       | Path to be unshared                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |         |
-| `-peer`       | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
+**-leave-copy**
+: If true, members of this shared folder will get a copy of this folder after it's unshared.. Default: false
 
+**-path**
+: Path to be unshared
+
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -5035,17 +5195,26 @@ tbx dropbox file sharedfolder member add -email EMAIL -path /DROPBOX/PATH/TO/ADD
 ## Options:
 
 
+**-access-level**
+: Access type (viewer/editor). Options:.   • editor (Can edit, comment, and share).   • viewer (Can view and comment).   • viewer_no_comment (Can only view). Default: editor
 
-| Option          | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|-----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-access-level` | Access type (viewer/editor) (Options: editor, viewer, viewer_no_comment)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | editor  |
-| `-base-path`    | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-email`        | Email address of the folder member                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |         |
-| `-message`      | Custom message for invitation                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |         |
-| `-path`         | Path to the shared folder                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |         |
-| `-peer`         | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
-| `-silent`       | Do not send invitation email                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | false   |
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-email**
+: Email address of the folder member
+
+**-message**
+: Custom message for invitation
+
+**-path**
+: Path to the shared folder
+
+**-peer**
+: Account alias. Default: default
+
+**-silent**
+: Do not send invitation email. Default: false
 
 
 
@@ -5073,15 +5242,20 @@ tbx dropbox file sharedfolder member delete -email EMAIL -path /DROPBOX/PATH/TO/
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option        | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|---------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`  | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-email`      | Email address of the folder member                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |         |
-| `-leave-copy` | If true, members of this shared folder will get a copy of this folder after it's unshared.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | false   |
-| `-path`       | Path to the shared folder                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |         |
-| `-peer`       | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
+**-email**
+: Email address of the folder member
 
+**-leave-copy**
+: If true, members of this shared folder will get a copy of this folder after it's unshared.. Default: false
+
+**-path**
+: Path to the shared folder
+
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -5109,12 +5283,11 @@ tbx dropbox file sharedfolder member list
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
-
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -5168,13 +5341,14 @@ tbx dropbox file sharedfolder mount add -shared-folder-id SHARED_FOLDER_ID
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option              | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|---------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`        | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-peer`             | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
-| `-shared-folder-id` | The ID for the shared folder.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |         |
+**-peer**
+: Account alias. Default: default
 
+**-shared-folder-id**
+: The ID for the shared folder.
 
 
 
@@ -5231,13 +5405,14 @@ tbx dropbox file sharedfolder mount delete -shared-folder-id SHARED_FOLDER_ID
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option              | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|---------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`        | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-peer`             | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
-| `-shared-folder-id` | The ID for the shared folder.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |         |
+**-peer**
+: Account alias. Default: default
 
+**-shared-folder-id**
+: The ID for the shared folder.
 
 
 
@@ -5294,12 +5469,11 @@ tbx dropbox file sharedfolder mount list
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
-
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -5356,13 +5530,14 @@ tbx dropbox file sharedfolder mount mountable
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option             | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|--------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`       | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-include-mounted` | Include mounted folders.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | false   |
-| `-peer`            | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
+**-include-mounted**
+: Include mounted folders.. Default: false
 
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -5419,16 +5594,23 @@ tbx dropbox file sharedlink create -path /path/to/share
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-expires`   | Expiration date/time of the shared link                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |         |
-| `-password`  | Password                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |         |
-| `-path`      | Path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |         |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
-| `-team-only` | Link is accessible only by team members                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | false   |
+**-expires**
+: Expiration date/time of the shared link
 
+**-password**
+: Password
+
+**-path**
+: Path
+
+**-peer**
+: Account alias. Default: default
+
+**-team-only**
+: Link is accessible only by team members. Default: false
 
 
 
@@ -5479,14 +5661,17 @@ tbx dropbox file sharedlink delete -path /path/to/delete
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-path`      | File or folder path to remove shared link                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |         |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
-| `-recursive` | Remove shared links recursively                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | false   |
+**-path**
+: File or folder path to remove shared link
 
+**-peer**
+: Account alias. Default: default
+
+**-recursive**
+: Remove shared links recursively. Default: false
 
 
 
@@ -5538,14 +5723,17 @@ tbx dropbox file sharedlink info -url SHARED_LINK_URL
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-password`  | Password of the link if required.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |         |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
-| `-url`       | URL of the shared link                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |         |
+**-password**
+: Password of the link if required.
 
+**-peer**
+: Account alias. Default: default
+
+**-url**
+: URL of the shared link
 
 
 
@@ -5597,12 +5785,11 @@ tbx dropbox file sharedlink list
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
-
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -5652,14 +5839,17 @@ tbx dropbox file sharedlink file list -url SHAREDLINK_URL
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-password`  | Password for the shared link                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |         |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
-| `-url`       | Shared link URL                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |         |
+**-password**
+: Password for the shared link
 
+**-peer**
+: Account alias. Default: default
+
+**-url**
+: Shared link URL
 
 
 
@@ -5710,20 +5900,35 @@ tbx dropbox file sync down -dropbox-path /DROPBOX/PATH/TO/DOWNLOAD -local-path /
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option                 | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`           | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-delete`              | Delete local file if a file is removed on Dropbox                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | false   |
-| `-dropbox-path`        | Dropbox path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |         |
-| `-local-path`          | Local path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |         |
-| `-name-disable-ignore` | Filter by name. Filter system file or ignore files.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |         |
-| `-name-name`           | Filter by name. Filter by exact match to the name.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |         |
-| `-name-name-prefix`    | Filter by name. Filter by name match to the prefix.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |         |
-| `-name-name-suffix`    | Filter by name. Filter by name match to the suffix.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |         |
-| `-peer`                | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
-| `-skip-existing`       | Skip existing files. Do not overwrite                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | false   |
+**-delete**
+: Delete local file if a file is removed on Dropbox. Default: false
 
+**-dropbox-path**
+: Dropbox path
+
+**-local-path**
+: Local path
+
+**-name-disable-ignore**
+: Filter by name. Filter system file or ignore files.
+
+**-name-name**
+: Filter by name. Filter by exact match to the name.
+
+**-name-name-prefix**
+: Filter by name. Filter by name match to the prefix.
+
+**-name-name-suffix**
+: Filter by name. Filter by name match to the suffix.
+
+**-peer**
+: Account alias. Default: default
+
+**-skip-existing**
+: Skip existing files. Do not overwrite. Default: false
 
 
 
@@ -5835,20 +6040,35 @@ tbx dropbox file sync online -src /DROPBOX/PATH/SRC -dst /DROPBOX/PATH/DST
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option                 | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`           | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-delete`              | Delete file if a file is removed in source path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | false   |
-| `-dst`                 | Destination path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |         |
-| `-name-disable-ignore` | Filter by name. Filter system file or ignore files.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |         |
-| `-name-name`           | Filter by name. Filter by exact match to the name.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |         |
-| `-name-name-prefix`    | Filter by name. Filter by name match to the prefix.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |         |
-| `-name-name-suffix`    | Filter by name. Filter by name match to the suffix.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |         |
-| `-peer`                | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
-| `-skip-existing`       | Skip existing files. Do not overwrite                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | false   |
-| `-src`                 | Source path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |         |
+**-delete**
+: Delete file if a file is removed in source path. Default: false
 
+**-dst**
+: Destination path
+
+**-name-disable-ignore**
+: Filter by name. Filter system file or ignore files.
+
+**-name-name**
+: Filter by name. Filter by exact match to the name.
+
+**-name-name-prefix**
+: Filter by name. Filter by name match to the prefix.
+
+**-name-name-suffix**
+: Filter by name. Filter by name match to the suffix.
+
+**-peer**
+: Account alias. Default: default
+
+**-skip-existing**
+: Skip existing files. Do not overwrite. Default: false
+
+**-src**
+: Source path
 
 
 
@@ -5960,21 +6180,38 @@ tbx dropbox file sync up -dropbox-path /DROPBOX/PATH/TO/UPLOAD -local-path /LOCA
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option                 | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`           | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-batch-size`          | Batch commit size                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | 50      |
-| `-delete`              | Delete Dropbox file if a file is removed locally                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | false   |
-| `-dropbox-path`        | Destination Dropbox path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |         |
-| `-local-path`          | Local file path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |         |
-| `-name-disable-ignore` | Filter by name. Filter system file or ignore files.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |         |
-| `-name-name`           | Filter by name. Filter by exact match to the name.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |         |
-| `-name-name-prefix`    | Filter by name. Filter by name match to the prefix.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |         |
-| `-name-name-suffix`    | Filter by name. Filter by name match to the suffix.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |         |
-| `-overwrite`           | Overwrite existing file on the target path if that exists.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | false   |
-| `-peer`                | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
+**-batch-size**
+: Batch commit size. Default: 50
 
+**-delete**
+: Delete Dropbox file if a file is removed locally. Default: false
+
+**-dropbox-path**
+: Destination Dropbox path
+
+**-local-path**
+: Local file path
+
+**-name-disable-ignore**
+: Filter by name. Filter system file or ignore files.
+
+**-name-name**
+: Filter by name. Filter by exact match to the name.
+
+**-name-name-prefix**
+: Filter by name. Filter by name match to the prefix.
+
+**-name-name-suffix**
+: Filter by name. Filter by name match to the suffix.
+
+**-overwrite**
+: Overwrite existing file on the target path if that exists.. Default: false
+
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -6086,14 +6323,17 @@ tbx dropbox file tag add -path /DROPBOX/PATH/TO/TARGET -tag TAG_NAME
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-path`      | File or folder path to add a tag.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |         |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
-| `-tag`       | Tag to add to the file or folder.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |         |
+**-path**
+: File or folder path to add a tag.
 
+**-peer**
+: Account alias. Default: default
+
+**-tag**
+: Tag to add to the file or folder.
 
 
 
@@ -6121,14 +6361,17 @@ tbx dropbox file tag delete -path /DROPBOX/PATH/TO/PROCESS -tag TAG_NAME
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-path`      | File or folder path to remove a tag.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |         |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
-| `-tag`       | Tag name                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |         |
+**-path**
+: File or folder path to remove a tag.
 
+**-peer**
+: Account alias. Default: default
+
+**-tag**
+: Tag name
 
 
 
@@ -6156,13 +6399,14 @@ tbx dropbox file tag list -path /DROPBOX/PATH/TO/TARGET
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-path`      | Target path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |         |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
+**-path**
+: Target path
 
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -6208,14 +6452,17 @@ tbx dropbox file template apply -path /DROPBOX/PATH/TO/APPLY -template /LOCAL/PA
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-path`      | Path to apply template                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |         |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
-| `-template`  | Path to template file                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |         |
+**-path**
+: Path to apply template
 
+**-peer**
+: Account alias. Default: default
+
+**-template**
+: Path to template file
 
 
 
@@ -6243,14 +6490,17 @@ tbx dropbox file template capture -out /LOCAL/PATH/template.json -path /DROPBOX/
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-out`       | Template output path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |         |
-| `-path`      | Capture target path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |         |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
+**-out**
+: Template output path
 
+**-path**
+: Capture target path
+
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -6278,15 +6528,20 @@ tbx dropbox paper append -content /LOCAL/PATH/TO/INPUT.txt -path /DROPBOX/PATH/T
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default  |
-|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root     |
-| `-content`   | Paper content                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |          |
-| `-format`    | Import format (html/markdown/plain_text) (Options: markdown, plain_text, html)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | markdown |
-| `-path`      | Path in the user's Dropbox                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |          |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default  |
+**-content**
+: Paper content
 
+**-format**
+: Import format (html/markdown/plain_text). Options:.   • markdown (Markdown format).   • plain_text (Plain text format).   • html (HTML format). Default: markdown
+
+**-path**
+: Path in the user's Dropbox
+
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -6338,15 +6593,20 @@ tbx dropbox paper create -content /LOCAL/PATH/TO/INPUT.txt -path /DROPBOX/PATH/T
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default  |
-|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root     |
-| `-content`   | Paper content                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |          |
-| `-format`    | Import format (html/markdown/plain_text) (Options: markdown, plain_text, html)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | markdown |
-| `-path`      | Path in the user's Dropbox                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |          |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default  |
+**-content**
+: Paper content
 
+**-format**
+: Import format (html/markdown/plain_text). Options:.   • markdown (Markdown format).   • plain_text (Plain text format).   • html (HTML format). Default: markdown
+
+**-path**
+: Path in the user's Dropbox
+
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -6400,15 +6660,20 @@ tbx dropbox paper overwrite -content /LOCAL/PATH/TO/INPUT.txt -path /DROPBOX/PAT
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default  |
-|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root     |
-| `-content`   | Paper content                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |          |
-| `-format`    | Import format (html/markdown/plain_text) (Options: markdown, plain_text, html)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | markdown |
-| `-path`      | Path in the user's Dropbox                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |          |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default  |
+**-content**
+: Paper content
 
+**-format**
+: Import format (html/markdown/plain_text). Options:.   • markdown (Markdown format).   • plain_text (Plain text format).   • html (HTML format). Default: markdown
+
+**-path**
+: Path in the user's Dropbox
+
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -6460,15 +6725,20 @@ tbx dropbox paper prepend -content /LOCAL/PATH/TO/INPUT.txt -path /DROPBOX/PATH/
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default  |
-|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root     |
-| `-content`   | Paper content                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |          |
-| `-format`    | Import format (html/markdown/plain_text) (Options: markdown, plain_text, html)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | markdown |
-| `-path`      | Path in the user's Dropbox                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |          |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default  |
+**-content**
+: Paper content
 
+**-format**
+: Import format (html/markdown/plain_text). Options:.   • markdown (Markdown format).   • plain_text (Plain text format).   • html (HTML format). Default: markdown
+
+**-path**
+: Path in the user's Dropbox
+
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -6520,12 +6790,11 @@ tbx dropbox sign request list
 ## Options:
 
 
+**-account-id**
+: Which account to return SignatureRequests for. Must be a team member. Use `all` to indicate all team members. Defaults to your account.
 
-| Option        | Description                                                                                                                             | Default |
-|---------------|-----------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-account-id` | Which account to return SignatureRequests for. Must be a team member. Use `all` to indicate all team members. Defaults to your account. |         |
-| `-peer`       | Account alias                                                                                                                           | default |
-
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -6578,12 +6847,11 @@ tbx dropbox sign request signature list
 ## Options:
 
 
+**-account-id**
+: Which account to return SignatureRequests for. Must be a team member. Use `all` to indicate all team members. Defaults to your account.
 
-| Option        | Description                                                                                                                             | Default |
-|---------------|-----------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-account-id` | Which account to return SignatureRequests for. Must be a team member. Use `all` to indicate all team members. Defaults to your account. |         |
-| `-peer`       | Account alias                                                                                                                           | default |
-
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -6644,11 +6912,8 @@ tbx dropbox team feature
 ## Options:
 
 
-
-| Option  | Description   | Default |
-|---------|---------------|---------|
-| `-peer` | Account alias | default |
-
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -6698,11 +6963,8 @@ tbx dropbox team filesystem
 ## Options:
 
 
-
-| Option  | Description   | Default |
-|---------|---------------|---------|
-| `-peer` | Account alias | default |
-
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -6752,11 +7014,8 @@ tbx dropbox team info
 ## Options:
 
 
-
-| Option  | Description   | Default |
-|---------|---------------|---------|
-| `-peer` | Account alias | default |
-
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -6837,14 +7096,17 @@ tbx dropbox team activity event
 ## Options:
 
 
+**-category**
+: Filter the returned events to a single category. This field is optional.
 
-| Option        | Description                                                              | Default |
-|---------------|--------------------------------------------------------------------------|---------|
-| `-category`   | Filter the returned events to a single category. This field is optional. |         |
-| `-end-time`   | Ending time (exclusive).                                                 |         |
-| `-peer`       | Account alias                                                            | default |
-| `-start-time` | Starting time (inclusive)                                                |         |
+**-end-time**
+: Ending time (exclusive).
 
+**-peer**
+: Account alias. Default: default
+
+**-start-time**
+: Starting time (inclusive)
 
 
 
@@ -6902,14 +7164,17 @@ tbx dropbox team activity user
 ## Options:
 
 
+**-category**
+: Filter the returned events to a single category. This field is optional.
 
-| Option        | Description                                                              | Default |
-|---------------|--------------------------------------------------------------------------|---------|
-| `-category`   | Filter the returned events to a single category. This field is optional. |         |
-| `-end-time`   | Ending time (exclusive).                                                 |         |
-| `-peer`       | Account alias                                                            | default |
-| `-start-time` | Starting time (inclusive)                                                |         |
+**-end-time**
+: Ending time (exclusive).
 
+**-peer**
+: Account alias. Default: default
+
+**-start-time**
+: Starting time (inclusive)
 
 
 
@@ -6989,15 +7254,20 @@ tbx dropbox team activity batch user -file /path/to/file.csv
 ## Options:
 
 
+**-category**
+: Filter the returned events to a single category. This field is optional.
 
-| Option        | Description                                                              | Default |
-|---------------|--------------------------------------------------------------------------|---------|
-| `-category`   | Filter the returned events to a single category. This field is optional. |         |
-| `-end-time`   | Ending time (exclusive).                                                 |         |
-| `-file`       | User email address list file                                             |         |
-| `-peer`       | Account alias                                                            | default |
-| `-start-time` | Starting time (inclusive)                                                |         |
+**-end-time**
+: Ending time (exclusive).
 
+**-file**
+: User email address list file
+
+**-peer**
+: Account alias. Default: default
+
+**-start-time**
+: Starting time (inclusive)
 
 
 
@@ -7102,14 +7372,17 @@ tbx dropbox team activity daily event -start-date DATE
 ## Options:
 
 
+**-category**
+: Event category
 
-| Option        | Description    | Default |
-|---------------|----------------|---------|
-| `-category`   | Event category |         |
-| `-end-date`   | End date       |         |
-| `-peer`       | Account alias  | default |
-| `-start-date` | Start date     |         |
+**-end-date**
+: End date
 
+**-peer**
+: Account alias. Default: default
+
+**-start-date**
+: Start date
 
 
 
@@ -7167,14 +7440,17 @@ tbx dropbox team admin list
 ## Options:
 
 
+**-include-non-admin**
+: Include non admin members in the report. Default: false
 
-| Option                 | Description                             | Default |
-|------------------------|-----------------------------------------|---------|
-| `-include-non-admin`   | Include non admin members in the report | false   |
-| `-member-roles`        | Member to admin-role mappings           |         |
-| `-member-roles-format` | Output format                           |         |
-| `-peer`                | Account alias                           | default |
+**-member-roles**
+: Member to admin-role mappings
 
+**-member-roles-format**
+: Output format
+
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -7210,13 +7486,14 @@ tbx dropbox team admin group role add -group GROUP_NAME -role-id ROLE_ID
 ## Options:
 
 
+**-group**
+: Group name
 
-| Option     | Description   | Default |
-|------------|---------------|---------|
-| `-group`   | Group name    |         |
-| `-peer`    | Account alias | default |
-| `-role-id` | Role ID       |         |
+**-peer**
+: Account alias. Default: default
 
+**-role-id**
+: Role ID
 
 
 
@@ -7265,13 +7542,14 @@ tbx dropbox team admin group role delete -exception-group GROUP_NAME -role-id RO
 ## Options:
 
 
+**-exception-group**
+: Exception group name
 
-| Option             | Description          | Default |
-|--------------------|----------------------|---------|
-| `-exception-group` | Exception group name |         |
-| `-peer`            | Account alias        | default |
-| `-role-id`         | Role ID              |         |
+**-peer**
+: Account alias. Default: default
 
+**-role-id**
+: Role ID
 
 
 
@@ -7320,13 +7598,14 @@ tbx dropbox team admin role add -email EMAIL -role-id ROLE_ID
 ## Options:
 
 
+**-email**
+: Email address of the member
 
-| Option     | Description                 | Default |
-|------------|-----------------------------|---------|
-| `-email`   | Email address of the member |         |
-| `-peer`    | Account alias               | default |
-| `-role-id` | Role ID                     |         |
+**-peer**
+: Account alias. Default: default
 
+**-role-id**
+: Role ID
 
 
 
@@ -7375,12 +7654,11 @@ tbx dropbox team admin role clear -email EMAIL
 ## Options:
 
 
+**-email**
+: Email address of the member
 
-| Option   | Description                 | Default |
-|----------|-----------------------------|---------|
-| `-email` | Email address of the member |         |
-| `-peer`  | Account alias               | default |
-
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -7408,13 +7686,14 @@ tbx dropbox team admin role delete -email EMAIL -role-id ROLE_ID
 ## Options:
 
 
+**-email**
+: Email address of the member
 
-| Option     | Description                 | Default |
-|------------|-----------------------------|---------|
-| `-email`   | Email address of the member |         |
-| `-peer`    | Account alias               | default |
-| `-role-id` | Role ID                     |         |
+**-peer**
+: Account alias. Default: default
 
+**-role-id**
+: Role ID
 
 
 
@@ -7463,11 +7742,8 @@ tbx dropbox team admin role list
 ## Options:
 
 
-
-| Option  | Description   | Default |
-|---------|---------------|---------|
-| `-peer` | Account alias | default |
-
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -7519,13 +7795,14 @@ tbx dropbox team backup device status -start-time "2024-01-01"
 ## Options:
 
 
+**-end-time**
+: End date/time of the period to retrieve data for (exclusive). If this is not specified, the current time is used.
 
-| Option        | Description                                                                                                       | Default |
-|---------------|-------------------------------------------------------------------------------------------------------------------|---------|
-| `-end-time`   | End date/time of the period to retrieve data for (exclusive). If this is not specified, the current time is used. |         |
-| `-peer`       | Account alias                                                                                                     | default |
-| `-start-time` | Start date/time of the period to retrieve data for (inclusive).                                                   |         |
+**-peer**
+: Account alias. Default: default
 
+**-start-time**
+: Start date/time of the period to retrieve data for (inclusive).
 
 
 
@@ -7579,12 +7856,11 @@ tbx dropbox team content legacypaper count
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
-
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -7631,15 +7907,20 @@ tbx dropbox team content legacypaper export -path /LOCAL/PATH/TO/EXPORT
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default      |
-|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root         |
-| `-filter-by` | Specify how the Paper docs should be filtered (doc_created/doc_accessed). (Options: docs_created, docs_accessed)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | docs_created |
-| `-format`    | Export file format (html/markdown) (Options: html, markdown)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | html         |
-| `-path`      | Export folder path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |              |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default      |
+**-filter-by**
+: Specify how the Paper docs should be filtered (doc_created/doc_accessed).. Options: docs_created (filterby: docs_created), docs_accessed (filterby: docs_accessed). Default: docs_created
 
+**-format**
+: Export file format (html/markdown). Options: html (HTML format), markdown (Markdown format). Default: html
+
+**-path**
+: Export folder path
+
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -7689,13 +7970,14 @@ tbx dropbox team content legacypaper list
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default      |
-|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root         |
-| `-filter-by` | Specify how the Paper docs should be filtered (doc_created/doc_accessed). (Options: docs_created, docs_accessed)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | docs_created |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default      |
+**-filter-by**
+: Specify how the Paper docs should be filtered (doc_created/doc_accessed).. Options: docs_created (filterby: docs_created), docs_accessed (filterby: docs_accessed). Default: docs_created
 
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -7744,18 +8026,29 @@ tbx dropbox team content member list
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option                  | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|-------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`            | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-folder-name`          | Filter by folder name. Filter by exact match to the name.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |         |
-| `-folder-name-prefix`   | Filter by folder name. Filter by name match to the prefix.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |         |
-| `-folder-name-suffix`   | Filter by folder name. Filter by name match to the suffix.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |         |
-| `-member-type-external` | Filter folder members. Keep only members that are external (not in the same team). Note: Invited members are marked as external member.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |         |
-| `-member-type-internal` | Filter folder members. Keep only members that are internal (in the same team). Note: Invited members are marked as external member.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |         |
-| `-peer`                 | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
-| `-scan-timeout`         | Scan timeout mode. If the scan timeouts, the path of a subfolder of the team folder will be replaced with a dummy path like `TEAMFOLDER_NAME/:ERROR-SCAN-TIMEOUT:/SUBFOLDER_NAME`. (Options: short, long)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | short   |
+**-folder-name**
+: Filter by folder name. Filter by exact match to the name.
 
+**-folder-name-prefix**
+: Filter by folder name. Filter by name match to the prefix.
+
+**-folder-name-suffix**
+: Filter by folder name. Filter by name match to the suffix.
+
+**-member-type-external**
+: Filter folder members. Keep only members that are external (not in the same team). Note: Invited members are marked as external member.
+
+**-member-type-internal**
+: Filter folder members. Keep only members that are internal (in the same team). Note: Invited members are marked as external member.
+
+**-peer**
+: Account alias. Default: default
+
+**-scan-timeout**
+: Scan timeout mode. If the scan timeouts, the path of a subfolder of the team folder will be replaced with a dummy path like `TEAMFOLDER_NAME/:ERROR-SCAN-TIMEOUT:/SUBFOLDER_NAME`.. Options: short (scantimeout: short), long (scantimeout: long). Default: short
 
 
 
@@ -7823,17 +8116,26 @@ tbx dropbox team content member size
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option                 | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`           | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-folder-name`         | Filter by folder name. Filter by exact match to the name.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |         |
-| `-folder-name-prefix`  | Filter by folder name. Filter by name match to the prefix.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |         |
-| `-folder-name-suffix`  | Filter by folder name. Filter by name match to the suffix.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |         |
-| `-include-sub-folders` | Include sub-folders to the report.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | false   |
-| `-peer`                | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
-| `-scan-timeout`        | Scan timeout mode. If the scan timeouts, the path of a subfolder of the team folder will be replaced with a dummy path like `TEAMFOLDER_NAME/:ERROR-SCAN-TIMEOUT:/SUBFOLDER_NAME`. (Options: short, long)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | short   |
+**-folder-name**
+: Filter by folder name. Filter by exact match to the name.
 
+**-folder-name-prefix**
+: Filter by folder name. Filter by name match to the prefix.
+
+**-folder-name-suffix**
+: Filter by folder name. Filter by name match to the suffix.
+
+**-include-sub-folders**
+: Include sub-folders to the report.. Default: false
+
+**-peer**
+: Account alias. Default: default
+
+**-scan-timeout**
+: Scan timeout mode. If the scan timeouts, the path of a subfolder of the team folder will be replaced with a dummy path like `TEAMFOLDER_NAME/:ERROR-SCAN-TIMEOUT:/SUBFOLDER_NAME`.. Options: short (scantimeout: short), long (scantimeout: long). Default: short
 
 
 
@@ -7885,16 +8187,23 @@ tbx dropbox team content mount list
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option                | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|-----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`          | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-member-email`       | Filter members. Filter by email address.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |         |
-| `-member-name`        | Filter members. Filter by exact match to the name.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |         |
-| `-member-name-prefix` | Filter members. Filter by name match to the prefix.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |         |
-| `-member-name-suffix` | Filter members. Filter by name match to the suffix.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |         |
-| `-peer`               | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
+**-member-email**
+: Filter members. Filter by email address.
 
+**-member-name**
+: Filter members. Filter by exact match to the name.
+
+**-member-name-prefix**
+: Filter members. Filter by name match to the prefix.
+
+**-member-name-suffix**
+: Filter members. Filter by name match to the suffix.
+
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -7951,16 +8260,23 @@ tbx dropbox team content policy list
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option                | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|-----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`          | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-folder-name`        | Filter by folder name. Filter by exact match to the name.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |         |
-| `-folder-name-prefix` | Filter by folder name. Filter by name match to the prefix.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |         |
-| `-folder-name-suffix` | Filter by folder name. Filter by name match to the suffix.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |         |
-| `-peer`               | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
-| `-scan-timeout`       | Scan timeout mode. If the scan timeouts, the path of a subfolder of the team folder will be replaced with a dummy path like `TEAMFOLDER_NAME/:ERROR-SCAN-TIMEOUT:/SUBFOLDER_NAME`. (Options: short, long)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | short   |
+**-folder-name**
+: Filter by folder name. Filter by exact match to the name.
 
+**-folder-name-prefix**
+: Filter by folder name. Filter by name match to the prefix.
+
+**-folder-name-suffix**
+: Filter by folder name. Filter by name match to the suffix.
+
+**-peer**
+: Account alias. Default: default
+
+**-scan-timeout**
+: Scan timeout mode. If the scan timeouts, the path of a subfolder of the team folder will be replaced with a dummy path like `TEAMFOLDER_NAME/:ERROR-SCAN-TIMEOUT:/SUBFOLDER_NAME`.. Options: short (scantimeout: short), long (scantimeout: long). Default: short
 
 
 
@@ -8011,11 +8327,8 @@ tbx dropbox team device list
 ## Options:
 
 
-
-| Option  | Description   | Default |
-|---------|---------------|---------|
-| `-peer` | Account alias | default |
-
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -8083,13 +8396,14 @@ tbx dropbox team device unlink -file /path/to/data/file.csv
 ## Options:
 
 
+**-delete-on-unlink**
+: Delete files on unlink. Default: false
 
-| Option              | Description            | Default |
-|---------------------|------------------------|---------|
-| `-delete-on-unlink` | Delete files on unlink | false   |
-| `-file`             | Data file              |         |
-| `-peer`             | Account alias          | default |
+**-file**
+: Data file
 
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -8206,12 +8520,11 @@ tbx dropbox team filerequest list
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
-
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -8267,13 +8580,14 @@ tbx dropbox team group add -name GROUP_NAME
 ## Options:
 
 
+**-management-type**
+: Group management type `company_managed` or `user_managed`. Options: company_managed (Managed by company administrators), user_managed (Managed by individual users). Default: company_managed
 
-| Option             | Description                                                                                        | Default         |
-|--------------------|----------------------------------------------------------------------------------------------------|-----------------|
-| `-management-type` | Group management type `company_managed` or `user_managed` (Options: company_managed, user_managed) | company_managed |
-| `-name`            | Group name                                                                                         |                 |
-| `-peer`            | Account alias                                                                                      | default         |
+**-name**
+: Group name
 
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -8320,12 +8634,11 @@ tbx dropbox team group delete -name GROUP_NAME
 ## Options:
 
 
+**-name**
+: Group name
 
-| Option  | Description   | Default |
-|---------|---------------|---------|
-| `-name` | Group name    |         |
-| `-peer` | Account alias | default |
-
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -8353,11 +8666,8 @@ tbx dropbox team group list
 ## Options:
 
 
-
-| Option  | Description   | Default |
-|---------|---------------|---------|
-| `-peer` | Account alias | default |
-
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -8404,13 +8714,14 @@ tbx dropbox team group rename -current-name CURRENT_NAME -new-name NEW_NAME
 ## Options:
 
 
+**-current-name**
+: Current group name
 
-| Option          | Description        | Default |
-|-----------------|--------------------|---------|
-| `-current-name` | Current group name |         |
-| `-new-name`     | New group name     |         |
-| `-peer`         | Account alias      | default |
+**-new-name**
+: New group name
 
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -8461,13 +8772,14 @@ tbx dropbox team group batch add -file /PATH/TO/DATA_FILE.csv
 ## Options:
 
 
+**-file**
+: Path to data file
 
-| Option             | Description                                                                                                                    | Default         |
-|--------------------|--------------------------------------------------------------------------------------------------------------------------------|-----------------|
-| `-file`            | Path to data file                                                                                                              |                 |
-| `-management-type` | Who is allowed to manage the group (user_managed, company_managed, or system_managed) (Options: company_managed, user_managed) | company_managed |
-| `-peer`            | Account alias                                                                                                                  | default         |
+**-management-type**
+: Who is allowed to manage the group (user_managed, company_managed, or system_managed). Options: company_managed (Managed by company administrators), user_managed (Managed by individual users). Default: company_managed
 
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -8537,12 +8849,11 @@ tbx dropbox team group batch delete -file /path/to/file.csv
 ## Options:
 
 
+**-file**
+: Data file for group name list
 
-| Option  | Description                   | Default |
-|---------|-------------------------------|---------|
-| `-file` | Data file for group name list |         |
-| `-peer` | Account alias                 | default |
-
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -8612,12 +8923,11 @@ tbx dropbox team group clear externalid -file /PATH/TO/DATA_FILE.csv
 ## Options:
 
 
+**-file**
+: Path to data file
 
-| Option  | Description       | Default |
-|---------|-------------------|---------|
-| `-file` | Path to data file |         |
-| `-peer` | Account alias     | default |
-
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -8689,20 +8999,35 @@ tbx dropbox team group folder list
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option                     | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|----------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`               | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-folder-name`             | Filter by folder name. Filter by exact match to the name.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |         |
-| `-folder-name-prefix`      | Filter by folder name. Filter by name match to the prefix.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |         |
-| `-folder-name-suffix`      | Filter by folder name. Filter by name match to the suffix.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |         |
-| `-group-name`              | Filter by group name. Filter by exact match to the name.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |         |
-| `-group-name-prefix`       | Filter by group name. Filter by name match to the prefix.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |         |
-| `-group-name-suffix`       | Filter by group name. Filter by name match to the suffix.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |         |
-| `-include-external-groups` | Include external groups in the report.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        | false   |
-| `-peer`                    | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
-| `-scan-timeout`            | Scan timeout mode. If the scan timeouts, the path of a subfolder of the team folder will be replaced with a dummy path like `TEAMFOLDER_NAME/:ERROR-SCAN-TIMEOUT:/SUBFOLDER_NAME`. (Options: short, long)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | short   |
+**-folder-name**
+: Filter by folder name. Filter by exact match to the name.
 
+**-folder-name-prefix**
+: Filter by folder name. Filter by name match to the prefix.
+
+**-folder-name-suffix**
+: Filter by folder name. Filter by name match to the suffix.
+
+**-group-name**
+: Filter by group name. Filter by exact match to the name.
+
+**-group-name-prefix**
+: Filter by group name. Filter by name match to the prefix.
+
+**-group-name-suffix**
+: Filter by group name. Filter by name match to the suffix.
+
+**-include-external-groups**
+: Include external groups in the report.. Default: false
+
+**-peer**
+: Account alias. Default: default
+
+**-scan-timeout**
+: Scan timeout mode. If the scan timeouts, the path of a subfolder of the team folder will be replaced with a dummy path like `TEAMFOLDER_NAME/:ERROR-SCAN-TIMEOUT:/SUBFOLDER_NAME`.. Options: short (scantimeout: short), long (scantimeout: long). Default: short
 
 
 
@@ -8770,13 +9095,14 @@ tbx dropbox team group member add -group-name GROUP_NAME -member-email EMAIL
 ## Options:
 
 
+**-group-name**
+: Group name
 
-| Option          | Description                 | Default |
-|-----------------|-----------------------------|---------|
-| `-group-name`   | Group name                  |         |
-| `-member-email` | Email address of the member |         |
-| `-peer`         | Account alias               | default |
+**-member-email**
+: Email address of the member
 
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -8827,13 +9153,14 @@ tbx dropbox team group member delete -group-name GROUP_NAME -member-email EMAIL
 ## Options:
 
 
+**-group-name**
+: Name of the group
 
-| Option          | Description                 | Default |
-|-----------------|-----------------------------|---------|
-| `-group-name`   | Name of the group           |         |
-| `-member-email` | Email address of the member |         |
-| `-peer`         | Account alias               | default |
+**-member-email**
+: Email address of the member
 
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -8884,11 +9211,8 @@ tbx dropbox team group member list
 ## Options:
 
 
-
-| Option  | Description   | Default |
-|---------|---------------|---------|
-| `-peer` | Account alias | default |
-
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -8939,12 +9263,11 @@ tbx dropbox team group member batch add -file /PATH/TO/DATA_FILE.csv
 ## Options:
 
 
+**-file**
+: Path to data file
 
-| Option  | Description       | Default |
-|---------|-------------------|---------|
-| `-file` | Path to data file |         |
-| `-peer` | Account alias     | default |
-
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -9013,12 +9336,11 @@ tbx dropbox team group member batch delete -file /PATH/TO/DATA_FILE.csv
 ## Options:
 
 
+**-file**
+: Path to data file
 
-| Option  | Description       | Default |
-|---------|-------------------|---------|
-| `-file` | Path to data file |         |
-| `-peer` | Account alias     | default |
-
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -9087,12 +9409,11 @@ tbx dropbox team group member batch update -file /PATH/TO/DATA_FILE.csv
 ## Options:
 
 
+**-file**
+: Path to data file
 
-| Option  | Description       | Default |
-|---------|-------------------|---------|
-| `-file` | Path to data file |         |
-| `-peer` | Account alias     | default |
-
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -9161,13 +9482,14 @@ tbx dropbox team group update type -name GROUP_NAME
 ## Options:
 
 
+**-name**
+: Group name
 
-| Option  | Description                                                                        | Default         |
-|---------|------------------------------------------------------------------------------------|-----------------|
-| `-name` | Group name                                                                         |                 |
-| `-peer` | Account alias                                                                      | default         |
-| `-type` | Group type (user_managed/company_managed) (Options: user_managed, company_managed) | company_managed |
+**-peer**
+: Account alias. Default: default
 
+**-type**
+: Group type (user_managed/company_managed). Options: user_managed (type: user_managed), company_managed (type: company_managed). Default: company_managed
 
 
 
@@ -9237,16 +9559,23 @@ tbx dropbox team insight scan -database /LOCAL/PATH/TO/database
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option                 | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`           | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-database`            | Path to database                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |         |
-| `-max-retries`         | Maximum number of retries                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | 3       |
-| `-peer`                | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
-| `-scan-member-folders` | Scan member folders                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | false   |
-| `-skip-summarize`      | Skip summarize tasks                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | false   |
+**-database**
+: Path to database
 
+**-max-retries**
+: Maximum number of retries. Default: 3
+
+**-peer**
+: Account alias. Default: default
+
+**-scan-member-folders**
+: Scan member folders. Default: false
+
+**-skip-summarize**
+: Skip summarize tasks. Default: false
 
 
 
@@ -9294,11 +9623,8 @@ tbx dropbox team insight report teamfoldermember -database /LOCAL/PATH/TO/databa
 ## Options:
 
 
-
-| Option      | Description      | Default |
-|-------------|------------------|---------|
-| `-database` | Path to database |         |
-
+**-database**
+: Path to database
 
 
 
@@ -9358,16 +9684,23 @@ tbx dropbox team legalhold add -member /PATH/TO/member_email.csv -name POLICY_NA
 ## Options:
 
 
+**-description**
+: A description of the legal hold policy.
 
-| Option         | Description                                                | Default |
-|----------------|------------------------------------------------------------|---------|
-| `-description` | A description of the legal hold policy.                    |         |
-| `-end-date`    | End date of the legal hold policy.                         |         |
-| `-member`      | Email of the member or members you want to place a hold on |         |
-| `-name`        | Policy name.                                               |         |
-| `-peer`        | Account alias                                              | default |
-| `-start-date`  | Start date of the legal hold policy.                       |         |
+**-end-date**
+: End date of the legal hold policy.
 
+**-member**
+: Email of the member or members you want to place a hold on
+
+**-name**
+: Policy name.
+
+**-peer**
+: Account alias. Default: default
+
+**-start-date**
+: Start date of the legal hold policy.
 
 
 
@@ -9439,12 +9772,11 @@ tbx dropbox team legalhold list
 ## Options:
 
 
+**-include-released**
+: Whether to return holds that were released.. Default: false
 
-| Option              | Description                                 | Default |
-|---------------------|---------------------------------------------|---------|
-| `-include-released` | Whether to return holds that were released. | false   |
-| `-peer`             | Account alias                               | default |
-
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -9496,12 +9828,11 @@ tbx dropbox team legalhold release -policy-id POLICY_ID
 ## Options:
 
 
+**-peer**
+: Account alias. Default: default
 
-| Option       | Description          | Default |
-|--------------|----------------------|---------|
-| `-peer`      | Account alias        | default |
-| `-policy-id` | Legal hold policy ID |         |
-
+**-policy-id**
+: Legal hold policy ID
 
 
 
@@ -9529,12 +9860,11 @@ tbx dropbox team legalhold member list -policy-id POLICY_ID
 ## Options:
 
 
+**-peer**
+: Account alias. Default: default
 
-| Option       | Description          | Default |
-|--------------|----------------------|---------|
-| `-peer`      | Account alias        | default |
-| `-policy-id` | Legal hold policy ID |         |
-
+**-policy-id**
+: Legal hold policy ID
 
 
 
@@ -9595,13 +9925,14 @@ tbx dropbox team legalhold member batch update -member /PATH/TO/MEMBER_LIST.csv 
 ## Options:
 
 
+**-member**
+: Path to member list file
 
-| Option       | Description              | Default |
-|--------------|--------------------------|---------|
-| `-member`    | Path to member list file |         |
-| `-peer`      | Account alias            | default |
-| `-policy-id` | Legal hold policy ID     |         |
+**-peer**
+: Account alias. Default: default
 
+**-policy-id**
+: Legal hold policy ID
 
 
 
@@ -9682,13 +10013,14 @@ tbx dropbox team legalhold revision list -after DATE_TIME -policy-id POLICY_ID
 ## Options:
 
 
+**-after**
+: Get revisions after this specified date and time
 
-| Option       | Description                                      | Default |
-|--------------|--------------------------------------------------|---------|
-| `-after`     | Get revisions after this specified date and time |         |
-| `-peer`      | Account alias                                    | default |
-| `-policy-id` | Legal hold policy ID.                            |         |
+**-peer**
+: Account alias. Default: default
 
+**-policy-id**
+: Legal hold policy ID.
 
 
 
@@ -9732,13 +10064,14 @@ tbx dropbox team legalhold update desc -desc DESCRIPTION -policy-id POLICY_ID
 ## Options:
 
 
+**-desc**
+: New description
 
-| Option       | Description          | Default |
-|--------------|----------------------|---------|
-| `-desc`      | New description      |         |
-| `-peer`      | Account alias        | default |
-| `-policy-id` | Legal hold policy ID |         |
+**-peer**
+: Account alias. Default: default
 
+**-policy-id**
+: Legal hold policy ID
 
 
 
@@ -9790,13 +10123,14 @@ tbx dropbox team legalhold update name -name NEW_NAME -policy-id POLICY_ID
 ## Options:
 
 
+**-name**
+: New name
 
-| Option       | Description          | Default |
-|--------------|----------------------|---------|
-| `-name`      | New name             |         |
-| `-peer`      | Account alias        | default |
-| `-policy-id` | Legal hold policy ID |         |
+**-peer**
+: Account alias. Default: default
 
+**-policy-id**
+: Legal hold policy ID
 
 
 
@@ -9848,11 +10182,8 @@ tbx dropbox team linkedapp list
 ## Options:
 
 
-
-| Option  | Description   | Default |
-|---------|---------------|---------|
-| `-peer` | Account alias | default |
-
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -9906,12 +10237,11 @@ tbx dropbox team member feature
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
-
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -9958,12 +10288,11 @@ tbx dropbox team member list
 ## Options:
 
 
+**-include-deleted**
+: Include deleted members.. Default: false
 
-| Option             | Description              | Default |
-|--------------------|--------------------------|---------|
-| `-include-deleted` | Include deleted members. | false   |
-| `-peer`            | Account alias            | default |
-
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -10016,14 +10345,17 @@ tbx dropbox team member replication -file /path/to/file.csv
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-dst`       | Destination team; team file access                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | dst     |
-| `-file`      | Data file                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |         |
-| `-src`       | Source team; team file access                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | src     |
+**-dst**
+: Destination team; team file access. Default: dst
 
+**-file**
+: Data file
+
+**-src**
+: Source team; team file access. Default: src
 
 
 
@@ -10092,13 +10424,14 @@ tbx dropbox team member suspend -email EMAIL
 ## Options:
 
 
+**-email**
+: Member's email address
 
-| Option       | Description                                  | Default |
-|--------------|----------------------------------------------|---------|
-| `-email`     | Member's email address                       |         |
-| `-keep-data` | Keep the user's data on their linked devices | false   |
-| `-peer`      | Account alias                                | default |
+**-keep-data**
+: Keep the user's data on their linked devices. Default: false
 
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -10126,12 +10459,11 @@ tbx dropbox team member unsuspend -email EMAIL
 ## Options:
 
 
+**-email**
+: Member's email address
 
-| Option   | Description            | Default |
-|----------|------------------------|---------|
-| `-email` | Member's email address |         |
-| `-peer`  | Account alias          | default |
-
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -10159,15 +10491,20 @@ tbx dropbox team member batch delete -file /PATH/TO/member_list.csv
 ## Options:
 
 
+**-file**
+: Data file
 
-| Option                                  | Description                                                                          | Default |
-|-----------------------------------------|--------------------------------------------------------------------------------------|---------|
-| `-file`                                 | Data file                                                                            |         |
-| `-peer`                                 | Account alias                                                                        | default |
-| `-transfer-dest-member`                 | If provided, files from the deleted member account will be transferred to this user. |         |
-| `-transfer-notify-admin-email-on-error` | If provided, errors during the transfer process will be sent via email to this user. |         |
-| `-wipe-data`                            | If true, controls if the user's data will be deleted on their linked devices         | true    |
+**-peer**
+: Account alias. Default: default
 
+**-transfer-dest-member**
+: If provided, files from the deleted member account will be transferred to this user.
+
+**-transfer-notify-admin-email-on-error**
+: If provided, errors during the transfer process will be sent via email to this user.
+
+**-wipe-data**
+: If true, controls if the user's data will be deleted on their linked devices. Default: true
 
 
 
@@ -10234,13 +10571,14 @@ tbx dropbox team member batch detach -file /PATH/TO/member_list.csv
 ## Options:
 
 
+**-file**
+: Data file
 
-| Option                | Description                                           | Default |
-|-----------------------|-------------------------------------------------------|---------|
-| `-file`               | Data file                                             |         |
-| `-peer`               | Account alias                                         | default |
-| `-revoke-team-shares` | True to revoke shared folder access owned by the team | false   |
+**-peer**
+: Account alias. Default: default
 
+**-revoke-team-shares**
+: True to revoke shared folder access owned by the team. Default: false
 
 
 
@@ -10307,13 +10645,14 @@ tbx dropbox team member batch invite -file /PATH/TO/member_list.csv
 ## Options:
 
 
+**-file**
+: Data file
 
-| Option           | Description                                                            | Default |
-|------------------|------------------------------------------------------------------------|---------|
-| `-file`          | Data file                                                              |         |
-| `-peer`          | Account alias                                                          | default |
-| `-silent-invite` | Do not send welcome email (requires SSO + domain verification instead) | false   |
+**-peer**
+: Account alias. Default: default
 
+**-silent-invite**
+: Do not send welcome email (requires SSO + domain verification instead). Default: false
 
 
 
@@ -10394,12 +10733,11 @@ tbx dropbox team member batch reinvite
 ## Options:
 
 
+**-peer**
+: Account alias. Default: default
 
-| Option    | Description                              | Default |
-|-----------|------------------------------------------|---------|
-| `-peer`   | Account alias                            | default |
-| `-silent` | Do not send welcome email (SSO required) | false   |
-
+**-silent**
+: Do not send welcome email (SSO required). Default: false
 
 
 
@@ -10465,13 +10803,14 @@ tbx dropbox team member batch suspend -file /PATH/TO/member_list.csv
 ## Options:
 
 
+**-file**
+: Path to data file
 
-| Option       | Description                                  | Default |
-|--------------|----------------------------------------------|---------|
-| `-file`      | Path to data file                            |         |
-| `-keep-data` | Keep the user's data on their linked devices | false   |
-| `-peer`      | Account alias                                | default |
+**-keep-data**
+: Keep the user's data on their linked devices. Default: false
 
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -10538,12 +10877,11 @@ tbx dropbox team member batch unsuspend -file /PATH/TO/member_list.csv
 ## Options:
 
 
+**-file**
+: Path to data file
 
-| Option  | Description       | Default |
-|---------|-------------------|---------|
-| `-file` | Path to data file |         |
-| `-peer` | Account alias     | default |
-
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -10610,12 +10948,11 @@ tbx dropbox team member clear externalid -file /PATH/TO/member_list.csv
 ## Options:
 
 
+**-file**
+: Path to data file
 
-| Option  | Description       | Default |
-|---------|-------------------|---------|
-| `-file` | Path to data file |         |
-| `-peer` | Account alias     | default |
-
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -10699,14 +11036,17 @@ tbx dropbox team member file permdelete -member-email EMAIL -path /DROPBOX/PATH/
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option          | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|-----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`    | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-member-email` | Team member email address                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |         |
-| `-path`         | Path to delete                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |         |
-| `-peer`         | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
+**-member-email**
+: Team member email address
 
+**-path**
+: Path to delete
+
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -10734,14 +11074,17 @@ tbx dropbox team member file lock list -member-email EMAIL -path /DROPBOX/PATH/T
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option          | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|-----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`    | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-member-email` | Member email address                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |         |
-| `-path`         | Path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |         |
-| `-peer`         | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
+**-member-email**
+: Member email address
 
+**-path**
+: Path
+
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -10794,14 +11137,17 @@ tbx dropbox team member file lock release -member-email VALUE -path /DROPBOX/PAT
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option          | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|-----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`    | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-member-email` | Member email address                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |         |
-| `-path`         | Path to release lock                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |         |
-| `-peer`         | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
+**-member-email**
+: Member email address
 
+**-path**
+: Path to release lock
+
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -10855,15 +11201,20 @@ tbx dropbox team member file lock all release -member-email VALUE -path /DROPBOX
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option          | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|-----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`    | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-batch-size`   | Batch operation size                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | 100     |
-| `-member-email` | Member email address                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |         |
-| `-path`         | Path to release lock                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |         |
-| `-peer`         | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
+**-batch-size**
+: Batch operation size. Default: 100
 
+**-member-email**
+: Member email address
+
+**-path**
+: Path to release lock
+
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -10917,17 +11268,26 @@ tbx dropbox team member folder list
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option                | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|-----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`          | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-folder-name`        | Filter by folder name. Filter by exact match to the name.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |         |
-| `-folder-name-prefix` | Filter by folder name. Filter by name match to the prefix.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |         |
-| `-folder-name-suffix` | Filter by folder name. Filter by name match to the suffix.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |         |
-| `-member-email`       | Filter by member email address. Filter by email address.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |         |
-| `-peer`               | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
-| `-scan-timeout`       | Scan timeout mode. If the scan timeouts, the path of a subfolder of the team folder will be replaced with a dummy path like `TEAMFOLDER_NAME/:ERROR-SCAN-TIMEOUT:/SUBFOLDER_NAME`. (Options: short, long)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | short   |
+**-folder-name**
+: Filter by folder name. Filter by exact match to the name.
 
+**-folder-name-prefix**
+: Filter by folder name. Filter by name match to the prefix.
+
+**-folder-name-suffix**
+: Filter by folder name. Filter by name match to the suffix.
+
+**-member-email**
+: Filter by member email address. Filter by email address.
+
+**-peer**
+: Account alias. Default: default
+
+**-scan-timeout**
+: Scan timeout mode. If the scan timeouts, the path of a subfolder of the team folder will be replaced with a dummy path like `TEAMFOLDER_NAME/:ERROR-SCAN-TIMEOUT:/SUBFOLDER_NAME`.. Options: short (scantimeout: short), long (scantimeout: long). Default: short
 
 
 
@@ -10997,16 +11357,23 @@ tbx dropbox team member folder replication -dst-path /DROPBOX/PATH/OF/DST -src-p
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option              | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|---------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`        | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-dst-member-email` | Destination team member email address                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |         |
-| `-dst-path`         | The path for the destination team member. Note the root (/) path is not allowed. You should choose any folder under the root.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |         |
-| `-peer`             | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
-| `-src-member-email` | Source team member email address                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |         |
-| `-src-path`         | The path of the source team member                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |         |
+**-dst-member-email**
+: Destination team member email address
 
+**-dst-path**
+: The path for the destination team member. Note the root (/) path is not allowed. You should choose any folder under the root.
+
+**-peer**
+: Account alias. Default: default
+
+**-src-member-email**
+: Source team member email address
+
+**-src-path**
+: The path of the source team member
 
 
 
@@ -11034,11 +11401,8 @@ tbx dropbox team member quota list
 ## Options:
 
 
-
-| Option  | Description   | Default |
-|---------|---------------|---------|
-| `-peer` | Account alias | default |
-
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -11084,12 +11448,11 @@ tbx dropbox team member quota usage
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
-
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -11138,13 +11501,14 @@ tbx dropbox team member quota batch update -file /path/to/file.csv
 ## Options:
 
 
+**-file**
+: Data file
 
-| Option   | Description                                                               | Default |
-|----------|---------------------------------------------------------------------------|---------|
-| `-file`  | Data file                                                                 |         |
-| `-peer`  | Account alias                                                             | default |
-| `-quota` | Custom quota in GB (1TB = 1024GB). 0 if the user has no custom quota set. | 0       |
+**-peer**
+: Account alias. Default: default
 
+**-quota**
+: Custom quota in GB (1TB = 1024GB). 0 if the user has no custom quota set.. Default: 0
 
 
 
@@ -11215,13 +11579,14 @@ tbx dropbox team member update batch email -file /path/to/data/file.csv
 ## Options:
 
 
+**-file**
+: Data file
 
-| Option               | Description                                                                                                                                               | Default |
-|----------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-file`              | Data file                                                                                                                                                 |         |
-| `-peer`              | Account alias                                                                                                                                             | default |
-| `-update-unverified` | Update an account which hasn't verified its email. If an account email is unverified, changing the email address may cause loss of invitation to folders. | false   |
+**-peer**
+: Account alias. Default: default
 
+**-update-unverified**
+: Update an account which hasn't verified its email. If an account email is unverified, changing the email address may cause loss of invitation to folders.. Default: false
 
 
 
@@ -11300,12 +11665,11 @@ tbx dropbox team member update batch externalid -file /path/to/file.csv
 ## Options:
 
 
+**-file**
+: Data file
 
-| Option  | Description   | Default |
-|---------|---------------|---------|
-| `-file` | Data file     |         |
-| `-peer` | Account alias | default |
-
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -11384,12 +11748,11 @@ tbx dropbox team member update batch invisible -file /PATH/TO/DATA_FILE.csv
 ## Options:
 
 
+**-file**
+: Path to data file
 
-| Option  | Description       | Default |
-|---------|-------------------|---------|
-| `-file` | Path to data file |         |
-| `-peer` | Account alias     | default |
-
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -11473,12 +11836,11 @@ tbx dropbox team member update batch profile -file /path/to/data/file.csv
 ## Options:
 
 
+**-file**
+: Data file
 
-| Option  | Description   | Default |
-|---------|---------------|---------|
-| `-file` | Data file     |         |
-| `-peer` | Account alias | default |
-
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -11559,12 +11921,11 @@ tbx dropbox team member update batch visible -file /PATH/TO/DATA_FILE.csv
 ## Options:
 
 
+**-file**
+: Path to data file
 
-| Option  | Description       | Default |
-|---------|-------------------|---------|
-| `-file` | Path to data file |         |
-| `-peer` | Account alias     | default |
-
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -11648,11 +12009,8 @@ tbx dropbox team namespace list
 ## Options:
 
 
-
-| Option  | Description   | Default |
-|---------|---------------|---------|
-| `-peer` | Account alias | default |
-
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -11699,13 +12057,14 @@ tbx dropbox team namespace summary
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option                 | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`           | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-peer`                | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
-| `-skip-member-summary` | Skip scanning member namespaces                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | false   |
+**-peer**
+: Account alias. Default: default
 
+**-skip-member-summary**
+: Skip scanning member namespaces. Default: false
 
 
 
@@ -11815,18 +12174,29 @@ tbx dropbox team namespace file list
 ## Options:
 
 
+**-folder-name**
+: List only for the folder matched to the name. Filter by exact match to the name.
 
-| Option                   | Description                                                                       | Default |
-|--------------------------|-----------------------------------------------------------------------------------|---------|
-| `-folder-name`           | List only for the folder matched to the name. Filter by exact match to the name.  |         |
-| `-folder-name-prefix`    | List only for the folder matched to the name. Filter by name match to the prefix. |         |
-| `-folder-name-suffix`    | List only for the folder matched to the name. Filter by name match to the suffix. |         |
-| `-include-deleted`       | If true, deleted file or folder will be returned                                  | false   |
-| `-include-member-folder` | If true, include team member folders                                              | false   |
-| `-include-shared-folder` | If true, include shared folders                                                   | true    |
-| `-include-team-folder`   | If true, include team folders                                                     | true    |
-| `-peer`                  | Account alias                                                                     | default |
+**-folder-name-prefix**
+: List only for the folder matched to the name. Filter by name match to the prefix.
 
+**-folder-name-suffix**
+: List only for the folder matched to the name. Filter by name match to the suffix.
+
+**-include-deleted**
+: If true, deleted file or folder will be returned. Default: false
+
+**-include-member-folder**
+: If true, include team member folders. Default: false
+
+**-include-shared-folder**
+: If true, include shared folders. Default: true
+
+**-include-team-folder**
+: If true, include team folders. Default: true
+
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -11896,19 +12266,32 @@ tbx dropbox team namespace file size
 ## Options:
 
 
+**-depth**
+: Report entry for all files and directories depth directories deep. Default: 3
 
-| Option                   | Description                                                                       | Default |
-|--------------------------|-----------------------------------------------------------------------------------|---------|
-| `-depth`                 | Report entry for all files and directories depth directories deep                 | 3       |
-| `-folder-name`           | List only for the folder matched to the name. Filter by exact match to the name.  |         |
-| `-folder-name-prefix`    | List only for the folder matched to the name. Filter by name match to the prefix. |         |
-| `-folder-name-suffix`    | List only for the folder matched to the name. Filter by name match to the suffix. |         |
-| `-include-app-folder`    | If true, include app folders                                                      | false   |
-| `-include-member-folder` | If true, include team member folders                                              | false   |
-| `-include-shared-folder` | If true, include shared folders                                                   | true    |
-| `-include-team-folder`   | If true, include team folders                                                     | true    |
-| `-peer`                  | Account alias                                                                     | default |
+**-folder-name**
+: List only for the folder matched to the name. Filter by exact match to the name.
 
+**-folder-name-prefix**
+: List only for the folder matched to the name. Filter by name match to the prefix.
+
+**-folder-name-suffix**
+: List only for the folder matched to the name. Filter by name match to the suffix.
+
+**-include-app-folder**
+: If true, include app folders. Default: false
+
+**-include-member-folder**
+: If true, include team member folders. Default: false
+
+**-include-shared-folder**
+: If true, include shared folders. Default: true
+
+**-include-team-folder**
+: If true, include team folders. Default: true
+
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -11965,12 +12348,11 @@ tbx dropbox team namespace member list
 ## Options:
 
 
+**-all-columns**
+: Show all columns. Default: false
 
-| Option         | Description      | Default |
-|----------------|------------------|---------|
-| `-all-columns` | Show all columns | false   |
-| `-peer`        | Account alias    | default |
-
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -12022,18 +12404,29 @@ tbx dropbox team runas file list -member-email MEMBER@DOMAIN -path /DROPBOX/PATH
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option                             | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`                       | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-include-deleted`                 | Include deleted files                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | false   |
-| `-include-explicit-shared-members` | If true, the results will include a flag for each file indicating whether or not that file has any explicit members.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | false   |
-| `-include-mounted-folders`         | If true, the results will include entries under mounted folders which include app folder, shared folder and team folder.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | false   |
-| `-member-email`                    | Email address of the member                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |         |
-| `-path`                            | Path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |         |
-| `-peer`                            | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
-| `-recursive`                       | List recursively                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | false   |
+**-include-deleted**
+: Include deleted files. Default: false
 
+**-include-explicit-shared-members**
+: If true, the results will include a flag for each file indicating whether or not that file has any explicit members.. Default: false
+
+**-include-mounted-folders**
+: If true, the results will include entries under mounted folders which include app folder, shared folder and team folder.. Default: false
+
+**-member-email**
+: Email address of the member
+
+**-path**
+: Path
+
+**-peer**
+: Account alias. Default: default
+
+**-recursive**
+: List recursively. Default: false
 
 
 
@@ -12084,13 +12477,14 @@ tbx dropbox team runas file batch copy -file /PATH/TO/DATA_FILE.csv
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-file`      | Path to data file                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |         |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
+**-file**
+: Path to data file
 
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -12161,21 +12555,38 @@ tbx dropbox team runas file sync batch up -file /PATH/TO/DATA_FILE.csv
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option                 | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`           | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-batch-size`          | Batch commit size                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | 250     |
-| `-delete`              | Delete Dropbox file if a file is removed locally                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | false   |
-| `-exit-on-failure`     | Exit the program on failure                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | false   |
-| `-file`                | Path to data file                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |         |
-| `-name-disable-ignore` | Name for the sync batch operation. Filter system file or ignore files.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |         |
-| `-name-name`           | Name for the sync batch operation. Filter by exact match to the name.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |         |
-| `-name-name-prefix`    | Name for the sync batch operation. Filter by name match to the prefix.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |         |
-| `-name-name-suffix`    | Name for the sync batch operation. Filter by name match to the suffix.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |         |
-| `-overwrite`           | Overwrite existing files if they exist.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | false   |
-| `-peer`                | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
+**-batch-size**
+: Batch commit size. Default: 250
 
+**-delete**
+: Delete Dropbox file if a file is removed locally. Default: false
+
+**-exit-on-failure**
+: Exit the program on failure. Default: false
+
+**-file**
+: Path to data file
+
+**-name-disable-ignore**
+: Name for the sync batch operation. Filter system file or ignore files.
+
+**-name-name**
+: Name for the sync batch operation. Filter by exact match to the name.
+
+**-name-name-prefix**
+: Name for the sync batch operation. Filter by name match to the prefix.
+
+**-name-name-suffix**
+: Name for the sync batch operation. Filter by name match to the suffix.
+
+**-overwrite**
+: Overwrite existing files if they exist.. Default: false
+
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -12327,14 +12738,17 @@ tbx dropbox team runas sharedfolder isolate -member-email EMAIL
 ## Options:
 
 
+**-base-path**
+: Base path of the shared folder to isolate.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option          | Description                                                      | Default |
-|-----------------|------------------------------------------------------------------|---------|
-| `-base-path`    | Base path of the shared folder to isolate. (Options: root, home) | root    |
-| `-keep-copy`    | Keep a copy after isolation.                                     | false   |
-| `-member-email` | Email address of the member to isolate.                          |         |
-| `-peer`         | Account alias                                                    | default |
+**-keep-copy**
+: Keep a copy after isolation.. Default: false
 
+**-member-email**
+: Email address of the member to isolate.
+
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -12393,13 +12807,14 @@ tbx dropbox team runas sharedfolder list -member-email EMAIL
 ## Options:
 
 
+**-base-path**
+: Base path of the shared folder to list.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option          | Description                                                   | Default |
-|-----------------|---------------------------------------------------------------|---------|
-| `-base-path`    | Base path of the shared folder to list. (Options: root, home) | root    |
-| `-member-email` | Email address of the member to list.                          |         |
-| `-peer`         | Account alias                                                 | default |
+**-member-email**
+: Email address of the member to list.
 
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -12456,14 +12871,17 @@ tbx dropbox team runas sharedfolder batch leave -file /PATH/TO/DATA_FILE.csv
 ## Options:
 
 
+**-base-path**
+: Base path of the shared folder to leave.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option       | Description                                                    | Default |
-|--------------|----------------------------------------------------------------|---------|
-| `-base-path` | Base path of the shared folder to leave. (Options: root, home) | root    |
-| `-file`      | Path to data file                                              |         |
-| `-keep-copy` | Keep a copy of the folder after leaving.                       | false   |
-| `-peer`      | Account alias                                                  | default |
+**-file**
+: Path to data file
 
+**-keep-copy**
+: Keep a copy of the folder after leaving.. Default: false
+
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -12547,16 +12965,23 @@ tbx dropbox team runas sharedfolder batch share -file /PATH/TO/DATA_FILE.csv
 ## Options:
 
 
+**-acl-update-policy**
+: Access control update policy.. Options: owner (aclupdatepolicy: owner), editor (aclupdatepolicy: editor). Default: owner
 
-| Option                | Description                                                    | Default |
-|-----------------------|----------------------------------------------------------------|---------|
-| `-acl-update-policy`  | Access control update policy. (Options: owner, editor)         | owner   |
-| `-base-path`          | Base path of the shared folder to share. (Options: root, home) | root    |
-| `-file`               | Path to data file                                              |         |
-| `-member-policy`      | Policy for shared folder members. (Options: team, anyone)      | anyone  |
-| `-peer`               | Account alias                                                  | default |
-| `-shared-link-policy` | Policy for shared links. (Options: anyone, members)            | anyone  |
+**-base-path**
+: Base path of the shared folder to share.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-file**
+: Path to data file
+
+**-member-policy**
+: Policy for shared folder members.. Options: team (memberpolicy: team), anyone (memberpolicy: anyone). Default: anyone
+
+**-peer**
+: Account alias. Default: default
+
+**-shared-link-policy**
+: Policy for shared links.. Options: anyone (sharedlinkpolicy: anyone), members (sharedlinkpolicy: members). Default: anyone
 
 
 
@@ -12640,14 +13065,17 @@ tbx dropbox team runas sharedfolder batch unshare -file /PATH/TO/DATA_FILE.csv
 ## Options:
 
 
+**-base-path**
+: Base path of the shared folder to unshare.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option        | Description                                                      | Default |
-|---------------|------------------------------------------------------------------|---------|
-| `-base-path`  | Base path of the shared folder to unshare. (Options: root, home) | root    |
-| `-file`       | Path to data file                                                |         |
-| `-leave-copy` | Leave a copy after unsharing.                                    | false   |
-| `-peer`       | Account alias                                                    | default |
+**-file**
+: Path to data file
 
+**-leave-copy**
+: Leave a copy after unsharing.. Default: false
+
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -12731,15 +13159,20 @@ tbx dropbox team runas sharedfolder member batch add -file /PATH/TO/DATA_FILE.cs
 ## Options:
 
 
+**-base-path**
+: Base path of the shared folder to add members.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option       | Description                                                          | Default |
-|--------------|----------------------------------------------------------------------|---------|
-| `-base-path` | Base path of the shared folder to add members. (Options: root, home) | root    |
-| `-file`      | Path to data file                                                    |         |
-| `-message`   | Message to send to new members.                                      |         |
-| `-peer`      | Account alias                                                        | default |
-| `-silent`    | Add members silently without notification.                           | false   |
+**-file**
+: Path to data file
 
+**-message**
+: Message to send to new members.
+
+**-peer**
+: Account alias. Default: default
+
+**-silent**
+: Add members silently without notification.. Default: false
 
 
 
@@ -12812,14 +13245,17 @@ tbx dropbox team runas sharedfolder member batch delete -file /PATH/TO/DATA_FILE
 ## Options:
 
 
+**-base-path**
+: Base path of the shared folder to remove members.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option        | Description                                                             | Default |
-|---------------|-------------------------------------------------------------------------|---------|
-| `-base-path`  | Base path of the shared folder to remove members. (Options: root, home) | root    |
-| `-file`       | Path to data file                                                       |         |
-| `-leave-copy` | Leave a copy after removing member.                                     | false   |
-| `-peer`       | Account alias                                                           | default |
+**-file**
+: Path to data file
 
+**-leave-copy**
+: Leave a copy after removing member.. Default: false
+
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -12890,14 +13326,17 @@ tbx dropbox team runas sharedfolder mount add -member-email EMAIL -shared-folder
 ## Options:
 
 
+**-base-path**
+: Base path of the shared folder to mount.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option              | Description                                                    | Default |
-|---------------------|----------------------------------------------------------------|---------|
-| `-base-path`        | Base path of the shared folder to mount. (Options: root, home) | root    |
-| `-member-email`     | Email address of the member                                    |         |
-| `-peer`             | Account alias                                                  | default |
-| `-shared-folder-id` | Shared folder ID                                               |         |
+**-member-email**
+: Email address of the member
 
+**-peer**
+: Account alias. Default: default
+
+**-shared-folder-id**
+: Shared folder ID
 
 
 
@@ -12954,14 +13393,17 @@ tbx dropbox team runas sharedfolder mount delete -member-email EMAIL -shared-fol
 ## Options:
 
 
+**-base-path**
+: Base path of the shared folder to unmount.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option              | Description                                                      | Default |
-|---------------------|------------------------------------------------------------------|---------|
-| `-base-path`        | Base path of the shared folder to unmount. (Options: root, home) | root    |
-| `-member-email`     | Email address of the member                                      |         |
-| `-peer`             | Account alias                                                    | default |
-| `-shared-folder-id` | The ID for the shared folder.                                    |         |
+**-member-email**
+: Email address of the member
 
+**-peer**
+: Account alias. Default: default
+
+**-shared-folder-id**
+: The ID for the shared folder.
 
 
 
@@ -13018,13 +13460,14 @@ tbx dropbox team runas sharedfolder mount list -member-email EMAIL
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option          | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|-----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`    | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-member-email` | Member email address                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |         |
-| `-peer`         | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
+**-member-email**
+: Member email address
 
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -13081,14 +13524,17 @@ tbx dropbox team runas sharedfolder mount mountable -member-email EMAIL
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option             | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|--------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`       | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-include-mounted` | Include mounted folders.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | false   |
-| `-member-email`    | Member email address                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |         |
-| `-peer`            | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
+**-include-mounted**
+: Include mounted folders.. Default: false
 
+**-member-email**
+: Member email address
+
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -13145,13 +13591,14 @@ tbx dropbox team sharedlink list
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option        | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|---------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`  | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-peer`       | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
-| `-visibility` | Filter links by visibility (all/public/team_only/password) (Options: all, public, team_only, password, team_and_password, shared_folder_only)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | all     |
+**-peer**
+: Account alias. Default: default
 
+**-visibility**
+: Filter links by visibility (all/public/team_only/password). Options:.   • all (Visibility option: all).   • public (Anyone with the link can access).   • team_only (Only team members can access).   • password (Password protected access).   • team_and_password (Team members only with password).   • shared_folder_only (Only shared folder members can access). Default: all
 
 
 
@@ -13205,13 +13652,14 @@ tbx dropbox team sharedlink cap expiry -at "+72h" -file /PATH/TO/shared_link_lis
 ## Options:
 
 
+**-at**
+: New expiry date/time
 
-| Option  | Description          | Default |
-|---------|----------------------|---------|
-| `-at`   | New expiry date/time |         |
-| `-file` | Path to data file    |         |
-| `-peer` | Account alias        | default |
+**-file**
+: Path to data file
 
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -13287,13 +13735,14 @@ tbx dropbox team sharedlink cap visibility -file /PATH/TO/DATA_FILE.csv
 ## Options:
 
 
+**-file**
+: Path to data file
 
-| Option            | Description                                 | Default   |
-|-------------------|---------------------------------------------|-----------|
-| `-file`           | Path to data file                           |           |
-| `-new-visibility` | New visibility setting (Options: team_only) | team_only |
-| `-peer`           | Account alias                               | default   |
+**-new-visibility**
+: New visibility setting. Options: team_only (newvisibility: team_only). Default: team_only
 
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -13369,13 +13818,14 @@ tbx dropbox team sharedlink delete links -file /PATH/TO/DATA_FILE.csv
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-file`      | Path to data file                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |         |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
+**-file**
+: Path to data file
 
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -13451,13 +13901,14 @@ tbx dropbox team sharedlink delete member -member-email EMAIL
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option          | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|-----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`    | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-member-email` | Member email address                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |         |
-| `-peer`         | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
+**-member-email**
+: Member email address
 
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -13513,13 +13964,14 @@ tbx dropbox team sharedlink update expiry -file /PATH/TO/DATA_FILE.csv -at +720h
 ## Options:
 
 
+**-at**
+: New expiration date and time
 
-| Option  | Description                  | Default |
-|---------|------------------------------|---------|
-| `-at`   | New expiration date and time |         |
-| `-file` | Path to data file            |         |
-| `-peer` | Account alias                | default |
+**-file**
+: Path to data file
 
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -13595,13 +14047,14 @@ tbx dropbox team sharedlink update password -file /PATH/TO/DATA_FILE.csv
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-file`      | Path to data file                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |         |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
+**-file**
+: Path to data file
 
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -13678,14 +14131,17 @@ tbx dropbox team sharedlink update visibility -file /PATH/TO/DATA_FILE.csv
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option            | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default   |
-|-------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------|
-| `-base-path`      | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root      |
-| `-file`           | Path to data file                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |           |
-| `-new-visibility` | New visibility setting (Options: public, team_only)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | team_only |
-| `-peer`           | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default   |
+**-file**
+: Path to data file
 
+**-new-visibility**
+: New visibility setting. Options: public (newvisibility: public), team_only (newvisibility: team_only). Default: team_only
+
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -13761,13 +14217,14 @@ tbx dropbox team teamfolder add -name NAME
 ## Options:
 
 
+**-name**
+: Team folder name
 
-| Option          | Description                                                     | Default |
-|-----------------|-----------------------------------------------------------------|---------|
-| `-name`         | Team folder name                                                |         |
-| `-peer`         | Account alias                                                   | default |
-| `-sync-setting` | Sync setting for the team folder (Options: default, not_synced) | default |
+**-peer**
+: Account alias. Default: default
 
+**-sync-setting**
+: Sync setting for the team folder. Options: default (syncsetting: default), not_synced (syncsetting: not_synced). Default: default
 
 
 
@@ -13815,12 +14272,11 @@ tbx dropbox team teamfolder archive -name TEAMFOLDER_NAME
 ## Options:
 
 
+**-name**
+: Team folder name
 
-| Option  | Description      | Default |
-|---------|------------------|---------|
-| `-name` | Team folder name |         |
-| `-peer` | Account alias    | default |
-
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -13848,11 +14304,8 @@ tbx dropbox team teamfolder list
 ## Options:
 
 
-
-| Option  | Description   | Default |
-|---------|---------------|---------|
-| `-peer` | Account alias | default |
-
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -13900,12 +14353,11 @@ tbx dropbox team teamfolder permdelete -name TEAMFOLDER_NAME
 ## Options:
 
 
+**-name**
+: Team folder name
 
-| Option  | Description      | Default |
-|---------|------------------|---------|
-| `-name` | Team folder name |         |
-| `-peer` | Account alias    | default |
-
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -13933,13 +14385,14 @@ tbx dropbox team teamfolder replication -name NAME
 ## Options:
 
 
+**-dst-peer-name**
+: Destination team account alias. Default: dst
 
-| Option           | Description                    | Default |
-|------------------|--------------------------------|---------|
-| `-dst-peer-name` | Destination team account alias | dst     |
-| `-name`          | Team folder name               |         |
-| `-src-peer-name` | Source team account alias      | src     |
+**-name**
+: Team folder name
 
+**-src-peer-name**
+: Source team account alias. Default: src
 
 
 
@@ -13992,12 +14445,11 @@ tbx dropbox team teamfolder batch archive -file /path/to/file.csv
 ## Options:
 
 
+**-file**
+: Data file for a list of team folder names
 
-| Option  | Description                               | Default |
-|---------|-------------------------------------------|---------|
-| `-file` | Data file for a list of team folder names |         |
-| `-peer` | Account alias                             | default |
-
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -14068,12 +14520,11 @@ tbx dropbox team teamfolder batch permdelete -file /path/to/file.csv
 ## Options:
 
 
+**-file**
+: Data file for a list of team folder names
 
-| Option  | Description                               | Default |
-|---------|-------------------------------------------|---------|
-| `-file` | Data file for a list of team folder names |         |
-| `-peer` | Account alias                             | default |
-
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -14140,13 +14591,14 @@ tbx dropbox team teamfolder batch replication -file TEAMFOLDER_NAME_LIST.csv
 ## Options:
 
 
+**-dst-peer-name**
+: Destination team account alias. Default: dst
 
-| Option           | Description                               | Default |
-|------------------|-------------------------------------------|---------|
-| `-dst-peer-name` | Destination team account alias            | dst     |
-| `-file`          | Data file for a list of team folder names |         |
-| `-src-peer-name` | Source team account alias                 | src     |
+**-file**
+: Data file for a list of team folder names
 
+**-src-peer-name**
+: Source team account alias. Default: src
 
 
 
@@ -14219,14 +14671,17 @@ tbx dropbox team teamfolder file list
 ## Options:
 
 
+**-folder-name**
+: List only for the folder matched to the name. Filter by exact match to the name.
 
-| Option                | Description                                                                       | Default |
-|-----------------------|-----------------------------------------------------------------------------------|---------|
-| `-folder-name`        | List only for the folder matched to the name. Filter by exact match to the name.  |         |
-| `-folder-name-prefix` | List only for the folder matched to the name. Filter by name match to the prefix. |         |
-| `-folder-name-suffix` | List only for the folder matched to the name. Filter by name match to the suffix. |         |
-| `-peer`               | Account alias                                                                     | default |
+**-folder-name-prefix**
+: List only for the folder matched to the name. Filter by name match to the prefix.
 
+**-folder-name-suffix**
+: List only for the folder matched to the name. Filter by name match to the suffix.
+
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -14296,15 +14751,20 @@ tbx dropbox team teamfolder file size
 ## Options:
 
 
+**-depth**
+: Depth. Default: 3
 
-| Option                | Description                                                              | Default |
-|-----------------------|--------------------------------------------------------------------------|---------|
-| `-depth`              | Depth                                                                    | 3       |
-| `-folder-name`        | List only folders matching the name. Filter by exact match to the name.  |         |
-| `-folder-name-prefix` | List only folders matching the name. Filter by name match to the prefix. |         |
-| `-folder-name-suffix` | List only folders matching the name. Filter by name match to the suffix. |         |
-| `-peer`               | Account alias                                                            | default |
+**-folder-name**
+: List only folders matching the name. Filter by exact match to the name.
 
+**-folder-name-prefix**
+: List only folders matching the name. Filter by name match to the prefix.
+
+**-folder-name-suffix**
+: List only folders matching the name. Filter by name match to the suffix.
+
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -14361,13 +14821,14 @@ tbx dropbox team teamfolder file lock list -path /DROPBOX/PATH/TO/LIST -team-fol
 ## Options:
 
 
+**-path**
+: Path
 
-| Option         | Description      | Default |
-|----------------|------------------|---------|
-| `-path`        | Path             |         |
-| `-peer`        | Account alias    | default |
-| `-team-folder` | Team folder name |         |
+**-peer**
+: Account alias. Default: default
 
+**-team-folder**
+: Team folder name
 
 
 
@@ -14420,13 +14881,14 @@ tbx dropbox team teamfolder file lock release -path /DROPBOX/PATH/TO/RELEASE -te
 ## Options:
 
 
+**-path**
+: Path to release lock
 
-| Option         | Description          | Default |
-|----------------|----------------------|---------|
-| `-path`        | Path to release lock |         |
-| `-peer`        | Account alias        | default |
-| `-team-folder` | Team folder name     |         |
+**-peer**
+: Account alias. Default: default
 
+**-team-folder**
+: Team folder name
 
 
 
@@ -14480,14 +14942,17 @@ tbx dropbox team teamfolder file lock all release -path /DROPBOX/PATH/TO/RELEASE
 ## Options:
 
 
+**-batch-size**
+: Operation batch size. Default: 100
 
-| Option         | Description          | Default |
-|----------------|----------------------|---------|
-| `-batch-size`  | Operation batch size | 100     |
-| `-path`        | Path to release lock |         |
-| `-peer`        | Account alias        | default |
-| `-team-folder` | Team folder name     |         |
+**-path**
+: Path to release lock
 
+**-peer**
+: Account alias. Default: default
+
+**-team-folder**
+: Team folder name
 
 
 
@@ -14541,13 +15006,14 @@ tbx dropbox team teamfolder member add -file /PATH/TO/DATA_FILE.csv
 ## Options:
 
 
+**-admin-group-name**
+: Temporary group name for admin operation. Default: watermint-toolbox-admin
 
-| Option              | Description                              | Default                 |
-|---------------------|------------------------------------------|-------------------------|
-| `-admin-group-name` | Temporary group name for admin operation | watermint-toolbox-admin |
-| `-file`             | Path to data file                        |                         |
-| `-peer`             | Account alias                            | default                 |
+**-file**
+: Path to data file
 
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -14620,13 +15086,14 @@ tbx dropbox team teamfolder member delete -file /PATH/TO/DATA_FILE.csv
 ## Options:
 
 
+**-admin-group-name**
+: Temporary group name for admin operation. Default: watermint-toolbox-admin
 
-| Option              | Description                              | Default                 |
-|---------------------|------------------------------------------|-------------------------|
-| `-admin-group-name` | Temporary group name for admin operation | watermint-toolbox-admin |
-| `-file`             | Path to data file                        |                         |
-| `-peer`             | Account alias                            | default                 |
+**-file**
+: Path to data file
 
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -14697,18 +15164,29 @@ tbx dropbox team teamfolder member list
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option                  | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|-------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`            | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-folder-name`          | Filter by folder name. Filter by exact match to the name.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |         |
-| `-folder-name-prefix`   | Filter by folder name. Filter by name match to the prefix.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |         |
-| `-folder-name-suffix`   | Filter by folder name. Filter by name match to the suffix.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |         |
-| `-member-type-external` | Filter folder members. Keep only members that are external (not in the same team). Note: Invited members are marked as external member.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |         |
-| `-member-type-internal` | Filter folder members. Keep only members that are internal (in the same team). Note: Invited members are marked as external member.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |         |
-| `-peer`                 | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
-| `-scan-timeout`         | Scan timeout mode. If the scan timeouts, the path of a subfolder of the team folder will be replaced with a dummy path like `TEAMFOLDER_NAME/:ERROR-SCAN-TIMEOUT:/SUBFOLDER_NAME`. (Options: short, long)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | short   |
+**-folder-name**
+: Filter by folder name. Filter by exact match to the name.
 
+**-folder-name-prefix**
+: Filter by folder name. Filter by name match to the prefix.
+
+**-folder-name-suffix**
+: Filter by folder name. Filter by name match to the suffix.
+
+**-member-type-external**
+: Filter folder members. Keep only members that are external (not in the same team). Note: Invited members are marked as external member.
+
+**-member-type-internal**
+: Filter folder members. Keep only members that are internal (in the same team). Note: Invited members are marked as external member.
+
+**-peer**
+: Account alias. Default: default
+
+**-scan-timeout**
+: Scan timeout mode. If the scan timeouts, the path of a subfolder of the team folder will be replaced with a dummy path like `TEAMFOLDER_NAME/:ERROR-SCAN-TIMEOUT:/SUBFOLDER_NAME`.. Options: short (scantimeout: short), long (scantimeout: long). Default: short
 
 
 
@@ -14776,17 +15254,26 @@ tbx dropbox team teamfolder partial replication -src-team-folder-name SRC_TEAMFO
 ## Options:
 
 
+**-base-path**
+: Base path for partial replication. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option                  | Description                                                                      | Default |
-|-------------------------|----------------------------------------------------------------------------------|---------|
-| `-base-path`            | Base path for partial replication (Options: root, home)                          | root    |
-| `-dst`                  | Destination account alias                                                        | dst     |
-| `-dst-path`             | Destination path                                                                 |         |
-| `-dst-team-folder-name` | Destination team folder name                                                     |         |
-| `-src`                  | Peer name for the src team                                                       | src     |
-| `-src-path`             | Relative path from the team folder (please specify '/' for the team folder root) |         |
-| `-src-team-folder-name` | Source team folder name                                                          |         |
+**-dst**
+: Destination account alias. Default: dst
 
+**-dst-path**
+: Destination path
+
+**-dst-team-folder-name**
+: Destination team folder name
+
+**-src**
+: Peer name for the src team. Default: src
+
+**-src-path**
+: Relative path from the team folder (please specify '/' for the team folder root)
+
+**-src-team-folder-name**
+: Source team folder name
 
 
 
@@ -14814,16 +15301,23 @@ tbx dropbox team teamfolder policy list
 ## Options:
 
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option                | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Default |
-|-----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`          | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. (Options: root, home) | root    |
-| `-folder-name`        | Filter by folder name. Filter by exact match to the name.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |         |
-| `-folder-name-prefix` | Filter by folder name. Filter by name match to the prefix.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |         |
-| `-folder-name-suffix` | Filter by folder name. Filter by name match to the suffix.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |         |
-| `-peer`               | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | default |
-| `-scan-timeout`       | Scan timeout mode. If the scan timeouts, the path of a subfolder of the team folder will be replaced with a dummy path like `TEAMFOLDER_NAME/:ERROR-SCAN-TIMEOUT:/SUBFOLDER_NAME`. (Options: short, long)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | short   |
+**-folder-name**
+: Filter by folder name. Filter by exact match to the name.
 
+**-folder-name-prefix**
+: Filter by folder name. Filter by name match to the prefix.
+
+**-folder-name-suffix**
+: Filter by folder name. Filter by name match to the suffix.
+
+**-peer**
+: Account alias. Default: default
+
+**-scan-timeout**
+: Scan timeout mode. If the scan timeouts, the path of a subfolder of the team folder will be replaced with a dummy path like `TEAMFOLDER_NAME/:ERROR-SCAN-TIMEOUT:/SUBFOLDER_NAME`.. Options: short (scantimeout: short), long (scantimeout: long). Default: short
 
 
 
@@ -14874,13 +15368,14 @@ tbx dropbox team teamfolder sync setting list
 ## Options:
 
 
+**-peer**
+: Account alias. Default: default
 
-| Option      | Description                                                                              | Default |
-|-------------|------------------------------------------------------------------------------------------|---------|
-| `-peer`     | Account alias                                                                            | default |
-| `-scan-all` | Perform a scan for all depths (can take considerable time depending on folder structure) | false   |
-| `-show-all` | Show all scanned folders                                                                 | false   |
+**-scan-all**
+: Perform a scan for all depths (can take considerable time depending on folder structure). Default: false
 
+**-show-all**
+: Show all scanned folders. Default: false
 
 
 
@@ -14953,12 +15448,11 @@ tbx dropbox team teamfolder sync setting update -file /PATH/TO/DATA_FILE.csv
 ## Options:
 
 
+**-file**
+: Path to data file
 
-| Option  | Description       | Default |
-|---------|-------------------|---------|
-| `-file` | Path to data file |         |
-| `-peer` | Account alias     | default |
-
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -15030,11 +15524,8 @@ tbx figma account info
 ## Options:
 
 
-
-| Option  | Description   | Default |
-|---------|---------------|---------|
-| `-peer` | Account alias | default |
-
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -15082,13 +15573,14 @@ tbx figma file info -key FILE_KEY
 ## Options:
 
 
+**-all-nodes**
+: Include all node information. Default: false
 
-| Option       | Description                  | Default |
-|--------------|------------------------------|---------|
-| `-all-nodes` | Include all node information | false   |
-| `-key`       | File key                     |         |
-| `-peer`      | Account alias                | default |
+**-key**
+: File key
 
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -15154,12 +15646,11 @@ tbx figma file list -project-id PROJECT_ID. Use `services figma project list` co
 ## Options:
 
 
+**-peer**
+: Account alias. Default: default
 
-| Option        | Description   | Default |
-|---------------|---------------|---------|
-| `-peer`       | Account alias | default |
-| `-project-id` | Project ID    |         |
-
+**-project-id**
+: Project ID
 
 
 
@@ -15207,15 +15698,20 @@ tbx figma file export frame -key FILE_KEY -path /LOCAL/PATH/TO/EXPORT
 ## Options:
 
 
+**-format**
+: Export format (png/jpg/svg/pdf). Options:.   • jpg (Format: jpg).   • png (Format: png).   • svg (Format: svg).   • pdf (PDF document format). Default: pdf
 
-| Option    | Description                                                   | Default |
-|-----------|---------------------------------------------------------------|---------|
-| `-format` | Export format (png/jpg/svg/pdf) (Options: jpg, png, svg, pdf) | pdf     |
-| `-key`    | File key                                                      |         |
-| `-path`   | Output folder path                                            |         |
-| `-peer`   | Account alias                                                 | default |
-| `-scale`  | Export scale in percent range from 1 to 400 (default 100)     | 100     |
+**-key**
+: File key
 
+**-path**
+: Output folder path
+
+**-peer**
+: Account alias. Default: default
+
+**-scale**
+: Export scale in percent range from 1 to 400 (default 100). Default: 100
 
 
 
@@ -15243,16 +15739,23 @@ tbx figma file export node -key FILE_KEY -id NODE_ID -path /LOCAL/PATH/TO/EXPORT
 ## Options:
 
 
+**-format**
+: Export format (png/jpg/svg/pdf). Options:.   • jpg (Format: jpg).   • png (Format: png).   • svg (Format: svg).   • pdf (PDF document format). Default: pdf
 
-| Option    | Description                                                   | Default |
-|-----------|---------------------------------------------------------------|---------|
-| `-format` | Export format (png/jpg/svg/pdf) (Options: jpg, png, svg, pdf) | pdf     |
-| `-id`     | Node ID                                                       |         |
-| `-key`    | File Key                                                      |         |
-| `-path`   | Output folder path                                            |         |
-| `-peer`   | Account alias                                                 | default |
-| `-scale`  | Export scale in percent range from 1 to 400 (default 100)     | 100     |
+**-id**
+: Node ID
 
+**-key**
+: File Key
+
+**-path**
+: Output folder path
+
+**-peer**
+: Account alias. Default: default
+
+**-scale**
+: Export scale in percent range from 1 to 400 (default 100). Default: 100
 
 
 
@@ -15280,15 +15783,20 @@ tbx figma file export page -key FILE_KEY -path /LOCAL/PATH/TO/EXPORT
 ## Options:
 
 
+**-format**
+: Export format (png/jpg/svg/pdf). Options:.   • jpg (Format: jpg).   • png (Format: png).   • svg (Format: svg).   • pdf (PDF document format). Default: pdf
 
-| Option    | Description                                                   | Default |
-|-----------|---------------------------------------------------------------|---------|
-| `-format` | Export format (png/jpg/svg/pdf) (Options: jpg, png, svg, pdf) | pdf     |
-| `-key`    | File key                                                      |         |
-| `-path`   | Output folder path                                            |         |
-| `-peer`   | Account alias                                                 | default |
-| `-scale`  | Export scale in percent range from 1 to 400 (default 100)     | 100     |
+**-key**
+: File key
 
+**-path**
+: Output folder path
+
+**-peer**
+: Account alias. Default: default
+
+**-scale**
+: Export scale in percent range from 1 to 400 (default 100). Default: 100
 
 
 
@@ -15316,15 +15824,20 @@ tbx figma file export all page -path /LOCAL/PATH/TO/EXPORT -team-id TEAM_ID
 ## Options:
 
 
+**-format**
+: Export format (png/jpg/svg/pdf). Options:.   • jpg (Format: jpg).   • png (Format: png).   • svg (Format: svg).   • pdf (PDF document format). Default: pdf
 
-| Option     | Description                                                                                                                                                              | Default |
-|------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-format`  | Export format (png/jpg/svg/pdf) (Options: jpg, png, svg, pdf)                                                                                                            | pdf     |
-| `-path`    | Output folder path                                                                                                                                                       |         |
-| `-peer`    | Account alias                                                                                                                                                            | default |
-| `-scale`   | Export scale in percent range from 1 to 400 (default 100)                                                                                                                | 100     |
-| `-team-id` | Team ID. To obtain a team id, navigate to a team page of a team you are a part of. The team id will be present in the URL after the word team and before your team name. |         |
+**-path**
+: Output folder path
 
+**-peer**
+: Account alias. Default: default
+
+**-scale**
+: Export scale in percent range from 1 to 400 (default 100). Default: 100
+
+**-team-id**
+: Team ID. To obtain a team id, navigate to a team page of a team you are a part of. The team id will be present in the URL after the word team and before your team name.
 
 
 
@@ -15352,12 +15865,11 @@ tbx figma project list -team-id TEAM_ID. To obtain a team id, navigate to a team
 ## Options:
 
 
+**-peer**
+: Account alias. Default: default
 
-| Option     | Description                                                                                                                                                              | Default |
-|------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-peer`    | Account alias                                                                                                                                                            | default |
-| `-team-id` | Team ID. To obtain a team id, navigate to a team page of a team you are a part of. The team id will be present in the URL after the word team and before your team name. |         |
-
+**-team-id**
+: Team ID. To obtain a team id, navigate to a team page of a team you are a part of. The team id will be present in the URL after the word team and before your team name.
 
 
 
@@ -15403,11 +15915,8 @@ tbx github profile
 ## Options:
 
 
-
-| Option  | Description   | Default |
-|---------|---------------|---------|
-| `-peer` | Account alias | default |
-
+**-peer**
+: Account alias. Default: default
 
 
 
@@ -15454,15 +15963,20 @@ tbx github content get -owner OWNER -repository REPOSITORY -path PATH
 ## Options:
 
 
+**-owner**
+: Owner of the repository
 
-| Option        | Description             | Default |
-|---------------|-------------------------|---------|
-| `-owner`      | Owner of the repository |         |
-| `-path`       | Path to the content     |         |
-| `-peer`       | Account alias           | default |
-| `-ref`        | Name of reference       |         |
-| `-repository` | Name of the repository  |         |
+**-path**
+: Path to the content
 
+**-peer**
+: Account alias. Default: default
+
+**-ref**
+: Name of reference
+
+**-repository**
+: Name of the repository
 
 
 
@@ -15512,17 +16026,26 @@ tbx github content put  -owner OWNER -repository REPO -path PATH -content /LOCAL
 ## Options:
 
 
+**-branch**
+: Name of the branch
 
-| Option        | Description             | Default |
-|---------------|-------------------------|---------|
-| `-branch`     | Name of the branch      |         |
-| `-content`    | Path to a content file  |         |
-| `-message`    | Commit message          |         |
-| `-owner`      | Owner of the repository |         |
-| `-path`       | Path to the content     |         |
-| `-peer`       | Account alias           | default |
-| `-repository` | Name of the repository  |         |
+**-content**
+: Path to a content file
 
+**-message**
+: Commit message
+
+**-owner**
+: Owner of the repository
+
+**-path**
+: Path to the content
+
+**-peer**
+: Account alias. Default: default
+
+**-repository**
+: Name of the repository
 
 
 
@@ -15568,17 +16091,26 @@ tbx github issue list -owner OWNER -repository REPO
 ## Options:
 
 
+**-filter**
+: Indicates which sorts of issues to return.. Options:.   • assigned (filter: assigned).   • created (filter: created).   • mentioned (filter: mentioned).   • subscribed (filter: subscribed).   • repos (filter: repos).   • all (filter: all). Default: assigned
 
-| Option        | Description                                                                                                | Default  |
-|---------------|------------------------------------------------------------------------------------------------------------|----------|
-| `-filter`     | Indicates which sorts of issues to return. (Options: assigned, created, mentioned, subscribed, repos, all) | assigned |
-| `-labels`     | A list of comma separated label names.                                                                     |          |
-| `-owner`      | Owner of the repository                                                                                    |          |
-| `-peer`       | Account alias                                                                                              | default  |
-| `-repository` | Repository name                                                                                            |          |
-| `-since`      | Only show notifications updated after the given time.                                                      |          |
-| `-state`      | Indicates the state of the issues to return. (Options: open, closed, all)                                  | open     |
+**-labels**
+: A list of comma separated label names.
 
+**-owner**
+: Owner of the repository
+
+**-peer**
+: Account alias. Default: default
+
+**-repository**
+: Repository name
+
+**-since**
+: Only show notifications updated after the given time.
+
+**-state**
+: Indicates the state of the issues to return.. Options:.   • open (Open issues only).   • closed (Closed issues only).   • all (All issues). Default: open
 
 
 
@@ -15626,17 +16158,26 @@ tbx github release draft -owner OWNER -repository REPO -body-file /LOCAL/PATH/TO
 ## Options:
 
 
+**-body-file**
+: File path to body text. The file must be encoded in UTF-8 without BOM.
 
-| Option        | Description                                                            | Default |
-|---------------|------------------------------------------------------------------------|---------|
-| `-body-file`  | File path to body text. The file must be encoded in UTF-8 without BOM. |         |
-| `-branch`     | Name of the target branch                                              |         |
-| `-name`       | Name of the release                                                    |         |
-| `-owner`      | Owner of the repository                                                |         |
-| `-peer`       | Account alias                                                          | default |
-| `-repository` | Name of the repository                                                 |         |
-| `-tag`        | Name of the tag                                                        |         |
+**-branch**
+: Name of the target branch
 
+**-name**
+: Name of the release
+
+**-owner**
+: Owner of the repository
+
+**-peer**
+: Account alias. Default: default
+
+**-repository**
+: Name of the repository
+
+**-tag**
+: Name of the tag
 
 
 
@@ -15685,13 +16226,14 @@ tbx github release list -owner OWNER -repository REPO
 ## Options:
 
 
+**-owner**
+: Repository owner
 
-| Option        | Description      | Default |
-|---------------|------------------|---------|
-| `-owner`      | Repository owner |         |
-| `-peer`       | Account alias    | default |
-| `-repository` | Repository name  |         |
+**-peer**
+: Account alias. Default: default
 
+**-repository**
+: Repository name
 
 
 
@@ -15739,15 +16281,20 @@ tbx github release asset download -owner OWNER -repository REPO -path /LOCAL/PAT
 ## Options:
 
 
+**-owner**
+: Owner of the repository
 
-| Option        | Description             | Default |
-|---------------|-------------------------|---------|
-| `-owner`      | Owner of the repository |         |
-| `-path`       | Path to download        |         |
-| `-peer`       | Account alias           | default |
-| `-release`    | Release tag name        |         |
-| `-repository` | Name of the repository  |         |
+**-path**
+: Path to download
 
+**-peer**
+: Account alias. Default: default
+
+**-release**
+: Release tag name
+
+**-repository**
+: Name of the repository
 
 
 
@@ -15794,14 +16341,17 @@ tbx github release asset list -owner OWNER -repository REPO -release RELEASE
 ## Options:
 
 
+**-owner**
+: Owner of the repository
 
-| Option        | Description             | Default |
-|---------------|-------------------------|---------|
-| `-owner`      | Owner of the repository |         |
-| `-peer`       | Account alias           | default |
-| `-release`    | Release tag name        |         |
-| `-repository` | Name of the repository  |         |
+**-peer**
+: Account alias. Default: default
 
+**-release**
+: Release tag name
+
+**-repository**
+: Name of the repository
 
 
 
@@ -15850,15 +16400,20 @@ tbx github release asset upload -owner OWNER -repository REPO -release RELEASE -
 ## Options:
 
 
+**-asset**
+: Path to assets
 
-| Option        | Description             | Default |
-|---------------|-------------------------|---------|
-| `-asset`      | Path to assets          |         |
-| `-owner`      | Owner of the repository |         |
-| `-peer`       | Account alias           | default |
-| `-release`    | Release tag name        |         |
-| `-repository` | Name of the repository  |         |
+**-owner**
+: Owner of the repository
 
+**-peer**
+: Account alias. Default: default
+
+**-release**
+: Release tag name
+
+**-repository**
+: Name of the repository
 
 
 
@@ -15910,15 +16465,20 @@ tbx github tag create -owner OWNER -repository REPO -sha1 SHA -tag TAG
 ## Options:
 
 
+**-owner**
+: Owner of the repository
 
-| Option        | Description             | Default |
-|---------------|-------------------------|---------|
-| `-owner`      | Owner of the repository |         |
-| `-peer`       | Account alias           | default |
-| `-repository` | Name of the repository  |         |
-| `-sha1`       | SHA1 hash of the commit |         |
-| `-tag`        | Tag name                |         |
+**-peer**
+: Account alias. Default: default
 
+**-repository**
+: Name of the repository
+
+**-sha1**
+: SHA1 hash of the commit
+
+**-tag**
+: Tag name
 
 
 
@@ -15972,12 +16532,11 @@ tbx local file template apply -path /LOCAL/PATH/TO/APPLY -template /LOCAL/PATH/T
 ## Options:
 
 
+**-path**
+: Path to apply template
 
-| Option      | Description            | Default |
-|-------------|------------------------|---------|
-| `-path`     | Path to apply template |         |
-| `-template` | Path to template file  |         |
-
+**-template**
+: Path to template file
 
 
 
@@ -16005,12 +16564,11 @@ tbx local file template capture -out /LOCAL/PATH/template.json -path /LOCAL/PATH
 ## Options:
 
 
+**-out**
+: Template output path
 
-| Option  | Description          | Default |
-|---------|----------------------|---------|
-| `-out`  | Template output path |         |
-| `-path` | Capture target path  |         |
-
+**-path**
+: Capture target path
 
 
 

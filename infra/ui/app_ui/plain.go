@@ -114,6 +114,17 @@ func (z plainImpl) Quote(m app_msg.Message) {
 	_, _ = fmt.Fprintln(z.wr, z.mc.Compile(m))
 }
 
+func (z plainImpl) DefinitionList(definitions []Definition) {
+	for _, def := range definitions {
+		term := z.mc.Compile(def.Term)
+		desc := z.mc.Compile(def.Description)
+		
+		// Simple plain text format with indentation
+		_, _ = fmt.Fprintf(z.wr, "%s\n", term)
+		_, _ = fmt.Fprintf(z.wr, "  %s\n\n", desc)
+	}
+}
+
 func (z plainImpl) Code(code string) {
 	_, _ = fmt.Fprintln(z.wr, code)
 }

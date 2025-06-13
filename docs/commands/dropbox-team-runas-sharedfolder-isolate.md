@@ -83,36 +83,76 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option          | Description                                                      | Default |
-|-----------------|------------------------------------------------------------------|---------|
-| `-base-path`    | Base path of the shared folder to isolate. (Options: root, home) | root    |
-| `-keep-copy`    | Keep a copy after isolation.                                     | false   |
-| `-member-email` | Email address of the member to isolate.                          |         |
-| `-peer`         | Account alias                                                    | default |
+**-base-path**
+: Base path of the shared folder to isolate.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
+
+**-keep-copy**
+: Keep a copy after isolation.. Default: false
+
+**-member-email**
+: Email address of the member to isolate.
+
+**-peer**
+: Account alias. Default: default
 
 ## Common options:
 
-| Option             | Description                                                                                                                                           | Default              |
-|--------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------|
-| `-auth-database`   | Custom path to auth database (default: $HOME/.toolbox/secrets/secrets.db)                                                                             |                      |
-| `-auto-open`       | Auto open URL or artifact folder                                                                                                                      | false                |
-| `-bandwidth-kb`    | Bandwidth limit in K bytes per sec for upload/download content. 0 for unlimited                                                                       | 0                    |
-| `-budget-memory`   | Memory budget (limits some feature to reduce memory footprint) (Options: low, normal)                                                                 | normal               |
-| `-budget-storage`  | Storage budget (limits logs or some feature to reduce storage usage) (Options: low, normal, unlimited)                                                | normal               |
-| `-concurrency`     | Maximum concurrency for running operation                                                                                                             | Number of processors |
-| `-debug`           | Enable debug mode                                                                                                                                     | false                |
-| `-experiment`      | Enable experimental feature(s).                                                                                                                       |                      |
-| `-extra`           | Extra parameter file path                                                                                                                             |                      |
-| `-lang`            | Display language (Options: auto, en, ja)                                                                                                              | auto                 |
-| `-output`          | Output format (none/text/markdown/json) (Options: text, markdown, json, none)                                                                         | text                 |
-| `-output-filter`   | Output filter query (jq syntax). The output of the report is filtered using jq syntax. This option is only applied when the report is output as JSON. |                      |
-| `-proxy`           | HTTP/HTTPS proxy (hostname:port). Please specify `DIRECT` if you want to skip setting proxy.                                                          |                      |
-| `-quiet`           | Suppress non-error messages, and make output readable by a machine (JSON format)                                                                      | false                |
-| `-retain-job-data` | Job data retain policy (Options: default, on_error, none)                                                                                             | default              |
-| `-secure`          | Do not store tokens into a file                                                                                                                       | false                |
-| `-skip-logging`    | Skip logging in the local storage                                                                                                                     | false                |
-| `-verbose`         | Show current operations for more detail.                                                                                                              | false                |
-| `-workspace`       | Workspace path                                                                                                                                        |                      |
+**-auth-database**
+: Custom path to auth database (default: $HOME/.toolbox/secrets/secrets.db)
+
+**-auto-open**
+: Auto open URL or artifact folder. Default: false
+
+**-bandwidth-kb**
+: Bandwidth limit in K bytes per sec for upload/download content. 0 for unlimited. Default: 0
+
+**-budget-memory**
+: Memory budget (limits some feature to reduce memory footprint). Options: low, normal. Default: normal
+
+**-budget-storage**
+: Storage budget (limits logs or some feature to reduce storage usage). Options: low, normal, unlimited. Default: normal
+
+**-concurrency**
+: Maximum concurrency for running operation. Default: Number of processors
+
+**-debug**
+: Enable debug mode. Default: false
+
+**-experiment**
+: Enable experimental feature(s).
+
+**-extra**
+: Extra parameter file path
+
+**-lang**
+: Display language. Options: auto, en, ja. Default: auto
+
+**-output**
+: Output format (none/text/markdown/json). Options: text, markdown, json, none. Default: text
+
+**-output-filter**
+: Output filter query (jq syntax). The output of the report is filtered using jq syntax. This option is only applied when the report is output as JSON.
+
+**-proxy**
+: HTTP/HTTPS proxy (hostname:port). Please specify `DIRECT` if you want to skip setting proxy.
+
+**-quiet**
+: Suppress non-error messages, and make output readable by a machine (JSON format). Default: false
+
+**-retain-job-data**
+: Job data retain policy. Options: default, on_error, none. Default: default
+
+**-secure**
+: Do not store tokens into a file. Default: false
+
+**-skip-logging**
+: Skip logging in the local storage. Default: false
+
+**-verbose**
+: Show current operations for more detail.. Default: false
+
+**-workspace**
+: Workspace path
 
 # Results
 
