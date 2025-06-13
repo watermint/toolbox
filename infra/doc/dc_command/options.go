@@ -2,6 +2,7 @@ package dc_command
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/watermint/toolbox/essentials/strings/es_case"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -28,7 +29,22 @@ func BodyOptionsTable(ui app_ui.UI, subHeader app_msg.Message, sv rc_recipe.Spec
 				vd = ui.Text(vkd)
 			}
 
-			t.Row(app_msg.Raw(opt), sv.ValueDesc(k), app_msg.Raw(vd))
+			// Get available options for SelectString types and add to description
+			description := sv.ValueDesc(k)
+			if val := sv.Value(k); val != nil {
+				if _, typeAttr := val.Spec(); typeAttr != nil {
+					if attrMap, ok := typeAttr.(map[string]interface{}); ok {
+						if options, hasOptions := attrMap["options"]; hasOptions {
+							if optionsList, ok := options.([]string); ok && len(optionsList) > 0 {
+								optionsText := strings.Join(optionsList, ", ")
+								description = app_msg.Raw(fmt.Sprintf("%s (Options: %s)", ui.Text(description), optionsText))
+							}
+						}
+					}
+				}
+			}
+
+			t.Row(app_msg.Raw(opt), description, app_msg.Raw(vd))
 		}
 	})
 	ui.Break()
