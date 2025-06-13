@@ -33,28 +33,15 @@ brew install toolbox
 
 ## Maintenance policy
 
-This product itself is experimental and is not subject to the maintained to keep quality of service. The project will try to fix critical bugs and security issues with the best effort. But that is also not guaranteed.
-
-The product will not release any patch release of a certain major releases. The product will apply fixes as next release when those fixes accepted to do.
+This product itself is experimental and is not subject to the maintained to keep quality of service. The project will attempt to fix critical bugs and security issues with the best effort. But that is also not guaranteed.\n\nThe product will not release any patch release of a certain major releases. The product will apply fixes as next release when those fixes accepted to do.
 
 ## Specification changes
 
-The deliverables of this project are stand-alone executable programs. The specification changes will not be applied unless you explicitly upgrade your version of the program.
-
-The following policy will be used to make changes in new version releases.
-
-Command paths, arguments, return values, etc. will be upgraded to be as compatible as possible, but may be discontinued or changed.Addition of arguments, etc.
-The general policy is as follows.
-
-* Changes that do not break existing behavior, such as the addition of arguments or changes to messages, will be implemented without notice.
-* Commands that are considered infrequently used will be discontinued or moved without notice.
-* Changes to other commands will be announced 30-180 days or more in advance.
-
-Changes in specifications will be announced at [Announcements](https://github.com/watermint/toolbox/discussions/categories/announcements). Please refer to [Specification Change](https://toolbox.watermint.org/guides/spec-change.html) for a list of planned specification changes.
+The deliverables of this project are stand-alone executable programs. The specification changes will not be applied unless you explicitly upgrade your version of the program.\n\nThe following policy will be used to make changes in new version releases.\n\nCommand paths, arguments, return values, etc. will be upgraded to be as compatible as possible, but may be discontinued or changed. The general policy is as follows.\n\n* Changes that do not break existing behavior, such as the addition of arguments or changes to messages, will be implemented without notice.\n* Commands that are considered infrequently used will be discontinued or moved without notice.\n* Changes to other commands will be announced 30-180 days or more in advance.\n\nChanges in specifications will be announced at [Announcements](https://github.com/watermint/toolbox/discussions/categories/announcements). Please refer to [Specification Change](https://toolbox.watermint.org/guides/spec-change.html) for a list of planned specification changes.\n
 
 ## Availability period for each release
 
-In general, new security issues are discovered every day. In order not to leave these security and critical issues unaddressed by continuing to use older watermint toolbox releases, a maximum availability period has been set for release 130 and above. Please see [#815](https://github.com/watermint/toolbox/discussions/815) for more details.
+In general, new security issues are discovered every day. To avoid leaving these security and critical issues unaddressed by continuing to use older watermint toolbox releases, a maximum availability period has been set for release 130 and above. Please see [#815](https://github.com/watermint/toolbox/discussions/815) for more details.
 
 # Announcements
 
@@ -92,8 +79,7 @@ Any such changes will be announced on the announcement page and this security & 
 
 # Usage
 
-`tbx` have various features. Run without an option for a list of supported commands and options.
-You can see available commands and options by running executable without arguments like below.
+`tbx` has various features. Run without an option for a list of supported commands and options.\nYou can see available commands and options by running the executable without arguments as shown below.
 
 ```
 % ./tbx
@@ -104,7 +90,7 @@ watermint toolbox xx.x.xxx
 © 2016-2025 Takayuki Okazaki
 Licensed under open source licenses. Use the `license` command for more detail.
 
-Tools for Dropbox and Dropbox for teams
+Tools for Dropbox and Dropbox for Teams
 
 Usage:
 ======
@@ -178,14 +164,14 @@ Available commands:
 | [dropbox file search name](docs/commands/dropbox-file-search-name.md)                                   | Search file name                                              |
 | [dropbox file share info](docs/commands/dropbox-file-share-info.md)                                     | Retrieve sharing information of the file                      |
 | [dropbox file sharedfolder info](docs/commands/dropbox-file-sharedfolder-info.md)                       | Get shared folder info                                        |
-| [dropbox file sharedfolder leave](docs/commands/dropbox-file-sharedfolder-leave.md)                     | Leave from the shared folder                                  |
-| [dropbox file sharedfolder list](docs/commands/dropbox-file-sharedfolder-list.md)                       | List shared folder(s)                                         |
+| [dropbox file sharedfolder leave](docs/commands/dropbox-file-sharedfolder-leave.md)                     | Leave the shared folder                                       |
+| [dropbox file sharedfolder list](docs/commands/dropbox-file-sharedfolder-list.md)                       | List shared folders                                           |
 | [dropbox file sharedfolder member add](docs/commands/dropbox-file-sharedfolder-member-add.md)           | Add a member to the shared folder                             |
-| [dropbox file sharedfolder member delete](docs/commands/dropbox-file-sharedfolder-member-delete.md)     | Delete a member from the shared folder                        |
-| [dropbox file sharedfolder member list](docs/commands/dropbox-file-sharedfolder-member-list.md)         | List shared folder member(s)                                  |
+| [dropbox file sharedfolder member delete](docs/commands/dropbox-file-sharedfolder-member-delete.md)     | Remove a member from the shared folder                        |
+| [dropbox file sharedfolder member list](docs/commands/dropbox-file-sharedfolder-member-list.md)         | List shared folder members                                    |
 | [dropbox file sharedfolder mount add](docs/commands/dropbox-file-sharedfolder-mount-add.md)             | Add the shared folder to the current user's Dropbox           |
-| [dropbox file sharedfolder mount delete](docs/commands/dropbox-file-sharedfolder-mount-delete.md)       | The current user unmounts the designated folder.              |
-| [dropbox file sharedfolder mount list](docs/commands/dropbox-file-sharedfolder-mount-list.md)           | List all shared folders the current user mounted              |
+| [dropbox file sharedfolder mount delete](docs/commands/dropbox-file-sharedfolder-mount-delete.md)       | Unmount the shared folder                                     |
+| [dropbox file sharedfolder mount list](docs/commands/dropbox-file-sharedfolder-mount-list.md)           | List all shared folders the current user has mounted          |
 | [dropbox file sharedfolder mount mountable](docs/commands/dropbox-file-sharedfolder-mount-mountable.md) | List all shared folders the current user can mount            |
 | [dropbox file sharedfolder share](docs/commands/dropbox-file-sharedfolder-share.md)                     | Share a folder                                                |
 | [dropbox file sharedfolder unshare](docs/commands/dropbox-file-sharedfolder-unshare.md)                 | Unshare a folder                                              |
@@ -193,7 +179,7 @@ Available commands:
 | [dropbox file sharedlink delete](docs/commands/dropbox-file-sharedlink-delete.md)                       | Remove shared links                                           |
 | [dropbox file sharedlink file list](docs/commands/dropbox-file-sharedlink-file-list.md)                 | List files for the shared link                                |
 | [dropbox file sharedlink info](docs/commands/dropbox-file-sharedlink-info.md)                           | Get information about the shared link                         |
-| [dropbox file sharedlink list](docs/commands/dropbox-file-sharedlink-list.md)                           | List of shared link(s)                                        |
+| [dropbox file sharedlink list](docs/commands/dropbox-file-sharedlink-list.md)                           | List shared links                                             |
 | [dropbox file size](docs/commands/dropbox-file-size.md)                                                 | Storage usage                                                 |
 | [dropbox file sync down](docs/commands/dropbox-file-sync-down.md)                                       | Downstream sync with Dropbox                                  |
 | [dropbox file sync online](docs/commands/dropbox-file-sync-online.md)                                   | Sync online files                                             |
@@ -206,7 +192,7 @@ Available commands:
 | [dropbox file watch](docs/commands/dropbox-file-watch.md)                                               | Watch file activities                                         |
 | [dropbox paper append](docs/commands/dropbox-paper-append.md)                                           | Append the content to the end of the existing Paper doc       |
 | [dropbox paper create](docs/commands/dropbox-paper-create.md)                                           | Create new Paper in the path                                  |
-| [dropbox paper overwrite](docs/commands/dropbox-paper-overwrite.md)                                     | Overwrite existing Paper document                             |
+| [dropbox paper overwrite](docs/commands/dropbox-paper-overwrite.md)                                     | Overwrite an existing Paper document                          |
 | [dropbox paper prepend](docs/commands/dropbox-paper-prepend.md)                                         | Append the content to the beginning of the existing Paper doc |
 | [util tidy pack remote](docs/commands/util-tidy-pack-remote.md)                                         | Package remote folder into the zip file                       |
 
@@ -226,7 +212,7 @@ Available commands:
 | [dropbox team activity event](docs/commands/dropbox-team-activity-event.md)                                                 | Event log                                                                 |
 | [dropbox team activity user](docs/commands/dropbox-team-activity-user.md)                                                   | Activities log per user                                                   |
 | [dropbox team admin group role add](docs/commands/dropbox-team-admin-group-role-add.md)                                     | Add the role to members of the group                                      |
-| [dropbox team admin group role delete](docs/commands/dropbox-team-admin-group-role-delete.md)                               | Delete the role from all members except of members of the exception group |
+| [dropbox team admin group role delete](docs/commands/dropbox-team-admin-group-role-delete.md)                               | Delete the role from all members except members of the exception group    |
 | [dropbox team admin list](docs/commands/dropbox-team-admin-list.md)                                                         | List admin roles of members                                               |
 | [dropbox team admin role add](docs/commands/dropbox-team-admin-role-add.md)                                                 | Add a new role to the member                                              |
 | [dropbox team admin role clear](docs/commands/dropbox-team-admin-role-clear.md)                                             | Remove all admin roles from the member                                    |
@@ -262,11 +248,11 @@ Available commands:
 | [dropbox team group update type](docs/commands/dropbox-team-group-update-type.md)                                           | Update group management type                                              |
 | [dropbox team info](docs/commands/dropbox-team-info.md)                                                                     | Team information                                                          |
 | [dropbox team insight scan](docs/commands/dropbox-team-insight-scan.md)                                                     | Scans team data for analysis                                              |
-| [dropbox team legalhold add](docs/commands/dropbox-team-legalhold-add.md)                                                   | Creates new legal hold policy.                                            |
+| [dropbox team legalhold add](docs/commands/dropbox-team-legalhold-add.md)                                                   | Creates a new legal hold policy.                                          |
 | [dropbox team legalhold list](docs/commands/dropbox-team-legalhold-list.md)                                                 | Retrieve existing policies                                                |
 | [dropbox team legalhold member batch update](docs/commands/dropbox-team-legalhold-member-batch-update.md)                   | Update member list of legal hold policy                                   |
 | [dropbox team legalhold member list](docs/commands/dropbox-team-legalhold-member-list.md)                                   | List members of the legal hold                                            |
-| [dropbox team legalhold release](docs/commands/dropbox-team-legalhold-release.md)                                           | Releases a legal hold by Id                                               |
+| [dropbox team legalhold release](docs/commands/dropbox-team-legalhold-release.md)                                           | Releases a legal hold by ID                                               |
 | [dropbox team legalhold revision list](docs/commands/dropbox-team-legalhold-revision-list.md)                               | List revisions under legal hold                                           |
 | [dropbox team legalhold update desc](docs/commands/dropbox-team-legalhold-update-desc.md)                                   | Update description of the legal hold policy                               |
 | [dropbox team legalhold update name](docs/commands/dropbox-team-legalhold-update-name.md)                                   | Update name of the legal hold policy                                      |
@@ -338,10 +324,10 @@ Available commands:
 | [dropbox team teamfolder member add](docs/commands/dropbox-team-teamfolder-member-add.md)                                   | Batch adding users/groups to team folders                                 |
 | [dropbox team teamfolder member delete](docs/commands/dropbox-team-teamfolder-member-delete.md)                             | Batch removing users/groups from team folders                             |
 | [dropbox team teamfolder member list](docs/commands/dropbox-team-teamfolder-member-list.md)                                 | List team folder members                                                  |
-| [dropbox team teamfolder partial replication](docs/commands/dropbox-team-teamfolder-partial-replication.md)                 | Partial team folder replication to the other team                         |
+| [dropbox team teamfolder partial replication](docs/commands/dropbox-team-teamfolder-partial-replication.md)                 | Partial team folder replication to another team                           |
 | [dropbox team teamfolder permdelete](docs/commands/dropbox-team-teamfolder-permdelete.md)                                   | Permanently delete team folder                                            |
 | [dropbox team teamfolder policy list](docs/commands/dropbox-team-teamfolder-policy-list.md)                                 | List policies of team folders                                             |
-| [dropbox team teamfolder replication](docs/commands/dropbox-team-teamfolder-replication.md)                                 | Replicate a team folder to the other team                                 |
+| [dropbox team teamfolder replication](docs/commands/dropbox-team-teamfolder-replication.md)                                 | Replicate a team folder to another team                                   |
 | [dropbox team teamfolder sync setting list](docs/commands/dropbox-team-teamfolder-sync-setting-list.md)                     | List team folder sync settings                                            |
 | [dropbox team teamfolder sync setting update](docs/commands/dropbox-team-teamfolder-sync-setting-update.md)                 | Batch update team folder sync settings                                    |
 
@@ -354,7 +340,7 @@ Available commands:
 | [figma file export frame](docs/commands/figma-file-export-frame.md)       | Export all frames of the Figma file   |
 | [figma file export node](docs/commands/figma-file-export-node.md)         | Export Figma document Node            |
 | [figma file export page](docs/commands/figma-file-export-page.md)         | Export all pages of the Figma file    |
-| [figma file info](docs/commands/figma-file-info.md)                       | Show information of the figma file    |
+| [figma file info](docs/commands/figma-file-info.md)                       | Show information of the Figma file    |
 | [figma file list](docs/commands/figma-file-list.md)                       | List files in the Figma Project       |
 | [figma project list](docs/commands/figma-project-list.md)                 | List projects of the team             |
 
@@ -428,7 +414,7 @@ Available commands:
 | [util text nlp english sentence](docs/commands/util-text-nlp-english-sentence.md)                             | Split English text into sentences                                    |
 | [util text nlp english token](docs/commands/util-text-nlp-english-token.md)                                   | Split English text into tokens                                       |
 | [util text nlp japanese token](docs/commands/util-text-nlp-japanese-token.md)                                 | Tokenize Japanese text                                               |
-| [util text nlp japanese wakati](docs/commands/util-text-nlp-japanese-wakati.md)                               | Wakati gaki (tokenize Japanese text)                                 |
+| [util text nlp japanese wakati](docs/commands/util-text-nlp-japanese-wakati.md)                               | Wakachigaki (tokenize Japanese text)                                 |
 | [util tidy move dispatch](docs/commands/util-tidy-move-dispatch.md)                                           | Dispatch files                                                       |
 | [util tidy move simple](docs/commands/util-tidy-move-simple.md)                                               | Archive local files                                                  |
 | [util time now](docs/commands/util-time-now.md)                                                               | Display current time                                                 |

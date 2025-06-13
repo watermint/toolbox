@@ -38,18 +38,18 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option           | Description                                                  | Default |
-|------------------|--------------------------------------------------------------|---------|
-| `-color`         | Background color                                             | white   |
-| `-font-path`     | Path to True Type font (required if you need to draw a text) |         |
-| `-font-size`     | Font size                                                    | 12      |
-| `-height`        | Height (pixel)                                               | 400     |
-| `-path`          | Path to export generated image                               |         |
-| `-text`          | Text if you need                                             |         |
-| `-text-align`    | Text alignment                                               | left    |
-| `-text-color`    | Text color                                                   | black   |
-| `-text-position` | Text position                                                | center  |
-| `-width`         | Width (pixel)                                                | 640     |
+| Option           | Description                                               | Default |
+|------------------|-----------------------------------------------------------|---------|
+| `-color`         | Background color                                          | white   |
+| `-font-path`     | Path to TrueType font (required if you need to draw text) |         |
+| `-font-size`     | Font size                                                 | 12      |
+| `-height`        | Height (pixels)                                           | 400     |
+| `-path`          | Path to export generated image                            |         |
+| `-text`          | Text if you need                                          |         |
+| `-text-align`    | Text alignment                                            | left    |
+| `-text-color`    | Text color                                                | black   |
+| `-text-position` | Text position                                             | center  |
+| `-width`         | Width (pixels)                                            | 640     |
 
 ## Common options:
 
@@ -67,7 +67,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-lang`            | Display language                                                                                                                                      | auto                 |
 | `-output`          | Output format (none/text/markdown/json)                                                                                                               | text                 |
 | `-output-filter`   | Output filter query (jq syntax). The output of the report is filtered using jq syntax. This option is only applied when the report is output as JSON. |                      |
-| `-proxy`           | HTTP/HTTPS proxy (hostname:port). Please specify `DIRECT` if you want skip setting proxy.                                                             |                      |
+| `-proxy`           | HTTP/HTTPS proxy (hostname:port). Please specify `DIRECT` if you want to skip setting proxy.                                                          |                      |
 | `-quiet`           | Suppress non-error messages, and make output readable by a machine (JSON format)                                                                      | false                |
 | `-retain-job-data` | Job data retain policy                                                                                                                                | default              |
 | `-secure`          | Do not store tokens into a file                                                                                                                       | false                |

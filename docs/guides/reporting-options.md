@@ -32,7 +32,7 @@ Licensed under open source licenses. Use the `license` command for more detail.
 | xxx@xxxxxxxxxxxxx.xxx | true           | xxxx       | xxxx    | xxxxxxxx     |
 ```
 
-If you want to output this type of data, you can add the `-experiment report_all_columns' option to output all defined columns.
+If you want to output this type of data, you can add the `-experiment report_all_columns` option to output all defined columns.
 
 ```
 $ ./tbx dropbox file account info -experiment report_all_columns
@@ -86,8 +86,6 @@ $ ./tbx dropbox team member list -output json --output-filter "[.profile.email, 
 "tomioka@example.com",false
 ```
 
-In case you want to test the output filter, you can run the command first without the output filter option.
-The command will generate the raw JSON output.
-Then, you can test the query the command [util json query](https://toolbox.watermint.org/commands/util-json-query.html) to test the query.
+In case you want to test the output filter, you can run the command first without the output filter option.\nThe command will generate the raw JSON output.\nThen, you can test the query with the command [util json query](https://toolbox.watermint.org/commands/util-json-query.html) to test the query.\n
 
 

@@ -40,7 +40,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 | Option            | Description                                                                                           | Default |
 |-------------------|-------------------------------------------------------------------------------------------------------|---------|
-| `-id`             | Job Id.                                                                                               |         |
+| `-id`             | Job ID.                                                                                               |         |
 | `-name`           | Extra name of the approved recipe                                                                     |         |
 | `-replay-path`    | Replay repository path. Fall back to the environment variable `TOOLBOX_REPLAY_PATH` if not specified. |         |
 | `-workspace-path` | Path to workspace.                                                                                    |         |
@@ -61,7 +61,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-lang`            | Display language                                                                                                                                      | auto                 |
 | `-output`          | Output format (none/text/markdown/json)                                                                                                               | text                 |
 | `-output-filter`   | Output filter query (jq syntax). The output of the report is filtered using jq syntax. This option is only applied when the report is output as JSON. |                      |
-| `-proxy`           | HTTP/HTTPS proxy (hostname:port). Please specify `DIRECT` if you want skip setting proxy.                                                             |                      |
+| `-proxy`           | HTTP/HTTPS proxy (hostname:port). Please specify `DIRECT` if you want to skip setting proxy.                                                          |                      |
 | `-quiet`           | Suppress non-error messages, and make output readable by a machine (JSON format)                                                                      | false                |
 | `-retain-job-data` | Job data retain policy                                                                                                                                | default              |
 | `-secure`          | Do not store tokens into a file                                                                                                                       | false                |

@@ -51,14 +51,14 @@ lang: en
 | [dropbox file search name]({{ site.baseurl }}/commands/dropbox-file-search-name.html)                                   | Search file name                                              |
 | [dropbox file share info]({{ site.baseurl }}/commands/dropbox-file-share-info.html)                                     | Retrieve sharing information of the file                      |
 | [dropbox file sharedfolder info]({{ site.baseurl }}/commands/dropbox-file-sharedfolder-info.html)                       | Get shared folder info                                        |
-| [dropbox file sharedfolder leave]({{ site.baseurl }}/commands/dropbox-file-sharedfolder-leave.html)                     | Leave from the shared folder                                  |
-| [dropbox file sharedfolder list]({{ site.baseurl }}/commands/dropbox-file-sharedfolder-list.html)                       | List shared folder(s)                                         |
+| [dropbox file sharedfolder leave]({{ site.baseurl }}/commands/dropbox-file-sharedfolder-leave.html)                     | Leave the shared folder                                       |
+| [dropbox file sharedfolder list]({{ site.baseurl }}/commands/dropbox-file-sharedfolder-list.html)                       | List shared folders                                           |
 | [dropbox file sharedfolder member add]({{ site.baseurl }}/commands/dropbox-file-sharedfolder-member-add.html)           | Add a member to the shared folder                             |
-| [dropbox file sharedfolder member delete]({{ site.baseurl }}/commands/dropbox-file-sharedfolder-member-delete.html)     | Delete a member from the shared folder                        |
-| [dropbox file sharedfolder member list]({{ site.baseurl }}/commands/dropbox-file-sharedfolder-member-list.html)         | List shared folder member(s)                                  |
+| [dropbox file sharedfolder member delete]({{ site.baseurl }}/commands/dropbox-file-sharedfolder-member-delete.html)     | Remove a member from the shared folder                        |
+| [dropbox file sharedfolder member list]({{ site.baseurl }}/commands/dropbox-file-sharedfolder-member-list.html)         | List shared folder members                                    |
 | [dropbox file sharedfolder mount add]({{ site.baseurl }}/commands/dropbox-file-sharedfolder-mount-add.html)             | Add the shared folder to the current user's Dropbox           |
-| [dropbox file sharedfolder mount delete]({{ site.baseurl }}/commands/dropbox-file-sharedfolder-mount-delete.html)       | The current user unmounts the designated folder.              |
-| [dropbox file sharedfolder mount list]({{ site.baseurl }}/commands/dropbox-file-sharedfolder-mount-list.html)           | List all shared folders the current user mounted              |
+| [dropbox file sharedfolder mount delete]({{ site.baseurl }}/commands/dropbox-file-sharedfolder-mount-delete.html)       | Unmount the shared folder                                     |
+| [dropbox file sharedfolder mount list]({{ site.baseurl }}/commands/dropbox-file-sharedfolder-mount-list.html)           | List all shared folders the current user has mounted          |
 | [dropbox file sharedfolder mount mountable]({{ site.baseurl }}/commands/dropbox-file-sharedfolder-mount-mountable.html) | List all shared folders the current user can mount            |
 | [dropbox file sharedfolder share]({{ site.baseurl }}/commands/dropbox-file-sharedfolder-share.html)                     | Share a folder                                                |
 | [dropbox file sharedfolder unshare]({{ site.baseurl }}/commands/dropbox-file-sharedfolder-unshare.html)                 | Unshare a folder                                              |
@@ -66,7 +66,7 @@ lang: en
 | [dropbox file sharedlink delete]({{ site.baseurl }}/commands/dropbox-file-sharedlink-delete.html)                       | Remove shared links                                           |
 | [dropbox file sharedlink file list]({{ site.baseurl }}/commands/dropbox-file-sharedlink-file-list.html)                 | List files for the shared link                                |
 | [dropbox file sharedlink info]({{ site.baseurl }}/commands/dropbox-file-sharedlink-info.html)                           | Get information about the shared link                         |
-| [dropbox file sharedlink list]({{ site.baseurl }}/commands/dropbox-file-sharedlink-list.html)                           | List of shared link(s)                                        |
+| [dropbox file sharedlink list]({{ site.baseurl }}/commands/dropbox-file-sharedlink-list.html)                           | List shared links                                             |
 | [dropbox file size]({{ site.baseurl }}/commands/dropbox-file-size.html)                                                 | Storage usage                                                 |
 | [dropbox file sync down]({{ site.baseurl }}/commands/dropbox-file-sync-down.html)                                       | Downstream sync with Dropbox                                  |
 | [dropbox file sync online]({{ site.baseurl }}/commands/dropbox-file-sync-online.html)                                   | Sync online files                                             |
@@ -79,7 +79,7 @@ lang: en
 | [dropbox file watch]({{ site.baseurl }}/commands/dropbox-file-watch.html)                                               | Watch file activities                                         |
 | [dropbox paper append]({{ site.baseurl }}/commands/dropbox-paper-append.html)                                           | Append the content to the end of the existing Paper doc       |
 | [dropbox paper create]({{ site.baseurl }}/commands/dropbox-paper-create.html)                                           | Create new Paper in the path                                  |
-| [dropbox paper overwrite]({{ site.baseurl }}/commands/dropbox-paper-overwrite.html)                                     | Overwrite existing Paper document                             |
+| [dropbox paper overwrite]({{ site.baseurl }}/commands/dropbox-paper-overwrite.html)                                     | Overwrite an existing Paper document                          |
 | [dropbox paper prepend]({{ site.baseurl }}/commands/dropbox-paper-prepend.html)                                         | Append the content to the beginning of the existing Paper doc |
 | [util tidy pack remote]({{ site.baseurl }}/commands/util-tidy-pack-remote.html)                                         | Package remote folder into the zip file                       |
 
@@ -99,7 +99,7 @@ lang: en
 | [dropbox team activity event]({{ site.baseurl }}/commands/dropbox-team-activity-event.html)                                                 | Event log                                                                 |
 | [dropbox team activity user]({{ site.baseurl }}/commands/dropbox-team-activity-user.html)                                                   | Activities log per user                                                   |
 | [dropbox team admin group role add]({{ site.baseurl }}/commands/dropbox-team-admin-group-role-add.html)                                     | Add the role to members of the group                                      |
-| [dropbox team admin group role delete]({{ site.baseurl }}/commands/dropbox-team-admin-group-role-delete.html)                               | Delete the role from all members except of members of the exception group |
+| [dropbox team admin group role delete]({{ site.baseurl }}/commands/dropbox-team-admin-group-role-delete.html)                               | Delete the role from all members except members of the exception group    |
 | [dropbox team admin list]({{ site.baseurl }}/commands/dropbox-team-admin-list.html)                                                         | List admin roles of members                                               |
 | [dropbox team admin role add]({{ site.baseurl }}/commands/dropbox-team-admin-role-add.html)                                                 | Add a new role to the member                                              |
 | [dropbox team admin role clear]({{ site.baseurl }}/commands/dropbox-team-admin-role-clear.html)                                             | Remove all admin roles from the member                                    |
@@ -135,11 +135,11 @@ lang: en
 | [dropbox team group update type]({{ site.baseurl }}/commands/dropbox-team-group-update-type.html)                                           | Update group management type                                              |
 | [dropbox team info]({{ site.baseurl }}/commands/dropbox-team-info.html)                                                                     | Team information                                                          |
 | [dropbox team insight scan]({{ site.baseurl }}/commands/dropbox-team-insight-scan.html)                                                     | Scans team data for analysis                                              |
-| [dropbox team legalhold add]({{ site.baseurl }}/commands/dropbox-team-legalhold-add.html)                                                   | Creates new legal hold policy.                                            |
+| [dropbox team legalhold add]({{ site.baseurl }}/commands/dropbox-team-legalhold-add.html)                                                   | Creates a new legal hold policy.                                          |
 | [dropbox team legalhold list]({{ site.baseurl }}/commands/dropbox-team-legalhold-list.html)                                                 | Retrieve existing policies                                                |
 | [dropbox team legalhold member batch update]({{ site.baseurl }}/commands/dropbox-team-legalhold-member-batch-update.html)                   | Update member list of legal hold policy                                   |
 | [dropbox team legalhold member list]({{ site.baseurl }}/commands/dropbox-team-legalhold-member-list.html)                                   | List members of the legal hold                                            |
-| [dropbox team legalhold release]({{ site.baseurl }}/commands/dropbox-team-legalhold-release.html)                                           | Releases a legal hold by Id                                               |
+| [dropbox team legalhold release]({{ site.baseurl }}/commands/dropbox-team-legalhold-release.html)                                           | Releases a legal hold by ID                                               |
 | [dropbox team legalhold revision list]({{ site.baseurl }}/commands/dropbox-team-legalhold-revision-list.html)                               | List revisions under legal hold                                           |
 | [dropbox team legalhold update desc]({{ site.baseurl }}/commands/dropbox-team-legalhold-update-desc.html)                                   | Update description of the legal hold policy                               |
 | [dropbox team legalhold update name]({{ site.baseurl }}/commands/dropbox-team-legalhold-update-name.html)                                   | Update name of the legal hold policy                                      |
@@ -211,10 +211,10 @@ lang: en
 | [dropbox team teamfolder member add]({{ site.baseurl }}/commands/dropbox-team-teamfolder-member-add.html)                                   | Batch adding users/groups to team folders                                 |
 | [dropbox team teamfolder member delete]({{ site.baseurl }}/commands/dropbox-team-teamfolder-member-delete.html)                             | Batch removing users/groups from team folders                             |
 | [dropbox team teamfolder member list]({{ site.baseurl }}/commands/dropbox-team-teamfolder-member-list.html)                                 | List team folder members                                                  |
-| [dropbox team teamfolder partial replication]({{ site.baseurl }}/commands/dropbox-team-teamfolder-partial-replication.html)                 | Partial team folder replication to the other team                         |
+| [dropbox team teamfolder partial replication]({{ site.baseurl }}/commands/dropbox-team-teamfolder-partial-replication.html)                 | Partial team folder replication to another team                           |
 | [dropbox team teamfolder permdelete]({{ site.baseurl }}/commands/dropbox-team-teamfolder-permdelete.html)                                   | Permanently delete team folder                                            |
 | [dropbox team teamfolder policy list]({{ site.baseurl }}/commands/dropbox-team-teamfolder-policy-list.html)                                 | List policies of team folders                                             |
-| [dropbox team teamfolder replication]({{ site.baseurl }}/commands/dropbox-team-teamfolder-replication.html)                                 | Replicate a team folder to the other team                                 |
+| [dropbox team teamfolder replication]({{ site.baseurl }}/commands/dropbox-team-teamfolder-replication.html)                                 | Replicate a team folder to another team                                   |
 | [dropbox team teamfolder sync setting list]({{ site.baseurl }}/commands/dropbox-team-teamfolder-sync-setting-list.html)                     | List team folder sync settings                                            |
 | [dropbox team teamfolder sync setting update]({{ site.baseurl }}/commands/dropbox-team-teamfolder-sync-setting-update.html)                 | Batch update team folder sync settings                                    |
 
@@ -227,7 +227,7 @@ lang: en
 | [figma file export frame]({{ site.baseurl }}/commands/figma-file-export-frame.html)       | Export all frames of the Figma file   |
 | [figma file export node]({{ site.baseurl }}/commands/figma-file-export-node.html)         | Export Figma document Node            |
 | [figma file export page]({{ site.baseurl }}/commands/figma-file-export-page.html)         | Export all pages of the Figma file    |
-| [figma file info]({{ site.baseurl }}/commands/figma-file-info.html)                       | Show information of the figma file    |
+| [figma file info]({{ site.baseurl }}/commands/figma-file-info.html)                       | Show information of the Figma file    |
 | [figma file list]({{ site.baseurl }}/commands/figma-file-list.html)                       | List files in the Figma Project       |
 | [figma project list]({{ site.baseurl }}/commands/figma-project-list.html)                 | List projects of the team             |
 
@@ -301,7 +301,7 @@ lang: en
 | [util text nlp english sentence]({{ site.baseurl }}/commands/util-text-nlp-english-sentence.html)                             | Split English text into sentences                                    |
 | [util text nlp english token]({{ site.baseurl }}/commands/util-text-nlp-english-token.html)                                   | Split English text into tokens                                       |
 | [util text nlp japanese token]({{ site.baseurl }}/commands/util-text-nlp-japanese-token.html)                                 | Tokenize Japanese text                                               |
-| [util text nlp japanese wakati]({{ site.baseurl }}/commands/util-text-nlp-japanese-wakati.html)                               | Wakati gaki (tokenize Japanese text)                                 |
+| [util text nlp japanese wakati]({{ site.baseurl }}/commands/util-text-nlp-japanese-wakati.html)                               | Wakachigaki (tokenize Japanese text)                                 |
 | [util tidy move dispatch]({{ site.baseurl }}/commands/util-tidy-move-dispatch.html)                                           | Dispatch files                                                       |
 | [util tidy move simple]({{ site.baseurl }}/commands/util-tidy-move-simple.html)                                               | Archive local files                                                  |
 | [util time now]({{ site.baseurl }}/commands/util-time-now.html)                                                               | Display current time                                                 |

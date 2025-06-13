@@ -31,7 +31,7 @@ URL: https://toolbox.watermint.org/commands/common-options.md
 | `-lang`            | Display language                                                                                                                                      | auto                 |
 | `-output`          | Output format (none/text/markdown/json)                                                                                                               | text                 |
 | `-output-filter`   | Output filter query (jq syntax). The output of the report is filtered using jq syntax. This option is only applied when the report is output as JSON. |                      |
-| `-proxy`           | HTTP/HTTPS proxy (hostname:port). Please specify `DIRECT` if you want skip setting proxy.                                                             |                      |
+| `-proxy`           | HTTP/HTTPS proxy (hostname:port). Please specify `DIRECT` if you want to skip setting proxy.                                                          |                      |
 | `-quiet`           | Suppress non-error messages, and make output readable by a machine (JSON format)                                                                      | false                |
 | `-retain-job-data` | Job data retain policy                                                                                                                                | default              |
 | `-secure`          | Do not store tokens into a file                                                                                                                       | false                |
@@ -102,7 +102,7 @@ The command will generate a report in three different formats. `versions.csv`, `
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `versions_0000.xlsx`, `versions_0001.xlsx`, `versions_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `versions_0000.xlsx`, `versions_0001.xlsx`, `versions_0002.xlsx`, ...
 
 
 
@@ -143,7 +143,7 @@ tbx config auth delete -key-name KEY_NAME -peer-name PEER_NAME
 
 ## Report: deleted
 
-Auth credential data
+Authentication credential data
 The command will generate a report in three different formats. `deleted.csv`, `deleted.json`, and `deleted.xlsx`.
 
 | Column      | Description      |
@@ -156,7 +156,7 @@ The command will generate a report in three different formats. `deleted.csv`, `d
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `deleted_0000.xlsx`, `deleted_0001.xlsx`, `deleted_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `deleted_0000.xlsx`, `deleted_0001.xlsx`, `deleted_0002.xlsx`, ...
 
 
 
@@ -185,7 +185,7 @@ tbx config auth list
 
 ## Report: entity
 
-Auth credential data
+Authentication credential data
 The command will generate a report in three different formats. `entity.csv`, `entity.json`, and `entity.xlsx`.
 
 | Column      | Description      |
@@ -198,7 +198,7 @@ The command will generate a report in three different formats. `entity.csv`, `en
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `entity_0000.xlsx`, `entity_0001.xlsx`, `entity_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `entity_0000.xlsx`, `entity_0001.xlsx`, `entity_0002.xlsx`, ...
 
 
 
@@ -354,11 +354,11 @@ The command will generate a report in three different formats. `keys.csv`, `keys
 | valid            | True if the license key is valid    |
 | licensee_name    | Licensee name                       |
 | licensee_email   | Licensee email                      |
-| licensed_recipes | Recipes enabled by this licence key |
+| licensed_recipes | Recipes enabled by this license key |
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `keys_0000.xlsx`, `keys_0001.xlsx`, `keys_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `keys_0000.xlsx`, `keys_0001.xlsx`, `keys_0002.xlsx`, ...
 
 
 
@@ -416,7 +416,7 @@ The command will generate a report in three different formats. `latencies.csv`, 
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `latencies_0000.xlsx`, `latencies_0001.xlsx`, `latencies_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `latencies_0000.xlsx`, `latencies_0001.xlsx`, `latencies_0002.xlsx`, ...
 
 
 ## Report: population
@@ -433,7 +433,7 @@ The command will generate a report in three different formats. `population.csv`,
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `population_0000.xlsx`, `population_0001.xlsx`, `population_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `population_0000.xlsx`, `population_0001.xlsx`, `population_0002.xlsx`, ...
 
 
 ## Report: time_series
@@ -454,7 +454,7 @@ The command will generate a report in three different formats. `time_series.csv`
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `time_series_0000.xlsx`, `time_series_0001.xlsx`, `time_series_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `time_series_0000.xlsx`, `time_series_0001.xlsx`, `time_series_0002.xlsx`, ...
 
 
 
@@ -512,7 +512,7 @@ The command will generate a report in three different formats. `latencies.csv`, 
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `latencies_0000.xlsx`, `latencies_0001.xlsx`, `latencies_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `latencies_0000.xlsx`, `latencies_0001.xlsx`, `latencies_0002.xlsx`, ...
 
 
 ## Report: population
@@ -529,7 +529,7 @@ The command will generate a report in three different formats. `population.csv`,
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `population_0000.xlsx`, `population_0001.xlsx`, `population_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `population_0000.xlsx`, `population_0001.xlsx`, `population_0002.xlsx`, ...
 
 
 ## Report: time_series
@@ -550,7 +550,7 @@ The command will generate a report in three different formats. `time_series.csv`
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `time_series_0000.xlsx`, `time_series_0001.xlsx`, `time_series_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `time_series_0000.xlsx`, `time_series_0001.xlsx`, `time_series_0002.xlsx`, ...
 
 
 
@@ -802,7 +802,7 @@ The command will generate a report in three different formats. `log.csv`, `log.j
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `log_0000.xlsx`, `log_0001.xlsx`, `log_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `log_0000.xlsx`, `log_0001.xlsx`, `log_0002.xlsx`, ...
 
 
 
@@ -1239,7 +1239,7 @@ tbx util encode base64 -text /LOCAL/PATH/TO/INPUT.txt
 
 ## Text input: Text
 
-Text to decode
+Text to encode
 
 
 
@@ -1337,7 +1337,7 @@ tbx util git clone -local-path /LOCAL/PATH/TO/CLONE -url https://github.com/user
 | `-local-path`  | Local path to clone repository |         |
 | `-reference`   | Reference name                 |         |
 | `-remote-name` | Name of the remote             | origin  |
-| `-url`         | Git repository url             |         |
+| `-url`         | Git repository URL             |         |
 
 
 
@@ -1392,7 +1392,7 @@ The command will generate a report in three different formats. `metadata.csv`, `
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `metadata_0000.xlsx`, `metadata_0001.xlsx`, `metadata_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `metadata_0000.xlsx`, `metadata_0001.xlsx`, `metadata_0002.xlsx`, ...
 
 
 
@@ -1419,18 +1419,18 @@ tbx util image placeholder -path /LOCAL/PATH/TO/save.png
 
 
 
-| Option           | Description                                                  | Default |
-|------------------|--------------------------------------------------------------|---------|
-| `-color`         | Background color                                             | white   |
-| `-font-path`     | Path to True Type font (required if you need to draw a text) |         |
-| `-font-size`     | Font size                                                    | 12      |
-| `-height`        | Height (pixel)                                               | 400     |
-| `-path`          | Path to export generated image                               |         |
-| `-text`          | Text if you need                                             |         |
-| `-text-align`    | Text alignment                                               | left    |
-| `-text-color`    | Text color                                                   | black   |
-| `-text-position` | Text position                                                | center  |
-| `-width`         | Width (pixel)                                                | 640     |
+| Option           | Description                                               | Default |
+|------------------|-----------------------------------------------------------|---------|
+| `-color`         | Background color                                          | white   |
+| `-font-path`     | Path to TrueType font (required if you need to draw text) |         |
+| `-font-size`     | Font size                                                 | 12      |
+| `-height`        | Height (pixels)                                           | 400     |
+| `-path`          | Path to export generated image                            |         |
+| `-text`          | Text if you need                                          |         |
+| `-text-align`    | Text alignment                                            | left    |
+| `-text-color`    | Text color                                                | black   |
+| `-text-position` | Text position                                             | center  |
+| `-width`         | Width (pixels)                                            | 640     |
 
 
 
@@ -1464,7 +1464,7 @@ tbx util json query -path /LOCAL/PATH/TO/DATA.json -query QUERY
 |------------|----------------|---------|
 | `-compact` | Compact output | false   |
 | `-path`    | File path      |         |
-| `-query`   | Query string.  |         |
+| `-query`   | Query string   |         |
 
 
 
@@ -1539,7 +1539,7 @@ tbx util qrcode create -out /LOCAL/PATH/TO/OUT.png -text /LOCAL/PATH/TO/INPUT.tx
 | `-error-correction-level` | Error correction level (l/m/q/h). | m       |
 | `-mode`                   | QR code encoding mode             | auto    |
 | `-out`                    | Output path with file name        |         |
-| `-size`                   | Image resolution (pixel)          | 256     |
+| `-size`                   | Image resolution (pixels)         | 256     |
 | `-text`                   | Text data                         |         |
 
 
@@ -1577,15 +1577,15 @@ tbx util qrcode wifi -out /LOCAL/PATH/TO/OUT.png -ssid SSID
 
 
 
-| Option                    | Description                                               | Default |
-|---------------------------|-----------------------------------------------------------|---------|
-| `-error-correction-level` | Error correction level (l/m/q/h).                         | m       |
-| `-hidden`                 | `true` if a SSID is hidden. `false` if a SSID is visible. |         |
-| `-mode`                   | QR code encoding mode                                     | auto    |
-| `-network-type`           | Network type.                                             | WPA     |
-| `-out`                    | Output path with file name                                |         |
-| `-size`                   | Image resolution (pixel)                                  | 256     |
-| `-ssid`                   | Network SSID                                              |         |
+| Option                    | Description                                                 | Default |
+|---------------------------|-------------------------------------------------------------|---------|
+| `-error-correction-level` | Error correction level (l/m/q/h).                           | m       |
+| `-hidden`                 | `true` if an SSID is hidden. `false` if an SSID is visible. |         |
+| `-mode`                   | QR code encoding mode                                       | auto    |
+| `-network-type`           | Network type.                                               | WPA     |
+| `-out`                    | Output path with file name                                  |         |
+| `-size`                   | Image resolution (pixels)                                   | 256     |
+| `-ssid`                   | Network SSID                                                |         |
 
 
 
@@ -1615,12 +1615,12 @@ tbx util release install -path /LOCAL/PATH/TO/INSTALL
 
 
 
-| Option                      | Description                                      | Default |
-|-----------------------------|--------------------------------------------------|---------|
-| `-accept-license-agreement` | Accept to the target release's license agreement | false   |
-| `-path`                     | Path to install                                  |         |
-| `-peer`                     | Account alias                                    | default |
-| `-release`                  | Release tag name                                 | latest  |
+| Option                      | Description                                   | Default |
+|-----------------------------|-----------------------------------------------|---------|
+| `-accept-license-agreement` | Accept the target release's license agreement | false   |
+| `-path`                     | Path to install                               |         |
+| `-peer`                     | Account alias                                 | default |
+| `-release`                  | Release tag name                              | latest  |
 
 
 
@@ -1993,7 +1993,7 @@ URL: https://toolbox.watermint.org/commands/util/text/nlp/japanese/wakati.md
 
 # util text nlp japanese wakati
 
-Wakati gaki (tokenize Japanese text) 
+Wakachigaki (tokenize Japanese text) 
 
 
 
@@ -2108,13 +2108,13 @@ tbx util tidy move simple -dst /LOCAL/DEST -src /LOCAL/SRC
 
 
 
-| Option                  | Description                                                                            | Default |
-|-------------------------|----------------------------------------------------------------------------------------|---------|
-| `-dst`                  | The destination folder path. The command will create folders if not exist on the path. |         |
-| `-exclude-folders`      | Exclude folders                                                                        | false   |
-| `-include-system-files` | Include system files                                                                   | false   |
-| `-preview`              | Preview mode                                                                           | false   |
-| `-src`                  | The source folder path.                                                                |         |
+| Option                  | Description                                                                                    | Default |
+|-------------------------|------------------------------------------------------------------------------------------------|---------|
+| `-dst`                  | The destination folder path. The command will create folders if they do not exist on the path. |         |
+| `-exclude-folders`      | Exclude folders                                                                                | false   |
+| `-include-system-files` | Include system files                                                                           | false   |
+| `-preview`              | Preview mode                                                                                   | false   |
+| `-src`                  | The source folder path.                                                                        |         |
 
 
 
@@ -2176,7 +2176,7 @@ The command will generate a report in three different formats. `operation_log.cs
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 
 
@@ -2442,7 +2442,7 @@ The command will generate a report in three different formats. `metadata.csv`, `
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `metadata_0000.xlsx`, `metadata_0001.xlsx`, `metadata_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `metadata_0000.xlsx`, `metadata_0001.xlsx`, `metadata_0002.xlsx`, ...
 
 
 
@@ -2545,13 +2545,13 @@ tbx util xlsx sheet import -data /LOCAL/PATH/TO/INPUT.csv -file /LOCAL/PATH/TO/T
 
 
 
-| Option      | Description                                            | Default |
-|-------------|--------------------------------------------------------|---------|
-| `-create`   | Create a file if not found                             | false   |
-| `-data`     | Data path                                              |         |
-| `-file`     | Path to data file                                      |         |
-| `-position` | Start position to import in A1 notation. Default `A1`. | A1      |
-| `-sheet`    | Sheet name                                             |         |
+| Option      | Description                                             | Default |
+|-------------|---------------------------------------------------------|---------|
+| `-create`   | Create a file if not found                              | false   |
+| `-data`     | Data path                                               |         |
+| `-file`     | Path to data file                                       |         |
+| `-position` | Start position to import in A1 notation. Default: `A1`. | A1      |
+| `-sheet`    | Sheet name                                              |         |
 
 
 
@@ -2605,16 +2605,16 @@ tbx util xlsx sheet list -file /LOCAL/PATH/TO/process.xlsx
 Sheet
 The command will generate a report in three different formats. `sheets.csv`, `sheets.json`, and `sheets.xlsx`.
 
-| Column | Description                             |
-|--------|-----------------------------------------|
-| name   | Name of the sheet                       |
-| rows   | Number of rows                          |
-| cols   | Number of columns                       |
-| hidden | True when if the sheet marked as hidden |
+| Column | Description                           |
+|--------|---------------------------------------|
+| name   | Name of the sheet                     |
+| rows   | Number of rows                        |
+| cols   | Number of columns                     |
+| hidden | True if the sheet is marked as hidden |
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `sheets_0000.xlsx`, `sheets_0001.xlsx`, `sheets_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `sheets_0000.xlsx`, `sheets_0001.xlsx`, `sheets_0002.xlsx`, ...
 
 
 
@@ -2779,7 +2779,7 @@ The command will generate a report in three different formats. `metadata.csv`, `
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `metadata_0000.xlsx`, `metadata_0001.xlsx`, `metadata_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `metadata_0000.xlsx`, `metadata_0001.xlsx`, `metadata_0002.xlsx`, ...
 
 
 
@@ -2810,8 +2810,8 @@ tbx dropbox file list -path /path
 |------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
 | `-base-path`                       | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
 | `-include-deleted`                 | Include deleted files                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | false   |
-| `-include-explicit-shared-members` |  If true, the results will include a flag for each file indicating whether or not that file has any explicit members.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | false   |
-| `-include-mounted-folders`         |  If true, the results will include entries under mounted folders which includes app folder, shared folder and team folder.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | false   |
+| `-include-explicit-shared-members` | If true, the results will include a flag for each file indicating whether or not that file has any explicit members.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | false   |
+| `-include-mounted-folders`         | If true, the results will include entries under mounted folders which include app folder, shared folder and team folder.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | false   |
 | `-path`                            | Path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |         |
 | `-peer`                            | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
 | `-recursive`                       | List recursively                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        | false   |
@@ -2840,7 +2840,7 @@ The command will generate a report in three different formats. `file_list.csv`, 
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `file_list_0000.xlsx`, `file_list_0001.xlsx`, `file_list_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `file_list_0000.xlsx`, `file_list_0001.xlsx`, `file_list_0002.xlsx`, ...
 
 
 
@@ -2861,7 +2861,7 @@ This document uses the Desktop folder for command example.
 ```
 tbx dropbox file merge -from /from/path -to /path/to
 ```
-Please add `-dry-run=false` option after verify integrity of expected result.
+Please add `-dry-run=false` option after verifying integrity of expected result.
 
 ## Options:
 
@@ -2871,11 +2871,11 @@ Please add `-dry-run=false` option after verify integrity of expected result.
 |--------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
 | `-base-path`             | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
 | `-dry-run`               | Dry run                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | true    |
-| `-from`                  | Path for merge                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |         |
-| `-keep-empty-folder`     | Keep empty folder after merge                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | false   |
+| `-from`                  | Source path for merge                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |         |
+| `-keep-empty-folder`     | Keep empty folders after merge                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | false   |
 | `-peer`                  | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-| `-to`                    | Path to merge                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |         |
-| `-within-same-namespace` | Do not cross namespace. That is for preserve sharing permission including a shared link                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | false   |
+| `-to`                    | Destination path for merge                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |         |
+| `-within-same-namespace` | Do not cross namespace. This is to preserve sharing permissions including shared links                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | false   |
 
 
 
@@ -2926,7 +2926,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/replication.md
 
 Replicate file content to the other account (Irreversible operation)
 
-This command will replicate files/folders. But it does not include sharing permissions. The command replicates only for folder contents of given path.
+This command will replicate files/folders. But it does not include sharing permissions. The command replicates only folder contents of given path.
 
 # Usage
 
@@ -2943,7 +2943,7 @@ tbx dropbox file replication -src source -src-path /path/src -dst dest -dst-path
 | Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
 |--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
 | `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-dst`       | Account alias (destionation)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | dst     |
+| `-dst`       | Account alias (destination)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | dst     |
 | `-dst-path`  | Destination path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |         |
 | `-src`       | Account alias (source)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | src     |
 | `-src-path`  | Source path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |         |
@@ -2957,7 +2957,7 @@ tbx dropbox file replication -src source -src-path /path/src -dst dest -dst-path
 
 ## Report: replication_diff
 
-This report shows a difference between to folders.
+This report shows a difference between two folders.
 The command will generate a report in three different formats. `replication_diff.csv`, `replication_diff.json`, and `replication_diff.xlsx`.
 
 | Column     | Description                                                                                                                                                                            |
@@ -2968,13 +2968,13 @@ The command will generate a report in three different formats. `replication_diff
 | left_size  | size of left file                                                                                                                                                                      |
 | left_hash  | Content hash of left file                                                                                                                                                              |
 | right_path | path of right                                                                                                                                                                          |
-| right_kind | folder of file                                                                                                                                                                         |
+| right_kind | folder or file                                                                                                                                                                         |
 | right_size | size of right file                                                                                                                                                                     |
 | right_hash | Content hash of right file                                                                                                                                                             |
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `replication_diff_0000.xlsx`, `replication_diff_0001.xlsx`, `replication_diff_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `replication_diff_0000.xlsx`, `replication_diff_0001.xlsx`, `replication_diff_0002.xlsx`, ...
 
 
 
@@ -3004,7 +3004,7 @@ tbx dropbox file size -path /
 | Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
 |--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
 | `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-depth`     | Report an entry for all files and folders depth folders deep                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | 2       |
+| `-depth`     | Report entries for files and folders up to the specified depth                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | 2       |
 | `-path`      | Path to scan                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |         |
 | `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
 
@@ -3023,7 +3023,7 @@ The command will generate a report in three different formats. `size.csv`, `size
 | Column                 | Description                                                               |
 |------------------------|---------------------------------------------------------------------------|
 | path                   | Path                                                                      |
-| depth                  | Folder depth.                                                             |
+| depth                  | Folder depth                                                              |
 | size                   | Size in bytes                                                             |
 | num_file               | Number of files in this folder and child folders                          |
 | num_folder             | Number of folders in this folder and child folders                        |
@@ -3033,7 +3033,7 @@ The command will generate a report in three different formats. `size.csv`, `size
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `size_0000.xlsx`, `size_0001.xlsx`, `size_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `size_0000.xlsx`, `size_0001.xlsx`, `size_0002.xlsx`, ...
 
 
 
@@ -3116,11 +3116,11 @@ The command will generate a report in three different formats. `report.csv`, `re
 | paper_as_files       | When this value is true, the user's Paper docs are accessible in Dropbox with the .paper extension and must be accessed via the /files endpoints. |
 | file_locking         | When this value is True, the user can lock files in shared folders.                                                                               |
 | team_shared_dropbox  | This feature contains information about whether or not the user is part of a team with a shared team root.                                        |
-| distinct_member_home | his feature contains information about whether or not the user's home namespace is distinct from their root namespace.                            |
+| distinct_member_home | This feature contains information about whether or not the user's home namespace is distinct from their root namespace.                           |
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `report_0000.xlsx`, `report_0001.xlsx`, `report_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `report_0000.xlsx`, `report_0001.xlsx`, `report_0002.xlsx`, ...
 
 
 
@@ -3174,7 +3174,7 @@ The command will generate a report in three different formats. `file_system.csv`
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `file_system_0000.xlsx`, `file_system_0001.xlsx`, `file_system_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `file_system_0000.xlsx`, `file_system_0001.xlsx`, `file_system_0002.xlsx`, ...
 
 
 
@@ -3227,7 +3227,7 @@ The command will generate a report in three different formats. `profile.csv`, `p
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `profile_0000.xlsx`, `profile_0001.xlsx`, `profile_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `profile_0000.xlsx`, `profile_0001.xlsx`, `profile_0002.xlsx`, ...
 
 
 
@@ -3248,7 +3248,7 @@ This document uses the Desktop folder for command example.
 ```
 tbx dropbox file compare account -left left -left-path /path/to/compare -right right -right-path /path/to/compare
 ```
-If you want to compare different path in same account, please specify same alias name to `-left` and `-right`.
+If you want to compare different paths in same account, please specify same alias name to `-left` and `-right`.
 
 ## Options:
 
@@ -3271,7 +3271,7 @@ If you want to compare different path in same account, please specify same alias
 
 ## Report: diff
 
-This report shows a difference between to folders.
+This report shows a difference between two folders.
 The command will generate a report in three different formats. `diff.csv`, `diff.json`, and `diff.xlsx`.
 
 | Column     | Description                                                                                                                                                                            |
@@ -3282,13 +3282,13 @@ The command will generate a report in three different formats. `diff.csv`, `diff
 | left_size  | size of left file                                                                                                                                                                      |
 | left_hash  | Content hash of left file                                                                                                                                                              |
 | right_path | path of right                                                                                                                                                                          |
-| right_kind | folder of file                                                                                                                                                                         |
+| right_kind | folder or file                                                                                                                                                                         |
 | right_size | size of right file                                                                                                                                                                     |
 | right_hash | Content hash of right file                                                                                                                                                             |
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `diff_0000.xlsx`, `diff_0001.xlsx`, `diff_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `diff_0000.xlsx`, `diff_0001.xlsx`, `diff_0002.xlsx`, ...
 
 
 
@@ -3331,7 +3331,7 @@ tbx dropbox file compare local -local-path /path/to/local -dropbox-path /path/on
 
 ## Report: diff
 
-This report shows a difference between to folders.
+This report shows a difference between two folders.
 The command will generate a report in three different formats. `diff.csv`, `diff.json`, and `diff.xlsx`.
 
 | Column     | Description                                                                                                                                                                            |
@@ -3342,18 +3342,18 @@ The command will generate a report in three different formats. `diff.csv`, `diff
 | left_size  | size of left file                                                                                                                                                                      |
 | left_hash  | Content hash of left file                                                                                                                                                              |
 | right_path | path of right                                                                                                                                                                          |
-| right_kind | folder of file                                                                                                                                                                         |
+| right_kind | folder or file                                                                                                                                                                         |
 | right_size | size of right file                                                                                                                                                                     |
 | right_hash | Content hash of right file                                                                                                                                                             |
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `diff_0000.xlsx`, `diff_0001.xlsx`, `diff_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `diff_0000.xlsx`, `diff_0001.xlsx`, `diff_0002.xlsx`, ...
 
 
 ## Report: skip
 
-This report shows a difference between to folders.
+This report shows a difference between two folders.
 The command will generate a report in three different formats. `skip.csv`, `skip.json`, and `skip.xlsx`.
 
 | Column     | Description                                                                                                                                                                            |
@@ -3364,13 +3364,13 @@ The command will generate a report in three different formats. `skip.csv`, `skip
 | left_size  | size of left file                                                                                                                                                                      |
 | left_hash  | Content hash of left file                                                                                                                                                              |
 | right_path | path of right                                                                                                                                                                          |
-| right_kind | folder of file                                                                                                                                                                         |
+| right_kind | folder or file                                                                                                                                                                         |
 | right_size | size of right file                                                                                                                                                                     |
 | right_hash | Content hash of right file                                                                                                                                                             |
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `skip_0000.xlsx`, `skip_0001.xlsx`, `skip_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `skip_0000.xlsx`, `skip_0001.xlsx`, `skip_0002.xlsx`, ...
 
 
 
@@ -3414,7 +3414,7 @@ tbx dropbox file export doc -dropbox-path /DROPBOX/PATH/TO/FILE -local-path /LOC
 
 ## Report: operation_log
 
-This report shows a result of exporting file.
+This report shows the result of exporting a file.
 The command will generate a report in three different formats. `operation_log.csv`, `operation_log.json`, and `operation_log.xlsx`.
 
 | Column          | Description                                                                                            |
@@ -3423,13 +3423,13 @@ The command will generate a report in three different formats. `operation_log.cs
 | path_display    | The cased path to be used for display purposes only.                                                   |
 | client_modified | For files, this is the modification time set by the desktop client when the file was added to Dropbox. |
 | server_modified | The last time the file was modified on Dropbox.                                                        |
-| size            | If this folder is a shared folder mount point, the ID of the shared folder mounted at this location.   |
+| size            | The file size in bytes.                                                                                |
 | export_name     | File name for export file.                                                                             |
 | export_size     | File size of export file.                                                                              |
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 
 
@@ -3448,7 +3448,7 @@ Export a document from the URL
 
 This document uses the Desktop folder for command example.
 ```
-tbx dropbox file export url -local-path /LOCAL/PATH/TO/export -url DOCUMENT_URL
+tbx dropbox file export url -local-path /LOCAL/PATH/TO/EXPORT -url DOCUMENT_URL
 ```
 
 
@@ -3474,7 +3474,7 @@ tbx dropbox file export url -local-path /LOCAL/PATH/TO/export -url DOCUMENT_URL
 
 ## Report: operation_log
 
-This report shows a result of exporting file.
+This report shows the result of exporting a file.
 The command will generate a report in three different formats. `operation_log.csv`, `operation_log.json`, and `operation_log.xlsx`.
 
 | Column          | Description                                                                                            |
@@ -3483,13 +3483,13 @@ The command will generate a report in three different formats. `operation_log.cs
 | path_display    | The cased path to be used for display purposes only.                                                   |
 | client_modified | For files, this is the modification time set by the desktop client when the file was added to Dropbox. |
 | server_modified | The last time the file was modified on Dropbox.                                                        |
-| size            | If this folder is a shared folder mount point, the ID of the shared folder mounted at this location.   |
+| size            | The file size in bytes.                                                                                |
 | export_name     | File name for export file.                                                                             |
 | export_size     | File size of export file.                                                                              |
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 
 
@@ -3548,7 +3548,7 @@ The command will generate a report in three different formats. `operation_log.cs
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 
 
@@ -3591,11 +3591,11 @@ tbx dropbox file import batch url -file /path/to/data/file -path /path/to/import
 ## Format: File
 
 
-Data file for batch import files from URLs.
+Data file for batch importing files from URLs.
 
 | Column | Description                                                             | Example                           |
 |--------|-------------------------------------------------------------------------|-----------------------------------|
-| url    | Url to download                                                         | http://example.com/2019/12/26.zip |
+| url    | URL to download                                                         | http://example.com/2019/12/26.zip |
 | path   | Path to store file (use path given by `-path` when the record is empty) | /backup/2019-12-16.zip            |
 
 
@@ -3619,7 +3619,7 @@ The command will generate a report in three different formats. `operation_log.cs
 |------------------------------------|----------------------------------------------------------------------------------------------------------------------|
 | status                             | Status of the operation                                                                                              |
 | reason                             | Reason of failure or skipped operation                                                                               |
-| input.url                          | Url to download                                                                                                      |
+| input.url                          | URL to download                                                                                                      |
 | input.path                         | Path to store file (use path given by `-path` when the record is empty)                                              |
 | result.tag                         | Type of entry. `file`, `folder`, or `deleted`                                                                        |
 | result.name                        | The last component of the path (including extension).                                                                |
@@ -3631,7 +3631,7 @@ The command will generate a report in three different formats. `operation_log.cs
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 
 
@@ -3687,11 +3687,11 @@ The command will generate a report in three different formats. `operation_log.cs
 | result.size             | The file size in bytes.                                                                                |
 | result.is_lock_holder   | True if caller holds the file lock                                                                     |
 | result.lock_holder_name | The display name of the lock holder.                                                                   |
-| result.lock_created     | The timestamp of the lock was created.                                                                 |
+| result.lock_created     | The timestamp when the lock was created.                                                               |
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 
 
@@ -3746,11 +3746,11 @@ The command will generate a report in three different formats. `lock.csv`, `lock
 | size             | The file size in bytes.                                                                                |
 | is_lock_holder   | True if caller holds the file lock                                                                     |
 | lock_holder_name | The display name of the lock holder.                                                                   |
-| lock_created     | The timestamp of the lock was created.                                                                 |
+| lock_created     | The timestamp when the lock was created.                                                               |
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `lock_0000.xlsx`, `lock_0001.xlsx`, `lock_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `lock_0000.xlsx`, `lock_0001.xlsx`, `lock_0002.xlsx`, ...
 
 
 
@@ -3806,11 +3806,11 @@ The command will generate a report in three different formats. `operation_log.cs
 | result.size             | The file size in bytes.                                                                                |
 | result.is_lock_holder   | True if caller holds the file lock                                                                     |
 | result.lock_holder_name | The display name of the lock holder.                                                                   |
-| result.lock_created     | The timestamp of the lock was created.                                                                 |
+| result.lock_created     | The timestamp when the lock was created.                                                               |
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 
 
@@ -3867,11 +3867,11 @@ The command will generate a report in three different formats. `operation_log.cs
 | result.size             | The file size in bytes.                                                                                |
 | result.is_lock_holder   | True if caller holds the file lock                                                                     |
 | result.lock_holder_name | The display name of the lock holder.                                                                   |
-| result.lock_created     | The timestamp of the lock was created.                                                                 |
+| result.lock_created     | The timestamp when the lock was created.                                                               |
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 
 
@@ -3948,11 +3948,11 @@ The command will generate a report in three different formats. `operation_log.cs
 | result.size             | The file size in bytes.                                                                                |
 | result.is_lock_holder   | True if caller holds the file lock                                                                     |
 | result.lock_holder_name | The display name of the lock holder.                                                                   |
-| result.lock_created     | The timestamp of the lock was created.                                                                 |
+| result.lock_created     | The timestamp when the lock was created.                                                               |
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 
 
@@ -4028,11 +4028,11 @@ The command will generate a report in three different formats. `operation_log.cs
 | result.size             | The file size in bytes.                                                                                |
 | result.is_lock_holder   | True if caller holds the file lock                                                                     |
 | result.lock_holder_name | The display name of the lock holder.                                                                   |
-| result.lock_created     | The timestamp of the lock was created.                                                                 |
+| result.lock_created     | The timestamp when the lock was created.                                                               |
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 
 
@@ -4064,7 +4064,7 @@ tbx dropbox file request create -path /DROPBOX/PATH/OF/FILE_REQUEST -title TITLE
 | `-allow-late-uploads` | If set, allow uploads after the deadline has passed (one_day/two_days/seven_days/thirty_days/always)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |         |
 | `-base-path`          | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
 | `-deadline`           | The deadline for this file request.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |         |
-| `-path`               | The path for the folder in the Dropbox where uploaded files will be sent.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |         |
+| `-path`               | The path for the folder in Dropbox where uploaded files will be sent.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |         |
 | `-peer`               | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
 | `-title`              | The title of the file request                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |         |
 
@@ -4085,7 +4085,7 @@ The command will generate a report in three different formats. `file_request.csv
 | id                          | The Id of the file request                                                |
 | url                         | The URL of the file request                                               |
 | title                       | The title of the file request                                             |
-| created                     | Date/time of the file request was created.                                |
+| created                     | Date/time when the file request was created.                              |
 | is_open                     | Whether or not the file request is open.                                  |
 | file_count                  | The number of files this file request has received.                       |
 | destination                 | The path for the folder in the Dropbox where uploaded files will be sent. |
@@ -4094,7 +4094,7 @@ The command will generate a report in three different formats. `file_request.csv
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `file_request_0000.xlsx`, `file_request_0001.xlsx`, `file_request_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `file_request_0000.xlsx`, `file_request_0001.xlsx`, `file_request_0002.xlsx`, ...
 
 
 
@@ -4143,7 +4143,7 @@ The command will generate a report in three different formats. `file_requests.cs
 | id                          | The Id of the file request                                                |
 | url                         | The URL of the file request                                               |
 | title                       | The title of the file request                                             |
-| created                     | Date/time of the file request was created.                                |
+| created                     | Date/time when the file request was created.                              |
 | is_open                     | Whether or not the file request is open.                                  |
 | file_count                  | The number of files this file request has received.                       |
 | destination                 | The path for the folder in the Dropbox where uploaded files will be sent. |
@@ -4152,7 +4152,7 @@ The command will generate a report in three different formats. `file_requests.cs
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `file_requests_0000.xlsx`, `file_requests_0001.xlsx`, `file_requests_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `file_requests_0000.xlsx`, `file_requests_0001.xlsx`, `file_requests_0002.xlsx`, ...
 
 
 
@@ -4201,7 +4201,7 @@ The command will generate a report in three different formats. `deleted.csv`, `d
 | id                          | The Id of the file request                                                |
 | url                         | The URL of the file request                                               |
 | title                       | The title of the file request                                             |
-| created                     | Date/time of the file request was created.                                |
+| created                     | Date/time when the file request was created.                              |
 | is_open                     | Whether or not the file request is open.                                  |
 | file_count                  | The number of files this file request has received.                       |
 | destination                 | The path for the folder in the Dropbox where uploaded files will be sent. |
@@ -4210,7 +4210,7 @@ The command will generate a report in three different formats. `deleted.csv`, `d
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `deleted_0000.xlsx`, `deleted_0001.xlsx`, `deleted_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `deleted_0000.xlsx`, `deleted_0001.xlsx`, `deleted_0002.xlsx`, ...
 
 
 
@@ -4261,7 +4261,7 @@ The command will generate a report in three different formats. `deleted.csv`, `d
 | id                          | The Id of the file request                                                |
 | url                         | The URL of the file request                                               |
 | title                       | The title of the file request                                             |
-| created                     | Date/time of the file request was created.                                |
+| created                     | Date/time when the file request was created.                              |
 | is_open                     | Whether or not the file request is open.                                  |
 | file_count                  | The number of files this file request has received.                       |
 | destination                 | The path for the folder in the Dropbox where uploaded files will be sent. |
@@ -4270,7 +4270,7 @@ The command will generate a report in three different formats. `deleted.csv`, `d
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `deleted_0000.xlsx`, `deleted_0001.xlsx`, `deleted_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `deleted_0000.xlsx`, `deleted_0001.xlsx`, `deleted_0002.xlsx`, ...
 
 
 
@@ -4330,7 +4330,7 @@ The command will generate a report in three different formats. `operation_log.cs
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 
 
@@ -4391,7 +4391,7 @@ The command will generate a report in three different formats. `operation_log.cs
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 
 
@@ -4451,7 +4451,7 @@ The command will generate a report in three different formats. `entry.csv`, `ent
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `entry_0000.xlsx`, `entry_0001.xlsx`, `entry_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `entry_0000.xlsx`, `entry_0001.xlsx`, `entry_0002.xlsx`, ...
 
 
 
@@ -4510,7 +4510,7 @@ The command will generate a report in three different formats. `revisions.csv`, 
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `revisions_0000.xlsx`, `revisions_0001.xlsx`, `revisions_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `revisions_0000.xlsx`, `revisions_0001.xlsx`, `revisions_0002.xlsx`, ...
 
 
 
@@ -4570,7 +4570,7 @@ The command will generate a report in three different formats. `entry.csv`, `ent
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `entry_0000.xlsx`, `entry_0001.xlsx`, `entry_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `entry_0000.xlsx`, `entry_0001.xlsx`, `entry_0002.xlsx`, ...
 
 
 
@@ -4602,7 +4602,7 @@ tbx dropbox file search content -query QUERY
 | `-base-path`   | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
 | `-category`    | Restricts search to only the file categories specified (image/document/pdf/spreadsheet/presentation/audio/video/folder/paper/others).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |         |
 | `-extension`   | Restricts search to only the extensions specified.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |         |
-| `-max-results` | Maximum number of entry to return                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | 25      |
+| `-max-results` | Maximum number of entries to return                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | 25      |
 | `-path`        | Scopes the search to a path in the user's Dropbox.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |         |
 | `-peer`        | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
 | `-query`       | The string to search for.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |         |
@@ -4627,7 +4627,7 @@ The command will generate a report in three different formats. `matches.csv`, `m
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `matches_0000.xlsx`, `matches_0001.xlsx`, `matches_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `matches_0000.xlsx`, `matches_0001.xlsx`, `matches_0002.xlsx`, ...
 
 
 
@@ -4683,7 +4683,7 @@ The command will generate a report in three different formats. `matches.csv`, `m
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `matches_0000.xlsx`, `matches_0001.xlsx`, `matches_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `matches_0000.xlsx`, `matches_0001.xlsx`, `matches_0002.xlsx`, ...
 
 
 
@@ -4713,7 +4713,7 @@ tbx dropbox file share info -path /DROPBOX/PATH/TO/GET_INFO
 | Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
 |--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
 | `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-path`      | File                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |         |
+| `-path`      | File path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |         |
 | `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
 
 
@@ -4746,7 +4746,7 @@ The command will generate a report in three different formats. `metadata.csv`, `
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `metadata_0000.xlsx`, `metadata_0001.xlsx`, `metadata_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `metadata_0000.xlsx`, `metadata_0001.xlsx`, `metadata_0002.xlsx`, ...
 
 
 
@@ -4777,7 +4777,7 @@ tbx dropbox file sharedfolder info -shared-folder-id NAMESPACE_ID
 |---------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
 | `-base-path`        | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
 | `-peer`             | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-| `-shared-folder-id` | Namespace ID                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |         |
+| `-shared-folder-id` | Shared folder ID                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |         |
 
 
 
@@ -4794,7 +4794,7 @@ The command will generate a report in three different formats. `policies.csv`, `
 | Column                | Description                                                                                               |
 |-----------------------|-----------------------------------------------------------------------------------------------------------|
 | shared_folder_id      | The ID of the shared folder.                                                                              |
-| name                  | The name of the this shared folder.                                                                       |
+| name                  | The name of this shared folder.                                                                           |
 | access_type           | The current user's access level for this shared file/folder (owner, editor, viewer, or viewer_no_comment) |
 | path_lower            | The lower-cased full path of this shared folder.                                                          |
 | is_inside_team_folder | Whether this folder is inside of a team folder.                                                           |
@@ -4809,7 +4809,7 @@ The command will generate a report in three different formats. `policies.csv`, `
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `policies_0000.xlsx`, `policies_0001.xlsx`, `policies_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `policies_0000.xlsx`, `policies_0001.xlsx`, `policies_0002.xlsx`, ...
 
 
 
@@ -4820,7 +4820,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/sharedfolder/leave.md
 
 # dropbox file sharedfolder leave
 
-Leave from the shared folder 
+Leave the shared folder 
 
 Upon success, the current user will no longer have access to the folder. Please use `dropbox file sharedfolder list` command to find the shared_folder_id of the folder you want to leave.
 
@@ -4855,7 +4855,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/sharedfolder/list.md
 
 # dropbox file sharedfolder list
 
-List shared folder(s) 
+List shared folders 
 
 
 
@@ -4891,7 +4891,7 @@ The command will generate a report in three different formats. `shared_folder.cs
 | Column                | Description                                                                                               |
 |-----------------------|-----------------------------------------------------------------------------------------------------------|
 | shared_folder_id      | The ID of the shared folder.                                                                              |
-| name                  | The name of the this shared folder.                                                                       |
+| name                  | The name of this shared folder.                                                                           |
 | access_type           | The current user's access level for this shared file/folder (owner, editor, viewer, or viewer_no_comment) |
 | path_lower            | The lower-cased full path of this shared folder.                                                          |
 | is_inside_team_folder | Whether this folder is inside of a team folder.                                                           |
@@ -4906,7 +4906,7 @@ The command will generate a report in three different formats. `shared_folder.cs
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `shared_folder_0000.xlsx`, `shared_folder_0001.xlsx`, `shared_folder_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `shared_folder_0000.xlsx`, `shared_folder_0001.xlsx`, `shared_folder_0002.xlsx`, ...
 
 
 
@@ -4958,7 +4958,7 @@ The command will generate a report in three different formats. `shared.csv`, `sh
 |-------------------------|-------------------------------------------------------------------------------------------------------------------------|
 | shared_folder_id        | The ID of the shared folder.                                                                                            |
 | parent_shared_folder_id | The ID of the parent shared folder. This field is present only if the folder is contained within another shared folder. |
-| name                    | The name of the this shared folder.                                                                                     |
+| name                    | The name of this shared folder.                                                                                         |
 | access_type             | The current user's access level for this shared file/folder (owner, editor, viewer, or viewer_no_comment)               |
 | path_lower              | The lower-cased full path of this shared folder.                                                                        |
 | is_inside_team_folder   | Whether this folder is inside of a team folder.                                                                         |
@@ -4974,7 +4974,7 @@ The command will generate a report in three different formats. `shared.csv`, `sh
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `shared_0000.xlsx`, `shared_0001.xlsx`, `shared_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `shared_0000.xlsx`, `shared_0001.xlsx`, `shared_0002.xlsx`, ...
 
 
 
@@ -5042,7 +5042,7 @@ tbx dropbox file sharedfolder member add -email EMAIL -path /DROPBOX/PATH/TO/ADD
 | `-base-path`    | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
 | `-email`        | Email address of the folder member                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |         |
 | `-message`      | Custom message for invitation                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |         |
-| `-path`         | Shared folder path of the member                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |         |
+| `-path`         | Path to the shared folder                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |         |
 | `-peer`         | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
 | `-silent`       | Do not send invitation email                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | false   |
 
@@ -5058,7 +5058,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/sharedfolder/member/del
 
 # dropbox file sharedfolder member delete
 
-Delete a member from the shared folder 
+Remove a member from the shared folder 
 
 
 
@@ -5079,7 +5079,7 @@ tbx dropbox file sharedfolder member delete -email EMAIL -path /DROPBOX/PATH/TO/
 | `-base-path`  | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
 | `-email`      | Email address of the folder member                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |         |
 | `-leave-copy` | If true, members of this shared folder will get a copy of this folder after it's unshared.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | false   |
-| `-path`       | Shared folder path of the member                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |         |
+| `-path`       | Path to the shared folder                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |         |
 | `-peer`       | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
 
 
@@ -5094,7 +5094,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/sharedfolder/member/lis
 
 # dropbox file sharedfolder member list
 
-List shared folder member(s) 
+List shared folder members 
 
 
 
@@ -5129,7 +5129,7 @@ The command will generate a report in three different formats. `member.csv`, `me
 
 | Column                | Description                                                                                               |
 |-----------------------|-----------------------------------------------------------------------------------------------------------|
-| name                  | The name of the this shared folder.                                                                       |
+| name                  | The name of this shared folder.                                                                           |
 | path_lower            | The lower-cased full path of this shared folder.                                                          |
 | is_inside_team_folder | Whether this folder is inside of a team folder.                                                           |
 | is_team_folder        | Whether this folder is a team folder.                                                                     |
@@ -5142,7 +5142,7 @@ The command will generate a report in three different formats. `member.csv`, `me
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `member_0000.xlsx`, `member_0001.xlsx`, `member_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `member_0000.xlsx`, `member_0001.xlsx`, `member_0002.xlsx`, ...
 
 
 
@@ -5190,7 +5190,7 @@ The command will generate a report in three different formats. `mount.csv`, `mou
 | Column                | Description                                                                                               |
 |-----------------------|-----------------------------------------------------------------------------------------------------------|
 | shared_folder_id      | The ID of the shared folder.                                                                              |
-| name                  | The name of the this shared folder.                                                                       |
+| name                  | The name of this shared folder.                                                                           |
 | access_type           | The current user's access level for this shared file/folder (owner, editor, viewer, or viewer_no_comment) |
 | path_lower            | The lower-cased full path of this shared folder.                                                          |
 | is_inside_team_folder | Whether this folder is inside of a team folder.                                                           |
@@ -5205,7 +5205,7 @@ The command will generate a report in three different formats. `mount.csv`, `mou
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `mount_0000.xlsx`, `mount_0001.xlsx`, `mount_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `mount_0000.xlsx`, `mount_0001.xlsx`, `mount_0002.xlsx`, ...
 
 
 
@@ -5216,7 +5216,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/sharedfolder/mount/dele
 
 # dropbox file sharedfolder mount delete
 
-The current user unmounts the designated folder. 
+Unmount the shared folder 
 
 Upon success, the current user cannot access the folder unless adding the folder again. Please use `dropbox file sharedfolder mount list` command to find the shared_folder_id of the folder you want to delete.
 
@@ -5253,7 +5253,7 @@ The command will generate a report in three different formats. `mount.csv`, `mou
 | Column                | Description                                                                                               |
 |-----------------------|-----------------------------------------------------------------------------------------------------------|
 | shared_folder_id      | The ID of the shared folder.                                                                              |
-| name                  | The name of the this shared folder.                                                                       |
+| name                  | The name of this shared folder.                                                                           |
 | access_type           | The current user's access level for this shared file/folder (owner, editor, viewer, or viewer_no_comment) |
 | path_lower            | The lower-cased full path of this shared folder.                                                          |
 | is_inside_team_folder | Whether this folder is inside of a team folder.                                                           |
@@ -5268,7 +5268,7 @@ The command will generate a report in three different formats. `mount.csv`, `mou
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `mount_0000.xlsx`, `mount_0001.xlsx`, `mount_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `mount_0000.xlsx`, `mount_0001.xlsx`, `mount_0002.xlsx`, ...
 
 
 
@@ -5279,7 +5279,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/sharedfolder/mount/list
 
 # dropbox file sharedfolder mount list
 
-List all shared folders the current user mounted 
+List all shared folders the current user has mounted 
 
 
 
@@ -5315,7 +5315,7 @@ The command will generate a report in three different formats. `mounts.csv`, `mo
 | Column                | Description                                                                                               |
 |-----------------------|-----------------------------------------------------------------------------------------------------------|
 | shared_folder_id      | The ID of the shared folder.                                                                              |
-| name                  | The name of the this shared folder.                                                                       |
+| name                  | The name of this shared folder.                                                                           |
 | access_type           | The current user's access level for this shared file/folder (owner, editor, viewer, or viewer_no_comment) |
 | path_lower            | The lower-cased full path of this shared folder.                                                          |
 | is_inside_team_folder | Whether this folder is inside of a team folder.                                                           |
@@ -5330,7 +5330,7 @@ The command will generate a report in three different formats. `mounts.csv`, `mo
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `mounts_0000.xlsx`, `mounts_0001.xlsx`, `mounts_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `mounts_0000.xlsx`, `mounts_0001.xlsx`, `mounts_0002.xlsx`, ...
 
 
 
@@ -5378,7 +5378,7 @@ The command will generate a report in three different formats. `mountables.csv`,
 | Column                | Description                                                                                               |
 |-----------------------|-----------------------------------------------------------------------------------------------------------|
 | shared_folder_id      | The ID of the shared folder.                                                                              |
-| name                  | The name of the this shared folder.                                                                       |
+| name                  | The name of this shared folder.                                                                           |
 | access_type           | The current user's access level for this shared file/folder (owner, editor, viewer, or viewer_no_comment) |
 | path_lower            | The lower-cased full path of this shared folder.                                                          |
 | is_inside_team_folder | Whether this folder is inside of a team folder.                                                           |
@@ -5393,7 +5393,7 @@ The command will generate a report in three different formats. `mountables.csv`,
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `mountables_0000.xlsx`, `mountables_0001.xlsx`, `mountables_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `mountables_0000.xlsx`, `mountables_0001.xlsx`, `mountables_0002.xlsx`, ...
 
 
 
@@ -5438,22 +5438,22 @@ tbx dropbox file sharedlink create -path /path/to/share
 
 ## Report: created
 
-THis report shows a list of shared links.
+This report shows a list of shared links.
 The command will generate a report in three different formats. `created.csv`, `created.json`, and `created.xlsx`.
 
-| Column     | Description                                                                                                                                                                                                             |
-|------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| id         | A unique identifier for the linked file or folder                                                                                                                                                                       |
-| tag        | Entry type (file, or folder)                                                                                                                                                                                            |
-| url        | URL of the shared link.                                                                                                                                                                                                 |
-| name       | The linked file name (including extension).                                                                                                                                                                             |
-| expires    | Expiration time, if set.                                                                                                                                                                                                |
-| path_lower | The lowercased full path in the user's Dropbox.                                                                                                                                                                         |
-| visibility | The current visibility of the link after considering the shared links policies of the the team (in case the link's owner is part of a team) and the shared folder (in case the linked file is part of a shared folder). |
+| Column     | Description                                                                                                                                                                                                         |
+|------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| id         | A unique identifier for the linked file or folder                                                                                                                                                                   |
+| tag        | Entry type (file, or folder)                                                                                                                                                                                        |
+| url        | URL of the shared link.                                                                                                                                                                                             |
+| name       | The linked file name (including extension).                                                                                                                                                                         |
+| expires    | Expiration time, if set.                                                                                                                                                                                            |
+| path_lower | The lowercased full path in the user's Dropbox.                                                                                                                                                                     |
+| visibility | The current visibility of the link after considering the shared links policies of the team (in case the link's owner is part of a team) and the shared folder (in case the linked file is part of a shared folder). |
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `created_0000.xlsx`, `created_0001.xlsx`, `created_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `created_0000.xlsx`, `created_0001.xlsx`, `created_0002.xlsx`, ...
 
 
 
@@ -5466,7 +5466,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/sharedlink/delete.md
 
 Remove shared links (Irreversible operation)
 
-This command will delete shared links based on the path in the Dropbox
+This command will delete shared links based on the path in Dropbox
 
 # Usage
 
@@ -5485,7 +5485,7 @@ tbx dropbox file sharedlink delete -path /path/to/delete
 | `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
 | `-path`      | File or folder path to remove shared link                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |         |
 | `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-| `-recursive` | Attempt to remove the file hierarchy                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | false   |
+| `-recursive` | Remove shared links recursively                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | false   |
 
 
 
@@ -5499,20 +5499,20 @@ tbx dropbox file sharedlink delete -path /path/to/delete
 This report shows the transaction result.
 The command will generate a report in three different formats. `shared_link.csv`, `shared_link.json`, and `shared_link.xlsx`.
 
-| Column           | Description                                                                                                                                                                                                             |
-|------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| status           | Status of the operation                                                                                                                                                                                                 |
-| reason           | Reason of failure or skipped operation                                                                                                                                                                                  |
-| input.tag        | Entry type (file, or folder)                                                                                                                                                                                            |
-| input.url        | URL of the shared link.                                                                                                                                                                                                 |
-| input.name       | The linked file name (including extension).                                                                                                                                                                             |
-| input.expires    | Expiration time, if set.                                                                                                                                                                                                |
-| input.path_lower | The lowercased full path in the user's Dropbox.                                                                                                                                                                         |
-| input.visibility | The current visibility of the link after considering the shared links policies of the the team (in case the link's owner is part of a team) and the shared folder (in case the linked file is part of a shared folder). |
+| Column           | Description                                                                                                                                                                                                         |
+|------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| status           | Status of the operation                                                                                                                                                                                             |
+| reason           | Reason of failure or skipped operation                                                                                                                                                                              |
+| input.tag        | Entry type (file, or folder)                                                                                                                                                                                        |
+| input.url        | URL of the shared link.                                                                                                                                                                                             |
+| input.name       | The linked file name (including extension).                                                                                                                                                                         |
+| input.expires    | Expiration time, if set.                                                                                                                                                                                            |
+| input.path_lower | The lowercased full path in the user's Dropbox.                                                                                                                                                                     |
+| input.visibility | The current visibility of the link after considering the shared links policies of the team (in case the link's owner is part of a team) and the shared folder (in case the linked file is part of a shared folder). |
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `shared_link_0000.xlsx`, `shared_link_0001.xlsx`, `shared_link_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `shared_link_0000.xlsx`, `shared_link_0001.xlsx`, `shared_link_0002.xlsx`, ...
 
 
 
@@ -5571,7 +5571,7 @@ The command will generate a report in three different formats. `shared_link.csv`
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `shared_link_0000.xlsx`, `shared_link_0001.xlsx`, `shared_link_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `shared_link_0000.xlsx`, `shared_link_0001.xlsx`, `shared_link_0002.xlsx`, ...
 
 
 
@@ -5582,7 +5582,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/sharedlink/list.md
 
 # dropbox file sharedlink list
 
-List of shared link(s) 
+List shared links 
 
 
 
@@ -5612,21 +5612,21 @@ tbx dropbox file sharedlink list
 
 ## Report: shared_link
 
-THis report shows a list of shared links.
+This report shows a list of shared links.
 The command will generate a report in three different formats. `shared_link.csv`, `shared_link.json`, and `shared_link.xlsx`.
 
-| Column     | Description                                                                                                                                                                                                             |
-|------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| tag        | Entry type (file, or folder)                                                                                                                                                                                            |
-| url        | URL of the shared link.                                                                                                                                                                                                 |
-| name       | The linked file name (including extension).                                                                                                                                                                             |
-| expires    | Expiration time, if set.                                                                                                                                                                                                |
-| path_lower | The lowercased full path in the user's Dropbox.                                                                                                                                                                         |
-| visibility | The current visibility of the link after considering the shared links policies of the the team (in case the link's owner is part of a team) and the shared folder (in case the linked file is part of a shared folder). |
+| Column     | Description                                                                                                                                                                                                         |
+|------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| tag        | Entry type (file, or folder)                                                                                                                                                                                        |
+| url        | URL of the shared link.                                                                                                                                                                                             |
+| name       | The linked file name (including extension).                                                                                                                                                                         |
+| expires    | Expiration time, if set.                                                                                                                                                                                            |
+| path_lower | The lowercased full path in the user's Dropbox.                                                                                                                                                                     |
+| visibility | The current visibility of the link after considering the shared links policies of the team (in case the link's owner is part of a team) and the shared folder (in case the linked file is part of a shared folder). |
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `shared_link_0000.xlsx`, `shared_link_0001.xlsx`, `shared_link_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `shared_link_0000.xlsx`, `shared_link_0001.xlsx`, `shared_link_0002.xlsx`, ...
 
 
 
@@ -5684,7 +5684,7 @@ The command will generate a report in three different formats. `file_list.csv`, 
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `file_list_0000.xlsx`, `file_list_0001.xlsx`, `file_list_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `file_list_0000.xlsx`, `file_list_0001.xlsx`, `file_list_0002.xlsx`, ...
 
 
 
@@ -5714,7 +5714,7 @@ tbx dropbox file sync down -dropbox-path /DROPBOX/PATH/TO/DOWNLOAD -local-path /
 | Option                 | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
 |------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
 | `-base-path`           | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-delete`              | Delete local file if a file removed on Dropbox                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | false   |
+| `-delete`              | Delete local file if a file is removed on Dropbox                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | false   |
 | `-dropbox-path`        | Dropbox path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |         |
 | `-local-path`          | Local path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |         |
 | `-name-disable-ignore` | Filter by name. Filter system file or ignore files.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |         |
@@ -5745,7 +5745,7 @@ The command will generate a report in three different formats. `deleted.csv`, `d
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `deleted_0000.xlsx`, `deleted_0001.xlsx`, `deleted_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `deleted_0000.xlsx`, `deleted_0001.xlsx`, `deleted_0002.xlsx`, ...
 
 
 ## Report: downloaded
@@ -5768,7 +5768,7 @@ The command will generate a report in three different formats. `downloaded.csv`,
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `downloaded_0000.xlsx`, `downloaded_0001.xlsx`, `downloaded_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `downloaded_0000.xlsx`, `downloaded_0001.xlsx`, `downloaded_0002.xlsx`, ...
 
 
 ## Report: skipped
@@ -5787,7 +5787,7 @@ The command will generate a report in three different formats. `skipped.csv`, `s
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `skipped_0000.xlsx`, `skipped_0001.xlsx`, `skipped_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `skipped_0000.xlsx`, `skipped_0001.xlsx`, `skipped_0002.xlsx`, ...
 
 
 ## Report: summary
@@ -5795,21 +5795,21 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 This report shows a summary of the upload results.
 The command will generate a report in three different formats. `summary.csv`, `summary.json`, and `summary.xlsx`.
 
-| Column                | Description                                         |
-|-----------------------|-----------------------------------------------------|
-| start                 | Time of start                                       |
-| end                   | Time of finish                                      |
-| num_bytes             | Total upload size (Bytes)                           |
-| num_files_error       | The number of files failed or got an error.         |
-| num_files_transferred | The number of files uploaded/downloaded.            |
-| num_files_skip        | The number of files skipped or to skip.             |
-| num_folder_created    | Number of created folders.                          |
-| num_delete            | Number of deleted entry.                            |
-| num_api_call          | The number of estimated upload API call for upload. |
+| Column                | Description                                   |
+|-----------------------|-----------------------------------------------|
+| start                 | Time of start                                 |
+| end                   | Time of finish                                |
+| num_bytes             | Total upload size (Bytes)                     |
+| num_files_error       | The number of files failed or got an error.   |
+| num_files_transferred | The number of files uploaded/downloaded.      |
+| num_files_skip        | The number of files skipped or to skip.       |
+| num_folder_created    | Number of created folders.                    |
+| num_delete            | Number of deleted entries.                    |
+| num_api_call          | The number of estimated API calls for upload. |
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `summary_0000.xlsx`, `summary_0001.xlsx`, `summary_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `summary_0000.xlsx`, `summary_0001.xlsx`, `summary_0002.xlsx`, ...
 
 
 
@@ -5839,7 +5839,7 @@ tbx dropbox file sync online -src /DROPBOX/PATH/SRC -dst /DROPBOX/PATH/DST
 | Option                 | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
 |------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
 | `-base-path`           | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-delete`              | Delete file if a file removed in source path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | false   |
+| `-delete`              | Delete file if a file is removed in source path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | false   |
 | `-dst`                 | Destination path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |         |
 | `-name-disable-ignore` | Filter by name. Filter system file or ignore files.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |         |
 | `-name-name`           | Filter by name. Filter by exact match to the name.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |         |
@@ -5870,7 +5870,7 @@ The command will generate a report in three different formats. `deleted.csv`, `d
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `deleted_0000.xlsx`, `deleted_0001.xlsx`, `deleted_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `deleted_0000.xlsx`, `deleted_0001.xlsx`, `deleted_0002.xlsx`, ...
 
 
 ## Report: skipped
@@ -5889,7 +5889,7 @@ The command will generate a report in three different formats. `skipped.csv`, `s
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `skipped_0000.xlsx`, `skipped_0001.xlsx`, `skipped_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `skipped_0000.xlsx`, `skipped_0001.xlsx`, `skipped_0002.xlsx`, ...
 
 
 ## Report: summary
@@ -5897,21 +5897,21 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 This report shows a summary of the upload results.
 The command will generate a report in three different formats. `summary.csv`, `summary.json`, and `summary.xlsx`.
 
-| Column                | Description                                         |
-|-----------------------|-----------------------------------------------------|
-| start                 | Time of start                                       |
-| end                   | Time of finish                                      |
-| num_bytes             | Total upload size (Bytes)                           |
-| num_files_error       | The number of files failed or got an error.         |
-| num_files_transferred | The number of files uploaded/downloaded.            |
-| num_files_skip        | The number of files skipped or to skip.             |
-| num_folder_created    | Number of created folders.                          |
-| num_delete            | Number of deleted entry.                            |
-| num_api_call          | The number of estimated upload API call for upload. |
+| Column                | Description                                   |
+|-----------------------|-----------------------------------------------|
+| start                 | Time of start                                 |
+| end                   | Time of finish                                |
+| num_bytes             | Total upload size (Bytes)                     |
+| num_files_error       | The number of files failed or got an error.   |
+| num_files_transferred | The number of files uploaded/downloaded.      |
+| num_files_skip        | The number of files skipped or to skip.       |
+| num_folder_created    | Number of created folders.                    |
+| num_delete            | Number of deleted entries.                    |
+| num_api_call          | The number of estimated API calls for upload. |
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `summary_0000.xlsx`, `summary_0001.xlsx`, `summary_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `summary_0000.xlsx`, `summary_0001.xlsx`, `summary_0002.xlsx`, ...
 
 
 ## Report: uploaded
@@ -5934,7 +5934,7 @@ The command will generate a report in three different formats. `uploaded.csv`, `
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `uploaded_0000.xlsx`, `uploaded_0001.xlsx`, `uploaded_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `uploaded_0000.xlsx`, `uploaded_0001.xlsx`, `uploaded_0002.xlsx`, ...
 
 
 
@@ -5965,7 +5965,7 @@ tbx dropbox file sync up -dropbox-path /DROPBOX/PATH/TO/UPLOAD -local-path /LOCA
 |------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
 | `-base-path`           | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
 | `-batch-size`          | Batch commit size                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | 50      |
-| `-delete`              | Delete Dropbox file if a file removed locally                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | false   |
+| `-delete`              | Delete Dropbox file if a file is removed locally                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        | false   |
 | `-dropbox-path`        | Destination Dropbox path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |         |
 | `-local-path`          | Local file path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |         |
 | `-name-disable-ignore` | Filter by name. Filter system file or ignore files.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |         |
@@ -5996,7 +5996,7 @@ The command will generate a report in three different formats. `deleted.csv`, `d
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `deleted_0000.xlsx`, `deleted_0001.xlsx`, `deleted_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `deleted_0000.xlsx`, `deleted_0001.xlsx`, `deleted_0002.xlsx`, ...
 
 
 ## Report: skipped
@@ -6015,7 +6015,7 @@ The command will generate a report in three different formats. `skipped.csv`, `s
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `skipped_0000.xlsx`, `skipped_0001.xlsx`, `skipped_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `skipped_0000.xlsx`, `skipped_0001.xlsx`, `skipped_0002.xlsx`, ...
 
 
 ## Report: summary
@@ -6023,21 +6023,21 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 This report shows a summary of the upload results.
 The command will generate a report in three different formats. `summary.csv`, `summary.json`, and `summary.xlsx`.
 
-| Column                | Description                                         |
-|-----------------------|-----------------------------------------------------|
-| start                 | Time of start                                       |
-| end                   | Time of finish                                      |
-| num_bytes             | Total upload size (Bytes)                           |
-| num_files_error       | The number of files failed or got an error.         |
-| num_files_transferred | The number of files uploaded/downloaded.            |
-| num_files_skip        | The number of files skipped or to skip.             |
-| num_folder_created    | Number of created folders.                          |
-| num_delete            | Number of deleted entry.                            |
-| num_api_call          | The number of estimated upload API call for upload. |
+| Column                | Description                                   |
+|-----------------------|-----------------------------------------------|
+| start                 | Time of start                                 |
+| end                   | Time of finish                                |
+| num_bytes             | Total upload size (Bytes)                     |
+| num_files_error       | The number of files failed or got an error.   |
+| num_files_transferred | The number of files uploaded/downloaded.      |
+| num_files_skip        | The number of files skipped or to skip.       |
+| num_folder_created    | Number of created folders.                    |
+| num_delete            | Number of deleted entries.                    |
+| num_api_call          | The number of estimated API calls for upload. |
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `summary_0000.xlsx`, `summary_0001.xlsx`, `summary_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `summary_0000.xlsx`, `summary_0001.xlsx`, `summary_0002.xlsx`, ...
 
 
 ## Report: uploaded
@@ -6060,7 +6060,7 @@ The command will generate a report in three different formats. `uploaded.csv`, `
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `uploaded_0000.xlsx`, `uploaded_0001.xlsx`, `uploaded_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `uploaded_0000.xlsx`, `uploaded_0001.xlsx`, `uploaded_0002.xlsx`, ...
 
 
 
@@ -6087,12 +6087,12 @@ tbx dropbox file tag add -path /DROPBOX/PATH/TO/TARGET -tag TAG_NAME
 
 
 
-| Option       | Description                       | Default |
-|--------------|-----------------------------------|---------|
-| `-base-path` | Base path for adding a tag.       | root    |
-| `-path`      | File or folder path to add a tag. |         |
-| `-peer`      | Account alias                     | default |
-| `-tag`       | Tag to add to the file or folder. |         |
+| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
+|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
+| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
+| `-path`      | File or folder path to add a tag.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |         |
+| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
+| `-tag`       | Tag to add to the file or folder.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |         |
 
 
 
@@ -6122,12 +6122,12 @@ tbx dropbox file tag delete -path /DROPBOX/PATH/TO/PROCESS -tag TAG_NAME
 
 
 
-| Option       | Description                          | Default |
-|--------------|--------------------------------------|---------|
-| `-base-path` | Base path for removing a tag.        | root    |
-| `-path`      | File or folder path to remove a tag. |         |
-| `-peer`      | Account alias                        | default |
-| `-tag`       | Tag name                             |         |
+| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
+|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
+| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
+| `-path`      | File or folder path to remove a tag.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |         |
+| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
+| `-tag`       | Tag name                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |         |
 
 
 
@@ -6182,7 +6182,7 @@ The command will generate a report in three different formats. `tags.csv`, `tags
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `tags_0000.xlsx`, `tags_0001.xlsx`, `tags_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `tags_0000.xlsx`, `tags_0001.xlsx`, `tags_0002.xlsx`, ...
 
 
 
@@ -6305,7 +6305,7 @@ The command will generate a report in three different formats. `created.csv`, `c
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `created_0000.xlsx`, `created_0001.xlsx`, `created_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `created_0000.xlsx`, `created_0001.xlsx`, `created_0002.xlsx`, ...
 
 # Text inputs
 
@@ -6367,7 +6367,7 @@ The command will generate a report in three different formats. `created.csv`, `c
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `created_0000.xlsx`, `created_0001.xlsx`, `created_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `created_0000.xlsx`, `created_0001.xlsx`, `created_0002.xlsx`, ...
 
 # Text inputs
 
@@ -6385,7 +6385,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/paper/overwrite.md
 
 # dropbox paper overwrite
 
-Overwrite existing Paper document 
+Overwrite an existing Paper document 
 
 
 
@@ -6427,7 +6427,7 @@ The command will generate a report in three different formats. `created.csv`, `c
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `created_0000.xlsx`, `created_0001.xlsx`, `created_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `created_0000.xlsx`, `created_0001.xlsx`, `created_0002.xlsx`, ...
 
 # Text inputs
 
@@ -6487,7 +6487,7 @@ The command will generate a report in three different formats. `created.csv`, `c
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `created_0000.xlsx`, `created_0001.xlsx`, `created_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `created_0000.xlsx`, `created_0001.xlsx`, `created_0002.xlsx`, ...
 
 # Text inputs
 
@@ -6552,7 +6552,7 @@ The command will generate a report in three different formats. `requests.csv`, `
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `requests_0000.xlsx`, `requests_0001.xlsx`, `requests_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `requests_0000.xlsx`, `requests_0001.xlsx`, `requests_0002.xlsx`, ...
 
 
 
@@ -6618,7 +6618,7 @@ The command will generate a report in three different formats. `signatures.csv`,
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `signatures_0000.xlsx`, `signatures_0001.xlsx`, `signatures_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `signatures_0000.xlsx`, `signatures_0001.xlsx`, `signatures_0002.xlsx`, ...
 
 
 
@@ -6664,7 +6664,7 @@ The command will generate a report in three different formats. `feature.csv`, `f
 | Column                      | Description                                       |
 |-----------------------------|---------------------------------------------------|
 | upload_api_rate_limit       | The number of upload API calls allowed per month. |
-| upload_api_rate_limit_count | The number of upload API called this month.       |
+| upload_api_rate_limit_count | The number of upload API calls made this month.   |
 | has_team_shared_dropbox     | Does this team have a shared team root.           |
 | has_team_file_events        | Team supports file events                         |
 | has_team_selective_sync     | Team supports selective sync                      |
@@ -6672,7 +6672,7 @@ The command will generate a report in three different formats. `feature.csv`, `f
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `feature_0000.xlsx`, `feature_0001.xlsx`, `feature_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `feature_0000.xlsx`, `feature_0001.xlsx`, `feature_0002.xlsx`, ...
 
 
 
@@ -6726,7 +6726,7 @@ The command will generate a report in three different formats. `file_system.csv`
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `file_system_0000.xlsx`, `file_system_0001.xlsx`, `file_system_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `file_system_0000.xlsx`, `file_system_0001.xlsx`, `file_system_0002.xlsx`, ...
 
 
 
@@ -6783,7 +6783,7 @@ The command will generate a report in three different formats. `info.csv`, `info
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `info_0000.xlsx`, `info_0001.xlsx`, `info_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `info_0000.xlsx`, `info_0001.xlsx`, `info_0002.xlsx`, ...
 
 
 
@@ -6854,7 +6854,7 @@ tbx dropbox team activity event
 
 ## Report: event
 
-This report shows an activity logs with mostly compatible with Dropbox for teams's activity logs.
+This report shows activity logs mostly compatible with Dropbox for teams' activity logs.
 The command will generate a report in three different formats. `event.csv`, `event.json`, and `event.xlsx`.
 
 | Column                   | Description                                                                                        |
@@ -6876,7 +6876,7 @@ The command will generate a report in three different formats. `event.csv`, `eve
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `event_0000.xlsx`, `event_0001.xlsx`, `event_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `event_0000.xlsx`, `event_0001.xlsx`, `event_0002.xlsx`, ...
 
 
 
@@ -6919,7 +6919,7 @@ tbx dropbox team activity user
 
 ## Report: user
 
-This report shows an activity logs with mostly compatible with Dropbox for teams's activity logs.
+This report shows activity logs mostly compatible with Dropbox for teams' activity logs.
 The command will generate a report in three different formats. `user.csv`, `user.json`, and `user.xlsx`.
 
 | Column                   | Description                                                                                        |
@@ -6941,7 +6941,7 @@ The command will generate a report in three different formats. `user.csv`, `user
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `user_0000.xlsx`, `user_0001.xlsx`, `user_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `user_0000.xlsx`, `user_0001.xlsx`, `user_0002.xlsx`, ...
 
 
 ## Report: user_summary
@@ -6963,7 +6963,7 @@ The command will generate a report in three different formats. `user_summary.csv
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `user_summary_0000.xlsx`, `user_summary_0001.xlsx`, `user_summary_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `user_summary_0000.xlsx`, `user_summary_0001.xlsx`, `user_summary_0002.xlsx`, ...
 
 
 
@@ -7007,7 +7007,7 @@ tbx dropbox team activity batch user -file /path/to/file.csv
 ## Format: File
 
 
-Data file for batch retrieve activities of members.
+Data file for batch retrieving activities of members.
 
 | Column | Description        | Example          |
 |--------|--------------------|------------------|
@@ -7027,7 +7027,7 @@ john@example.com
 
 ## Report: combined
 
-This report shows an activity logs with mostly compatible with Dropbox for teams's activity logs.
+This report shows activity logs mostly compatible with Dropbox for teams' activity logs.
 The command will generate a report in three different formats. `combined.csv`, `combined.json`, and `combined.xlsx`.
 
 | Column                   | Description                                                                                        |
@@ -7049,12 +7049,12 @@ The command will generate a report in three different formats. `combined.csv`, `
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `combined_0000.xlsx`, `combined_0001.xlsx`, `combined_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `combined_0000.xlsx`, `combined_0001.xlsx`, `combined_0002.xlsx`, ...
 
 
 ## Report: user
 
-This report shows an activity logs with mostly compatible with Dropbox for teams's activity logs.
+This report shows activity logs mostly compatible with Dropbox for teams' activity logs.
 The command will generate a report in three different formats. `user.csv`, `user.json`, and `user.xlsx`.
 
 | Column                   | Description                                                                                        |
@@ -7076,7 +7076,7 @@ The command will generate a report in three different formats. `user.csv`, `user
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `user_0000.xlsx`, `user_0001.xlsx`, `user_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `user_0000.xlsx`, `user_0001.xlsx`, `user_0002.xlsx`, ...
 
 
 
@@ -7119,7 +7119,7 @@ tbx dropbox team activity daily event -start-date DATE
 
 ## Report: event
 
-This report shows an activity logs with mostly compatible with Dropbox for teams's activity logs.
+This report shows activity logs mostly compatible with Dropbox for teams' activity logs.
 The command will generate a report in three different formats. `event.csv`, `event.json`, and `event.xlsx`.
 
 | Column                   | Description                                                                                        |
@@ -7141,7 +7141,7 @@ The command will generate a report in three different formats. `event.csv`, `eve
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `event_0000.xlsx`, `event_0001.xlsx`, `event_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `event_0000.xlsx`, `event_0001.xlsx`, `event_0002.xlsx`, ...
 
 
 
@@ -7239,7 +7239,7 @@ The command will generate a report in three different formats. `roles.csv`, `rol
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `roles_0000.xlsx`, `roles_0001.xlsx`, `roles_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `roles_0000.xlsx`, `roles_0001.xlsx`, `roles_0002.xlsx`, ...
 
 
 
@@ -7250,7 +7250,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/admin/group/role/delete
 
 # dropbox team admin group role delete
 
-Delete the role from all members except of members of the exception group 
+Delete the role from all members except members of the exception group 
 
 
 
@@ -7294,7 +7294,7 @@ The command will generate a report in three different formats. `roles.csv`, `rol
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `roles_0000.xlsx`, `roles_0001.xlsx`, `roles_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `roles_0000.xlsx`, `roles_0001.xlsx`, `roles_0002.xlsx`, ...
 
 
 
@@ -7349,7 +7349,7 @@ The command will generate a report in three different formats. `roles.csv`, `rol
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `roles_0000.xlsx`, `roles_0001.xlsx`, `roles_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `roles_0000.xlsx`, `roles_0001.xlsx`, `roles_0002.xlsx`, ...
 
 
 
@@ -7437,7 +7437,7 @@ The command will generate a report in three different formats. `roles.csv`, `rol
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `roles_0000.xlsx`, `roles_0001.xlsx`, `roles_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `roles_0000.xlsx`, `roles_0001.xlsx`, `roles_0002.xlsx`, ...
 
 
 
@@ -7488,7 +7488,7 @@ The command will generate a report in three different formats. `roles.csv`, `rol
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `roles_0000.xlsx`, `roles_0001.xlsx`, `roles_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `roles_0000.xlsx`, `roles_0001.xlsx`, `roles_0002.xlsx`, ...
 
 
 
@@ -7506,7 +7506,7 @@ Multiple device sessions may be displayed in the following cases
 * If the Dropbox application has been reinstalled.
 * If the Dropbox application has not been unlinked (e.g. you initialized the OS without unlinking the Dropbox application).
 
-in that case, please refer to the report `session_info_updated` to see the most recent report. This command does not automatically make this determination, since it is possible that there may be a session with the same hostname by coincidence.
+In that case, please refer to the report `session_info_updated` to see the most recent report. This command does not automatically make this determination, since it is possible that there may be a session with the same hostname by coincidence.
 
 # Usage
 
@@ -7553,7 +7553,7 @@ The command will generate a report in three different formats. `devices.csv`, `d
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `devices_0000.xlsx`, `devices_0001.xlsx`, `devices_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `devices_0000.xlsx`, `devices_0001.xlsx`, `devices_0002.xlsx`, ...
 
 
 
@@ -7605,7 +7605,7 @@ The command will generate a report in three different formats. `stats.csv`, `sta
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `stats_0000.xlsx`, `stats_0001.xlsx`, `stats_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `stats_0000.xlsx`, `stats_0001.xlsx`, `stats_0002.xlsx`, ...
 
 
 
@@ -7663,7 +7663,7 @@ The command will generate a report in three different formats. `paper.csv`, `pap
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `paper_0000.xlsx`, `paper_0001.xlsx`, `paper_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `paper_0000.xlsx`, `paper_0001.xlsx`, `paper_0002.xlsx`, ...
 
 
 
@@ -7718,7 +7718,7 @@ The command will generate a report in three different formats. `paper.csv`, `pap
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `paper_0000.xlsx`, `paper_0001.xlsx`, `paper_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `paper_0000.xlsx`, `paper_0001.xlsx`, `paper_0002.xlsx`, ...
 
 
 
@@ -7751,8 +7751,8 @@ tbx dropbox team content member list
 | `-folder-name`          | Filter by folder name. Filter by exact match to the name.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |         |
 | `-folder-name-prefix`   | Filter by folder name. Filter by name match to the prefix.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |         |
 | `-folder-name-suffix`   | Filter by folder name. Filter by name match to the suffix.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |         |
-| `-member-type-external` | Filter folder members. Keep only members are external (not in the same team). Note: Invited members are marked as external member.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |         |
-| `-member-type-internal` | Filter folder members. Keep only members are internal (in the same team). Note: Invited members are marked as external member.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |         |
+| `-member-type-external` | Filter folder members. Keep only members that are external (not in the same team). Note: Invited members are marked as external member.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |         |
+| `-member-type-internal` | Filter folder members. Keep only members that are internal (in the same team). Note: Invited members are marked as external member.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |         |
 | `-peer`                 | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
 | `-scan-timeout`         | Scan timeout mode. If the scan timeouts, the path of a subfolder of the team folder will be replaced with a dummy path like `TEAMFOLDER_NAME/:ERROR-SCAN-TIMEOUT:/SUBFOLDER_NAME`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | short   |
 
@@ -7781,7 +7781,7 @@ The command will generate a report in three different formats. `membership.csv`,
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `membership_0000.xlsx`, `membership_0001.xlsx`, `membership_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `membership_0000.xlsx`, `membership_0001.xlsx`, `membership_0002.xlsx`, ...
 
 
 ## Report: no_member
@@ -7797,7 +7797,7 @@ The command will generate a report in three different formats. `no_member.csv`, 
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `no_member_0000.xlsx`, `no_member_0001.xlsx`, `no_member_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `no_member_0000.xlsx`, `no_member_0001.xlsx`, `no_member_0002.xlsx`, ...
 
 
 
@@ -7846,20 +7846,20 @@ tbx dropbox team content member size
 Folder member count
 The command will generate a report in three different formats. `member_count.csv`, `member_count.json`, and `member_count.xlsx`.
 
-| Column                | Description                                                                                                                        |
-|-----------------------|------------------------------------------------------------------------------------------------------------------------------------|
-| path                  | Path                                                                                                                               |
-| folder_type           | Type of the folder. (`team_folder`: a team folder or in a team folder, `shared_folder`: a shared folder)                           |
-| owner_team_name       | Team name of the team that owns the folder                                                                                         |
-| has_no_inherit        | True if the folder or any sub-folder does not inherit the access permission from the parent folder                                 |
-| is_no_inherit         | True if the folder does not inherit the access from the parent folder                                                              |
-| capacity              | Capacity number to add members. Empty if it's not able to determine by your permission (e.g. a folder contains an external group). |
-| count_total           | Total number of members                                                                                                            |
-| count_external_groups | Number of external teams' group                                                                                                    |
+| Column                | Description                                                                                                                            |
+|-----------------------|----------------------------------------------------------------------------------------------------------------------------------------|
+| path                  | Path                                                                                                                                   |
+| folder_type           | Type of the folder. (`team_folder`: a team folder or in a team folder, `shared_folder`: a shared folder)                               |
+| owner_team_name       | Team name of the team that owns the folder                                                                                             |
+| has_no_inherit        | True if the folder or any sub-folder does not inherit the access permission from the parent folder                                     |
+| is_no_inherit         | True if the folder does not inherit the access from the parent folder                                                                  |
+| capacity              | Capacity number for adding members. Empty if it's not able to determine by your permission (e.g. a folder contains an external group). |
+| count_total           | Total number of members                                                                                                                |
+| count_external_groups | Number of external teams' groups                                                                                                       |
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `member_count_0000.xlsx`, `member_count_0001.xlsx`, `member_count_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `member_count_0000.xlsx`, `member_count_0001.xlsx`, `member_count_0002.xlsx`, ...
 
 
 
@@ -7925,7 +7925,7 @@ The command will generate a report in three different formats. `mount.csv`, `mou
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `mount_0000.xlsx`, `mount_0001.xlsx`, `mount_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `mount_0000.xlsx`, `mount_0001.xlsx`, `mount_0002.xlsx`, ...
 
 
 
@@ -7985,7 +7985,7 @@ The command will generate a report in three different formats. `policy.csv`, `po
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `policy_0000.xlsx`, `policy_0001.xlsx`, `policy_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `policy_0000.xlsx`, `policy_0001.xlsx`, `policy_0002.xlsx`, ...
 
 
 
@@ -8057,7 +8057,7 @@ The command will generate a report in three different formats. `device.csv`, `de
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `device_0000.xlsx`, `device_0001.xlsx`, `device_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `device_0000.xlsx`, `device_0001.xlsx`, `device_0002.xlsx`, ...
 
 
 
@@ -8180,7 +8180,7 @@ The command will generate a report in three different formats. `operation_log.cs
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 
 
@@ -8241,7 +8241,7 @@ The command will generate a report in three different formats. `file_request.csv
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `file_request_0000.xlsx`, `file_request_0001.xlsx`, `file_request_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `file_request_0000.xlsx`, `file_request_0001.xlsx`, `file_request_0002.xlsx`, ...
 
 
 
@@ -8294,7 +8294,7 @@ The command will generate a report in three different formats. `added_group.csv`
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `added_group_0000.xlsx`, `added_group_0001.xlsx`, `added_group_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `added_group_0000.xlsx`, `added_group_0001.xlsx`, `added_group_0002.xlsx`, ...
 
 
 
@@ -8307,7 +8307,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/group/delete.md
 
 Delete group (Irreversible operation)
 
-This command does not confirm whether the group used in existing folders
+This command does not confirm whether the group is used in existing folders
 
 # Usage
 
@@ -8378,7 +8378,7 @@ The command will generate a report in three different formats. `group.csv`, `gro
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `group_0000.xlsx`, `group_0001.xlsx`, `group_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `group_0000.xlsx`, `group_0001.xlsx`, `group_0002.xlsx`, ...
 
 
 
@@ -8435,7 +8435,7 @@ The command will generate a report in three different formats. `operation_log.cs
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 
 
@@ -8511,7 +8511,7 @@ The command will generate a report in three different formats. `operation_log.cs
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 
 
@@ -8586,7 +8586,7 @@ The command will generate a report in three different formats. `operation_log.cs
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 
 
@@ -8663,7 +8663,7 @@ The command will generate a report in three different formats. `operation_log.cs
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 
 
@@ -8719,7 +8719,7 @@ The command will generate a report in three different formats. `group_to_folder.
 |--------------------|----------------------------------------------------------------------------------------------------------|
 | group_name         | Name of a group                                                                                          |
 | group_type         | Who is allowed to manage the group (user_managed, company_managed, or system_managed)                    |
-| group_is_same_team | 'true' if a group is in same team. Otherwise false.                                                      |
+| group_is_same_team | 'true' if a group is in the same team. Otherwise false.                                                  |
 | access_type        | Group's access level for this folder                                                                     |
 | namespace_name     | The name of this namespace                                                                               |
 | path               | Path                                                                                                     |
@@ -8728,7 +8728,7 @@ The command will generate a report in three different formats. `group_to_folder.
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `group_to_folder_0000.xlsx`, `group_to_folder_0001.xlsx`, `group_to_folder_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `group_to_folder_0000.xlsx`, `group_to_folder_0001.xlsx`, `group_to_folder_0002.xlsx`, ...
 
 
 ## Report: group_with_no_folders
@@ -8744,7 +8744,7 @@ The command will generate a report in three different formats. `group_with_no_fo
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `group_with_no_folders_0000.xlsx`, `group_with_no_folders_0001.xlsx`, `group_with_no_folders_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `group_with_no_folders_0000.xlsx`, `group_with_no_folders_0001.xlsx`, `group_with_no_folders_0002.xlsx`, ...
 
 
 
@@ -8801,7 +8801,7 @@ The command will generate a report in three different formats. `operation_log.cs
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 
 
@@ -8858,7 +8858,7 @@ The command will generate a report in three different formats. `operation_log.cs
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 
 
@@ -8913,7 +8913,7 @@ The command will generate a report in three different formats. `group_member.csv
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `group_member_0000.xlsx`, `group_member_0001.xlsx`, `group_member_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `group_member_0000.xlsx`, `group_member_0001.xlsx`, `group_member_0002.xlsx`, ...
 
 
 
@@ -8987,7 +8987,7 @@ The command will generate a report in three different formats. `operation_log.cs
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 
 
@@ -9061,7 +9061,7 @@ The command will generate a report in three different formats. `operation_log.cs
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 
 
@@ -9135,7 +9135,7 @@ The command will generate a report in three different formats. `operation_log.cs
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 
 
@@ -9190,7 +9190,7 @@ The command will generate a report in three different formats. `group.csv`, `gro
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `group_0000.xlsx`, `group_0001.xlsx`, `group_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `group_0000.xlsx`, `group_0001.xlsx`, `group_0002.xlsx`, ...
 
 
 
@@ -9206,7 +9206,7 @@ Scans team data for analysis
 This command collects various team data, such as files in team folders, permissions and shared links, and stores them in a database.
 The collected data can be analysed with commands such as `dropbox team insight report teamfoldermember`, or with database tools that support SQLite in general.
 
-About how long a scan takes:.
+About how long a scan takes:
 
 Scanning a team often takes a long time. Especially if there are a large number of files stored, the time is linearly proportional to the number of files. To increase the scanning speed, it is better to use the `-concurrency` option for parallel processing.
 However, too much parallelism will increase the error rate from the Dropbox server, so a balance must be considered. According to the results of a few benchmarks, a parallelism level of 12-24 for the `-concurrency` option seems to be a good choice.
@@ -9215,12 +9215,12 @@ The time required for scanning depends on the response of the Dropbox server, bu
 During the scan, users might delete, move or add files during that time. The command does not aim to capture all those differences and report exact results, but to provide rough information as quickly as possible.
 
 
-For database file sizes:.
+For database file sizes:
 
 As this command retrieves all metadata, including the team's files, the size of the database increases with the size of those metadata. Benchmark results show that the database size is around 10-12 GB per 10 million files stored in the team. Make sure that the path specified by `-database` has enough space before running.
 
 
-About scan errors:.
+About scan errors:
 
 The Dropbox server may return an error when running the scan. The command will automatically try to re-run the scan several times, but the error may not be resolved for a certain period of time due to server congestion or condition. In that case, the command stops the re-run and records the scan task in the database where the error occurred.
 If you want to re-run a failed scan, use the `dropbox team insight scanretry` command to run the scan again.
@@ -9268,7 +9268,7 @@ The command will generate a report in three different formats. `errors.csv`, `er
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `errors_0000.xlsx`, `errors_0001.xlsx`, `errors_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `errors_0000.xlsx`, `errors_0001.xlsx`, `errors_0002.xlsx`, ...
 
 
 
@@ -9332,7 +9332,7 @@ The command will generate a report in three different formats. `entry.csv`, `ent
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `entry_0000.xlsx`, `entry_0001.xlsx`, `entry_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `entry_0000.xlsx`, `entry_0001.xlsx`, `entry_0002.xlsx`, ...
 
 
 
@@ -9343,7 +9343,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/legalhold/add.md
 
 # dropbox team legalhold add
 
-Creates new legal hold policy. 
+Creates a new legal hold policy. 
 
 
 
@@ -9363,7 +9363,7 @@ tbx dropbox team legalhold add -member /PATH/TO/member_email.csv -name POLICY_NA
 |----------------|------------------------------------------------------------|---------|
 | `-description` | A description of the legal hold policy.                    |         |
 | `-end-date`    | End date of the legal hold policy.                         |         |
-| `-member`      | email of the member or members you want to place a hold on |         |
+| `-member`      | Email of the member or members you want to place a hold on |         |
 | `-name`        | Policy name.                                               |         |
 | `-peer`        | Account alias                                              | default |
 | `-start-date`  | Start date of the legal hold policy.                       |         |
@@ -9413,7 +9413,7 @@ The command will generate a report in three different formats. `policy.csv`, `po
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `policy_0000.xlsx`, `policy_0001.xlsx`, `policy_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `policy_0000.xlsx`, `policy_0001.xlsx`, `policy_0002.xlsx`, ...
 
 
 
@@ -9470,7 +9470,7 @@ The command will generate a report in three different formats. `policies.csv`, `
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `policies_0000.xlsx`, `policies_0001.xlsx`, `policies_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `policies_0000.xlsx`, `policies_0001.xlsx`, `policies_0002.xlsx`, ...
 
 
 
@@ -9481,7 +9481,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/legalhold/release.md
 
 # dropbox team legalhold release
 
-Releases a legal hold by Id 
+Releases a legal hold by ID 
 
 
 
@@ -9569,7 +9569,7 @@ The command will generate a report in three different formats. `member.csv`, `me
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `member_0000.xlsx`, `member_0001.xlsx`, `member_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `member_0000.xlsx`, `member_0001.xlsx`, `member_0002.xlsx`, ...
 
 
 
@@ -9656,7 +9656,7 @@ The command will generate a report in three different formats. `policy.csv`, `po
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `policy_0000.xlsx`, `policy_0001.xlsx`, `policy_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `policy_0000.xlsx`, `policy_0001.xlsx`, `policy_0002.xlsx`, ...
 
 
 
@@ -9706,7 +9706,7 @@ The command will generate a report in three different formats. `revision.csv`, `
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `revision_0000.xlsx`, `revision_0001.xlsx`, `revision_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `revision_0000.xlsx`, `revision_0001.xlsx`, `revision_0002.xlsx`, ...
 
 
 
@@ -9764,7 +9764,7 @@ The command will generate a report in three different formats. `policy.csv`, `po
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `policy_0000.xlsx`, `policy_0001.xlsx`, `policy_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `policy_0000.xlsx`, `policy_0001.xlsx`, `policy_0002.xlsx`, ...
 
 
 
@@ -9822,7 +9822,7 @@ The command will generate a report in three different formats. `policy.csv`, `po
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `policy_0000.xlsx`, `policy_0001.xlsx`, `policy_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `policy_0000.xlsx`, `policy_0001.xlsx`, `policy_0002.xlsx`, ...
 
 
 
@@ -9862,7 +9862,7 @@ tbx dropbox team linkedapp list
 
 ## Report: linked_app
 
-This report shows a list of linked app with the user of the app.
+This report shows a list of linked apps with the users of the apps.
 The command will generate a report in three different formats. `linked_app.csv`, `linked_app.json`, and `linked_app.xlsx`.
 
 | Column        | Description                                                                          |
@@ -9874,13 +9874,13 @@ The command will generate a report in three different formats. `linked_app.csv`,
 | display_name  | A name that can be used directly to represent the name of a user's Dropbox account.  |
 | app_name      | The application name.                                                                |
 | is_app_folder | Whether the linked application uses a dedicated folder.                              |
-| publisher     | The publisher's URL.                                                                 |
-| publisher_url | The application publisher name.                                                      |
+| publisher     | The application publisher name.                                                      |
+| publisher_url | The publisher's URL.                                                                 |
 | linked        | The time this application was linked                                                 |
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `linked_app_0000.xlsx`, `linked_app_0001.xlsx`, `linked_app_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `linked_app_0000.xlsx`, `linked_app_0001.xlsx`, `linked_app_0002.xlsx`, ...
 
 
 
@@ -9932,7 +9932,7 @@ The command will generate a report in three different formats. `features.csv`, `
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `features_0000.xlsx`, `features_0001.xlsx`, `features_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `features_0000.xlsx`, `features_0001.xlsx`, `features_0002.xlsx`, ...
 
 
 
@@ -9990,7 +9990,7 @@ The command will generate a report in three different formats. `member.csv`, `me
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `member_0000.xlsx`, `member_0001.xlsx`, `member_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `member_0000.xlsx`, `member_0001.xlsx`, `member_0002.xlsx`, ...
 
 
 
@@ -10066,7 +10066,7 @@ The command will generate a report in three different formats. `operation_log.cs
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 
 
@@ -10208,7 +10208,7 @@ The command will generate a report in three different formats. `operation_log.cs
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 
 
@@ -10235,11 +10235,11 @@ tbx dropbox team member batch detach -file /PATH/TO/member_list.csv
 
 
 
-| Option                | Description                                                  | Default |
-|-----------------------|--------------------------------------------------------------|---------|
-| `-file`               | Data file                                                    |         |
-| `-peer`               | Account alias                                                | default |
-| `-revoke-team-shares` | True for revoke shared folder access which owned by the team | false   |
+| Option                | Description                                           | Default |
+|-----------------------|-------------------------------------------------------|---------|
+| `-file`               | Data file                                             |         |
+| `-peer`               | Account alias                                         | default |
+| `-revoke-team-shares` | True to revoke shared folder access owned by the team | false   |
 
 
 
@@ -10281,7 +10281,7 @@ The command will generate a report in three different formats. `operation_log.cs
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 
 
@@ -10323,7 +10323,7 @@ tbx dropbox team member batch invite -file /PATH/TO/member_list.csv
 ## Format: File
 
 
-Data file for invite team members.
+Data file for inviting team members.
 
 | Column     | Description                  | Example          |
 |------------|------------------------------|------------------|
@@ -10368,7 +10368,7 @@ The command will generate a report in three different formats. `operation_log.cs
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 
 
@@ -10439,7 +10439,7 @@ The command will generate a report in three different formats. `operation_log.cs
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 
 
@@ -10512,7 +10512,7 @@ The command will generate a report in three different formats. `operation_log.cs
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 
 
@@ -10584,7 +10584,7 @@ The command will generate a report in three different formats. `operation_log.cs
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 
 
@@ -10673,7 +10673,7 @@ The command will generate a report in three different formats. `operation_log.cs
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 
 
@@ -10764,11 +10764,11 @@ The command will generate a report in three different formats. `lock.csv`, `lock
 | size             | The file size in bytes.                                                                                |
 | is_lock_holder   | True if caller holds the file lock                                                                     |
 | lock_holder_name | The display name of the lock holder.                                                                   |
-| lock_created     | The timestamp of the lock was created.                                                                 |
+| lock_created     | The timestamp when the lock was created.                                                               |
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `lock_0000.xlsx`, `lock_0001.xlsx`, `lock_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `lock_0000.xlsx`, `lock_0001.xlsx`, `lock_0002.xlsx`, ...
 
 
 
@@ -10825,11 +10825,11 @@ The command will generate a report in three different formats. `operation_log.cs
 | result.size             | The file size in bytes.                                                                                |
 | result.is_lock_holder   | True if caller holds the file lock                                                                     |
 | result.lock_holder_name | The display name of the lock holder.                                                                   |
-| result.lock_created     | The timestamp of the lock was created.                                                                 |
+| result.lock_created     | The timestamp when the lock was created.                                                               |
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 
 
@@ -10887,11 +10887,11 @@ The command will generate a report in three different formats. `operation_log.cs
 | result.size             | The file size in bytes.                                                                                |
 | result.is_lock_holder   | True if caller holds the file lock                                                                     |
 | result.lock_holder_name | The display name of the lock holder.                                                                   |
-| result.lock_created     | The timestamp of the lock was created.                                                                 |
+| result.lock_created     | The timestamp when the lock was created.                                                               |
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 
 
@@ -10952,7 +10952,7 @@ The command will generate a report in three different formats. `member_to_folder
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `member_to_folder_0000.xlsx`, `member_to_folder_0001.xlsx`, `member_to_folder_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `member_to_folder_0000.xlsx`, `member_to_folder_0001.xlsx`, `member_to_folder_0002.xlsx`, ...
 
 
 ## Report: member_with_no_folder
@@ -10971,7 +10971,7 @@ The command will generate a report in three different formats. `member_with_no_f
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `member_with_no_folder_0000.xlsx`, `member_with_no_folder_0001.xlsx`, `member_with_no_folder_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `member_with_no_folder_0000.xlsx`, `member_with_no_folder_0001.xlsx`, `member_with_no_folder_0002.xlsx`, ...
 
 
 
@@ -11049,7 +11049,7 @@ tbx dropbox team member quota list
 
 ## Report: member_quota
 
-This report shows a list of custom quota settings for each team members.
+This report shows a list of custom quota settings for each team member.
 The command will generate a report in three different formats. `member_quota.csv`, `member_quota.json`, and `member_quota.xlsx`.
 
 | Column | Description                                                                 |
@@ -11059,7 +11059,7 @@ The command will generate a report in three different formats. `member_quota.csv
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `member_quota_0000.xlsx`, `member_quota_0001.xlsx`, `member_quota_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `member_quota_0000.xlsx`, `member_quota_0001.xlsx`, `member_quota_0002.xlsx`, ...
 
 
 
@@ -11113,7 +11113,7 @@ The command will generate a report in three different formats. `usage.csv`, `usa
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `usage_0000.xlsx`, `usage_0001.xlsx`, `usage_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `usage_0000.xlsx`, `usage_0001.xlsx`, `usage_0002.xlsx`, ...
 
 
 
@@ -11155,7 +11155,7 @@ tbx dropbox team member quota batch update -file /path/to/file.csv
 ## Format: File
 
 
-This report shows a list of custom quota settings for each team members.
+This report shows a list of custom quota settings for each team member.
 
 | Column | Description                                                                 | Example          |
 |--------|-----------------------------------------------------------------------------|------------------|
@@ -11190,7 +11190,7 @@ The command will generate a report in three different formats. `operation_log.cs
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 
 
@@ -11217,11 +11217,11 @@ tbx dropbox team member update batch email -file /path/to/data/file.csv
 
 
 
-| Option               | Description                                                                                                                                | Default |
-|----------------------|--------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-file`              | Data file                                                                                                                                  |         |
-| `-peer`              | Account alias                                                                                                                              | default |
-| `-update-unverified` | Update an account which didn't verified email. If an account email unverified, email address change may affect lose invitation to folders. | false   |
+| Option               | Description                                                                                                                                               | Default |
+|----------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
+| `-file`              | Data file                                                                                                                                                 |         |
+| `-peer`              | Account alias                                                                                                                                             | default |
+| `-update-unverified` | Update an account which hasn't verified its email. If an account email is unverified, changing the email address may cause loss of invitation to folders. | false   |
 
 
 
@@ -11275,7 +11275,7 @@ The command will generate a report in three different formats. `operation_log.cs
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 
 
@@ -11359,7 +11359,7 @@ The command will generate a report in three different formats. `operation_log.cs
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 
 
@@ -11448,7 +11448,7 @@ The command will generate a report in three different formats. `operation_log.cs
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 
 
@@ -11534,7 +11534,7 @@ The command will generate a report in three different formats. `operation_log.cs
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 
 
@@ -11623,7 +11623,7 @@ The command will generate a report in three different formats. `operation_log.cs
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 
 
@@ -11674,7 +11674,7 @@ The command will generate a report in three different formats. `namespace.csv`, 
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `namespace_0000.xlsx`, `namespace_0001.xlsx`, `namespace_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `namespace_0000.xlsx`, `namespace_0001.xlsx`, `namespace_0002.xlsx`, ...
 
 
 
@@ -11723,7 +11723,7 @@ The command will generate a report in three different formats. `folder_without_p
 |-------------------------|-------------------------------------------------------------------------------------------------------------------------|
 | shared_folder_id        | The ID of the shared folder.                                                                                            |
 | parent_shared_folder_id | The ID of the parent shared folder. This field is present only if the folder is contained within another shared folder. |
-| name                    | The name of the this shared folder.                                                                                     |
+| name                    | The name of this shared folder.                                                                                         |
 | access_type             | The current user's access level for this shared file/folder (owner, editor, viewer, or viewer_no_comment)               |
 | path_lower              | The lower-cased full path of this shared folder.                                                                        |
 | is_inside_team_folder   | Whether this folder is inside of a team folder.                                                                         |
@@ -11739,7 +11739,7 @@ The command will generate a report in three different formats. `folder_without_p
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `folder_without_parent_0000.xlsx`, `folder_without_parent_0001.xlsx`, `folder_without_parent_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `folder_without_parent_0000.xlsx`, `folder_without_parent_0001.xlsx`, `folder_without_parent_0002.xlsx`, ...
 
 
 ## Report: member
@@ -11760,7 +11760,7 @@ The command will generate a report in three different formats. `member.csv`, `me
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `member_0000.xlsx`, `member_0001.xlsx`, `member_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `member_0000.xlsx`, `member_0001.xlsx`, `member_0002.xlsx`, ...
 
 
 ## Report: team
@@ -11775,7 +11775,7 @@ The command will generate a report in three different formats. `team.csv`, `team
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `team_0000.xlsx`, `team_0001.xlsx`, `team_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `team_0000.xlsx`, `team_0001.xlsx`, `team_0002.xlsx`, ...
 
 
 ## Report: team_folder
@@ -11790,7 +11790,7 @@ The command will generate a report in three different formats. `team_folder.csv`
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `team_folder_0000.xlsx`, `team_folder_0001.xlsx`, `team_folder_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `team_folder_0000.xlsx`, `team_folder_0001.xlsx`, `team_folder_0002.xlsx`, ...
 
 
 
@@ -11849,7 +11849,7 @@ The command will generate a report in three different formats. `errors.csv`, `er
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `errors_0000.xlsx`, `errors_0001.xlsx`, `errors_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `errors_0000.xlsx`, `errors_0001.xlsx`, `errors_0002.xlsx`, ...
 
 
 ## Report: namespace_file
@@ -11871,7 +11871,7 @@ The command will generate a report in three different formats. `namespace_file.c
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `namespace_file_0000.xlsx`, `namespace_file_0001.xlsx`, `namespace_file_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `namespace_file_0000.xlsx`, `namespace_file_0001.xlsx`, `namespace_file_0002.xlsx`, ...
 
 
 
@@ -11905,7 +11905,7 @@ tbx dropbox team namespace file size
 | `-folder-name-prefix`    | List only for the folder matched to the name. Filter by name match to the prefix. |         |
 | `-folder-name-suffix`    | List only for the folder matched to the name. Filter by name match to the suffix. |         |
 | `-include-app-folder`    | If true, include app folders                                                      | false   |
-| `-include-member-folder` | if true, include team member folders                                              | false   |
+| `-include-member-folder` | If true, include team member folders                                              | false   |
 | `-include-shared-folder` | If true, include shared folders                                                   | true    |
 | `-include-team-folder`   | If true, include team folders                                                     | true    |
 | `-peer`                  | Account alias                                                                     | default |
@@ -11940,7 +11940,7 @@ The command will generate a report in three different formats. `namespace_size.c
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `namespace_size_0000.xlsx`, `namespace_size_0001.xlsx`, `namespace_size_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `namespace_size_0000.xlsx`, `namespace_size_0001.xlsx`, `namespace_size_0002.xlsx`, ...
 
 
 
@@ -11997,7 +11997,7 @@ The command will generate a report in three different formats. `namespace_member
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `namespace_member_0000.xlsx`, `namespace_member_0001.xlsx`, `namespace_member_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `namespace_member_0000.xlsx`, `namespace_member_0001.xlsx`, `namespace_member_0002.xlsx`, ...
 
 
 
@@ -12028,8 +12028,8 @@ tbx dropbox team runas file list -member-email MEMBER@DOMAIN -path /DROPBOX/PATH
 |------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
 | `-base-path`                       | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
 | `-include-deleted`                 | Include deleted files                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | false   |
-| `-include-explicit-shared-members` |  If true, the results will include a flag for each file indicating whether or not that file has any explicit members.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | false   |
-| `-include-mounted-folders`         |  If true, the results will include entries under mounted folders which includes app folder, shared folder and team folder.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | false   |
+| `-include-explicit-shared-members` | If true, the results will include a flag for each file indicating whether or not that file has any explicit members.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | false   |
+| `-include-mounted-folders`         | If true, the results will include entries under mounted folders which include app folder, shared folder and team folder.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | false   |
 | `-member-email`                    | Email address of the member                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |         |
 | `-path`                            | Path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |         |
 | `-peer`                            | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
@@ -12059,7 +12059,7 @@ The command will generate a report in three different formats. `file_list.csv`, 
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `file_list_0000.xlsx`, `file_list_0001.xlsx`, `file_list_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `file_list_0000.xlsx`, `file_list_0001.xlsx`, `file_list_0002.xlsx`, ...
 
 
 
@@ -12136,7 +12136,7 @@ The command will generate a report in three different formats. `operation_log.cs
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 
 
@@ -12167,7 +12167,7 @@ tbx dropbox team runas file sync batch up -file /PATH/TO/DATA_FILE.csv
 |------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
 | `-base-path`           | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
 | `-batch-size`          | Batch commit size                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | 250     |
-| `-delete`              | Delete Dropbox file if a file removed locally                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | false   |
+| `-delete`              | Delete Dropbox file if a file is removed locally                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        | false   |
 | `-exit-on-failure`     | Exit the program on failure                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | false   |
 | `-file`                | Path to data file                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |         |
 | `-name-disable-ignore` | Name for the sync batch operation. Filter system file or ignore files.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |         |
@@ -12220,7 +12220,7 @@ The command will generate a report in three different formats. `deleted.csv`, `d
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `deleted_0000.xlsx`, `deleted_0001.xlsx`, `deleted_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `deleted_0000.xlsx`, `deleted_0001.xlsx`, `deleted_0002.xlsx`, ...
 
 
 ## Report: operation_log
@@ -12238,7 +12238,7 @@ The command will generate a report in three different formats. `operation_log.cs
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 
 ## Report: skipped
@@ -12257,7 +12257,7 @@ The command will generate a report in three different formats. `skipped.csv`, `s
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `skipped_0000.xlsx`, `skipped_0001.xlsx`, `skipped_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `skipped_0000.xlsx`, `skipped_0001.xlsx`, `skipped_0002.xlsx`, ...
 
 
 ## Report: summary
@@ -12265,21 +12265,21 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 This report shows a summary of the upload results.
 The command will generate a report in three different formats. `summary.csv`, `summary.json`, and `summary.xlsx`.
 
-| Column                | Description                                         |
-|-----------------------|-----------------------------------------------------|
-| start                 | Time of start                                       |
-| end                   | Time of finish                                      |
-| num_bytes             | Total upload size (Bytes)                           |
-| num_files_error       | The number of files failed or got an error.         |
-| num_files_transferred | The number of files uploaded/downloaded.            |
-| num_files_skip        | The number of files skipped or to skip.             |
-| num_folder_created    | Number of created folders.                          |
-| num_delete            | Number of deleted entry.                            |
-| num_api_call          | The number of estimated upload API call for upload. |
+| Column                | Description                                   |
+|-----------------------|-----------------------------------------------|
+| start                 | Time of start                                 |
+| end                   | Time of finish                                |
+| num_bytes             | Total upload size (Bytes)                     |
+| num_files_error       | The number of files failed or got an error.   |
+| num_files_transferred | The number of files uploaded/downloaded.      |
+| num_files_skip        | The number of files skipped or to skip.       |
+| num_folder_created    | Number of created folders.                    |
+| num_delete            | Number of deleted entries.                    |
+| num_api_call          | The number of estimated API calls for upload. |
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `summary_0000.xlsx`, `summary_0001.xlsx`, `summary_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `summary_0000.xlsx`, `summary_0001.xlsx`, `summary_0002.xlsx`, ...
 
 
 ## Report: uploaded
@@ -12302,7 +12302,7 @@ The command will generate a report in three different formats. `uploaded.csv`, `
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `uploaded_0000.xlsx`, `uploaded_0001.xlsx`, `uploaded_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `uploaded_0000.xlsx`, `uploaded_0001.xlsx`, `uploaded_0002.xlsx`, ...
 
 
 
@@ -12353,7 +12353,7 @@ The command will generate a report in three different formats. `isolated.csv`, `
 | status                      | Status of the operation                                                                                   |
 | reason                      | Reason of failure or skipped operation                                                                    |
 | input.shared_folder_id      | The ID of the shared folder.                                                                              |
-| input.name                  | The name of the this shared folder.                                                                       |
+| input.name                  | The name of this shared folder.                                                                           |
 | input.access_type           | The current user's access level for this shared file/folder (owner, editor, viewer, or viewer_no_comment) |
 | input.path_lower            | The lower-cased full path of this shared folder.                                                          |
 | input.is_inside_team_folder | Whether this folder is inside of a team folder.                                                           |
@@ -12368,7 +12368,7 @@ The command will generate a report in three different formats. `isolated.csv`, `
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `isolated_0000.xlsx`, `isolated_0001.xlsx`, `isolated_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `isolated_0000.xlsx`, `isolated_0001.xlsx`, `isolated_0002.xlsx`, ...
 
 
 
@@ -12416,7 +12416,7 @@ The command will generate a report in three different formats. `shared_folder.cs
 | Column                | Description                                                                                               |
 |-----------------------|-----------------------------------------------------------------------------------------------------------|
 | shared_folder_id      | The ID of the shared folder.                                                                              |
-| name                  | The name of the this shared folder.                                                                       |
+| name                  | The name of this shared folder.                                                                           |
 | access_type           | The current user's access level for this shared file/folder (owner, editor, viewer, or viewer_no_comment) |
 | path_lower            | The lower-cased full path of this shared folder.                                                          |
 | is_inside_team_folder | Whether this folder is inside of a team folder.                                                           |
@@ -12431,7 +12431,7 @@ The command will generate a report in three different formats. `shared_folder.cs
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `shared_folder_0000.xlsx`, `shared_folder_0001.xlsx`, `shared_folder_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `shared_folder_0000.xlsx`, `shared_folder_0001.xlsx`, `shared_folder_0002.xlsx`, ...
 
 
 
@@ -12506,7 +12506,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | input.path                     | Path to the member's folder.                                                                                            |
 | result.shared_folder_id        | The ID of the shared folder.                                                                                            |
 | result.parent_shared_folder_id | The ID of the parent shared folder. This field is present only if the folder is contained within another shared folder. |
-| result.name                    | The name of the this shared folder.                                                                                     |
+| result.name                    | The name of this shared folder.                                                                                         |
 | result.access_type             | The current user's access level for this shared file/folder (owner, editor, viewer, or viewer_no_comment)               |
 | result.path_lower              | The lower-cased full path of this shared folder.                                                                        |
 | result.is_inside_team_folder   | Whether this folder is inside of a team folder.                                                                         |
@@ -12522,7 +12522,7 @@ The command will generate a report in three different formats. `operation_log.cs
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 
 
@@ -12599,7 +12599,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | input.path                     | Path to the member's folder.                                                                                            |
 | result.shared_folder_id        | The ID of the shared folder.                                                                                            |
 | result.parent_shared_folder_id | The ID of the parent shared folder. This field is present only if the folder is contained within another shared folder. |
-| result.name                    | The name of the this shared folder.                                                                                     |
+| result.name                    | The name of this shared folder.                                                                                         |
 | result.access_type             | The current user's access level for this shared file/folder (owner, editor, viewer, or viewer_no_comment)               |
 | result.path_lower              | The lower-cased full path of this shared folder.                                                                        |
 | result.is_inside_team_folder   | Whether this folder is inside of a team folder.                                                                         |
@@ -12615,7 +12615,7 @@ The command will generate a report in three different formats. `operation_log.cs
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 
 
@@ -12690,7 +12690,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | input.path                     | Path to the member's folder.                                                                                            |
 | result.shared_folder_id        | The ID of the shared folder.                                                                                            |
 | result.parent_shared_folder_id | The ID of the parent shared folder. This field is present only if the folder is contained within another shared folder. |
-| result.name                    | The name of the this shared folder.                                                                                     |
+| result.name                    | The name of this shared folder.                                                                                         |
 | result.access_type             | The current user's access level for this shared file/folder (owner, editor, viewer, or viewer_no_comment)               |
 | result.path_lower              | The lower-cased full path of this shared folder.                                                                        |
 | result.is_inside_team_folder   | Whether this folder is inside of a team folder.                                                                         |
@@ -12706,7 +12706,7 @@ The command will generate a report in three different formats. `operation_log.cs
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 
 
@@ -12787,7 +12787,7 @@ The command will generate a report in three different formats. `operation_log.cs
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 
 
@@ -12865,7 +12865,7 @@ The command will generate a report in three different formats. `operation_log.cs
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 
 
@@ -12914,7 +12914,7 @@ The command will generate a report in three different formats. `mount.csv`, `mou
 | Column                | Description                                                                                               |
 |-----------------------|-----------------------------------------------------------------------------------------------------------|
 | shared_folder_id      | The ID of the shared folder.                                                                              |
-| name                  | The name of the this shared folder.                                                                       |
+| name                  | The name of this shared folder.                                                                           |
 | access_type           | The current user's access level for this shared file/folder (owner, editor, viewer, or viewer_no_comment) |
 | path_lower            | The lower-cased full path of this shared folder.                                                          |
 | is_inside_team_folder | Whether this folder is inside of a team folder.                                                           |
@@ -12929,7 +12929,7 @@ The command will generate a report in three different formats. `mount.csv`, `mou
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `mount_0000.xlsx`, `mount_0001.xlsx`, `mount_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `mount_0000.xlsx`, `mount_0001.xlsx`, `mount_0002.xlsx`, ...
 
 
 
@@ -12978,7 +12978,7 @@ The command will generate a report in three different formats. `mount.csv`, `mou
 | Column                | Description                                                                                               |
 |-----------------------|-----------------------------------------------------------------------------------------------------------|
 | shared_folder_id      | The ID of the shared folder.                                                                              |
-| name                  | The name of the this shared folder.                                                                       |
+| name                  | The name of this shared folder.                                                                           |
 | access_type           | The current user's access level for this shared file/folder (owner, editor, viewer, or viewer_no_comment) |
 | path_lower            | The lower-cased full path of this shared folder.                                                          |
 | is_inside_team_folder | Whether this folder is inside of a team folder.                                                           |
@@ -12993,7 +12993,7 @@ The command will generate a report in three different formats. `mount.csv`, `mou
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `mount_0000.xlsx`, `mount_0001.xlsx`, `mount_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `mount_0000.xlsx`, `mount_0001.xlsx`, `mount_0002.xlsx`, ...
 
 
 
@@ -13041,7 +13041,7 @@ The command will generate a report in three different formats. `mounts.csv`, `mo
 | Column                | Description                                                                                               |
 |-----------------------|-----------------------------------------------------------------------------------------------------------|
 | shared_folder_id      | The ID of the shared folder.                                                                              |
-| name                  | The name of the this shared folder.                                                                       |
+| name                  | The name of this shared folder.                                                                           |
 | access_type           | The current user's access level for this shared file/folder (owner, editor, viewer, or viewer_no_comment) |
 | path_lower            | The lower-cased full path of this shared folder.                                                          |
 | is_inside_team_folder | Whether this folder is inside of a team folder.                                                           |
@@ -13056,7 +13056,7 @@ The command will generate a report in three different formats. `mounts.csv`, `mo
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `mounts_0000.xlsx`, `mounts_0001.xlsx`, `mounts_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `mounts_0000.xlsx`, `mounts_0001.xlsx`, `mounts_0002.xlsx`, ...
 
 
 
@@ -13105,7 +13105,7 @@ The command will generate a report in three different formats. `mountables.csv`,
 | Column                | Description                                                                                               |
 |-----------------------|-----------------------------------------------------------------------------------------------------------|
 | shared_folder_id      | The ID of the shared folder.                                                                              |
-| name                  | The name of the this shared folder.                                                                       |
+| name                  | The name of this shared folder.                                                                           |
 | access_type           | The current user's access level for this shared file/folder (owner, editor, viewer, or viewer_no_comment) |
 | path_lower            | The lower-cased full path of this shared folder.                                                          |
 | is_inside_team_folder | Whether this folder is inside of a team folder.                                                           |
@@ -13120,7 +13120,7 @@ The command will generate a report in three different formats. `mountables.csv`,
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `mountables_0000.xlsx`, `mountables_0001.xlsx`, `mountables_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `mountables_0000.xlsx`, `mountables_0001.xlsx`, `mountables_0002.xlsx`, ...
 
 
 
@@ -13165,22 +13165,22 @@ tbx dropbox team sharedlink list
 This report shows a list of shared links with the shared link owner team member.
 The command will generate a report in three different formats. `shared_link.csv`, `shared_link.json`, and `shared_link.xlsx`.
 
-| Column     | Description                                                                                                                                                                                                             |
-|------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| tag        | Entry type (file, or folder)                                                                                                                                                                                            |
-| url        | URL of the shared link.                                                                                                                                                                                                 |
-| name       | The linked file name (including extension).                                                                                                                                                                             |
-| expires    | Expiration time, if set.                                                                                                                                                                                                |
-| path_lower | The lowercased full path in the user's Dropbox.                                                                                                                                                                         |
-| visibility | The current visibility of the link after considering the shared links policies of the the team (in case the link's owner is part of a team) and the shared folder (in case the linked file is part of a shared folder). |
-| email      | Email address of user.                                                                                                                                                                                                  |
-| status     | The user's status as a member of a specific team. (active/invited/suspended/removed)                                                                                                                                    |
-| surname    | Surname of the link owner                                                                                                                                                                                               |
-| given_name | Given name of the link owner                                                                                                                                                                                            |
+| Column     | Description                                                                                                                                                                                                         |
+|------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| tag        | Entry type (file, or folder)                                                                                                                                                                                        |
+| url        | URL of the shared link.                                                                                                                                                                                             |
+| name       | The linked file name (including extension).                                                                                                                                                                         |
+| expires    | Expiration time, if set.                                                                                                                                                                                            |
+| path_lower | The lowercased full path in the user's Dropbox.                                                                                                                                                                     |
+| visibility | The current visibility of the link after considering the shared links policies of the team (in case the link's owner is part of a team) and the shared folder (in case the linked file is part of a shared folder). |
+| email      | Email address of user.                                                                                                                                                                                              |
+| status     | The user's status as a member of a specific team. (active/invited/suspended/removed)                                                                                                                                |
+| surname    | Surname of the link owner                                                                                                                                                                                           |
+| given_name | Given name of the link owner                                                                                                                                                                                        |
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `shared_link_0000.xlsx`, `shared_link_0001.xlsx`, `shared_link_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `shared_link_0000.xlsx`, `shared_link_0001.xlsx`, `shared_link_0002.xlsx`, ...
 
 
 
@@ -13245,24 +13245,24 @@ https://www.dropbox.com/scl/fo/fir9vjelf
 This report shows the transaction result.
 The command will generate a report in three different formats. `operation_log.csv`, `operation_log.json`, and `operation_log.xlsx`.
 
-| Column            | Description                                                                                                                                                                                                             |
-|-------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| status            | Status of the operation                                                                                                                                                                                                 |
-| reason            | Reason of failure or skipped operation                                                                                                                                                                                  |
-| input.url         | Shared link URL                                                                                                                                                                                                         |
-| result.tag        | Entry type (file, or folder)                                                                                                                                                                                            |
-| result.url        | URL of the shared link.                                                                                                                                                                                                 |
-| result.name       | The linked file name (including extension).                                                                                                                                                                             |
-| result.expires    | Expiration time, if set.                                                                                                                                                                                                |
-| result.path_lower | The lowercased full path in the user's Dropbox.                                                                                                                                                                         |
-| result.visibility | The current visibility of the link after considering the shared links policies of the the team (in case the link's owner is part of a team) and the shared folder (in case the linked file is part of a shared folder). |
-| result.email      | Email address of user.                                                                                                                                                                                                  |
-| result.surname    | Surname of the link owner                                                                                                                                                                                               |
-| result.given_name | Given name of the link owner                                                                                                                                                                                            |
+| Column            | Description                                                                                                                                                                                                         |
+|-------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| status            | Status of the operation                                                                                                                                                                                             |
+| reason            | Reason of failure or skipped operation                                                                                                                                                                              |
+| input.url         | Shared link URL                                                                                                                                                                                                     |
+| result.tag        | Entry type (file, or folder)                                                                                                                                                                                        |
+| result.url        | URL of the shared link.                                                                                                                                                                                             |
+| result.name       | The linked file name (including extension).                                                                                                                                                                         |
+| result.expires    | Expiration time, if set.                                                                                                                                                                                            |
+| result.path_lower | The lowercased full path in the user's Dropbox.                                                                                                                                                                     |
+| result.visibility | The current visibility of the link after considering the shared links policies of the team (in case the link's owner is part of a team) and the shared folder (in case the linked file is part of a shared folder). |
+| result.email      | Email address of user.                                                                                                                                                                                              |
+| result.surname    | Surname of the link owner                                                                                                                                                                                           |
+| result.given_name | Given name of the link owner                                                                                                                                                                                        |
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 
 
@@ -13327,24 +13327,24 @@ https://www.dropbox.com/scl/fo/fir9vjelf
 This report shows the transaction result.
 The command will generate a report in three different formats. `operation_log.csv`, `operation_log.json`, and `operation_log.xlsx`.
 
-| Column            | Description                                                                                                                                                                                                             |
-|-------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| status            | Status of the operation                                                                                                                                                                                                 |
-| reason            | Reason of failure or skipped operation                                                                                                                                                                                  |
-| input.url         | Shared link URL                                                                                                                                                                                                         |
-| result.tag        | Entry type (file, or folder)                                                                                                                                                                                            |
-| result.url        | URL of the shared link.                                                                                                                                                                                                 |
-| result.name       | The linked file name (including extension).                                                                                                                                                                             |
-| result.expires    | Expiration time, if set.                                                                                                                                                                                                |
-| result.path_lower | The lowercased full path in the user's Dropbox.                                                                                                                                                                         |
-| result.visibility | The current visibility of the link after considering the shared links policies of the the team (in case the link's owner is part of a team) and the shared folder (in case the linked file is part of a shared folder). |
-| result.email      | Email address of user.                                                                                                                                                                                                  |
-| result.surname    | Surname of the link owner                                                                                                                                                                                               |
-| result.given_name | Given name of the link owner                                                                                                                                                                                            |
+| Column            | Description                                                                                                                                                                                                         |
+|-------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| status            | Status of the operation                                                                                                                                                                                             |
+| reason            | Reason of failure or skipped operation                                                                                                                                                                              |
+| input.url         | Shared link URL                                                                                                                                                                                                     |
+| result.tag        | Entry type (file, or folder)                                                                                                                                                                                        |
+| result.url        | URL of the shared link.                                                                                                                                                                                             |
+| result.name       | The linked file name (including extension).                                                                                                                                                                         |
+| result.expires    | Expiration time, if set.                                                                                                                                                                                            |
+| result.path_lower | The lowercased full path in the user's Dropbox.                                                                                                                                                                     |
+| result.visibility | The current visibility of the link after considering the shared links policies of the team (in case the link's owner is part of a team) and the shared folder (in case the linked file is part of a shared folder). |
+| result.email      | Email address of user.                                                                                                                                                                                              |
+| result.surname    | Surname of the link owner                                                                                                                                                                                           |
+| result.given_name | Given name of the link owner                                                                                                                                                                                        |
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 
 
@@ -13409,24 +13409,24 @@ https://www.dropbox.com/scl/fo/fir9vjelf
 This report shows the transaction result.
 The command will generate a report in three different formats. `operation_log.csv`, `operation_log.json`, and `operation_log.xlsx`.
 
-| Column            | Description                                                                                                                                                                                                             |
-|-------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| status            | Status of the operation                                                                                                                                                                                                 |
-| reason            | Reason of failure or skipped operation                                                                                                                                                                                  |
-| input.url         | Shared link URL                                                                                                                                                                                                         |
-| result.tag        | Entry type (file, or folder)                                                                                                                                                                                            |
-| result.url        | URL of the shared link.                                                                                                                                                                                                 |
-| result.name       | The linked file name (including extension).                                                                                                                                                                             |
-| result.expires    | Expiration time, if set.                                                                                                                                                                                                |
-| result.path_lower | The lowercased full path in the user's Dropbox.                                                                                                                                                                         |
-| result.visibility | The current visibility of the link after considering the shared links policies of the the team (in case the link's owner is part of a team) and the shared folder (in case the linked file is part of a shared folder). |
-| result.email      | Email address of user.                                                                                                                                                                                                  |
-| result.surname    | Surname of the link owner                                                                                                                                                                                               |
-| result.given_name | Given name of the link owner                                                                                                                                                                                            |
+| Column            | Description                                                                                                                                                                                                         |
+|-------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| status            | Status of the operation                                                                                                                                                                                             |
+| reason            | Reason of failure or skipped operation                                                                                                                                                                              |
+| input.url         | Shared link URL                                                                                                                                                                                                     |
+| result.tag        | Entry type (file, or folder)                                                                                                                                                                                        |
+| result.url        | URL of the shared link.                                                                                                                                                                                             |
+| result.name       | The linked file name (including extension).                                                                                                                                                                         |
+| result.expires    | Expiration time, if set.                                                                                                                                                                                            |
+| result.path_lower | The lowercased full path in the user's Dropbox.                                                                                                                                                                     |
+| result.visibility | The current visibility of the link after considering the shared links policies of the team (in case the link's owner is part of a team) and the shared folder (in case the linked file is part of a shared folder). |
+| result.email      | Email address of user.                                                                                                                                                                                              |
+| result.surname    | Surname of the link owner                                                                                                                                                                                           |
+| result.given_name | Given name of the link owner                                                                                                                                                                                        |
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 
 
@@ -13471,24 +13471,24 @@ tbx dropbox team sharedlink delete member -member-email EMAIL
 This report shows the transaction result.
 The command will generate a report in three different formats. `operation_log.csv`, `operation_log.json`, and `operation_log.xlsx`.
 
-| Column            | Description                                                                                                                                                                                                             |
-|-------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| status            | Status of the operation                                                                                                                                                                                                 |
-| reason            | Reason of failure or skipped operation                                                                                                                                                                                  |
-| input.url         | Shared link URL                                                                                                                                                                                                         |
-| result.tag        | Entry type (file, or folder)                                                                                                                                                                                            |
-| result.url        | URL of the shared link.                                                                                                                                                                                                 |
-| result.name       | The linked file name (including extension).                                                                                                                                                                             |
-| result.expires    | Expiration time, if set.                                                                                                                                                                                                |
-| result.path_lower | The lowercased full path in the user's Dropbox.                                                                                                                                                                         |
-| result.visibility | The current visibility of the link after considering the shared links policies of the the team (in case the link's owner is part of a team) and the shared folder (in case the linked file is part of a shared folder). |
-| result.email      | Email address of user.                                                                                                                                                                                                  |
-| result.surname    | Surname of the link owner                                                                                                                                                                                               |
-| result.given_name | Given name of the link owner                                                                                                                                                                                            |
+| Column            | Description                                                                                                                                                                                                         |
+|-------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| status            | Status of the operation                                                                                                                                                                                             |
+| reason            | Reason of failure or skipped operation                                                                                                                                                                              |
+| input.url         | Shared link URL                                                                                                                                                                                                     |
+| result.tag        | Entry type (file, or folder)                                                                                                                                                                                        |
+| result.url        | URL of the shared link.                                                                                                                                                                                             |
+| result.name       | The linked file name (including extension).                                                                                                                                                                         |
+| result.expires    | Expiration time, if set.                                                                                                                                                                                            |
+| result.path_lower | The lowercased full path in the user's Dropbox.                                                                                                                                                                     |
+| result.visibility | The current visibility of the link after considering the shared links policies of the team (in case the link's owner is part of a team) and the shared folder (in case the linked file is part of a shared folder). |
+| result.email      | Email address of user.                                                                                                                                                                                              |
+| result.surname    | Surname of the link owner                                                                                                                                                                                           |
+| result.given_name | Given name of the link owner                                                                                                                                                                                        |
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 
 
@@ -13560,24 +13560,24 @@ https://www.dropbox.com/scl/fo/fir9vjelf
 This report shows the transaction result.
 The command will generate a report in three different formats. `operation_log.csv`, `operation_log.json`, and `operation_log.xlsx`.
 
-| Column            | Description                                                                                                                                                                                                             |
-|-------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| status            | Status of the operation                                                                                                                                                                                                 |
-| reason            | Reason of failure or skipped operation                                                                                                                                                                                  |
-| input.url         | Shared link URL                                                                                                                                                                                                         |
-| result.tag        | Entry type (file, or folder)                                                                                                                                                                                            |
-| result.url        | URL of the shared link.                                                                                                                                                                                                 |
-| result.name       | The linked file name (including extension).                                                                                                                                                                             |
-| result.expires    | Expiration time, if set.                                                                                                                                                                                                |
-| result.path_lower | The lowercased full path in the user's Dropbox.                                                                                                                                                                         |
-| result.visibility | The current visibility of the link after considering the shared links policies of the the team (in case the link's owner is part of a team) and the shared folder (in case the linked file is part of a shared folder). |
-| result.email      | Email address of user.                                                                                                                                                                                                  |
-| result.surname    | Surname of the link owner                                                                                                                                                                                               |
-| result.given_name | Given name of the link owner                                                                                                                                                                                            |
+| Column            | Description                                                                                                                                                                                                         |
+|-------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| status            | Status of the operation                                                                                                                                                                                             |
+| reason            | Reason of failure or skipped operation                                                                                                                                                                              |
+| input.url         | Shared link URL                                                                                                                                                                                                     |
+| result.tag        | Entry type (file, or folder)                                                                                                                                                                                        |
+| result.url        | URL of the shared link.                                                                                                                                                                                             |
+| result.name       | The linked file name (including extension).                                                                                                                                                                         |
+| result.expires    | Expiration time, if set.                                                                                                                                                                                            |
+| result.path_lower | The lowercased full path in the user's Dropbox.                                                                                                                                                                     |
+| result.visibility | The current visibility of the link after considering the shared links policies of the team (in case the link's owner is part of a team) and the shared folder (in case the linked file is part of a shared folder). |
+| result.email      | Email address of user.                                                                                                                                                                                              |
+| result.surname    | Surname of the link owner                                                                                                                                                                                           |
+| result.given_name | Given name of the link owner                                                                                                                                                                                        |
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 
 
@@ -13643,24 +13643,24 @@ https://www.dropbox.com/scl/fo/fir9vjelf,STRONG_PASSWORD
 This report shows the transaction result.
 The command will generate a report in three different formats. `operation_log.csv`, `operation_log.json`, and `operation_log.xlsx`.
 
-| Column            | Description                                                                                                                                                                                                             |
-|-------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| status            | Status of the operation                                                                                                                                                                                                 |
-| reason            | Reason of failure or skipped operation                                                                                                                                                                                  |
-| input.url         | Shared link URL                                                                                                                                                                                                         |
-| result.tag        | Entry type (file, or folder)                                                                                                                                                                                            |
-| result.url        | URL of the shared link.                                                                                                                                                                                                 |
-| result.name       | The linked file name (including extension).                                                                                                                                                                             |
-| result.expires    | Expiration time, if set.                                                                                                                                                                                                |
-| result.path_lower | The lowercased full path in the user's Dropbox.                                                                                                                                                                         |
-| result.visibility | The current visibility of the link after considering the shared links policies of the the team (in case the link's owner is part of a team) and the shared folder (in case the linked file is part of a shared folder). |
-| result.email      | Email address of user.                                                                                                                                                                                                  |
-| result.surname    | Surname of the link owner                                                                                                                                                                                               |
-| result.given_name | Given name of the link owner                                                                                                                                                                                            |
+| Column            | Description                                                                                                                                                                                                         |
+|-------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| status            | Status of the operation                                                                                                                                                                                             |
+| reason            | Reason of failure or skipped operation                                                                                                                                                                              |
+| input.url         | Shared link URL                                                                                                                                                                                                     |
+| result.tag        | Entry type (file, or folder)                                                                                                                                                                                        |
+| result.url        | URL of the shared link.                                                                                                                                                                                             |
+| result.name       | The linked file name (including extension).                                                                                                                                                                         |
+| result.expires    | Expiration time, if set.                                                                                                                                                                                            |
+| result.path_lower | The lowercased full path in the user's Dropbox.                                                                                                                                                                     |
+| result.visibility | The current visibility of the link after considering the shared links policies of the team (in case the link's owner is part of a team) and the shared folder (in case the linked file is part of a shared folder). |
+| result.email      | Email address of user.                                                                                                                                                                                              |
+| result.surname    | Surname of the link owner                                                                                                                                                                                           |
+| result.given_name | Given name of the link owner                                                                                                                                                                                        |
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 
 
@@ -13726,24 +13726,24 @@ https://www.dropbox.com/scl/fo/fir9vjelf
 This report shows the transaction result.
 The command will generate a report in three different formats. `operation_log.csv`, `operation_log.json`, and `operation_log.xlsx`.
 
-| Column            | Description                                                                                                                                                                                                             |
-|-------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| status            | Status of the operation                                                                                                                                                                                                 |
-| reason            | Reason of failure or skipped operation                                                                                                                                                                                  |
-| input.url         | Shared link URL                                                                                                                                                                                                         |
-| result.tag        | Entry type (file, or folder)                                                                                                                                                                                            |
-| result.url        | URL of the shared link.                                                                                                                                                                                                 |
-| result.name       | The linked file name (including extension).                                                                                                                                                                             |
-| result.expires    | Expiration time, if set.                                                                                                                                                                                                |
-| result.path_lower | The lowercased full path in the user's Dropbox.                                                                                                                                                                         |
-| result.visibility | The current visibility of the link after considering the shared links policies of the the team (in case the link's owner is part of a team) and the shared folder (in case the linked file is part of a shared folder). |
-| result.email      | Email address of user.                                                                                                                                                                                                  |
-| result.surname    | Surname of the link owner                                                                                                                                                                                               |
-| result.given_name | Given name of the link owner                                                                                                                                                                                            |
+| Column            | Description                                                                                                                                                                                                         |
+|-------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| status            | Status of the operation                                                                                                                                                                                             |
+| reason            | Reason of failure or skipped operation                                                                                                                                                                              |
+| input.url         | Shared link URL                                                                                                                                                                                                     |
+| result.tag        | Entry type (file, or folder)                                                                                                                                                                                        |
+| result.url        | URL of the shared link.                                                                                                                                                                                             |
+| result.name       | The linked file name (including extension).                                                                                                                                                                         |
+| result.expires    | Expiration time, if set.                                                                                                                                                                                            |
+| result.path_lower | The lowercased full path in the user's Dropbox.                                                                                                                                                                     |
+| result.visibility | The current visibility of the link after considering the shared links policies of the team (in case the link's owner is part of a team) and the shared folder (in case the linked file is part of a shared folder). |
+| result.email      | Email address of user.                                                                                                                                                                                              |
+| result.surname    | Surname of the link owner                                                                                                                                                                                           |
+| result.given_name | Given name of the link owner                                                                                                                                                                                        |
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 
 
@@ -13797,7 +13797,7 @@ The command will generate a report in three different formats. `added.csv`, `add
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `added_0000.xlsx`, `added_0001.xlsx`, `added_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `added_0000.xlsx`, `added_0001.xlsx`, `added_0002.xlsx`, ...
 
 
 
@@ -13882,7 +13882,7 @@ The command will generate a report in three different formats. `team_folder.csv`
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `team_folder_0000.xlsx`, `team_folder_0001.xlsx`, `team_folder_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `team_folder_0000.xlsx`, `team_folder_0001.xlsx`, `team_folder_0002.xlsx`, ...
 
 
 
@@ -13926,7 +13926,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/teamfolder/replication.
 
 # dropbox team teamfolder replication
 
-Replicate a team folder to the other team (Experimental, and Irreversible operation)
+Replicate a team folder to another team (Experimental, and Irreversible operation)
 
 
 
@@ -13957,7 +13957,7 @@ tbx dropbox team teamfolder replication -name NAME
 
 ## Report: verification
 
-This report shows a difference between to folders.
+This report shows a difference between two folders.
 The command will generate a report in three different formats. `verification.csv`, `verification.json`, and `verification.xlsx`.
 
 | Column     | Description                                                                                                                                                                            |
@@ -13968,13 +13968,13 @@ The command will generate a report in three different formats. `verification.csv
 | left_size  | size of left file                                                                                                                                                                      |
 | left_hash  | Content hash of left file                                                                                                                                                              |
 | right_path | path of right                                                                                                                                                                          |
-| right_kind | folder of file                                                                                                                                                                         |
+| right_kind | folder or file                                                                                                                                                                         |
 | right_size | size of right file                                                                                                                                                                     |
 | right_hash | Content hash of right file                                                                                                                                                             |
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `verification_0000.xlsx`, `verification_0001.xlsx`, `verification_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `verification_0000.xlsx`, `verification_0001.xlsx`, `verification_0002.xlsx`, ...
 
 
 
@@ -14050,7 +14050,7 @@ The command will generate a report in three different formats. `operation_log.cs
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 
 
@@ -14122,7 +14122,7 @@ The command will generate a report in three different formats. `operation_log.cs
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 
 
@@ -14184,7 +14184,7 @@ Sales
 
 ## Report: verification
 
-This report shows a difference between to folders.
+This report shows a difference between two folders.
 The command will generate a report in three different formats. `verification.csv`, `verification.json`, and `verification.xlsx`.
 
 | Column     | Description                                                                                                                                                                            |
@@ -14195,13 +14195,13 @@ The command will generate a report in three different formats. `verification.csv
 | left_size  | size of left file                                                                                                                                                                      |
 | left_hash  | Content hash of left file                                                                                                                                                              |
 | right_path | path of right                                                                                                                                                                          |
-| right_kind | folder of file                                                                                                                                                                         |
+| right_kind | folder or file                                                                                                                                                                         |
 | right_size | size of right file                                                                                                                                                                     |
 | right_hash | Content hash of right file                                                                                                                                                             |
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `verification_0000.xlsx`, `verification_0001.xlsx`, `verification_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `verification_0000.xlsx`, `verification_0001.xlsx`, `verification_0002.xlsx`, ...
 
 
 
@@ -14256,7 +14256,7 @@ The command will generate a report in three different formats. `errors.csv`, `er
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `errors_0000.xlsx`, `errors_0001.xlsx`, `errors_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `errors_0000.xlsx`, `errors_0001.xlsx`, `errors_0002.xlsx`, ...
 
 
 ## Report: namespace_file
@@ -14278,7 +14278,7 @@ The command will generate a report in three different formats. `namespace_file.c
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `namespace_file_0000.xlsx`, `namespace_file_0001.xlsx`, `namespace_file_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `namespace_file_0000.xlsx`, `namespace_file_0001.xlsx`, `namespace_file_0002.xlsx`, ...
 
 
 
@@ -14305,13 +14305,13 @@ tbx dropbox team teamfolder file size
 
 
 
-| Option                | Description                                                                       | Default |
-|-----------------------|-----------------------------------------------------------------------------------|---------|
-| `-depth`              | Depth                                                                             | 3       |
-| `-folder-name`        | List only for the folder matched to the name. Filter by exact match to the name.  |         |
-| `-folder-name-prefix` | List only for the folder matched to the name. Filter by name match to the prefix. |         |
-| `-folder-name-suffix` | List only for the folder matched to the name. Filter by name match to the suffix. |         |
-| `-peer`               | Account alias                                                                     | default |
+| Option                | Description                                                              | Default |
+|-----------------------|--------------------------------------------------------------------------|---------|
+| `-depth`              | Depth                                                                    | 3       |
+| `-folder-name`        | List only folders matching the name. Filter by exact match to the name.  |         |
+| `-folder-name-prefix` | List only folders matching the name. Filter by name match to the prefix. |         |
+| `-folder-name-suffix` | List only folders matching the name. Filter by name match to the suffix. |         |
+| `-peer`               | Account alias                                                            | default |
 
 
 
@@ -14343,7 +14343,7 @@ The command will generate a report in three different formats. `namespace_size.c
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `namespace_size_0000.xlsx`, `namespace_size_0001.xlsx`, `namespace_size_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `namespace_size_0000.xlsx`, `namespace_size_0001.xlsx`, `namespace_size_0002.xlsx`, ...
 
 
 
@@ -14398,11 +14398,11 @@ The command will generate a report in three different formats. `lock.csv`, `lock
 | size             | The file size in bytes.                                                                                |
 | is_lock_holder   | True if caller holds the file lock                                                                     |
 | lock_holder_name | The display name of the lock holder.                                                                   |
-| lock_created     | The timestamp of the lock was created.                                                                 |
+| lock_created     | The timestamp when the lock was created.                                                               |
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `lock_0000.xlsx`, `lock_0001.xlsx`, `lock_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `lock_0000.xlsx`, `lock_0001.xlsx`, `lock_0002.xlsx`, ...
 
 
 
@@ -14458,11 +14458,11 @@ The command will generate a report in three different formats. `operation_log.cs
 | result.size             | The file size in bytes.                                                                                |
 | result.is_lock_holder   | True if caller holds the file lock                                                                     |
 | result.lock_holder_name | The display name of the lock holder.                                                                   |
-| result.lock_created     | The timestamp of the lock was created.                                                                 |
+| result.lock_created     | The timestamp when the lock was created.                                                               |
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 
 
@@ -14519,11 +14519,11 @@ The command will generate a report in three different formats. `operation_log.cs
 | result.size             | The file size in bytes.                                                                                |
 | result.is_lock_holder   | True if caller holds the file lock                                                                     |
 | result.lock_holder_name | The display name of the lock holder.                                                                   |
-| result.lock_created     | The timestamp of the lock was created.                                                                 |
+| result.lock_created     | The timestamp when the lock was created.                                                               |
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 
 
@@ -14536,37 +14536,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/teamfolder/member/add.m
 
 Batch adding users/groups to team folders (Irreversible operation)
 
-This command will do (1) create new team folders or new sub-folders if the team folder does not exist. The command does not (2) change access inheritance setting of any folders, (3) create a group if that not exist. This command is designed to be idempotent. You can safely retry if any errors happen on the operation. The command will not report an error to keep idempotence. For example, the command will not report an error like, the member already have access to the folder.
-
-Example:
-
-* Sales (team folder, editor access for the group "Sales")
-	* Sydney (viewer access for individual account sydney@example.com)
-	* Tokyo (editor access for the group "Tokyo Deal Desk")
-		* Monthly (viewer access for individual account success@example.com)
-* Marketing (team folder, editor access for the group "Marketing")
-	* Sydney (editor access for the group "Sydney Sales")
-	* Tokyo (viewer access for the group "Tokyo Sales")
-
-1. Prepare CSV like below
-
-```
-Sales,,editor,Sales
-Sales,Sydney,editor,sydney@example.com
-Sales,Tokyo,editor,Tokyo Deal Desk
-Sales,Tokyo/Monthly,viewer,success@example.com
-Marketing,,editor,Marketing
-Marketing,Sydney,editor,Sydney Sales
-Marketing,Tokyo,viewer,Tokyo Sales
-```
-
-2. Then run the command like below
-
-```
-tbx teamfolder member add -file /PATH/TO/DATA.csv
-```
-
-Note: the command will create a team folder if not exist. But the command will not a group if not found. Groups must exist before run this command.
+This command will do (1) create new team folders or new sub-folders if the team folder does not exist. The command does not (2) change access inheritance settings of any folders, (3) create a group if that not exist. This command is designed to be idempotent. You can safely retry if any errors happen on the operation. The command will not report an error to keep idempotence. For example, the command will not report an error like, the member already have access to the folder.\n\nExample:\n\n* Sales (team folder, editor access for the group "Sales")\n\t* Sydney (viewer access for individual account sydney@example.com)\n\t* Tokyo (editor access for the group "Tokyo Deal Desk")\n\t\t* Monthly (viewer access for individual account success@example.com)\n* Marketing (team folder, editor access for the group "Marketing")\n\t* Sydney (editor access for the group "Sydney Sales")\n\t* Tokyo (viewer access for the group "Tokyo Sales")\n\n1. Prepare CSV like below\n\n```\nSales,,editor,Sales\nSales,Sydney,editor,sydney@example.com\nSales,Tokyo,editor,Tokyo Deal Desk\nSales,Tokyo/Monthly,viewer,success@example.com\nMarketing,,editor,Marketing\nMarketing,Sydney,editor,Sydney Sales\nMarketing,Tokyo,viewer,Tokyo Sales\n```\n\n2. Then run the command like below\n\n```\ntbx teamfolder member add -file /PATH/TO/DATA.csv\n```\n\nNote: the command will create a team folder if not exist. But the command will not a group if not found. Groups must exist before run this command.
 
 # Usage
 
@@ -14632,7 +14602,7 @@ The command will generate a report in three different formats. `operation_log.cs
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 
 
@@ -14645,7 +14615,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/teamfolder/member/delet
 
 Batch removing users/groups from team folders (Irreversible operation)
 
-The command does not (1) change access inheritance setting of any folders, (2) remove a group, (3) unshare a nested folder. For (3), that means the nested folder stays the same setting (e.g. shared link policy for the folder). This command is designed to be idempotent. You can safely retry if any errors happen on the operation. The command will not report an error to keep idempotence. For example, the command will not report an error like, (1) the member already lose access to the folder, (2) the folder is not found.
+The command does not (1) change access inheritance settings of any folders, (2) remove a group, (3) unshare a nested folder. For (3), that means the nested folder stays the same setting (e.g. shared link policy for the folder). This command is designed to be idempotent. You can safely retry if any errors happen on the operation. The command will not report an error to keep idempotence. For example, the command will not report an error like, (1) the member already lost access to the folder, (2) the folder is not found.
 
 # Usage
 
@@ -14674,13 +14644,13 @@ tbx dropbox team teamfolder member delete -file /PATH/TO/DATA_FILE.csv
 ## Format: File
 
 
-Team folder and member list for removing access. Each row can have one member and the one folder. If you want to remove two or more members from the folder, please create rows for those members. Similarly, if you want to remove a member from two or more folders, please create rows for those folders.
+Team folder and member list for removing access. Each row can have one member and one folder. If you want to remove two or more members from the folder, please create rows for those members. Similarly, if you want to remove a member from two or more folders, please create rows for those folders.
 
-| Column                     | Description                                                                                                  | Example |
-|----------------------------|--------------------------------------------------------------------------------------------------------------|---------|
-| team_folder_name           | Team folder name                                                                                             | Sales   |
-| path                       | Relative path from the team folder root. Leave empty if you want to add a member to root of the team folder. | Report  |
-| group_name_or_member_email | Group name or member email address                                                                           | Sales   |
+| Column                     | Description                                                                                                           | Example |
+|----------------------------|-----------------------------------------------------------------------------------------------------------------------|---------|
+| team_folder_name           | Team folder name                                                                                                      | Sales   |
+| path                       | Relative path from the team folder root. Leave empty if you want to remove a member from the root of the team folder. | Report  |
+| group_name_or_member_email | Group name or member email address                                                                                    | Sales   |
 
 
 
@@ -14699,17 +14669,17 @@ Sales,Report,Sales
 This report shows the transaction result.
 The command will generate a report in three different formats. `operation_log.csv`, `operation_log.json`, and `operation_log.xlsx`.
 
-| Column                           | Description                                                                                                  |
-|----------------------------------|--------------------------------------------------------------------------------------------------------------|
-| status                           | Status of the operation                                                                                      |
-| reason                           | Reason of failure or skipped operation                                                                       |
-| input.team_folder_name           | Team folder name                                                                                             |
-| input.path                       | Relative path from the team folder root. Leave empty if you want to add a member to root of the team folder. |
-| input.group_name_or_member_email | Group name or member email address                                                                           |
+| Column                           | Description                                                                                                           |
+|----------------------------------|-----------------------------------------------------------------------------------------------------------------------|
+| status                           | Status of the operation                                                                                               |
+| reason                           | Reason of failure or skipped operation                                                                                |
+| input.team_folder_name           | Team folder name                                                                                                      |
+| input.path                       | Relative path from the team folder root. Leave empty if you want to remove a member from the root of the team folder. |
+| input.group_name_or_member_email | Group name or member email address                                                                                    |
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 
 
@@ -14742,8 +14712,8 @@ tbx dropbox team teamfolder member list
 | `-folder-name`          | Filter by folder name. Filter by exact match to the name.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |         |
 | `-folder-name-prefix`   | Filter by folder name. Filter by name match to the prefix.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |         |
 | `-folder-name-suffix`   | Filter by folder name. Filter by name match to the suffix.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |         |
-| `-member-type-external` | Filter folder members. Keep only members are external (not in the same team). Note: Invited members are marked as external member.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |         |
-| `-member-type-internal` | Filter folder members. Keep only members are internal (in the same team). Note: Invited members are marked as external member.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |         |
+| `-member-type-external` | Filter folder members. Keep only members that are external (not in the same team). Note: Invited members are marked as external member.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |         |
+| `-member-type-internal` | Filter folder members. Keep only members that are internal (in the same team). Note: Invited members are marked as external member.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |         |
 | `-peer`                 | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
 | `-scan-timeout`         | Scan timeout mode. If the scan timeouts, the path of a subfolder of the team folder will be replaced with a dummy path like `TEAMFOLDER_NAME/:ERROR-SCAN-TIMEOUT:/SUBFOLDER_NAME`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | short   |
 
@@ -14772,7 +14742,7 @@ The command will generate a report in three different formats. `membership.csv`,
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `membership_0000.xlsx`, `membership_0001.xlsx`, `membership_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `membership_0000.xlsx`, `membership_0001.xlsx`, `membership_0002.xlsx`, ...
 
 
 ## Report: no_member
@@ -14788,7 +14758,7 @@ The command will generate a report in three different formats. `no_member.csv`, 
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `no_member_0000.xlsx`, `no_member_0001.xlsx`, `no_member_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `no_member_0000.xlsx`, `no_member_0001.xlsx`, `no_member_0002.xlsx`, ...
 
 
 
@@ -14799,7 +14769,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/teamfolder/partial/repl
 
 # dropbox team teamfolder partial replication
 
-Partial team folder replication to the other team (Irreversible operation)
+Partial team folder replication to another team (Irreversible operation)
 
 
 
@@ -14886,7 +14856,7 @@ The command will generate a report in three different formats. `policy.csv`, `po
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `policy_0000.xlsx`, `policy_0001.xlsx`, `policy_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `policy_0000.xlsx`, `policy_0001.xlsx`, `policy_0002.xlsx`, ...
 
 
 
@@ -14949,7 +14919,7 @@ The command will generate a report in three different formats. `folders.csv`, `f
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `folders_0000.xlsx`, `folders_0001.xlsx`, `folders_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `folders_0000.xlsx`, `folders_0001.xlsx`, `folders_0002.xlsx`, ...
 
 
 ## Report: settings
@@ -14965,7 +14935,7 @@ The command will generate a report in three different formats. `settings.csv`, `
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `settings_0000.xlsx`, `settings_0001.xlsx`, `settings_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `settings_0000.xlsx`, `settings_0001.xlsx`, `settings_0002.xlsx`, ...
 
 
 
@@ -15042,7 +15012,7 @@ The command will generate a report in three different formats. `updated.csv`, `u
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `updated_0000.xlsx`, `updated_0001.xlsx`, `updated_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `updated_0000.xlsx`, `updated_0001.xlsx`, `updated_0002.xlsx`, ...
 
 
 
@@ -15094,7 +15064,7 @@ The command will generate a report in three different formats. `user.csv`, `user
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `user_0000.xlsx`, `user_0001.xlsx`, `user_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `user_0000.xlsx`, `user_0001.xlsx`, `user_0002.xlsx`, ...
 
 
 
@@ -15105,7 +15075,7 @@ URL: https://toolbox.watermint.org/commands/figma/file/info.md
 
 # figma file info
 
-Show information of the figma file 
+Show information of the Figma file 
 
 
 
@@ -15149,7 +15119,7 @@ The command will generate a report in three different formats. `document.csv`, `
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `document_0000.xlsx`, `document_0001.xlsx`, `document_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `document_0000.xlsx`, `document_0001.xlsx`, `document_0002.xlsx`, ...
 
 
 ## Report: node
@@ -15166,7 +15136,7 @@ The command will generate a report in three different formats. `node.csv`, `node
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `node_0000.xlsx`, `node_0001.xlsx`, `node_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `node_0000.xlsx`, `node_0001.xlsx`, `node_0002.xlsx`, ...
 
 
 
@@ -15213,13 +15183,13 @@ The command will generate a report in three different formats. `files.csv`, `fil
 | Column       | Description             |
 |--------------|-------------------------|
 | key          | Figma file key          |
-| name         | Name fo the document    |
+| name         | Name of the document    |
 | thumbnailUrl | Thumbnail URL           |
 | lastModified | Last modified timestamp |
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `files_0000.xlsx`, `files_0001.xlsx`, `files_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `files_0000.xlsx`, `files_0001.xlsx`, `files_0002.xlsx`, ...
 
 
 
@@ -15415,7 +15385,7 @@ The command will generate a report in three different formats. `projects.csv`, `
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `projects_0000.xlsx`, `projects_0001.xlsx`, `projects_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `projects_0000.xlsx`, `projects_0001.xlsx`, `projects_0002.xlsx`, ...
 
 
 
@@ -15462,11 +15432,11 @@ The command will generate a report in three different formats. `user.csv`, `user
 |--------|------------------|
 | login  | Login user name  |
 | name   | Name of the user |
-| url    | Url of the user  |
+| url    | URL of the user  |
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `user_0000.xlsx`, `user_0001.xlsx`, `user_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `user_0000.xlsx`, `user_0001.xlsx`, `user_0002.xlsx`, ...
 
 
 
@@ -15524,7 +15494,7 @@ The command will generate a report in three different formats. `content.csv`, `c
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `content_0000.xlsx`, `content_0001.xlsx`, `content_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `content_0000.xlsx`, `content_0001.xlsx`, `content_0002.xlsx`, ...
 
 
 
@@ -15580,7 +15550,7 @@ The command will generate a report in three different formats. `commit.csv`, `co
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `commit_0000.xlsx`, `commit_0001.xlsx`, `commit_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `commit_0000.xlsx`, `commit_0001.xlsx`, `commit_0002.xlsx`, ...
 
 
 
@@ -15638,7 +15608,7 @@ The command will generate a report in three different formats. `issues.csv`, `is
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `issues_0000.xlsx`, `issues_0001.xlsx`, `issues_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `issues_0000.xlsx`, `issues_0001.xlsx`, `issues_0002.xlsx`, ...
 
 
 
@@ -15665,15 +15635,15 @@ tbx github release draft -owner OWNER -repository REPO -body-file /LOCAL/PATH/TO
 
 
 
-| Option        | Description                                                         | Default |
-|---------------|---------------------------------------------------------------------|---------|
-| `-body-file`  | File path to body text. THe file must encoded in UTF-8 without BOM. |         |
-| `-branch`     | Name of the target branch                                           |         |
-| `-name`       | Name of the release                                                 |         |
-| `-owner`      | Owner of the repository                                             |         |
-| `-peer`       | Account alias                                                       | default |
-| `-repository` | Name of the repository                                              |         |
-| `-tag`        | Name of the tag                                                     |         |
+| Option        | Description                                                            | Default |
+|---------------|------------------------------------------------------------------------|---------|
+| `-body-file`  | File path to body text. The file must be encoded in UTF-8 without BOM. |         |
+| `-branch`     | Name of the target branch                                              |         |
+| `-name`       | Name of the release                                                    |         |
+| `-owner`      | Owner of the repository                                                |         |
+| `-peer`       | Account alias                                                          | default |
+| `-repository` | Name of the repository                                                 |         |
+| `-tag`        | Name of the tag                                                        |         |
 
 
 
@@ -15697,7 +15667,7 @@ The command will generate a report in three different formats. `release.csv`, `r
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `release_0000.xlsx`, `release_0001.xlsx`, `release_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `release_0000.xlsx`, `release_0001.xlsx`, `release_0002.xlsx`, ...
 
 
 
@@ -15751,7 +15721,7 @@ The command will generate a report in three different formats. `releases.csv`, `
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `releases_0000.xlsx`, `releases_0001.xlsx`, `releases_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `releases_0000.xlsx`, `releases_0001.xlsx`, `releases_0002.xlsx`, ...
 
 
 
@@ -15806,7 +15776,7 @@ The command will generate a report in three different formats. `downloads.csv`, 
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `downloads_0000.xlsx`, `downloads_0001.xlsx`, `downloads_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `downloads_0000.xlsx`, `downloads_0001.xlsx`, `downloads_0002.xlsx`, ...
 
 
 
@@ -15862,7 +15832,7 @@ The command will generate a report in three different formats. `assets.csv`, `as
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `assets_0000.xlsx`, `assets_0001.xlsx`, `assets_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `assets_0000.xlsx`, `assets_0001.xlsx`, `assets_0002.xlsx`, ...
 
 
 
@@ -15922,7 +15892,7 @@ The command will generate a report in three different formats. `uploads.csv`, `u
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `uploads_0000.xlsx`, `uploads_0001.xlsx`, `uploads_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `uploads_0000.xlsx`, `uploads_0001.xlsx`, `uploads_0002.xlsx`, ...
 
 
 
@@ -15984,7 +15954,7 @@ The command will generate a report in three different formats. `created.csv`, `c
 
 
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `created_0000.xlsx`, `created_0001.xlsx`, `created_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `created_0000.xlsx`, `created_0001.xlsx`, `created_0002.xlsx`, ...
 
 
 
@@ -16066,24 +16036,24 @@ URL: https://toolbox.watermint.org/guides/path-variables.md
 
 Path variables are predefined variables which will be replaced on runtime. For example, if you specify a path with the variable like `{{.DropboxPersonal}}/Pictures`, then the path will be replaced with actual path to Personal Dropbox's folder. But the tool does not guarantee the existence or accuracy.
 
-| Path variable                  | Description                                                                                 |
-|--------------------------------|---------------------------------------------------------------------------------------------|
-| {{.DropboxPersonal}}           | Path to Dropbox Personal account root folder.                                               |
-| {{.DropboxBusiness}}           | Path to Dropbox for teams account root folder.                                              |
-| {{.DropboxBusinessOrPersonal}} | Path to Dropbox for teams account root folder, or Personal Dropbox account if it not found. |
-| {{.DropboxPersonalOrBusiness}} | Path to Dropbox Personal account root folder, or Business Dropbox account if it not found.  |
-| {{.Home}}                      | The home folder of the current user.                                                        |
-| {{.Username}}                  | The name of the current user.                                                               |
-| {{.Hostname}}                  | The host name of the current computer.                                                      |
-| {{.ExecPath}}                  | Path to this program.                                                                       |
-| {{.Rand8}}                     | Randomized 8 digit number leading with 0.                                                   |
-| {{.Year}}                      | Current local year with format 'yyyy' like 2021.                                            |
-| {{.Month}}                     | Current local month with format 'mm' like 01.                                               |
-| {{.Day}}                       | Current local day with format 'dd' like 05.                                                 |
-| {{.Date}}                      | Current local date with format yyyy-mm-dd.                                                  |
-| {{.Time}}                      | Current local time with format HH-MM-SS.                                                    |
-| {{.DateUTC}}                   | Current UTC date with format yyyy-mm-dd.                                                    |
-| {{.TimeUTC}}                   | Current UTC time with format HH-MM-SS.                                                      |
+| Path variable                  | Description                                                                                    |
+|--------------------------------|------------------------------------------------------------------------------------------------|
+| {{.DropboxPersonal}}           | Path to Dropbox Personal account root folder.                                                  |
+| {{.DropboxBusiness}}           | Path to Dropbox for teams account root folder.                                                 |
+| {{.DropboxBusinessOrPersonal}} | Path to Dropbox for teams account root folder, or Personal Dropbox account if it is not found. |
+| {{.DropboxPersonalOrBusiness}} | Path to Dropbox Personal account root folder, or Business Dropbox account if it is not found.  |
+| {{.Home}}                      | The home folder of the current user.                                                           |
+| {{.Username}}                  | The name of the current user.                                                                  |
+| {{.Hostname}}                  | The host name of the current computer.                                                         |
+| {{.ExecPath}}                  | Path to this program.                                                                          |
+| {{.Rand8}}                     | Randomized 8 digit number leading with 0.                                                      |
+| {{.Year}}                      | Current local year with format 'yyyy' like 2021.                                               |
+| {{.Month}}                     | Current local month with format 'mm' like 01.                                                  |
+| {{.Day}}                       | Current local day with format 'dd' like 05.                                                    |
+| {{.Date}}                      | Current local date with format yyyy-mm-dd.                                                     |
+| {{.Time}}                      | Current local time with format HH-MM-SS.                                                       |
+| {{.DateUTC}}                   | Current UTC date with format yyyy-mm-dd.                                                       |
+| {{.TimeUTC}}                   | Current UTC time with format HH-MM-SS.                                                         |
 
 
 
@@ -16107,14 +16077,14 @@ The experimental feature switch is for testing or accessing early access feature
 | congestion_window_no_limit               | Do not limit concurrency with the congestion window.                                                                                                                                                    |
 | dbx_auth_course_grained_scope            | Requests all Dropbox authorization scopes instead of command-defined ones. This is used as a workaround in case the program does not work properly with the authorization scope defined in the command. |
 | dbx_auth_redirect                        | Use redirect processing for authorization process to Dropbox                                                                                                                                            |
-| dbx_client_conditioner_error100          | Simulate server errors. 100% of requests will fail with a server error.                                                                                                                                 |
-| dbx_client_conditioner_error20           | Simulate server errors. 20% of requests will fail with a server error.                                                                                                                                  |
-| dbx_client_conditioner_error40           | Simulate server errors. 40% of requests will fail with a server error.                                                                                                                                  |
+| dbx_client_conditioner_error100          | Simulate server errors. 100% of requests will fail with server errors.                                                                                                                                  |
+| dbx_client_conditioner_error20           | Simulate server errors. 20% of requests will fail with server errors.                                                                                                                                   |
+| dbx_client_conditioner_error40           | Simulate server errors. 40% of requests will fail with server errors.                                                                                                                                   |
 | dbx_client_conditioner_narrow100         | Simulate rate limit errors. 100% of requests will fail with rate limitation.                                                                                                                            |
 | dbx_client_conditioner_narrow20          | Simulate rate limit errors. 20% of requests will fail with rate limitation.                                                                                                                             |
 | dbx_client_conditioner_narrow40          | Simulate rate limit errors. 40% of requests will fail with rate limitation.                                                                                                                             |
 | dbx_disable_auto_path_root               | Disable auto path root. When disabled, if a user's home namespace is distinct from their root namespace, the user's home namespace will be used as default for all API calls.                           |
-| dbx_download_block                       | Download file divide by blocks (improve concurrency)                                                                                                                                                    |
+| dbx_download_block                       | Download files divided into blocks (improve concurrency)                                                                                                                                                |
 | file_sync_disable_reduce_create_folder   | Disable reduce create_folder on syncing file systems. That will create empty folder while syncing folders.                                                                                              |
 | legacy_local_to_dbx_connector            | Use legacy local to dropbox sync connector                                                                                                                                                              |
 | use_no_cache_dbxfs                       | Use non-cache dropbox file system                                                                                                                                                                       |
@@ -16148,7 +16118,7 @@ Note: This tool does not support proxy servers with any authentication such as B
 
 If the command feels slow or stalled, please try re-run with an option `-verbose`. That will show more detailed progress. But in most cases, the cause is simply you have a larger data to process. Otherwise, you already hit a rate limit from API servers. If you want to see rate limit status, please see capture logs and debug for more details. 
 
-The tool automatically adjusts concurrency to avoid additional limitation from API servers. If you want to see current concurrency, please run the command like below. That will show a current window size (maximum concurrency) per endpoint. The debug message "WaiterStatus" reports current concurrency and window sizes. The map "runners" is for operations currently waiting for a result from API servers. The map "window" is for window size for each endpoint. The map "concurrency" is for current concurrency per endpoint. The below example indicates for the endpoint "https://api.dropboxapi.com/2/file_requests/create", the tool does not allow call that endpoint with the concurrency grater than one. That means it requires operation one by one, and there is no easy workaround to speed up operations.
+The tool automatically adjusts concurrency to avoid additional limitation from API servers. If you want to see current concurrency, please run the command like below. That will show a current window size (maximum concurrency) per endpoint. The debug message "WaiterStatus" reports current concurrency and window sizes. The map "runners" is for operations currently waiting for a result from API servers. The map "window" is for window size for each endpoint. The map "concurrency" is for current concurrency per endpoint. The below example indicates for the endpoint "https://api.dropboxapi.com/2/file_requests/create", the tool does not allow call that endpoint with the concurrency greater than one. That means it requires operation one by one, and there is no easy workaround to speed up operations.
 ```
 tbx job log last -quiet | jq 'select(.msg == "WaiterStatus")' 
 {
@@ -16203,19 +16173,19 @@ In PowerShell, you can change the font with (1) right-click on the title bar, (2
 
 # Log files
 
-By default, log files are stored under the path "%USERPROFILE%\.toolbox\jobs" (e.g. `C:\Users\USERNAME\.toolbox\jobs`) on windows, or "$HOME\.toolbox\jobs" in Linux or macOS (e.g. `/Users/USERNAME/.toolbox/jobs`). Log files contain information such as (1) Runtime information, e.g. OS type/version/environment variables, (2) Runtime options to the tool (including a copy of input data files), (3) Account information of services such as Dropbox, (4) Request and response data to API servers, (5) Data in services such as file name, metadata, id, URL etc. (depends on the command).
+By default, log files are stored under the path "%USERPROFILE%\.toolbox\jobs" (e.g. `C:\Users\USERNAME\.toolbox\jobs`) on windows, or "$HOME/.toolbox/jobs" in Linux or macOS (e.g. `/Users/USERNAME/.toolbox/jobs`). Log files contain information such as (1) Runtime information, e.g. OS type/version/environment variables, (2) Runtime options to the tool (including a copy of input data files), (3) Account information of services such as Dropbox, (4) Request and response data to API servers, (5) Data in services such as file name, metadata, id, URL etc. (depends on the command).
 
-Those logs do not contain password, credentials, or API token. But API tokens are stored under the path "%USERPROFILE%\.toolbox\secrets" (e.g. `C:\Users\USERNAME\.toolbox\secrets`) on windows, or "$HOME\.toolbox\secrets" in Linux or macOS (e.g. `/Users/USERNAME/.toolbox/secrets`). These secrets folder files are obfuscated but please do not share these files to anyone including a service provider support such as Dropbox support.
+Those logs do not contain password, credentials, or API token. But API tokens are stored under the path "%USERPROFILE%\.toolbox\secrets" (e.g. `C:\Users\USERNAME\.toolbox\secrets`) on windows, or "$HOME/.toolbox/secrets" in Linux or macOS (e.g. `/Users/USERNAME/.toolbox/secrets`). These secrets folder files are obfuscated but please do not share these files to anyone including a service provider support such as Dropbox support.
 
 ## Log format
 
 There are several folders and files stored under the `jobs` folder. First, the job folder will be created every run with a name (internally called Job Id) with the format "yyyyMMdd-HHmmSS.xxx". The first part "yyyyMMdd-HHmmSS" is for local date/time of the command start. The second part ".xxx" is the sequential or random three-character ID to avoid conflict with a concurrent run.
 
-Under the job folder, there are subfolders (1) `logs`: runtime logs including request/response data, parameters, or debug information, (2) `reports`: reports folder is for manage generated reports, (3) `kvs`: KVS folder is for runtime database folder. 
+Under the job folder, there are subfolders (1) `logs`: runtime logs including request/response data, parameters, or debug information, (2) `reports`: reports folder is for managing generated reports, (3) `kvs`: KVS folder is for runtime database folder. 
 
 On troubleshooting, files under `logs` are essential to understand what happened in runtime. The tool generates several types of logs. Those logs are JSON Lines format. Note: JSON Lines is a format that separate data with line separators. Please see [JSON Lines](https://jsonlines.org/) for more detail about the specification.
 
-Some logs are compressed with gzip format. If a log compressed, then the file has a suffix '.gz'. Additionally, logs such as capture logs and toolbox logs are divided by certain size. If you want to analyze logs, please consider using `job log` commands. For example, `job log last -quiet` will report toolbox logs of the latest job with decompressed and concatenated.
+Some logs are compressed with gzip format. If a log is compressed, then the file has a suffix '.gz'. Additionally, logs such as capture logs and toolbox logs are divided by certain size. If you want to analyze logs, please consider using `job log` commands. For example, `job log last -quiet` will report toolbox logs of the latest job with decompressed and concatenated.
 
 ## Debug logs
 
@@ -16239,7 +16209,7 @@ tbx job log last -quiet | jq -r 'select(.msg == "Heap stats") | [.time, .HeapInu
 
 ## API transaction logs
 
-The toll will record API requests and responses into capture logs that have a prefix "capture". This capture logs do not contain requests and responses of OAuth. Additionally, API token strings are replaced with `<secret>`.
+The tool will record API requests and responses into capture logs that have a prefix "capture". This capture logs do not contain requests and responses of OAuth. Additionally, API token strings are replaced with `<secret>`.
 
 
 
@@ -16282,9 +16252,7 @@ Below commands are for managing team member accounts. Those commands are for a b
 
 ## Member profile setting commands
 
-Member profile commands are for bulk updating member profile information.
-If you need to update the members' email addresses, use the 'member update email` command. The command 'member update email` receives a CSV file to bulk update email addresses.
-If you need to update the member's display name, use the 'member update profile` command.
+Member profile commands are for bulk updating member profile information.\nIf you need to update the members' email addresses, use the `member update email` command. The command `member update email` receives a CSV file to bulk update email addresses.\nIf you need to update the member's display name, use the `member update profile` command.
 
 | Command                                                                                 | Description                  |
 |-----------------------------------------------------------------------------------------|------------------------------|
@@ -16301,9 +16269,9 @@ You can see existing member storage quota setting or usage by the `dropbox team 
 | [dropbox team member quota usage](dropbox-team-member-quota-usage.md)               | List team member storage usage |
 | [dropbox team member quota batch update](dropbox-team-member-quota-batch-update.md) | Update team member quota       |
 
-## There are two types of commands available for suspending/unsuspending members. If you wanted to suspend/unsuspend a member one by one, please use `dropbox team member suspend` or `dropbox team member unsuspend`. Otherwise, if you want to suspend/unsuspend members through a CSV file, please use the `dropbox team member batch suspend` or `dropbox member batch unsuspend` command.
+## Suspend/unsuspend member commands
 
-Suspend/unsuspend a member
+There are two types of commands available for suspending/unsuspending members. If you wanted to suspend/unsuspend a member one by one, please use `dropbox team member suspend` or `dropbox team member unsuspend`. Otherwise, if you want to suspend/unsuspend members through a CSV file, please use the `dropbox team member batch suspend` or `dropbox member batch unsuspend` command.
 
 | Command                                                                       | Description            |
 |-------------------------------------------------------------------------------|------------------------|
@@ -16339,7 +16307,7 @@ Below commands are for managing groups.
 
 ## Group member management commands
 
-You can add/delete/update group members by the below commands. If you want to add/delete/update group members by CSV file, use `dropbox team group member batch add`, `dropbox team group member batch delete`, or `dropbox team group member batch delete`.
+You can add/delete/update group members by the below commands. If you want to add/delete/update group members by CSV file, use `dropbox team group member batch add`, `dropbox team group member batch delete`, or `dropbox team group member batch update`.
 
 | Command                                                                             | Description                       |
 |-------------------------------------------------------------------------------------|-----------------------------------|
@@ -16352,9 +16320,7 @@ You can add/delete/update group members by the below commands. If you want to ad
 
 ## Find and delete unused groups
 
-There are two commands to find unused groups. The first command is `dropbox team group list`. The command `dropbox team group list` will report the number of members of each group. If it's zero, a group is not currently used to adding permission to folders.
-If you want to see which folder uses each group, use the command `dropbox team group folder list`. `dropbox team group folder list` will report the group to folder mapping. The report `group_with_no_folders` will show groups with no folders.
-You can safely remove groups once if you check both the number of members and folders. After confirmation, you can bulk delete groups by using the command `dropbox team group batch delete`.
+There are two commands to find unused groups. The first command is `dropbox team group list`. The command `dropbox team group list` will report the number of members of each group. If it's zero, a group is not currently used to adding permission to folders.\nIf you want to see which folder uses each group, use the command `dropbox team group folder list`. `dropbox team group folder list` will report the group to folder mapping. The report `group_with_no_folders` will show groups with no folders.\nYou can safely remove groups once you check both the number of members and folders. After confirmation, you can bulk delete groups by using the command `dropbox team group batch delete`.
 
 | Command                                                               | Description                |
 |-----------------------------------------------------------------------|----------------------------|
@@ -16364,9 +16330,8 @@ You can safely remove groups once if you check both the number of members and fo
 
 # Team content commands
 
-Admins' can handle team folders, shared folders or member's folder content thru Dropbox Business API. Please be careful to use those commands.
-The namespace is the term in Dropbox API that is for manage folder permissions or settings. Folder types such as shared folders, team folders, or nested folder in a team folder, member's root folder or member's app folder are all managed as a namespace.
-The namespace commands can handle all types of folders, including team folders and member's folder. But commands for specific folder types have more features or detailed information in the report.
+Admins can handle team folders, shared folders or member's folder content through Dropbox Business API. Please be careful to use those commands.
+The namespace is a term in the Dropbox API that is used to manage folder permissions or settings. Folder types such as shared folders, team folders, or nested folders in a team folder, member's root folder or member's app folder are all managed as a namespace.\nThe namespace commands can handle all types of folders, including team folders and member's folder. But commands for specific folder types have more features or detailed information in the report.
 
 ## Team folder operation commands
 
@@ -16398,8 +16363,7 @@ You can bulk add or delete members into team folders or sub-folders of a team fo
 
 ## Team folder & shared folder commands
 
-The below commands are for both team folders and shared folders of the team.
-If you wanted to know who are actually uses specific folders, please consider using the command `dropbox team content mount list`. Mount is a status a user add a shared folder to his/her Dropbox account.
+The below commands are for both team folders and shared folders of the team.\nIf you wanted to know who actually use specific folders, please consider using the command `dropbox team content mount list`. Mount is a status a user add a shared folder to his/her Dropbox account.
 
 | Command                                                                 | Description                                                  |
 |-------------------------------------------------------------------------|--------------------------------------------------------------|
@@ -16458,46 +16422,47 @@ The team shared link commands are capable of listing all shared links in the tea
 
 ## Difference between `dropbox team sharedlink cap` and `dropbox team sharedlink update`
 
-Commands `dropbox team sharedlink update` is for setting a value to the shared links. Commands `dropbox team sharedlink cap` is for putting a cap value to the shared links.
-For example: if you set expiry by `dropbox team sharedlink update expiry` with the expiration date 2021-05-06. The command will update the expiry to 2021-05-06 even if the existing link has a shorter expiration date like 2021-05-04.
-On the other hand, `dropbox team sharedlink cap expiry` updates links when the link has a longer expiration date, like 2021-05-07.
-
-Similarly, the command `dropbox team sharedlink cap visibility` will restrict visibility only when the link has less protected visibility. For example, if you want to ensure shared links without password to the team only. `dropbox team sharedlink cap visibility` will update visibility to the team only when a link is public and has no password.
+Commands `dropbox team sharedlink update` is for setting a value to the shared links. Commands `dropbox team sharedlink cap` is for putting a cap value to the shared links.\nFor example: if you set expiry by `dropbox team sharedlink update expiry` with the expiration date 2021-05-06. The command will update the expiry to 2021-05-06 even if the existing link has a shorter expiration date like 2021-05-04.\nOn the other hand, `dropbox team sharedlink cap expiry` updates links when the link has a longer expiration date, like 2021-05-07.\n\nSimilarly, the command `dropbox team sharedlink cap visibility` will restrict visibility only when the link has less protected visibility. For example, if you want to ensure shared links without passwords are restricted to the team only. `dropbox team sharedlink cap visibility` will update visibility to the team only when a link is public and has no password.
 
 ## Example (list links):
 
-List all public links in the team
-
-```
-tbx team sharedlink list -visibility public
-```
-
-Results are stored in CSV, xlsx, and JSON format. You can modify the report for updating shared links.
-If you are familiar with the command jq, then they can create CSV file directly like below.
-
-```
-tbx team sharedlink list -output json | jq '.sharedlink.url' > all_links.csv
-```
-
-List links filtered by link owner email address:
-
-```
-tbx team sharedlink list -output json | jq 'select(.member.profile.email == "username@example.com") | .sharedlink.url'
-```
+List all public links in the team\n\n\n\nResults are stored in CSV, xlsx, and JSON format. You can modify the report for updating shared links.\nIf you are familiar with the command jq, you can create CSV file directly like below.\n\n\n\nList links filtered by link owner email address:\n\n\n
 
 ## Example (delete links):
 
-Delete all link that listed in the CSV file
+Delete all link that listed in the CSV file\n\n\n\nIf you are familiar with jq command, you can send data directly from the pipe like below (pass single dash `-` to the `-file` option to read from standard input).\n\nInvalid argument: team sharedlink delete links -file -n
+Error: <no value>
 
-```
-tbx team sharedlink delete links -file /PATH/TO/DATA.csv
-```
+watermint toolbox 140.8.313
+===========================
 
-If you are familiar with jq command, then they can send data directly from the pipe like below (pass single dash `-` to the `-file` option to read from standard input).
+© 2016-2025 Takayuki Okazaki
+Licensed under open source licenses. Use the `license` command for more detail.
 
-```
-tbx team sharedlink list -visibility public -output json | tbx team sharedlink delete links -file -
-```
+Tools for Dropbox and Dropbox for teams
+
+Usage:
+======
+
+tbx  command
+
+Available commands:
+===================
+
+| Command | Description              | Notes |
+|---------|--------------------------|-------|
+| asana   | Asana commands           |       |
+| config  | CLI configuration        |       |
+| deepl   | DeepL commands           |       |
+| dropbox | Dropbox commands         |       |
+| figma   | Figma commands           |       |
+| github  | GitHub commands          |       |
+| license | Show license information |       |
+| local   | Commands for local PC    |       |
+| log     | Log utilities            |       |
+| slack   | Slack commands           |       |
+| util    | Utilities                |       |
+| version | Show version             |       |\n
 
 # File lock title
 
@@ -16522,7 +16487,7 @@ Dropbox Business file lock information
 
 # Activities log commands
 
-The team activities log commands can export activities log by a certain filter or perspective.
+The team activity log commands can export activity logs by certain filters or perspectives.
 
 | Command                                                                   | Description                        |
 |---------------------------------------------------------------------------|------------------------------------|
@@ -16546,13 +16511,7 @@ The below commands can retrieve information about connected devices or applicati
 
 ## External ID
 
-External ID is the attribute that is not shown in any user interface of Dropbox. This attribute is for keep a relationship between Dropbox and identity source (e.g. Active Directory, HR database) by identity management software such as Dropbox AD Connector. In case if you are using Dropbox AD Connector and you built a new Active Directory tree. You may need to clear existing external IDs to disconnect relationships with the old Active Directory tree and the new tree.
-If you skip clear external IDs, Dropbox AD Connector may unintentionally delete accounts during configuring to the new tree.
-If you want to see existing external IDs, use the `dropbox team member list` command. But the command will not include external ID by default. Please add the option `-experiment report_all_columns` like below.
-
-```
-tbx member list -experiment report_all_columns
-```
+External ID is the attribute that is not shown in any user interface of Dropbox. This attribute is for keeping a relationship between Dropbox and identity source (e.g. Active Directory, HR database) by identity management software such as Dropbox AD Connector. If you are using Dropbox AD Connector and you built a new Active Directory tree. You may need to clear existing external IDs to disconnect relationships with the old Active Directory tree and the new tree.\nIf you skip clear external IDs, Dropbox AD Connector may unintentionally delete accounts during configuring to the new tree.\nIf you want to see existing external IDs, use the `dropbox team member list` command. But the command will not include external ID by default. Please add the option `-experiment report_all_columns` like below.\n\n\n
 
 | Command                                                                                       | Description                        |
 |-----------------------------------------------------------------------------------------------|------------------------------------|
@@ -16570,8 +16529,8 @@ Data migration helper commands copies member folders or team folders to another 
 |-----------------------------------------------------------------------------------------------|--------------------------------------------------------|
 | [dropbox team member folder replication](dropbox-team-member-folder-replication.md)           | Replicate a folder to another member's personal folder |
 | [dropbox team member replication](dropbox-team-member-replication.md)                         | Replicate team member files                            |
-| [dropbox team teamfolder partial replication](dropbox-team-teamfolder-partial-replication.md) | Partial team folder replication to the other team      |
-| [dropbox team teamfolder replication](dropbox-team-teamfolder-replication.md)                 | Replicate a team folder to the other team              |
+| [dropbox team teamfolder partial replication](dropbox-team-teamfolder-partial-replication.md) | Partial team folder replication to another team        |
+| [dropbox team teamfolder replication](dropbox-team-teamfolder-replication.md)                 | Replicate a team folder to another team                |
 
 ## Team info commands
 
@@ -16585,7 +16544,7 @@ Data migration helper commands copies member folders or team folders to another 
 
 ## Legacy paper commands
 
-Commands for a team's legacy Paper content. Please see [official guide](https://developers.dropbox.com/paper-migration-guide) more detail about legacy Paper and migration
+Commands for a team's legacy Paper content. Please see the [official guide](https://developers.dropbox.com/paper-migration-guide) for more details about legacy Paper and migration
 
 | Command                                                                               | Description                                               |
 |---------------------------------------------------------------------------------------|-----------------------------------------------------------|
@@ -16597,15 +16556,15 @@ Commands for a team's legacy Paper content. Please see [official guide](https://
 
 Below commands are for managing team admins.
 
-| Command                                                                         | Description                                                               |
-|---------------------------------------------------------------------------------|---------------------------------------------------------------------------|
-| [dropbox team admin list](dropbox-team-admin-list.md)                           | List admin roles of members                                               |
-| [dropbox team admin role add](dropbox-team-admin-role-add.md)                   | Add a new role to the member                                              |
-| [dropbox team admin role clear](dropbox-team-admin-role-clear.md)               | Remove all admin roles from the member                                    |
-| [dropbox team admin role delete](dropbox-team-admin-role-delete.md)             | Remove a role from the member                                             |
-| [dropbox team admin role list](dropbox-team-admin-role-list.md)                 | List admin roles of the team                                              |
-| [dropbox team admin group role add](dropbox-team-admin-group-role-add.md)       | Add the role to members of the group                                      |
-| [dropbox team admin group role delete](dropbox-team-admin-group-role-delete.md) | Delete the role from all members except of members of the exception group |
+| Command                                                                         | Description                                                            |
+|---------------------------------------------------------------------------------|------------------------------------------------------------------------|
+| [dropbox team admin list](dropbox-team-admin-list.md)                           | List admin roles of members                                            |
+| [dropbox team admin role add](dropbox-team-admin-role-add.md)                   | Add a new role to the member                                           |
+| [dropbox team admin role clear](dropbox-team-admin-role-clear.md)               | Remove all admin roles from the member                                 |
+| [dropbox team admin role delete](dropbox-team-admin-role-delete.md)             | Remove a role from the member                                          |
+| [dropbox team admin role list](dropbox-team-admin-role-list.md)                 | List admin roles of the team                                           |
+| [dropbox team admin group role add](dropbox-team-admin-group-role-add.md)       | Add the role to members of the group                                   |
+| [dropbox team admin group role delete](dropbox-team-admin-group-role-delete.md) | Delete the role from all members except members of the exception group |
 
 # Commands that run as a team member
 
@@ -16634,11 +16593,11 @@ With legal holds, admins can place a legal hold on members of their team and vie
 
 | Command                                                                                     | Description                                 |
 |---------------------------------------------------------------------------------------------|---------------------------------------------|
-| [dropbox team legalhold add](dropbox-team-legalhold-add.md)                                 | Creates new legal hold policy.              |
+| [dropbox team legalhold add](dropbox-team-legalhold-add.md)                                 | Creates a new legal hold policy.            |
 | [dropbox team legalhold list](dropbox-team-legalhold-list.md)                               | Retrieve existing policies                  |
 | [dropbox team legalhold member batch update](dropbox-team-legalhold-member-batch-update.md) | Update member list of legal hold policy     |
 | [dropbox team legalhold member list](dropbox-team-legalhold-member-list.md)                 | List members of the legal hold              |
-| [dropbox team legalhold release](dropbox-team-legalhold-release.md)                         | Releases a legal hold by Id                 |
+| [dropbox team legalhold release](dropbox-team-legalhold-release.md)                         | Releases a legal hold by ID                 |
 | [dropbox team legalhold revision list](dropbox-team-legalhold-revision-list.md)             | List revisions under legal hold             |
 | [dropbox team legalhold update desc](dropbox-team-legalhold-update-desc.md)                 | Update description of the legal hold policy |
 | [dropbox team legalhold update name](dropbox-team-legalhold-update-name.md)                 | Update name of the legal hold policy        |
@@ -16707,7 +16666,7 @@ Licensed under open source licenses. Use the `license` command for more detail.
 | xxx@xxxxxxxxxxxxx.xxx | true           | xxxx       | xxxx    | xxxxxxxx     |
 ```
 
-If you want to output this type of data, you can add the `-experiment report_all_columns' option to output all defined columns.
+If you want to output this type of data, you can add the `-experiment report_all_columns` option to output all defined columns.
 
 ```
 $ ./tbx dropbox file account info -experiment report_all_columns
@@ -16761,9 +16720,7 @@ $ ./tbx dropbox team member list -output json --output-filter "[.profile.email, 
 "tomioka@example.com",false
 ```
 
-In case you want to test the output filter, you can run the command first without the output filter option.
-The command will generate the raw JSON output.
-Then, you can test the query the command [util json query](https://toolbox.watermint.org/commands/util-json-query.html) to test the query.
+In case you want to test the output filter, you can run the command first without the output filter option.\nThe command will generate the raw JSON output.\nThen, you can test the query with the command [util json query](https://toolbox.watermint.org/commands/util-json-query.html) to test the query.\n
 
 
 

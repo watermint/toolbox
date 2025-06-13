@@ -33,7 +33,7 @@ Please see below help article for more detail:
 # Authorization
 
 For the first run, `tbx` will ask you an authentication with your Dropbox account.
-Please copy the link and paste it into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code. Please copy that code and paste it to the `tbx`.
+Please copy the link and paste it into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code. Please copy that code and paste it to the application.
 ```
 
 watermint toolbox xx.x.xxx
@@ -42,13 +42,8 @@ watermint toolbox xx.x.xxx
 © 2016-2025 Takayuki Okazaki
 Licensed under open source licenses. Use the `license` command for more detail.
 
-1. Visit the URL for the auth dialogue:
-
-https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type=code&state=xxxxxxxx
-
-2. Click 'Allow' (you might have to login first):
-3. Copy the authorisation code:
-Enter the authorisation code
+1. Visit the URL for the auth dialogue:\n\nhttps://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type=code&state=xxxxxxxx\n\n2. Click 'Allow' (you might have to login first):\n3. Copy the authorization code:
+Enter the authorization code
 ```
 
 # Installation
@@ -101,7 +96,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-lang`            | Display language                                                                                                                                      | auto                 |
 | `-output`          | Output format (none/text/markdown/json)                                                                                                               | text                 |
 | `-output-filter`   | Output filter query (jq syntax). The output of the report is filtered using jq syntax. This option is only applied when the report is output as JSON. |                      |
-| `-proxy`           | HTTP/HTTPS proxy (hostname:port). Please specify `DIRECT` if you want skip setting proxy.                                                             |                      |
+| `-proxy`           | HTTP/HTTPS proxy (hostname:port). Please specify `DIRECT` if you want to skip setting proxy.                                                          |                      |
 | `-quiet`           | Suppress non-error messages, and make output readable by a machine (JSON format)                                                                      | false                |
 | `-retain-job-data` | Job data retain policy                                                                                                                                | default              |
 | `-secure`          | Do not store tokens into a file                                                                                                                       | false                |
@@ -111,7 +106,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 # Results
 
-Report file path will be displayed last line of the command line output. If you missed command line output, please see path below. [job-id] will be the date/time of the run. Please see the latest job-id.
+Report file path will be displayed last line of the command line output. If you missed the command line output, please see path below. [job-id] will be the date/time of the run. Please see the latest job-id.
 
 | OS      | Path pattern                                | Example                                                |
 |---------|---------------------------------------------|--------------------------------------------------------|
@@ -138,6 +133,6 @@ The command will generate a report in three different formats. `info.csv`, `info
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `info_0000.xlsx`, `info_0001.xlsx`, `info_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `info_0000.xlsx`, `info_0001.xlsx`, `info_0002.xlsx`, ...
 
 

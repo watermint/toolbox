@@ -37,9 +37,7 @@ Below commands are for managing team member accounts. Those commands are for a b
 
 ## Member profile setting commands
 
-Member profile commands are for bulk updating member profile information.
-If you need to update the members' email addresses, use the 'member update email` command. The command 'member update email` receives a CSV file to bulk update email addresses.
-If you need to update the member's display name, use the 'member update profile` command.
+Member profile commands are for bulk updating member profile information.\nIf you need to update the members' email addresses, use the `member update email` command. The command `member update email` receives a CSV file to bulk update email addresses.\nIf you need to update the member's display name, use the `member update profile` command.
 
 | Command                                                                                                               | Description                  |
 |-----------------------------------------------------------------------------------------------------------------------|------------------------------|
@@ -56,9 +54,9 @@ You can see existing member storage quota setting or usage by the `dropbox team 
 | [dropbox team member quota usage]({{ site.baseurl }}/commands/dropbox-team-member-quota-usage.html)               | List team member storage usage |
 | [dropbox team member quota batch update]({{ site.baseurl }}/commands/dropbox-team-member-quota-batch-update.html) | Update team member quota       |
 
-## There are two types of commands available for suspending/unsuspending members. If you wanted to suspend/unsuspend a member one by one, please use `dropbox team member suspend` or `dropbox team member unsuspend`. Otherwise, if you want to suspend/unsuspend members through a CSV file, please use the `dropbox team member batch suspend` or `dropbox member batch unsuspend` command.
+## Suspend/unsuspend member commands
 
-Suspend/unsuspend a member
+There are two types of commands available for suspending/unsuspending members. If you wanted to suspend/unsuspend a member one by one, please use `dropbox team member suspend` or `dropbox team member unsuspend`. Otherwise, if you want to suspend/unsuspend members through a CSV file, please use the `dropbox team member batch suspend` or `dropbox member batch unsuspend` command.
 
 | Command                                                                                                     | Description            |
 |-------------------------------------------------------------------------------------------------------------|------------------------|
@@ -94,7 +92,7 @@ Below commands are for managing groups.
 
 ## Group member management commands
 
-You can add/delete/update group members by the below commands. If you want to add/delete/update group members by CSV file, use `dropbox team group member batch add`, `dropbox team group member batch delete`, or `dropbox team group member batch delete`.
+You can add/delete/update group members by the below commands. If you want to add/delete/update group members by CSV file, use `dropbox team group member batch add`, `dropbox team group member batch delete`, or `dropbox team group member batch update`.
 
 | Command                                                                                                           | Description                       |
 |-------------------------------------------------------------------------------------------------------------------|-----------------------------------|
@@ -107,9 +105,7 @@ You can add/delete/update group members by the below commands. If you want to ad
 
 ## Find and delete unused groups
 
-There are two commands to find unused groups. The first command is `dropbox team group list`. The command `dropbox team group list` will report the number of members of each group. If it's zero, a group is not currently used to adding permission to folders.
-If you want to see which folder uses each group, use the command `dropbox team group folder list`. `dropbox team group folder list` will report the group to folder mapping. The report `group_with_no_folders` will show groups with no folders.
-You can safely remove groups once if you check both the number of members and folders. After confirmation, you can bulk delete groups by using the command `dropbox team group batch delete`.
+There are two commands to find unused groups. The first command is `dropbox team group list`. The command `dropbox team group list` will report the number of members of each group. If it's zero, a group is not currently used to adding permission to folders.\nIf you want to see which folder uses each group, use the command `dropbox team group folder list`. `dropbox team group folder list` will report the group to folder mapping. The report `group_with_no_folders` will show groups with no folders.\nYou can safely remove groups once you check both the number of members and folders. After confirmation, you can bulk delete groups by using the command `dropbox team group batch delete`.
 
 | Command                                                                                             | Description                |
 |-----------------------------------------------------------------------------------------------------|----------------------------|
@@ -119,9 +115,8 @@ You can safely remove groups once if you check both the number of members and fo
 
 # Team content commands
 
-Admins' can handle team folders, shared folders or member's folder content thru Dropbox Business API. Please be careful to use those commands.
-The namespace is the term in Dropbox API that is for manage folder permissions or settings. Folder types such as shared folders, team folders, or nested folder in a team folder, member's root folder or member's app folder are all managed as a namespace.
-The namespace commands can handle all types of folders, including team folders and member's folder. But commands for specific folder types have more features or detailed information in the report.
+Admins can handle team folders, shared folders or member's folder content through Dropbox Business API. Please be careful to use those commands.
+The namespace is a term in the Dropbox API that is used to manage folder permissions or settings. Folder types such as shared folders, team folders, or nested folders in a team folder, member's root folder or member's app folder are all managed as a namespace.\nThe namespace commands can handle all types of folders, including team folders and member's folder. But commands for specific folder types have more features or detailed information in the report.
 
 ## Team folder operation commands
 
@@ -153,8 +148,7 @@ You can bulk add or delete members into team folders or sub-folders of a team fo
 
 ## Team folder & shared folder commands
 
-The below commands are for both team folders and shared folders of the team.
-If you wanted to know who are actually uses specific folders, please consider using the command `dropbox team content mount list`. Mount is a status a user add a shared folder to his/her Dropbox account.
+The below commands are for both team folders and shared folders of the team.\nIf you wanted to know who actually use specific folders, please consider using the command `dropbox team content mount list`. Mount is a status a user add a shared folder to his/her Dropbox account.
 
 | Command                                                                                               | Description                                                  |
 |-------------------------------------------------------------------------------------------------------|--------------------------------------------------------------|
@@ -213,46 +207,47 @@ The team shared link commands are capable of listing all shared links in the tea
 
 ## Difference between `dropbox team sharedlink cap` and `dropbox team sharedlink update`
 
-Commands `dropbox team sharedlink update` is for setting a value to the shared links. Commands `dropbox team sharedlink cap` is for putting a cap value to the shared links.
-For example: if you set expiry by `dropbox team sharedlink update expiry` with the expiration date 2021-05-06. The command will update the expiry to 2021-05-06 even if the existing link has a shorter expiration date like 2021-05-04.
-On the other hand, `dropbox team sharedlink cap expiry` updates links when the link has a longer expiration date, like 2021-05-07.
-
-Similarly, the command `dropbox team sharedlink cap visibility` will restrict visibility only when the link has less protected visibility. For example, if you want to ensure shared links without password to the team only. `dropbox team sharedlink cap visibility` will update visibility to the team only when a link is public and has no password.
+Commands `dropbox team sharedlink update` is for setting a value to the shared links. Commands `dropbox team sharedlink cap` is for putting a cap value to the shared links.\nFor example: if you set expiry by `dropbox team sharedlink update expiry` with the expiration date 2021-05-06. The command will update the expiry to 2021-05-06 even if the existing link has a shorter expiration date like 2021-05-04.\nOn the other hand, `dropbox team sharedlink cap expiry` updates links when the link has a longer expiration date, like 2021-05-07.\n\nSimilarly, the command `dropbox team sharedlink cap visibility` will restrict visibility only when the link has less protected visibility. For example, if you want to ensure shared links without passwords are restricted to the team only. `dropbox team sharedlink cap visibility` will update visibility to the team only when a link is public and has no password.
 
 ## Example (list links):
 
-List all public links in the team
-
-```
-tbx team sharedlink list -visibility public
-```
-
-Results are stored in CSV, xlsx, and JSON format. You can modify the report for updating shared links.
-If you are familiar with the command jq, then they can create CSV file directly like below.
-
-```
-tbx team sharedlink list -output json | jq '.sharedlink.url' > all_links.csv
-```
-
-List links filtered by link owner email address:
-
-```
-tbx team sharedlink list -output json | jq 'select(.member.profile.email == "username@example.com") | .sharedlink.url'
-```
+List all public links in the team\n\n\n\nResults are stored in CSV, xlsx, and JSON format. You can modify the report for updating shared links.\nIf you are familiar with the command jq, you can create CSV file directly like below.\n\n\n\nList links filtered by link owner email address:\n\n\n
 
 ## Example (delete links):
 
-Delete all link that listed in the CSV file
+Delete all link that listed in the CSV file\n\n\n\nIf you are familiar with jq command, you can send data directly from the pipe like below (pass single dash `-` to the `-file` option to read from standard input).\n\nInvalid argument: team sharedlink delete links -file -n
+Error: <no value>
 
-```
-tbx team sharedlink delete links -file /PATH/TO/DATA.csv
-```
+watermint toolbox 140.8.313
+===========================
 
-If you are familiar with jq command, then they can send data directly from the pipe like below (pass single dash `-` to the `-file` option to read from standard input).
+© 2016-2025 Takayuki Okazaki
+Licensed under open source licenses. Use the `license` command for more detail.
 
-```
-tbx team sharedlink list -visibility public -output json | tbx team sharedlink delete links -file -
-```
+Tools for Dropbox and Dropbox for teams
+
+Usage:
+======
+
+tbx  command
+
+Available commands:
+===================
+
+| Command | Description              | Notes |
+|---------|--------------------------|-------|
+| asana   | Asana commands           |       |
+| config  | CLI configuration        |       |
+| deepl   | DeepL commands           |       |
+| dropbox | Dropbox commands         |       |
+| figma   | Figma commands           |       |
+| github  | GitHub commands          |       |
+| license | Show license information |       |
+| local   | Commands for local PC    |       |
+| log     | Log utilities            |       |
+| slack   | Slack commands           |       |
+| util    | Utilities                |       |
+| version | Show version             |       |\n
 
 # File lock title
 
@@ -277,7 +272,7 @@ Dropbox Business file lock information
 
 # Activities log commands
 
-The team activities log commands can export activities log by a certain filter or perspective.
+The team activity log commands can export activity logs by certain filters or perspectives.
 
 | Command                                                                                                 | Description                        |
 |---------------------------------------------------------------------------------------------------------|------------------------------------|
@@ -301,13 +296,7 @@ The below commands can retrieve information about connected devices or applicati
 
 ## External ID
 
-External ID is the attribute that is not shown in any user interface of Dropbox. This attribute is for keep a relationship between Dropbox and identity source (e.g. Active Directory, HR database) by identity management software such as Dropbox AD Connector. In case if you are using Dropbox AD Connector and you built a new Active Directory tree. You may need to clear existing external IDs to disconnect relationships with the old Active Directory tree and the new tree.
-If you skip clear external IDs, Dropbox AD Connector may unintentionally delete accounts during configuring to the new tree.
-If you want to see existing external IDs, use the `dropbox team member list` command. But the command will not include external ID by default. Please add the option `-experiment report_all_columns` like below.
-
-```
-tbx member list -experiment report_all_columns
-```
+External ID is the attribute that is not shown in any user interface of Dropbox. This attribute is for keeping a relationship between Dropbox and identity source (e.g. Active Directory, HR database) by identity management software such as Dropbox AD Connector. If you are using Dropbox AD Connector and you built a new Active Directory tree. You may need to clear existing external IDs to disconnect relationships with the old Active Directory tree and the new tree.\nIf you skip clear external IDs, Dropbox AD Connector may unintentionally delete accounts during configuring to the new tree.\nIf you want to see existing external IDs, use the `dropbox team member list` command. But the command will not include external ID by default. Please add the option `-experiment report_all_columns` like below.\n\n\n
 
 | Command                                                                                                                     | Description                        |
 |-----------------------------------------------------------------------------------------------------------------------------|------------------------------------|
@@ -325,8 +314,8 @@ Data migration helper commands copies member folders or team folders to another 
 |-----------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------|
 | [dropbox team member folder replication]({{ site.baseurl }}/commands/dropbox-team-member-folder-replication.html)           | Replicate a folder to another member's personal folder |
 | [dropbox team member replication]({{ site.baseurl }}/commands/dropbox-team-member-replication.html)                         | Replicate team member files                            |
-| [dropbox team teamfolder partial replication]({{ site.baseurl }}/commands/dropbox-team-teamfolder-partial-replication.html) | Partial team folder replication to the other team      |
-| [dropbox team teamfolder replication]({{ site.baseurl }}/commands/dropbox-team-teamfolder-replication.html)                 | Replicate a team folder to the other team              |
+| [dropbox team teamfolder partial replication]({{ site.baseurl }}/commands/dropbox-team-teamfolder-partial-replication.html) | Partial team folder replication to another team        |
+| [dropbox team teamfolder replication]({{ site.baseurl }}/commands/dropbox-team-teamfolder-replication.html)                 | Replicate a team folder to another team                |
 
 ## Team info commands
 
@@ -340,7 +329,7 @@ Data migration helper commands copies member folders or team folders to another 
 
 ## Legacy paper commands
 
-Commands for a team's legacy Paper content. Please see [official guide](https://developers.dropbox.com/paper-migration-guide) more detail about legacy Paper and migration
+Commands for a team's legacy Paper content. Please see the [official guide](https://developers.dropbox.com/paper-migration-guide) for more details about legacy Paper and migration
 
 | Command                                                                                                             | Description                                               |
 |---------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------|
@@ -352,15 +341,15 @@ Commands for a team's legacy Paper content. Please see [official guide](https://
 
 Below commands are for managing team admins.
 
-| Command                                                                                                       | Description                                                               |
-|---------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------|
-| [dropbox team admin list]({{ site.baseurl }}/commands/dropbox-team-admin-list.html)                           | List admin roles of members                                               |
-| [dropbox team admin role add]({{ site.baseurl }}/commands/dropbox-team-admin-role-add.html)                   | Add a new role to the member                                              |
-| [dropbox team admin role clear]({{ site.baseurl }}/commands/dropbox-team-admin-role-clear.html)               | Remove all admin roles from the member                                    |
-| [dropbox team admin role delete]({{ site.baseurl }}/commands/dropbox-team-admin-role-delete.html)             | Remove a role from the member                                             |
-| [dropbox team admin role list]({{ site.baseurl }}/commands/dropbox-team-admin-role-list.html)                 | List admin roles of the team                                              |
-| [dropbox team admin group role add]({{ site.baseurl }}/commands/dropbox-team-admin-group-role-add.html)       | Add the role to members of the group                                      |
-| [dropbox team admin group role delete]({{ site.baseurl }}/commands/dropbox-team-admin-group-role-delete.html) | Delete the role from all members except of members of the exception group |
+| Command                                                                                                       | Description                                                            |
+|---------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------|
+| [dropbox team admin list]({{ site.baseurl }}/commands/dropbox-team-admin-list.html)                           | List admin roles of members                                            |
+| [dropbox team admin role add]({{ site.baseurl }}/commands/dropbox-team-admin-role-add.html)                   | Add a new role to the member                                           |
+| [dropbox team admin role clear]({{ site.baseurl }}/commands/dropbox-team-admin-role-clear.html)               | Remove all admin roles from the member                                 |
+| [dropbox team admin role delete]({{ site.baseurl }}/commands/dropbox-team-admin-role-delete.html)             | Remove a role from the member                                          |
+| [dropbox team admin role list]({{ site.baseurl }}/commands/dropbox-team-admin-role-list.html)                 | List admin roles of the team                                           |
+| [dropbox team admin group role add]({{ site.baseurl }}/commands/dropbox-team-admin-group-role-add.html)       | Add the role to members of the group                                   |
+| [dropbox team admin group role delete]({{ site.baseurl }}/commands/dropbox-team-admin-group-role-delete.html) | Delete the role from all members except members of the exception group |
 
 # Commands that run as a team member
 
@@ -389,11 +378,11 @@ With legal holds, admins can place a legal hold on members of their team and vie
 
 | Command                                                                                                                   | Description                                 |
 |---------------------------------------------------------------------------------------------------------------------------|---------------------------------------------|
-| [dropbox team legalhold add]({{ site.baseurl }}/commands/dropbox-team-legalhold-add.html)                                 | Creates new legal hold policy.              |
+| [dropbox team legalhold add]({{ site.baseurl }}/commands/dropbox-team-legalhold-add.html)                                 | Creates a new legal hold policy.            |
 | [dropbox team legalhold list]({{ site.baseurl }}/commands/dropbox-team-legalhold-list.html)                               | Retrieve existing policies                  |
 | [dropbox team legalhold member batch update]({{ site.baseurl }}/commands/dropbox-team-legalhold-member-batch-update.html) | Update member list of legal hold policy     |
 | [dropbox team legalhold member list]({{ site.baseurl }}/commands/dropbox-team-legalhold-member-list.html)                 | List members of the legal hold              |
-| [dropbox team legalhold release]({{ site.baseurl }}/commands/dropbox-team-legalhold-release.html)                         | Releases a legal hold by Id                 |
+| [dropbox team legalhold release]({{ site.baseurl }}/commands/dropbox-team-legalhold-release.html)                         | Releases a legal hold by ID                 |
 | [dropbox team legalhold revision list]({{ site.baseurl }}/commands/dropbox-team-legalhold-revision-list.html)             | List revisions under legal hold             |
 | [dropbox team legalhold update desc]({{ site.baseurl }}/commands/dropbox-team-legalhold-update-desc.html)                 | Update description of the legal hold policy |
 | [dropbox team legalhold update name]({{ site.baseurl }}/commands/dropbox-team-legalhold-update-name.html)                 | Update name of the legal hold policy        |

@@ -8,7 +8,7 @@ lang: en
 
 Batch removing users/groups from team folders (Irreversible operation)
 
-The command does not (1) change access inheritance setting of any folders, (2) remove a group, (3) unshare a nested folder. For (3), that means the nested folder stays the same setting (e.g. shared link policy for the folder). This command is designed to be idempotent. You can safely retry if any errors happen on the operation. The command will not report an error to keep idempotence. For example, the command will not report an error like, (1) the member already lose access to the folder, (2) the folder is not found.
+The command does not (1) change access inheritance settings of any folders, (2) remove a group, (3) unshare a nested folder. For (3), that means the nested folder stays the same setting (e.g. shared link policy for the folder). This command is designed to be idempotent. You can safely retry if any errors happen on the operation. The command will not report an error to keep idempotence. For example, the command will not report an error like, (1) the member already lost access to the folder, (2) the folder is not found.
 
 # Security
 
@@ -43,7 +43,7 @@ Please see below help article for more detail:
 # Authorization
 
 For the first run, `tbx` will ask you an authentication with your Dropbox account.
-Please copy the link and paste it into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code. Please copy that code and paste it to the `tbx`.
+Please copy the link and paste it into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code. Please copy that code and paste it to the application.
 ```
 
 watermint toolbox xx.x.xxx
@@ -52,13 +52,8 @@ watermint toolbox xx.x.xxx
 © 2016-2025 Takayuki Okazaki
 Licensed under open source licenses. Use the `license` command for more detail.
 
-1. Visit the URL for the auth dialogue:
-
-https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type=code&state=xxxxxxxx
-
-2. Click 'Allow' (you might have to login first):
-3. Copy the authorisation code:
-Enter the authorisation code
+1. Visit the URL for the auth dialogue:\n\nhttps://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type=code&state=xxxxxxxx\n\n2. Click 'Allow' (you might have to login first):\n3. Copy the authorization code:
+Enter the authorization code
 ```
 
 # Installation
@@ -113,7 +108,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-lang`            | Display language                                                                                                                                      | auto                 |
 | `-output`          | Output format (none/text/markdown/json)                                                                                                               | text                 |
 | `-output-filter`   | Output filter query (jq syntax). The output of the report is filtered using jq syntax. This option is only applied when the report is output as JSON. |                      |
-| `-proxy`           | HTTP/HTTPS proxy (hostname:port). Please specify `DIRECT` if you want skip setting proxy.                                                             |                      |
+| `-proxy`           | HTTP/HTTPS proxy (hostname:port). Please specify `DIRECT` if you want to skip setting proxy.                                                          |                      |
 | `-quiet`           | Suppress non-error messages, and make output readable by a machine (JSON format)                                                                      | false                |
 | `-retain-job-data` | Job data retain policy                                                                                                                                | default              |
 | `-secure`          | Do not store tokens into a file                                                                                                                       | false                |
@@ -125,13 +120,13 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Format: File
 
-Team folder and member list for removing access. Each row can have one member and the one folder. If you want to remove two or more members from the folder, please create rows for those members. Similarly, if you want to remove a member from two or more folders, please create rows for those folders.
+Team folder and member list for removing access. Each row can have one member and one folder. If you want to remove two or more members from the folder, please create rows for those members. Similarly, if you want to remove a member from two or more folders, please create rows for those folders.
 
-| Column                     | Description                                                                                                  | Example |
-|----------------------------|--------------------------------------------------------------------------------------------------------------|---------|
-| team_folder_name           | Team folder name                                                                                             | Sales   |
-| path                       | Relative path from the team folder root. Leave empty if you want to add a member to root of the team folder. | Report  |
-| group_name_or_member_email | Group name or member email address                                                                           | Sales   |
+| Column                     | Description                                                                                                           | Example |
+|----------------------------|-----------------------------------------------------------------------------------------------------------------------|---------|
+| team_folder_name           | Team folder name                                                                                                      | Sales   |
+| path                       | Relative path from the team folder root. Leave empty if you want to remove a member from the root of the team folder. | Report  |
+| group_name_or_member_email | Group name or member email address                                                                                    | Sales   |
 
 The first line is a header line. The program will accept a file without the header.
 ```
@@ -141,7 +136,7 @@ Sales,Report,Sales
 
 # Results
 
-Report file path will be displayed last line of the command line output. If you missed command line output, please see path below. [job-id] will be the date/time of the run. Please see the latest job-id.
+Report file path will be displayed last line of the command line output. If you missed the command line output, please see path below. [job-id] will be the date/time of the run. Please see the latest job-id.
 
 | OS      | Path pattern                                | Example                                                |
 |---------|---------------------------------------------|--------------------------------------------------------|
@@ -154,16 +149,16 @@ Report file path will be displayed last line of the command line output. If you 
 This report shows the transaction result.
 The command will generate a report in three different formats. `operation_log.csv`, `operation_log.json`, and `operation_log.xlsx`.
 
-| Column                           | Description                                                                                                  |
-|----------------------------------|--------------------------------------------------------------------------------------------------------------|
-| status                           | Status of the operation                                                                                      |
-| reason                           | Reason of failure or skipped operation                                                                       |
-| input.team_folder_name           | Team folder name                                                                                             |
-| input.path                       | Relative path from the team folder root. Leave empty if you want to add a member to root of the team folder. |
-| input.group_name_or_member_email | Group name or member email address                                                                           |
+| Column                           | Description                                                                                                           |
+|----------------------------------|-----------------------------------------------------------------------------------------------------------------------|
+| status                           | Status of the operation                                                                                               |
+| reason                           | Reason of failure or skipped operation                                                                                |
+| input.team_folder_name           | Team folder name                                                                                                      |
+| input.path                       | Relative path from the team folder root. Leave empty if you want to remove a member from the root of the team folder. |
+| input.group_name_or_member_email | Group name or member email address                                                                                    |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 

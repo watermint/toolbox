@@ -61,7 +61,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-lang`            | Display language                                                                                                                                      | auto                 |
 | `-output`          | Output format (none/text/markdown/json)                                                                                                               | text                 |
 | `-output-filter`   | Output filter query (jq syntax). The output of the report is filtered using jq syntax. This option is only applied when the report is output as JSON. |                      |
-| `-proxy`           | HTTP/HTTPS proxy (hostname:port). Please specify `DIRECT` if you want skip setting proxy.                                                             |                      |
+| `-proxy`           | HTTP/HTTPS proxy (hostname:port). Please specify `DIRECT` if you want to skip setting proxy.                                                          |                      |
 | `-quiet`           | Suppress non-error messages, and make output readable by a machine (JSON format)                                                                      | false                |
 | `-retain-job-data` | Job data retain policy                                                                                                                                | default              |
 | `-secure`          | Do not store tokens into a file                                                                                                                       | false                |
@@ -71,7 +71,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 # Results
 
-Report file path will be displayed last line of the command line output. If you missed command line output, please see path below. [job-id] will be the date/time of the run. Please see the latest job-id.
+Report file path will be displayed last line of the command line output. If you missed the command line output, please see path below. [job-id] will be the date/time of the run. Please see the latest job-id.
 
 | OS      | Path pattern                                | Example                                                |
 |---------|---------------------------------------------|--------------------------------------------------------|
@@ -93,7 +93,7 @@ The command will generate a report in three different formats. `deleted.csv`, `d
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `deleted_0000.xlsx`, `deleted_0001.xlsx`, `deleted_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `deleted_0000.xlsx`, `deleted_0001.xlsx`, `deleted_0002.xlsx`, ...
 
 ## Report: skipped
 
@@ -111,28 +111,28 @@ The command will generate a report in three different formats. `skipped.csv`, `s
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `skipped_0000.xlsx`, `skipped_0001.xlsx`, `skipped_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `skipped_0000.xlsx`, `skipped_0001.xlsx`, `skipped_0002.xlsx`, ...
 
 ## Report: summary
 
 This report shows a summary of the upload results.
 The command will generate a report in three different formats. `summary.csv`, `summary.json`, and `summary.xlsx`.
 
-| Column                | Description                                         |
-|-----------------------|-----------------------------------------------------|
-| start                 | Time of start                                       |
-| end                   | Time of finish                                      |
-| num_bytes             | Total upload size (Bytes)                           |
-| num_files_error       | The number of files failed or got an error.         |
-| num_files_transferred | The number of files uploaded/downloaded.            |
-| num_files_skip        | The number of files skipped or to skip.             |
-| num_folder_created    | Number of created folders.                          |
-| num_delete            | Number of deleted entry.                            |
-| num_api_call          | The number of estimated upload API call for upload. |
+| Column                | Description                                   |
+|-----------------------|-----------------------------------------------|
+| start                 | Time of start                                 |
+| end                   | Time of finish                                |
+| num_bytes             | Total upload size (Bytes)                     |
+| num_files_error       | The number of files failed or got an error.   |
+| num_files_transferred | The number of files uploaded/downloaded.      |
+| num_files_skip        | The number of files skipped or to skip.       |
+| num_folder_created    | Number of created folders.                    |
+| num_delete            | Number of deleted entries.                    |
+| num_api_call          | The number of estimated API calls for upload. |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `summary_0000.xlsx`, `summary_0001.xlsx`, `summary_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `summary_0000.xlsx`, `summary_0001.xlsx`, `summary_0002.xlsx`, ...
 
 ## Report: uploaded
 
@@ -154,6 +154,6 @@ The command will generate a report in three different formats. `uploaded.csv`, `
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `uploaded_0000.xlsx`, `uploaded_0001.xlsx`, `uploaded_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `uploaded_0000.xlsx`, `uploaded_0001.xlsx`, `uploaded_0002.xlsx`, ...
 
 

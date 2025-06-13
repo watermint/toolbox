@@ -43,7 +43,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-error-correction-level` | Error correction level (l/m/q/h). | m       |
 | `-mode`                   | QR code encoding mode             | auto    |
 | `-out`                    | Output path with file name        |         |
-| `-size`                   | Image resolution (pixel)          | 256     |
+| `-size`                   | Image resolution (pixels)         | 256     |
 | `-text`                   | Text data                         |         |
 
 ## Common options:
@@ -62,7 +62,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-lang`            | Display language                                                                                                                                      | auto                 |
 | `-output`          | Output format (none/text/markdown/json)                                                                                                               | text                 |
 | `-output-filter`   | Output filter query (jq syntax). The output of the report is filtered using jq syntax. This option is only applied when the report is output as JSON. |                      |
-| `-proxy`           | HTTP/HTTPS proxy (hostname:port). Please specify `DIRECT` if you want skip setting proxy.                                                             |                      |
+| `-proxy`           | HTTP/HTTPS proxy (hostname:port). Please specify `DIRECT` if you want to skip setting proxy.                                                          |                      |
 | `-quiet`           | Suppress non-error messages, and make output readable by a machine (JSON format)                                                                      | false                |
 | `-retain-job-data` | Job data retain policy                                                                                                                                | default              |
 | `-secure`          | Do not store tokens into a file                                                                                                                       | false                |

@@ -60,7 +60,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-lang`            | Display language                                                                                                                                      | auto                 |
 | `-output`          | Output format (none/text/markdown/json)                                                                                                               | text                 |
 | `-output-filter`   | Output filter query (jq syntax). The output of the report is filtered using jq syntax. This option is only applied when the report is output as JSON. |                      |
-| `-proxy`           | HTTP/HTTPS proxy (hostname:port). Please specify `DIRECT` if you want skip setting proxy.                                                             |                      |
+| `-proxy`           | HTTP/HTTPS proxy (hostname:port). Please specify `DIRECT` if you want to skip setting proxy.                                                          |                      |
 | `-quiet`           | Suppress non-error messages, and make output readable by a machine (JSON format)                                                                      | false                |
 | `-retain-job-data` | Job data retain policy                                                                                                                                | default              |
 | `-secure`          | Do not store tokens into a file                                                                                                                       | false                |
@@ -70,7 +70,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 # Results
 
-Report file path will be displayed last line of the command line output. If you missed command line output, please see path below. [job-id] will be the date/time of the run. Please see the latest job-id.
+Report file path will be displayed last line of the command line output. If you missed the command line output, please see path below. [job-id] will be the date/time of the run. Please see the latest job-id.
 
 | OS      | Path pattern                                | Example                                                |
 |---------|---------------------------------------------|--------------------------------------------------------|
@@ -96,7 +96,7 @@ The command will generate a report in three different formats. `latencies.csv`, 
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `latencies_0000.xlsx`, `latencies_0001.xlsx`, `latencies_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `latencies_0000.xlsx`, `latencies_0001.xlsx`, `latencies_0002.xlsx`, ...
 
 ## Report: population
 
@@ -112,7 +112,7 @@ The command will generate a report in three different formats. `population.csv`,
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `population_0000.xlsx`, `population_0001.xlsx`, `population_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `population_0000.xlsx`, `population_0001.xlsx`, `population_0002.xlsx`, ...
 
 ## Report: time_series
 
@@ -132,6 +132,6 @@ The command will generate a report in three different formats. `time_series.csv`
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `time_series_0000.xlsx`, `time_series_0001.xlsx`, `time_series_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `time_series_0000.xlsx`, `time_series_0001.xlsx`, `time_series_0002.xlsx`, ...
 
 

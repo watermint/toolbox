@@ -11,7 +11,7 @@ Scans team data for analysis
 This command collects various team data, such as files in team folders, permissions and shared links, and stores them in a database.
 The collected data can be analysed with commands such as `dropbox team insight report teamfoldermember`, or with database tools that support SQLite in general.
 
-About how long a scan takes:.
+About how long a scan takes:
 
 Scanning a team often takes a long time. Especially if there are a large number of files stored, the time is linearly proportional to the number of files. To increase the scanning speed, it is better to use the `-concurrency` option for parallel processing.
 However, too much parallelism will increase the error rate from the Dropbox server, so a balance must be considered. According to the results of a few benchmarks, a parallelism level of 12-24 for the `-concurrency` option seems to be a good choice.
@@ -19,11 +19,11 @@ The time required for scanning depends on the response of the Dropbox server, bu
 
 During the scan, users might delete, move or add files during that time. The command does not aim to capture all those differences and report exact results, but to provide rough information as quickly as possible.
 
-For database file sizes:.
+For database file sizes:
 
 As this command retrieves all metadata, including the team's files, the size of the database increases with the size of those metadata. Benchmark results show that the database size is around 10-12 GB per 10 million files stored in the team. Make sure that the path specified by `-database` has enough space before running.
 
-About scan errors:.
+About scan errors:
 
 The Dropbox server may return an error when running the scan. The command will automatically try to re-run the scan several times, but the error may not be resolved for a certain period of time due to server congestion or condition. In that case, the command stops the re-run and records the scan task in the database where the error occurred.
 If you want to re-run a failed scan, use the `dropbox team insight scanretry` command to run the scan again.
@@ -53,7 +53,7 @@ Please see below help article for more detail:
 # Authorization
 
 For the first run, `tbx` will ask you an authentication with your Dropbox account.
-Please copy the link and paste it into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code. Please copy that code and paste it to the `tbx`.
+Please copy the link and paste it into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code. Please copy that code and paste it to the application.
 ```
 
 watermint toolbox xx.x.xxx
@@ -62,13 +62,8 @@ watermint toolbox xx.x.xxx
 © 2016-2025 Takayuki Okazaki
 Licensed under open source licenses. Use the `license` command for more detail.
 
-1. Visit the URL for the auth dialogue:
-
-https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type=code&state=xxxxxxxx
-
-2. Click 'Allow' (you might have to login first):
-3. Copy the authorisation code:
-Enter the authorisation code
+1. Visit the URL for the auth dialogue:\n\nhttps://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type=code&state=xxxxxxxx\n\n2. Click 'Allow' (you might have to login first):\n3. Copy the authorization code:
+Enter the authorization code
 ```
 
 # Installation
@@ -126,7 +121,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-lang`            | Display language                                                                                                                                      | auto                 |
 | `-output`          | Output format (none/text/markdown/json)                                                                                                               | text                 |
 | `-output-filter`   | Output filter query (jq syntax). The output of the report is filtered using jq syntax. This option is only applied when the report is output as JSON. |                      |
-| `-proxy`           | HTTP/HTTPS proxy (hostname:port). Please specify `DIRECT` if you want skip setting proxy.                                                             |                      |
+| `-proxy`           | HTTP/HTTPS proxy (hostname:port). Please specify `DIRECT` if you want to skip setting proxy.                                                          |                      |
 | `-quiet`           | Suppress non-error messages, and make output readable by a machine (JSON format)                                                                      | false                |
 | `-retain-job-data` | Job data retain policy                                                                                                                                | default              |
 | `-secure`          | Do not store tokens into a file                                                                                                                       | false                |
@@ -136,7 +131,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 # Results
 
-Report file path will be displayed last line of the command line output. If you missed command line output, please see path below. [job-id] will be the date/time of the run. Please see the latest job-id.
+Report file path will be displayed last line of the command line output. If you missed the command line output, please see path below. [job-id] will be the date/time of the run. Please see the latest job-id.
 
 | OS      | Path pattern                                | Example                                                |
 |---------|---------------------------------------------|--------------------------------------------------------|
@@ -158,6 +153,6 @@ The command will generate a report in three different formats. `errors.csv`, `er
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `errors_0000.xlsx`, `errors_0001.xlsx`, `errors_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `errors_0000.xlsx`, `errors_0001.xlsx`, `errors_0002.xlsx`, ...
 
 

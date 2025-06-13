@@ -6,7 +6,7 @@ lang: en
 
 # asana team task list
 
-List task of the team 
+List tasks of the team 
 
 # Security
 
@@ -33,7 +33,7 @@ Please see below help article for more detail:
 # Authorization
 
 For the first run, `tbx` will ask you an authentication with your Asana (deprecated see [#647](https://github.com/watermint/toolbox/discussions/647)) account.
-Press the Enter key to launch the browser. The service then performs the authorization and tbx receives the results. You can close the browser window when you see the authentication success message.
+Press Enter to launch the browser. The service then performs the authorization and the application receives the results. You can close the browser window when you see the authentication success message.
 ```
 
 watermint toolbox xx.x.xxx
@@ -106,7 +106,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-lang`            | Display language                                                                                                                                      | auto                 |
 | `-output`          | Output format (none/text/markdown/json)                                                                                                               | text                 |
 | `-output-filter`   | Output filter query (jq syntax). The output of the report is filtered using jq syntax. This option is only applied when the report is output as JSON. |                      |
-| `-proxy`           | HTTP/HTTPS proxy (hostname:port). Please specify `DIRECT` if you want skip setting proxy.                                                             |                      |
+| `-proxy`           | HTTP/HTTPS proxy (hostname:port). Please specify `DIRECT` if you want to skip setting proxy.                                                          |                      |
 | `-quiet`           | Suppress non-error messages, and make output readable by a machine (JSON format)                                                                      | false                |
 | `-retain-job-data` | Job data retain policy                                                                                                                                | default              |
 | `-secure`          | Do not store tokens into a file                                                                                                                       | false                |
@@ -116,7 +116,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 # Results
 
-Report file path will be displayed last line of the command line output. If you missed command line output, please see path below. [job-id] will be the date/time of the run. Please see the latest job-id.
+Report file path will be displayed last line of the command line output. If you missed the command line output, please see path below. [job-id] will be the date/time of the run. Please see the latest job-id.
 
 | OS      | Path pattern                                | Example                                                |
 |---------|---------------------------------------------|--------------------------------------------------------|
@@ -129,19 +129,19 @@ Report file path will be displayed last line of the command line output. If you 
 The task is the basic object around which many operations in Asana are centered.
 The command will generate a report in three different formats. `tasks.csv`, `tasks.json`, and `tasks.xlsx`.
 
-| Column        | Description                                                                    |
-|---------------|--------------------------------------------------------------------------------|
-| gid           | Globally unique identifier of the resource, as a string.                       |
-| name          | Name of the task.                                                              |
-| resource_type | The base type of this resource.                                                |
-| created_at    | The time at which this resource was created.                                   |
-| completed     | True if the task is currently marked complete, false if not.                   |
-| completed_at  | The time at which this task was completed, or null if the task is incomplete.  |
-| due_at        | Date and time on which this task is due, or null if the task has no due time.  |
-| due_on        | Date on which this task is due, or null if the task has no due date.           |
+| Column        | Description                                                                   |
+|---------------|-------------------------------------------------------------------------------|
+| gid           | Globally unique identifier of the resource, as a string.                      |
+| name          | Name of the task.                                                             |
+| resource_type | The base type of this resource.                                               |
+| created_at    | The time at which this resource was created.                                  |
+| completed     | True if the task is currently marked complete, false if not.                  |
+| completed_at  | The time at which this task was completed, or null if the task is incomplete. |
+| due_at        | Date and time on which this task is due, or null if the task has no due time. |
+| due_on        | Date on which this task is due, or null if the task has no due date.          |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `tasks_0000.xlsx`, `tasks_0001.xlsx`, `tasks_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `tasks_0000.xlsx`, `tasks_0001.xlsx`, `tasks_0002.xlsx`, ...
 
 

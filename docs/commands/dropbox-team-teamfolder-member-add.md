@@ -8,37 +8,7 @@ lang: en
 
 Batch adding users/groups to team folders (Irreversible operation)
 
-This command will do (1) create new team folders or new sub-folders if the team folder does not exist. The command does not (2) change access inheritance setting of any folders, (3) create a group if that not exist. This command is designed to be idempotent. You can safely retry if any errors happen on the operation. The command will not report an error to keep idempotence. For example, the command will not report an error like, the member already have access to the folder.
-
-Example:
-
-* Sales (team folder, editor access for the group "Sales")
-	* Sydney (viewer access for individual account sydney@example.com)
-	* Tokyo (editor access for the group "Tokyo Deal Desk")
-		* Monthly (viewer access for individual account success@example.com)
-* Marketing (team folder, editor access for the group "Marketing")
-	* Sydney (editor access for the group "Sydney Sales")
-	* Tokyo (viewer access for the group "Tokyo Sales")
-
-1. Prepare CSV like below
-
-```
-Sales,,editor,Sales
-Sales,Sydney,editor,sydney@example.com
-Sales,Tokyo,editor,Tokyo Deal Desk
-Sales,Tokyo/Monthly,viewer,success@example.com
-Marketing,,editor,Marketing
-Marketing,Sydney,editor,Sydney Sales
-Marketing,Tokyo,viewer,Tokyo Sales
-```
-
-2. Then run the command like below
-
-```
-tbx teamfolder member add -file /PATH/TO/DATA.csv
-```
-
-Note: the command will create a team folder if not exist. But the command will not a group if not found. Groups must exist before run this command.
+This command will do (1) create new team folders or new sub-folders if the team folder does not exist. The command does not (2) change access inheritance settings of any folders, (3) create a group if that not exist. This command is designed to be idempotent. You can safely retry if any errors happen on the operation. The command will not report an error to keep idempotence. For example, the command will not report an error like, the member already have access to the folder.\n\nExample:\n\n* Sales (team folder, editor access for the group "Sales")\n\t* Sydney (viewer access for individual account sydney@example.com)\n\t* Tokyo (editor access for the group "Tokyo Deal Desk")\n\t\t* Monthly (viewer access for individual account success@example.com)\n* Marketing (team folder, editor access for the group "Marketing")\n\t* Sydney (editor access for the group "Sydney Sales")\n\t* Tokyo (viewer access for the group "Tokyo Sales")\n\n1. Prepare CSV like below\n\n```\nSales,,editor,Sales\nSales,Sydney,editor,sydney@example.com\nSales,Tokyo,editor,Tokyo Deal Desk\nSales,Tokyo/Monthly,viewer,success@example.com\nMarketing,,editor,Marketing\nMarketing,Sydney,editor,Sydney Sales\nMarketing,Tokyo,viewer,Tokyo Sales\n```\n\n2. Then run the command like below\n\n```\ntbx teamfolder member add -file /PATH/TO/DATA.csv\n```\n\nNote: the command will create a team folder if not exist. But the command will not a group if not found. Groups must exist before run this command.
 
 # Security
 
@@ -73,7 +43,7 @@ Please see below help article for more detail:
 # Authorization
 
 For the first run, `tbx` will ask you an authentication with your Dropbox account.
-Please copy the link and paste it into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code. Please copy that code and paste it to the `tbx`.
+Please copy the link and paste it into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code. Please copy that code and paste it to the application.
 ```
 
 watermint toolbox xx.x.xxx
@@ -82,13 +52,8 @@ watermint toolbox xx.x.xxx
 © 2016-2025 Takayuki Okazaki
 Licensed under open source licenses. Use the `license` command for more detail.
 
-1. Visit the URL for the auth dialogue:
-
-https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type=code&state=xxxxxxxx
-
-2. Click 'Allow' (you might have to login first):
-3. Copy the authorisation code:
-Enter the authorisation code
+1. Visit the URL for the auth dialogue:\n\nhttps://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type=code&state=xxxxxxxx\n\n2. Click 'Allow' (you might have to login first):\n3. Copy the authorization code:
+Enter the authorization code
 ```
 
 # Installation
@@ -143,7 +108,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-lang`            | Display language                                                                                                                                      | auto                 |
 | `-output`          | Output format (none/text/markdown/json)                                                                                                               | text                 |
 | `-output-filter`   | Output filter query (jq syntax). The output of the report is filtered using jq syntax. This option is only applied when the report is output as JSON. |                      |
-| `-proxy`           | HTTP/HTTPS proxy (hostname:port). Please specify `DIRECT` if you want skip setting proxy.                                                             |                      |
+| `-proxy`           | HTTP/HTTPS proxy (hostname:port). Please specify `DIRECT` if you want to skip setting proxy.                                                          |                      |
 | `-quiet`           | Suppress non-error messages, and make output readable by a machine (JSON format)                                                                      | false                |
 | `-retain-job-data` | Job data retain policy                                                                                                                                | default              |
 | `-secure`          | Do not store tokens into a file                                                                                                                       | false                |
@@ -172,7 +137,7 @@ Sales,Report,editor,Sales
 
 # Results
 
-Report file path will be displayed last line of the command line output. If you missed command line output, please see path below. [job-id] will be the date/time of the run. Please see the latest job-id.
+Report file path will be displayed last line of the command line output. If you missed the command line output, please see path below. [job-id] will be the date/time of the run. Please see the latest job-id.
 
 | OS      | Path pattern                                | Example                                                |
 |---------|---------------------------------------------|--------------------------------------------------------|
@@ -196,6 +161,6 @@ The command will generate a report in three different formats. `operation_log.cs
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 

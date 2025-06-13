@@ -14,7 +14,7 @@ Note: This tool does not support proxy servers with any authentication such as B
 
 If the command feels slow or stalled, please try re-run with an option `-verbose`. That will show more detailed progress. But in most cases, the cause is simply you have a larger data to process. Otherwise, you already hit a rate limit from API servers. If you want to see rate limit status, please see capture logs and debug for more details. 
 
-The tool automatically adjusts concurrency to avoid additional limitation from API servers. If you want to see current concurrency, please run the command like below. That will show a current window size (maximum concurrency) per endpoint. The debug message "WaiterStatus" reports current concurrency and window sizes. The map "runners" is for operations currently waiting for a result from API servers. The map "window" is for window size for each endpoint. The map "concurrency" is for current concurrency per endpoint. The below example indicates for the endpoint "https://api.dropboxapi.com/2/file_requests/create", the tool does not allow call that endpoint with the concurrency grater than one. That means it requires operation one by one, and there is no easy workaround to speed up operations.
+The tool automatically adjusts concurrency to avoid additional limitation from API servers. If you want to see current concurrency, please run the command like below. That will show a current window size (maximum concurrency) per endpoint. The debug message "WaiterStatus" reports current concurrency and window sizes. The map "runners" is for operations currently waiting for a result from API servers. The map "window" is for window size for each endpoint. The map "concurrency" is for current concurrency per endpoint. The below example indicates for the endpoint "https://api.dropboxapi.com/2/file_requests/create", the tool does not allow call that endpoint with the concurrency greater than one. That means it requires operation one by one, and there is no easy workaround to speed up operations.
 ```
 tbx job log last -quiet | jq 'select(.msg == "WaiterStatus")' 
 {
@@ -69,19 +69,19 @@ In PowerShell, you can change the font with (1) right-click on the title bar, (2
 
 # Log files
 
-By default, log files are stored under the path "%USERPROFILE%\.toolbox\jobs" (e.g. `C:\Users\USERNAME\.toolbox\jobs`) on windows, or "$HOME\.toolbox\jobs" in Linux or macOS (e.g. `/Users/USERNAME/.toolbox/jobs`). Log files contain information such as (1) Runtime information, e.g. OS type/version/environment variables, (2) Runtime options to the tool (including a copy of input data files), (3) Account information of services such as Dropbox, (4) Request and response data to API servers, (5) Data in services such as file name, metadata, id, URL etc. (depends on the command).
+By default, log files are stored under the path "%USERPROFILE%\.toolbox\jobs" (e.g. `C:\Users\USERNAME\.toolbox\jobs`) on windows, or "$HOME/.toolbox/jobs" in Linux or macOS (e.g. `/Users/USERNAME/.toolbox/jobs`). Log files contain information such as (1) Runtime information, e.g. OS type/version/environment variables, (2) Runtime options to the tool (including a copy of input data files), (3) Account information of services such as Dropbox, (4) Request and response data to API servers, (5) Data in services such as file name, metadata, id, URL etc. (depends on the command).
 
-Those logs do not contain password, credentials, or API token. But API tokens are stored under the path "%USERPROFILE%\.toolbox\secrets" (e.g. `C:\Users\USERNAME\.toolbox\secrets`) on windows, or "$HOME\.toolbox\secrets" in Linux or macOS (e.g. `/Users/USERNAME/.toolbox/secrets`). These secrets folder files are obfuscated but please do not share these files to anyone including a service provider support such as Dropbox support.
+Those logs do not contain password, credentials, or API token. But API tokens are stored under the path "%USERPROFILE%\.toolbox\secrets" (e.g. `C:\Users\USERNAME\.toolbox\secrets`) on windows, or "$HOME/.toolbox/secrets" in Linux or macOS (e.g. `/Users/USERNAME/.toolbox/secrets`). These secrets folder files are obfuscated but please do not share these files to anyone including a service provider support such as Dropbox support.
 
 ## Log format
 
 There are several folders and files stored under the `jobs` folder. First, the job folder will be created every run with a name (internally called Job Id) with the format "yyyyMMdd-HHmmSS.xxx". The first part "yyyyMMdd-HHmmSS" is for local date/time of the command start. The second part ".xxx" is the sequential or random three-character ID to avoid conflict with a concurrent run.
 
-Under the job folder, there are subfolders (1) `logs`: runtime logs including request/response data, parameters, or debug information, (2) `reports`: reports folder is for manage generated reports, (3) `kvs`: KVS folder is for runtime database folder. 
+Under the job folder, there are subfolders (1) `logs`: runtime logs including request/response data, parameters, or debug information, (2) `reports`: reports folder is for managing generated reports, (3) `kvs`: KVS folder is for runtime database folder. 
 
 On troubleshooting, files under `logs` are essential to understand what happened in runtime. The tool generates several types of logs. Those logs are JSON Lines format. Note: JSON Lines is a format that separate data with line separators. Please see [JSON Lines](https://jsonlines.org/) for more detail about the specification.
 
-Some logs are compressed with gzip format. If a log compressed, then the file has a suffix '.gz'. Additionally, logs such as capture logs and toolbox logs are divided by certain size. If you want to analyze logs, please consider using `job log` commands. For example, `job log last -quiet` will report toolbox logs of the latest job with decompressed and concatenated.
+Some logs are compressed with gzip format. If a log is compressed, then the file has a suffix '.gz'. Additionally, logs such as capture logs and toolbox logs are divided by certain size. If you want to analyze logs, please consider using `job log` commands. For example, `job log last -quiet` will report toolbox logs of the latest job with decompressed and concatenated.
 
 ## Debug logs
 
@@ -105,6 +105,6 @@ tbx job log last -quiet | jq -r 'select(.msg == "Heap stats") | [.time, .HeapInu
 
 ## API transaction logs
 
-The toll will record API requests and responses into capture logs that have a prefix "capture". This capture logs do not contain requests and responses of OAuth. Additionally, API token strings are replaced with `<secret>`.
+The tool will record API requests and responses into capture logs that have a prefix "capture". This capture logs do not contain requests and responses of OAuth. Additionally, API token strings are replaced with `<secret>`.
 
 
