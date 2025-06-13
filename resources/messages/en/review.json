@@ -1,0 +1,9 @@
+{
+  "citron.asana.team.list.flag.peer": true,
+  "citron.asana.team.list.flag.workspace": true,
+  "citron.asana.team.list.progress_workspace": true,
+  "citron.asana.team.list.title": true,
+  "citron.asana.team.project.list.flag.peer": true,
+  "citron.asana.team.project.list.flag.team": true,
+  "citron.asana.team.project.list.flag.workspace": true
+}

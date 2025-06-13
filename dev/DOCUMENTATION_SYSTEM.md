@@ -114,6 +114,78 @@ Follow the existing naming convention:
 - `<package>.<command>.arg.<name>`: Argument description
 - `<package>.<command>.arg.<name>.desc`: Detailed argument description
 
+## Defining Messages in Recipes
+
+### Message Variable Pattern
+When implementing recipes (commands), messages should be defined as struct fields with `app_msg.Message` type. The framework automatically infers the message key based on the command path and field name.
+
+#### Example Implementation
+```go
+package example
+
+import (
+    "github.com/watermint/toolbox/infra/control/app_control"
+    "github.com/watermint/toolbox/infra/recipe/rc_recipe"
+    "github.com/watermint/toolbox/infra/ui/app_msg"
+)
+
+type MyCommand struct {
+    rc_recipe.RemarkSecret
+    // Message variables - automatically mapped to message keys
+    ProgressScan    app_msg.Message  // => recipe.example.mycommand.progress_scan
+    ErrorNotFound   app_msg.Message  // => recipe.example.mycommand.error_not_found
+    SuccessComplete app_msg.Message  // => recipe.example.mycommand.success_complete
+}
+
+func (z *MyCommand) Exec(c app_control.Control) error {
+    ui := c.UI()
+    
+    // Use message variables directly (NOT CreateMessage)
+    ui.Progress(z.ProgressScan.With("Path", "/some/path"))
+    ui.Error(z.ErrorNotFound.With("File", "test.txt"))
+    ui.Success(z.SuccessComplete.With("Count", 10))
+    
+    return nil
+}
+```
+
+#### Message Key Inference Rules
+1. Package path: `recipe/example/mycommand.go`
+2. Struct field: `ProgressScan`
+3. Generated key: `recipe.example.mycommand.progress_scan`
+
+The framework automatically converts:
+- PascalCase field names to snake_case
+- Removes "recipe/" prefix from the path
+- Joins with dots to form the final message key
+
+#### Best Practices
+1. **DO NOT use CreateMessage()**: Always use message variables (struct fields)
+2. **Follow naming conventions**: Use descriptive PascalCase names for message fields
+3. **Add to messages.json**: Ensure corresponding keys exist in resource files
+4. **Use With() for parameters**: Pass dynamic values using the With() method
+
+#### Common Message Types
+```go
+type Command struct {
+    // Progress messages
+    ProgressDownload app_msg.Message
+    ProgressUpload   app_msg.Message
+    
+    // Error messages
+    ErrorInvalidInput app_msg.Message
+    ErrorNetworkFail  app_msg.Message
+    
+    // Success messages
+    SuccessCompleted app_msg.Message
+    SuccessSaved     app_msg.Message
+    
+    // Info messages
+    InfoSkipped      app_msg.Message
+    InfoRetrying     app_msg.Message
+}
+```
+
 ## Documentation Infrastructure
 
 ### Key Packages
