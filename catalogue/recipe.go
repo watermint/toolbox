@@ -92,6 +92,7 @@ func AutoDetectedRecipesClassic() []infra_recipe_rc_recipe.Recipe {
 		&recipedevdocmsg.Delete{},
 		&recipedevdocmsg.List{},
 		&recipedevdocmsg.Update{},
+		&recipedevdocmsg.Verify{},
 		&recipedevdocreview.Approve{},
 		&recipedevdocreview.Batch{},
 		&recipedevdocreview.List{},
