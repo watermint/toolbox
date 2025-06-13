@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team member folder list
 
-List folders for each member 
+Display all folders in each team member's account, useful for content auditing and storage analysis 
+
+Enumerates folders across team members' personal spaces. Filter by folder name to focus results. Essential for understanding content distribution, auditing member storage, and planning migrations or cleanups.
 
 # Security
 

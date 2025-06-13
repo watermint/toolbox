@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team admin list
 
-List admin roles of members 
+Display all team members with their assigned admin roles, helpful for auditing administrative access and permissions 
+
+Generates a comprehensive admin audit report showing all members with elevated privileges. Can include non-admin members for complete visibility. Essential for security reviews, compliance audits, and ensuring appropriate access levels across the organization.
 
 # Security
 

@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team group member batch update
 
-Add or delete members from groups (Irreversible operation)
+Update group memberships in bulk by adding or removing members, optimizing group composition changes (Irreversible operation)
+
+Modifies group memberships in bulk based on a CSV file. Can both add and remove members in a single operation. Ideal for large-scale reorganizations where group compositions need significant updates. Maintains audit trail of all changes made.
 
 # Security
 

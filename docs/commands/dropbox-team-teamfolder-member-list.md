@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team teamfolder member list
 
-List team folder members 
+Display all members with access to each team folder, showing permission levels and access types 
+
+Shows complete membership for all team folders including permission levels and whether access is direct or through groups. Critical for access audits, security reviews, and understanding who can access sensitive content. Identifies over-privileged access.
 
 # Security
 

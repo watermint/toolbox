@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team runas sharedfolder mount mountable
 
-List all shared folders the member can mount 
+Show all available shared folders that a team member can mount but hasn't synced yet 
+
+Lists shared folders accessible to a member but not currently synced to their device. Useful for identifying available folders, helping members find content, or understanding why certain folders aren't appearing locally. Shows potential sync options.
 
 # Security
 

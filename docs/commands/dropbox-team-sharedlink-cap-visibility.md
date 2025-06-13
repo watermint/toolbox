@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team sharedlink cap visibility
 
-Set visibility cap to shared links in the team (Irreversible operation)
+Enforce visibility restrictions on team shared links, controlling public access levels (Irreversible operation)
+
+Modifies shared link visibility settings to enforce team security policies. Can restrict public links to team-only or password-protected access. Critical for preventing data leaks and ensuring links comply with organizational security requirements.
 
 # Security
 

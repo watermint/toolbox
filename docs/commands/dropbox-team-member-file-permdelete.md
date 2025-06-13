@@ -6,9 +6,9 @@ lang: en
 
 # dropbox team member file permdelete
 
-Permanently delete the file or folder at a given path of the team member. (Experimental, and Irreversible operation)
+Permanently delete files or folders from a team member's account, bypassing trash for immediate removal (Experimental, and Irreversible operation)
 
-Please see https://www.dropbox.com/help/40 for more detail about permanent deletion.
+Permanently deletes specified files or folders without possibility of recovery. Use with extreme caution for removing sensitive data, complying with data retention policies, or freeing storage. Cannot be undone - ensure proper authorization before use.
 
 # Security
 

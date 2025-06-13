@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team member batch suspend
 
-Bulk suspend members 
+Temporarily suspend multiple team members' access while preserving their data and settings 
+
+Bulk suspends team members, blocking access while preserving all data and settings. Use for extended leaves, security investigations, or temporary access restrictions. Option to keep or remove data from devices. Members can be unsuspended later with full access restored.
 
 # Security
 

@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team teamfolder archive
 
-Archive team folder (Irreversible operation)
+Archive a team folder to make it read-only while preserving all content and access history (Irreversible operation)
+
+Converts active team folders to archived status, making them read-only while preserving all content and permissions. Use for completed projects, historical records, or compliance requirements. Archived folders can be reactivated if needed.
 
 # Security
 

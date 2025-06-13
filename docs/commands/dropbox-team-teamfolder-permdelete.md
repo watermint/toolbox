@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team teamfolder permdelete
 
-Permanently delete team folder (Irreversible operation)
+Permanently delete an archived team folder and all its contents, irreversibly freeing storage (Irreversible operation)
+
+Irreversibly deletes a team folder and all contained files. Use only with proper authorization and after confirming no critical data remains. Essential for compliance with data retention policies or removing sensitive content. This action cannot be undone.
 
 # Security
 

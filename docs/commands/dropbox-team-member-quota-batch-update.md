@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team member quota batch update
 
-Update team member quota 
+Modify storage quotas for multiple team members in batch, managing storage allocation efficiently 
+
+Bulk updates storage quotas for team members using a CSV file. Set custom quotas based on roles, departments, or usage patterns. Use 0 to remove custom quotas and revert to team defaults. Essential for storage governance and cost management.
 
 # Security
 

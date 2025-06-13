@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team group member add
 
-Add a member to the group (Irreversible operation)
+Add individual team members to a specific group for centralized permission management (Irreversible operation)
+
+Adds members to groups for inherited permissions and simplified management. Changes take effect immediately for folder access. Consider group size limits and performance implications for very large groups.
 
 # Security
 

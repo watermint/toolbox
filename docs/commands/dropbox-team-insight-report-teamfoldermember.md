@@ -6,7 +6,7 @@ lang: en
 
 # dropbox team insight report teamfoldermember
 
-Report team folder members 
+Generate detailed reports on team folder membership, showing access patterns and member distribution 
 
 # Installation
 

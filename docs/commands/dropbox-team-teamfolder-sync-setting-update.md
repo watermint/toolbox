@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team teamfolder sync setting update
 
-Batch update team folder sync settings 
+Modify sync settings for multiple team folders in batch, controlling automatic synchronization behavior 
+
+Modifies sync behavior for team folders between automatic sync to all members or manual sync selection. Use to reduce storage usage on devices, manage bandwidth, or ensure critical folders sync automatically. Apply changes during low-activity periods.
 
 # Security
 

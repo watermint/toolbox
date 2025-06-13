@@ -6,7 +6,7 @@ lang: en
 
 # dropbox team legalhold member list
 
-List members of the legal hold 
+Display all team members currently under legal hold policies with their preservation status 
 
 # Security
 

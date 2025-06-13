@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team report storage
 
-Storage report 
+Create detailed storage usage reports showing team consumption, trends, and member distribution 
+
+Provides comprehensive storage analytics including total usage, growth trends, and per-member consumption. Identifies storage hogs, helps predict future needs, and supports capacity planning. Export data for budgeting and resource allocation decisions.
 
 # Security
 

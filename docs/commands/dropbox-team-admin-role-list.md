@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team admin role list
 
-List admin roles of the team 
+Display all available admin roles in the team with their descriptions and permissions 
+
+Lists all possible admin roles available in your Dropbox team along with their capabilities. Reference this before assigning roles to understand permission implications. Helps ensure team members receive appropriate access levels.
 
 # Security
 

@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team content legacypaper list
 
-List team member Paper documents 
+Generate a comprehensive list of all legacy Paper documents across the team with ownership and metadata information 
+
+Creates detailed inventory of all Paper documents including titles, owners, and last modified dates. Use for content audits, identifying orphaned documents, or preparing for migrations. Filter by creation or access patterns to focus analysis.
 
 # Security
 

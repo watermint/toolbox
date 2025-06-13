@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team teamfolder batch archive
 
-Archiving team folders (Irreversible operation)
+Archive multiple team folders in batch, efficiently managing folder lifecycle and compliance (Irreversible operation)
+
+Bulk archives team folders based on criteria like age, name patterns, or activity levels. Streamlines folder lifecycle management and helps maintain organized team spaces. Preserves all content while preventing new modifications.
 
 # Security
 

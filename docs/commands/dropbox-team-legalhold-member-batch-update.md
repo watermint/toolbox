@@ -6,7 +6,7 @@ lang: en
 
 # dropbox team legalhold member batch update
 
-Update member list of legal hold policy 
+Add or remove multiple team members from legal hold policies in batch for efficient compliance management 
 
 # Security
 

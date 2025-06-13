@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team member batch invite
 
-Invite member(s) (Irreversible operation)
+Send batch invitations to new team members, streamlining the onboarding process for multiple users (Irreversible operation)
+
+Sends team invitations to multiple email addresses from a CSV file. Supports silent invites for SSO environments. Ideal for onboarding new departments, acquisitions, or seasonal workers. Validates email formats and checks for existing members before sending.
 
 # Security
 

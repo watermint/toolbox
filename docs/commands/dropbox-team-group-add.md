@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team group add
 
-Create new group (Irreversible operation)
+Create a new group in your team for organizing members and managing permissions collectively (Irreversible operation)
+
+Creates groups for logical organization of team members. Groups simplify permission management by allowing bulk operations. Consider naming conventions for easy identification. Groups can be company-managed or member-managed depending on governance needs.
 
 # Security
 

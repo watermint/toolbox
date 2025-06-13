@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team group update type
 
-Update group management type 
+Change how a group is managed (user-managed vs company-managed), affecting who can modify group membership 
+
+Modifies group management settings to control who can add or remove members. Company-managed groups restrict modifications to admins, while user-managed groups allow designated members to manage membership. Critical for implementing proper governance and access control policies.
 
 # Security
 

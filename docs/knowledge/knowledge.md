@@ -6629,9 +6629,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/feature.md
 
 # dropbox team feature
 
-Team feature 
+Display all features and capabilities enabled for your Dropbox team account, including API limits and special features 
 
-
+Shows team's enabled features, beta access, and API rate limits. Check before using advanced features or planning integrations. Features may vary by subscription level. Useful for troubleshooting feature availability issues.
 
 # Usage
 
@@ -6683,9 +6683,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/filesystem.md
 
 # dropbox team filesystem
 
-Identify team's file system version 
+Identify whether your team uses legacy or modern file system architecture, important for feature compatibility 
 
-
+Determines underlying file system version affecting feature availability and API behavior. Modern file system enables advanced features like native Paper and enhanced performance. Legacy teams may need migration for full feature access.
 
 # Usage
 
@@ -6737,9 +6737,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/info.md
 
 # dropbox team info
 
-Team information 
+Display essential team account information including team ID and basic team settings 
 
-
+Shows fundamental team account details needed for API integrations and support requests. Team ID is required for various administrative operations. Quick way to verify you're connected to the correct team account.
 
 # Usage
 
@@ -6794,7 +6794,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/activity/event.md
 
 # dropbox team activity event
 
-Event log 
+Retrieve detailed team activity event logs with filtering options, essential for security auditing and compliance monitoring 
 
 From release 91, the command parses `-start-time` or `-end-time` as the relative duration from now with the format like "-24h" (24 hours) or "-10m" (10 minutes).
 If you wanted to retrieve events every hour, then run like:
@@ -6887,9 +6887,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/activity/user.md
 
 # dropbox team activity user
 
-Activities log per user 
+Retrieve activity logs for specific team members, showing their file operations, logins, and sharing activities 
 
-
+Retrieves detailed activity logs for individual team members, including file operations, sharing activities, and login events. Essential for user-specific audits, investigating security incidents, or understanding individual usage patterns. Can filter by activity category for focused analysis.
 
 # Usage
 
@@ -6974,9 +6974,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/activity/batch/user.md
 
 # dropbox team activity batch user
 
-Scan activities for multiple users 
+Scan and retrieve activity logs for multiple team members in batch, useful for compliance auditing and user behavior analysis 
 
-
+This command processes a list of user email addresses from a file and retrieves their activity logs within a specified time range. Useful for HR investigations, compliance reporting, or analyzing patterns across specific user groups.
 
 # Usage
 
@@ -7087,9 +7087,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/activity/daily/event.md
 
 # dropbox team activity daily event
 
-Report activities by day 
+Generate daily activity reports showing team events grouped by date, helpful for tracking team usage patterns and security monitoring 
 
-
+Aggregates team activity events by day, making it easier to identify trends and anomalies in team behavior. Particularly useful for creating daily security reports, tracking adoption of new features, or identifying unusual activity patterns that might indicate security concerns.
 
 # Usage
 
@@ -7152,9 +7152,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/admin/list.md
 
 # dropbox team admin list
 
-List admin roles of members 
+Display all team members with their assigned admin roles, helpful for auditing administrative access and permissions 
 
-
+Generates a comprehensive admin audit report showing all members with elevated privileges. Can include non-admin members for complete visibility. Essential for security reviews, compliance audits, and ensuring appropriate access levels across the organization.
 
 # Usage
 
@@ -7195,9 +7195,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/admin/group/role/add.md
 
 # dropbox team admin group role add
 
-Add the role to members of the group 
+Assign admin roles to all members of a specified group, streamlining role management for large teams 
 
-
+Efficiently grants admin privileges to entire groups rather than individual members. Ideal for departmental admin assignments or when onboarding new admin teams. Changes are applied immediately to all current group members.
 
 # Usage
 
@@ -7250,9 +7250,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/admin/group/role/delete
 
 # dropbox team admin group role delete
 
-Delete the role from all members except members of the exception group 
+Remove admin roles from all team members except those in a specified exception group, useful for role cleanup and access control 
 
-
+Bulk removes specific admin roles while preserving them for an exception group. Useful for reorganizing admin structures or implementing least-privilege access. The exception group ensures critical admins retain necessary permissions during cleanup operations.
 
 # Usage
 
@@ -7305,9 +7305,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/admin/role/add.md
 
 # dropbox team admin role add
 
-Add a new role to the member 
+Grant a specific admin role to an individual team member, enabling granular permission management 
 
-
+Assigns specific admin roles to individual members for precise permission control. Use when promoting team members to admin positions or adjusting responsibilities. The command validates that the member doesn't already have the specified role to prevent duplicates.
 
 # Usage
 
@@ -7360,9 +7360,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/admin/role/clear.md
 
 # dropbox team admin role clear
 
-Remove all admin roles from the member 
+Revoke all administrative privileges from a team member, useful for role transitions or security purposes 
 
-
+Completely removes all admin roles from a member in a single operation. Essential for offboarding admins, responding to security incidents, or transitioning members to non-administrative positions. More efficient than removing roles individually.
 
 # Usage
 
@@ -7393,9 +7393,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/admin/role/delete.md
 
 # dropbox team admin role delete
 
-Remove a role from the member 
+Remove a specific admin role from a team member while preserving other roles, allowing precise permission adjustments 
 
-
+Selectively removes individual admin roles without affecting other permissions. Useful for adjusting responsibilities or implementing role-based access changes. The command verifies the member has the role before attempting removal.
 
 # Usage
 
@@ -7448,9 +7448,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/admin/role/list.md
 
 # dropbox team admin role list
 
-List admin roles of the team 
+Display all available admin roles in the team with their descriptions and permissions 
 
-
+Lists all possible admin roles available in your Dropbox team along with their capabilities. Reference this before assigning roles to understand permission implications. Helps ensure team members receive appropriate access levels.
 
 # Usage
 
@@ -7499,7 +7499,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/backup/device/status.md
 
 # dropbox team backup device status
 
-Dropbox Backup device status change in the specified period 
+Track Dropbox Backup status changes for all team devices over a specified period, monitoring backup health and compliance 
 
 Evaluates and reports the latest status of Dropbox Backup per device session from activity logs for a specified time period. If there is no activity during the specified period, it is reported as the value `no_status_update`.
 Multiple device sessions may be displayed in the following cases
@@ -7564,9 +7564,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/content/legacypaper/cou
 
 # dropbox team content legacypaper count
 
-Count number of Paper documents per member 
+Calculate the total number of legacy Paper documents owned by each team member, useful for content auditing and migration planning 
 
-
+Provides Paper document counts per member, distinguishing between created and accessed documents. Essential for planning Paper-to-Dropbox migrations, identifying heavy Paper users, and estimating migration scope. Filter options help focus on relevant document sets.
 
 # Usage
 
@@ -7616,9 +7616,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/content/legacypaper/exp
 
 # dropbox team content legacypaper export
 
-Export entire team member Paper documents into local path 
+Export all legacy Paper documents from team members to local storage in HTML or Markdown format for backup or migration 
 
-
+Bulk exports team Paper documents to local storage, preserving content before migrations or for compliance archives. Supports HTML and Markdown formats. Creates organized folder structure by member. Consider available disk space as this may export large amounts of data.
 
 # Usage
 
@@ -7674,9 +7674,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/content/legacypaper/lis
 
 # dropbox team content legacypaper list
 
-List team member Paper documents 
+Generate a comprehensive list of all legacy Paper documents across the team with ownership and metadata information 
 
-
+Creates detailed inventory of all Paper documents including titles, owners, and last modified dates. Use for content audits, identifying orphaned documents, or preparing for migrations. Filter by creation or access patterns to focus analysis.
 
 # Usage
 
@@ -7729,9 +7729,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/content/member/list.md
 
 # dropbox team content member list
 
-List team folder & shared folder members 
+Display all members with access to team folders and shared folders, showing permission levels and folder relationships 
 
-
+Maps folder access across the team, showing which members can access specific folders and their permission levels. Invaluable for access reviews, identifying over-privileged accounts, and understanding content exposure. Helps maintain principle of least privilege.
 
 # Usage
 
@@ -7808,9 +7808,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/content/member/size.md
 
 # dropbox team content member size
 
-Count number of members of team folders and shared folders 
+Calculate member counts for each team folder and shared folder, helping identify heavily accessed content and optimize permissions 
 
-
+Analyzes folder membership density to identify over-shared content. High member counts may indicate security risks or performance issues. Use to prioritize permission reviews and identify candidates for access restriction or folder restructuring.
 
 # Usage
 
@@ -7870,9 +7870,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/content/mount/list.md
 
 # dropbox team content mount list
 
-List all mounted/unmounted shared folders of team members. 
+Display mount status of all shared folders for team members, identifying which folders are actively synced to member devices 
 
-
+Shows which shared folders are actively syncing to member devices versus cloud-only access. Critical for bandwidth planning, identifying heavy sync users, and troubleshooting sync issues. Helps optimize storage usage on user devices.
 
 # Usage
 
@@ -7936,9 +7936,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/content/policy/list.md
 
 # dropbox team content policy list
 
-List policies of team folders and shared folders in the team 
+Review all access policies and restrictions applied to team folders and shared folders for governance compliance 
 
-
+Comprehensive policy audit showing viewer info restrictions, shared link policies, and other governance settings. Essential for compliance verification and ensuring folders meet organizational security requirements. Identifies policy inconsistencies across folders.
 
 # Usage
 
@@ -7996,9 +7996,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/device/list.md
 
 # dropbox team device list
 
-List all devices/sessions in the team 
+Display all devices and active sessions connected to team member accounts with device details and last activity timestamps 
 
-
+Complete device inventory showing all connected devices, platforms, and session ages. Critical for security audits, identifying unauthorized devices, and managing device limits. Export data to track device sprawl and plan security policies.
 
 # Usage
 
@@ -8068,9 +8068,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/device/unlink.md
 
 # dropbox team device unlink
 
-Unlink device sessions (Irreversible operation)
+Remotely disconnect devices from team member accounts, essential for securing lost/stolen devices or revoking access (Irreversible operation)
 
-
+Immediately terminates device sessions, forcing re-authentication. Critical security tool for lost devices, departing employees, or suspicious activity. Device must reconnect and re-sync after unlinking. Consider member communication before bulk unlinking.
 
 # Usage
 
@@ -8191,9 +8191,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/filerequest/list.md
 
 # dropbox team filerequest list
 
-List all file requests in the team 
+Display all active and closed file requests created by team members, helping track external file collection activities 
 
-
+Comprehensive view of all file requests across the team. Monitor external data collection, identify abandoned requests, and ensure compliance with data handling policies. Includes request URLs, creators, and submission counts for audit purposes.
 
 # Usage
 
@@ -8252,9 +8252,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/group/add.md
 
 # dropbox team group add
 
-Create new group (Irreversible operation)
+Create a new group in your team for organizing members and managing permissions collectively (Irreversible operation)
 
-
+Creates groups for logical organization of team members. Groups simplify permission management by allowing bulk operations. Consider naming conventions for easy identification. Groups can be company-managed or member-managed depending on governance needs.
 
 # Usage
 
@@ -8305,9 +8305,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/group/delete.md
 
 # dropbox team group delete
 
-Delete group (Irreversible operation)
+Remove a specific group from your team, automatically removing all member associations (Irreversible operation)
 
-This command does not confirm whether the group is used in existing folders
+Permanently deletes a group and removes all member associations. Members retain access through other groups or individual permissions. Cannot be undone - consider archiving group by removing members instead if unsure. Folder permissions using this group are also removed.
 
 # Usage
 
@@ -8338,9 +8338,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/group/list.md
 
 # dropbox team group list
 
-List group(s) 
+Display all groups in your team with member counts and group management types 
 
-
+Complete inventory of team groups showing sizes and management modes. Use to identify empty groups, oversized groups, or groups needing management type changes. Export for regular auditing and compliance documentation.
 
 # Usage
 
@@ -8389,9 +8389,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/group/rename.md
 
 # dropbox team group rename
 
-Rename the group (Irreversible operation)
+Change the name of an existing group to better reflect its purpose or organizational changes (Irreversible operation)
 
-
+Updates the display name of a group while maintaining all members and permissions. Useful when departments restructure, projects change names, or group purposes evolve. The rename is immediate and affects all references to the group throughout the system.
 
 # Usage
 
@@ -8446,9 +8446,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/group/batch/add.md
 
 # dropbox team group batch add
 
-Bulk adding groups 
+Create multiple groups at once using batch processing, efficient for large-scale team organization 
 
-
+Bulk creates groups from a data file, ideal for initial setup or reorganizations. Validates all groups before creation to prevent partial failures. Include external IDs for integration with identity management systems. Significantly faster than individual creation.
 
 # Usage
 
@@ -8522,9 +8522,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/group/batch/delete.md
 
 # dropbox team group batch delete
 
-Delete groups (Irreversible operation)
+Remove multiple groups from your team in batch, streamlining group cleanup and reorganization (Irreversible operation)
 
-
+Efficiently removes multiple groups in a single operation. Useful for organizational restructuring or cleaning up obsolete groups. Members retain individual permissions but lose group-based access. Verify group contents before deletion as this is irreversible.
 
 # Usage
 
@@ -8597,9 +8597,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/group/clear/externalid.
 
 # dropbox team group clear externalid
 
-Clear an external ID of a group 
+Remove external ID mappings from groups, useful when disconnecting from external identity providers 
 
-
+Removes external ID associations from groups when migrating away from identity providers or changing integration systems. Group functionality remains intact but loses external system mapping. Useful for troubleshooting sync issues with identity providers.
 
 # Usage
 
@@ -8674,9 +8674,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/group/folder/list.md
 
 # dropbox team group folder list
 
-List folders of each group 
+Display all folders accessible by each group, showing group-based content organization and permissions 
 
-
+Maps group permissions to folders, revealing content access patterns. Essential for access reviews and understanding permission inheritance. Helps identify over-permissioned groups and optimize folder structures for security.
 
 # Usage
 
@@ -8755,9 +8755,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/group/member/add.md
 
 # dropbox team group member add
 
-Add a member to the group (Irreversible operation)
+Add individual team members to a specific group for centralized permission management (Irreversible operation)
 
-
+Adds members to groups for inherited permissions and simplified management. Changes take effect immediately for folder access. Consider group size limits and performance implications for very large groups.
 
 # Usage
 
@@ -8812,9 +8812,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/group/member/delete.md
 
 # dropbox team group member delete
 
-Delete a member from the group (Irreversible operation)
+Remove a specific member from a group while preserving their other group memberships (Irreversible operation)
 
-
+Removes an individual member from a single group without affecting their membership in other groups. Use for targeted permission adjustments or when members change departments. The removal takes effect immediately, revoking any inherited permissions from that group.
 
 # Usage
 
@@ -8869,9 +8869,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/group/member/list.md
 
 # dropbox team group member list
 
-List members of groups 
+Display all members belonging to each group, useful for auditing group compositions and access rights 
 
-
+Lists all groups with their complete member rosters. Essential for access audits, verifying group compositions, and understanding permission inheritance. Helps identify empty groups, over-privileged groups, or members with unexpected access through group membership.
 
 # Usage
 
@@ -8924,9 +8924,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/group/member/batch/add.
 
 # dropbox team group member batch add
 
-Bulk add members into groups (Irreversible operation)
+Add multiple members to groups efficiently using batch processing, ideal for large team reorganizations (Irreversible operation)
 
-
+Bulk adds members to groups using a mapping file. Validates all memberships before applying changes. Ideal for onboarding, departmental changes, or permission standardization projects. Handles errors gracefully with detailed reporting.
 
 # Usage
 
@@ -8998,9 +8998,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/group/member/batch/dele
 
 # dropbox team group member batch delete
 
-Delete members from groups (Irreversible operation)
+Remove multiple members from groups in batch, streamlining group membership management (Irreversible operation)
 
-
+Bulk removes members from groups using a CSV file mapping. Validates all memberships before making changes. Useful for organizational restructuring, offboarding processes, or cleaning up group memberships. Processes efficiently with detailed error reporting for any issues.
 
 # Usage
 
@@ -9072,9 +9072,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/group/member/batch/upda
 
 # dropbox team group member batch update
 
-Add or delete members from groups (Irreversible operation)
+Update group memberships in bulk by adding or removing members, optimizing group composition changes (Irreversible operation)
 
-
+Modifies group memberships in bulk based on a CSV file. Can both add and remove members in a single operation. Ideal for large-scale reorganizations where group compositions need significant updates. Maintains audit trail of all changes made.
 
 # Usage
 
@@ -9146,9 +9146,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/group/update/type.md
 
 # dropbox team group update type
 
-Update group management type 
+Change how a group is managed (user-managed vs company-managed), affecting who can modify group membership 
 
-
+Modifies group management settings to control who can add or remove members. Company-managed groups restrict modifications to admins, while user-managed groups allow designated members to manage membership. Critical for implementing proper governance and access control policies.
 
 # Usage
 
@@ -9201,7 +9201,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/insight/scan.md
 
 # dropbox team insight scan
 
-Scans team data for analysis 
+Perform comprehensive data scanning across your team for analytics and insights generation 
 
 This command collects various team data, such as files in team folders, permissions and shared links, and stores them in a database.
 The collected data can be analysed with commands such as `dropbox team insight report teamfoldermember`, or with database tools that support SQLite in general.
@@ -9279,7 +9279,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/insight/report/teamfold
 
 # dropbox team insight report teamfoldermember
 
-Report team folder members 
+Generate detailed reports on team folder membership, showing access patterns and member distribution 
 
 
 
@@ -9343,7 +9343,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/legalhold/add.md
 
 # dropbox team legalhold add
 
-Creates a new legal hold policy. 
+Create a legal hold policy to preserve specified team content for compliance or litigation purposes 
 
 
 
@@ -9424,7 +9424,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/legalhold/list.md
 
 # dropbox team legalhold list
 
-Retrieve existing policies 
+Display all active legal hold policies with their details, members, and preservation status 
 
 
 
@@ -9481,9 +9481,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/legalhold/release.md
 
 # dropbox team legalhold release
 
-Releases a legal hold by ID 
+Release a legal hold policy and restore normal file operations for affected members and content 
 
-
+Ends a legal hold policy and removes preservation requirements. Content becomes subject to normal retention and deletion policies again. Use when litigation concludes or preservation is no longer required. The release is logged for audit purposes but cannot be undone.
 
 # Usage
 
@@ -9514,7 +9514,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/legalhold/member/list.m
 
 # dropbox team legalhold member list
 
-List members of the legal hold 
+Display all team members currently under legal hold policies with their preservation status 
 
 
 
@@ -9580,7 +9580,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/legalhold/member/batch/
 
 # dropbox team legalhold member batch update
 
-Update member list of legal hold policy 
+Add or remove multiple team members from legal hold policies in batch for efficient compliance management 
 
 
 
@@ -9667,9 +9667,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/legalhold/revision/list
 
 # dropbox team legalhold revision list
 
-List revisions under legal hold 
+Display all file revisions preserved under legal hold policies, ensuring comprehensive data retention 
 
-
+Shows the complete revision history of files under legal hold including all modifications. Tracks file versions preserved by the policy to ensure nothing is lost. Critical for maintaining defensible preservation records and demonstrating compliance with legal requirements.
 
 # Usage
 
@@ -9717,9 +9717,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/legalhold/update/desc.m
 
 # dropbox team legalhold update desc
 
-Update description of the legal hold policy 
+Modify the description of an existing legal hold policy to reflect changes in scope or purpose 
 
-
+Updates the description field of a legal hold policy for better documentation. Useful for adding case references, updating matter details, or clarifying preservation scope. Changes are tracked in the revision history for audit purposes.
 
 # Usage
 
@@ -9775,7 +9775,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/legalhold/update/name.m
 
 # dropbox team legalhold update name
 
-Update name of the legal hold policy 
+Change the name of a legal hold policy for better identification and organization 
 
 
 
@@ -9833,9 +9833,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/linkedapp/list.md
 
 # dropbox team linkedapp list
 
-List linked applications 
+Display all third-party applications linked to team member accounts for security auditing and access control 
 
-
+Lists all third-party applications with access to team members' Dropbox accounts. Essential for security audits, identifying unauthorized apps, and managing OAuth integrations. Shows which members use which apps, helping enforce application policies and identify potential security risks.
 
 # Usage
 
@@ -9891,9 +9891,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/member/feature.md
 
 # dropbox team member feature
 
-List member feature settings 
+Display feature settings and capabilities enabled for specific team members, helping understand member permissions 
 
-
+Shows which features and capabilities are enabled for team members. Useful for troubleshooting access issues, verifying feature rollouts, and understanding member capabilities. Helps identify why certain members can or cannot access specific functionality.
 
 # Usage
 
@@ -9943,9 +9943,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/member/list.md
 
 # dropbox team member list
 
-List team member(s) 
+Display comprehensive list of all team members with their status, roles, and account details 
 
-
+Provides complete team roster including active, suspended, and optionally deleted members. Shows email addresses, names, roles, and account status. Fundamental for team audits, license management, and understanding team composition. Export for HR or compliance reporting.
 
 # Usage
 
@@ -10001,9 +10001,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/member/replication.md
 
 # dropbox team member replication
 
-Replicate team member files (Irreversible operation)
+Replicate all files from one team member's account to another, useful for account transitions or backups (Irreversible operation)
 
-
+Creates complete copies of member data between accounts, preserving folder structures and sharing where possible. Essential for role transitions, creating backups, or merging accounts. Requires sufficient storage in destination account. Consider using batch processing for multiple replications.
 
 # Usage
 
@@ -10077,9 +10077,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/member/suspend.md
 
 # dropbox team member suspend
 
-Suspend a member 
+Temporarily suspend a team member's access to their account while preserving all data and settings 
 
-
+Immediately blocks member access while maintaining all data, settings, and group memberships. Use for security incidents, policy violations, or temporary leaves. Choose whether to keep data on linked devices. Member can be unsuspended later with full access restored.
 
 # Usage
 
@@ -10111,9 +10111,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/member/unsuspend.md
 
 # dropbox team member unsuspend
 
-Unsuspend a member 
+Restore access for a suspended team member, reactivating their account and all associated permissions 
 
-
+Reactivates a suspended member's account, restoring full access to data and team resources. All previous permissions, group memberships, and settings are preserved. Use when suspension reasons are resolved or members return from leave.
 
 # Usage
 
@@ -10144,9 +10144,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/member/batch/delete.md
 
 # dropbox team member batch delete
 
-Delete members (Irreversible operation)
+Remove multiple team members in batch, efficiently managing team departures and access revocation (Irreversible operation)
 
-
+Bulk removes team members while preserving their data through transfers. Requires specifying destination member for file transfers and admin notification email. Ideal for layoffs, department closures, or mass offboarding. Optionally wipes data from linked devices for security.
 
 # Usage
 
@@ -10219,9 +10219,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/member/batch/detach.md
 
 # dropbox team member batch detach
 
-Convert Dropbox for teams accounts to a Basic account (Irreversible operation)
+Convert multiple team accounts to individual Basic accounts, preserving personal data while removing team access (Irreversible operation)
 
-
+Bulk converts team members to personal Dropbox Basic accounts. Members retain their files but lose team features and shared folder access. Useful for contractors ending engagements or when downsizing teams. Consider data retention policies before detaching.
 
 # Usage
 
@@ -10292,9 +10292,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/member/batch/invite.md
 
 # dropbox team member batch invite
 
-Invite member(s) (Irreversible operation)
+Send batch invitations to new team members, streamlining the onboarding process for multiple users (Irreversible operation)
 
-
+Sends team invitations to multiple email addresses from a CSV file. Supports silent invites for SSO environments. Ideal for onboarding new departments, acquisitions, or seasonal workers. Validates email formats and checks for existing members before sending.
 
 # Usage
 
@@ -10379,9 +10379,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/member/batch/reinvite.m
 
 # dropbox team member batch reinvite
 
-Reinvite invited status members to the team (Irreversible operation)
+Resend invitations to pending members who haven't joined yet, ensuring all intended members receive access (Irreversible operation)
 
-
+Resends invitations to all members with pending status. Useful when initial invites expire, get lost in spam, or after resolving email delivery issues. Can send silently for SSO environments. Helps ensure complete team onboarding.
 
 # Usage
 
@@ -10450,9 +10450,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/member/batch/suspend.md
 
 # dropbox team member batch suspend
 
-Bulk suspend members 
+Temporarily suspend multiple team members' access while preserving their data and settings 
 
-
+Bulk suspends team members, blocking access while preserving all data and settings. Use for extended leaves, security investigations, or temporary access restrictions. Option to keep or remove data from devices. Members can be unsuspended later with full access restored.
 
 # Usage
 
@@ -10523,9 +10523,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/member/batch/unsuspend.
 
 # dropbox team member batch unsuspend
 
-Bulk unsuspend members 
+Restore access for multiple suspended team members, reactivating their accounts in batch 
 
-
+Bulk reactivates suspended team members, restoring full access to their accounts and data. Use when members return from leave, investigations conclude, or access restrictions lift. All previous permissions and group memberships are restored automatically.
 
 # Usage
 
@@ -10595,9 +10595,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/member/clear/externalid
 
 # dropbox team member clear externalid
 
-Clear external_id of members 
+Remove external ID mappings from team members, useful when disconnecting from identity management systems 
 
-
+Bulk removes external IDs from team members listed in a CSV file. Essential when migrating between identity providers, cleaning up after SCIM disconnection, or resolving ID conflicts. Does not affect member access, only removes the external identifier mapping.
 
 # Usage
 
@@ -10684,9 +10684,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/member/file/permdelete.
 
 # dropbox team member file permdelete
 
-Permanently delete the file or folder at a given path of the team member. (Experimental, and Irreversible operation)
+Permanently delete files or folders from a team member's account, bypassing trash for immediate removal (Experimental, and Irreversible operation)
 
-Please see https://www.dropbox.com/help/40 for more detail about permanent deletion.
+Permanently deletes specified files or folders without possibility of recovery. Use with extreme caution for removing sensitive data, complying with data retention policies, or freeing storage. Cannot be undone - ensure proper authorization before use.
 
 # Usage
 
@@ -10719,9 +10719,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/member/file/lock/list.m
 
 # dropbox team member file lock list
 
-List locks of the member under the path 
+Display all files locked by a specific team member under a given path, identifying potential collaboration blocks 
 
-
+Lists all files currently locked by a specific member within a path. Helps identify collaboration bottlenecks, troubleshoot editing conflicts, and audit file access patterns. Useful for understanding why team members cannot edit certain files.
 
 # Usage
 
@@ -10779,9 +10779,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/member/file/lock/releas
 
 # dropbox team member file lock release
 
-Release the lock of the path as the member 
+Release a specific file lock held by a team member, enabling others to edit the file 
 
-
+Releases a single file lock held by a member, allowing others to edit. Use when specific files are blocking team collaboration or when lock holders are unavailable. More precise than bulk release when only specific files need unlocking.
 
 # Usage
 
@@ -10840,9 +10840,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/member/file/lock/all/re
 
 # dropbox team member file lock all release
 
-Release all locks under the path of the member 
+Release all file locks held by a team member under a specified path, resolving editing conflicts 
 
-
+Bulk releases all file locks held by a member within a specified folder path. Essential when members leave unexpectedly or during system issues. Processes in batches for efficiency. Consider notifying affected users as their unsaved changes in locked files may be lost.
 
 # Usage
 
@@ -10902,9 +10902,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/member/folder/list.md
 
 # dropbox team member folder list
 
-List folders for each member 
+Display all folders in each team member's account, useful for content auditing and storage analysis 
 
-
+Enumerates folders across team members' personal spaces. Filter by folder name to focus results. Essential for understanding content distribution, auditing member storage, and planning migrations or cleanups.
 
 # Usage
 
@@ -10982,10 +10982,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/member/folder/replicati
 
 # dropbox team member folder replication
 
-Replicate a folder to another member's personal folder (Irreversible operation)
+Copy folder contents from one team member to another's personal space, facilitating content transfer and backup (Irreversible operation)
 
-This command will replicate files under the source folder to the destination folder. The source folder can be a source member's personal folder, a shared folder, or a team folder. But that must be mounted and accessible. This command will overwrite a file if the file already exists on the destination path. 
-This command is the one-way copy from source path in a source member, to destination path in destination member. That means the command will not delete the file on the destination path, which deleted on the source path.
+Copies complete folder hierarchies between members' personal spaces, preserving structure. Ideal for creating backups, transitioning responsibilities, or setting up new members with standard folder structures. Monitor available storage before large replications.
 
 # Usage
 
@@ -11020,9 +11019,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/member/quota/list.md
 
 # dropbox team member quota list
 
-List team member quota 
+Display storage quota assignments for all team members, helping monitor and plan storage distribution 
 
-
+Shows current storage quota settings for all team members, distinguishing between default and custom quotas. Identifies members with special storage needs or restrictions. Use for capacity planning and ensuring fair storage distribution across teams.
 
 # Usage
 
@@ -11070,9 +11069,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/member/quota/usage.md
 
 # dropbox team member quota usage
 
-List team member storage usage 
+Show actual storage usage for each team member compared to their quotas, identifying storage needs 
 
-
+Displays current storage consumption versus allocated quotas for each member. Highlights members approaching limits, underutilizing space, or needing quota adjustments. Critical for proactive storage management and preventing work disruptions due to full quotas.
 
 # Usage
 
@@ -11124,9 +11123,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/member/quota/batch/upda
 
 # dropbox team member quota batch update
 
-Update team member quota 
+Modify storage quotas for multiple team members in batch, managing storage allocation efficiently 
 
-
+Bulk updates storage quotas for team members using a CSV file. Set custom quotas based on roles, departments, or usage patterns. Use 0 to remove custom quotas and revert to team defaults. Essential for storage governance and cost management.
 
 # Usage
 
@@ -11201,9 +11200,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/member/update/batch/ema
 
 # dropbox team member update batch email
 
-Member email operation (Irreversible operation)
+Update email addresses for multiple team members in batch, managing email changes efficiently (Irreversible operation)
 
-
+Bulk updates member email addresses using a CSV mapping file. Essential for domain migrations, name changes, or correcting email errors. Validates new addresses and preserves all member data and permissions. Option to update unverified emails with caution.
 
 # Usage
 
@@ -11286,9 +11285,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/member/update/batch/ext
 
 # dropbox team member update batch externalid
 
-Update External ID of team members (Irreversible operation)
+Set or update external IDs for multiple team members, integrating with identity management systems (Irreversible operation)
 
-
+Maps external identity system IDs to Dropbox team members in bulk. Critical for SCIM integration, SSO setup, or syncing with HR systems. Ensures consistent identity mapping across platforms. Updates existing IDs or sets new ones as needed.
 
 # Usage
 
@@ -11370,9 +11369,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/member/update/batch/inv
 
 # dropbox team member update batch invisible
 
-Enable directory restriction to members (Irreversible operation)
+Hide team members from the directory listing, enhancing privacy for sensitive roles or contractors (Irreversible operation)
 
-
+Bulk hides members from team directory searches and listings. Useful for executives, security personnel, or external contractors who need access but shouldn't appear in directories. Hidden members retain all functionality but enhanced privacy.
 
 # Usage
 
@@ -11459,9 +11458,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/member/update/batch/pro
 
 # dropbox team member update batch profile
 
-Batch update member profiles (Irreversible operation)
+Update profile information for multiple team members including names and job titles in batch (Irreversible operation)
 
-
+Bulk updates member profile information including given names and surnames. Ideal for standardizing name formats, correcting widespread errors, or updating after organizational changes. Maintains consistency across team directories and improves searchability.
 
 # Usage
 
@@ -11545,9 +11544,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/member/update/batch/vis
 
 # dropbox team member update batch visible
 
-Disable directory restriction to members (Irreversible operation)
+Make hidden team members visible in the directory, restoring standard visibility settings (Irreversible operation)
 
-
+Bulk restores visibility for previously hidden members in team directories. Use when privacy requirements change, contractors become employees, or to correct visibility errors. Members become searchable and appear in team listings again.
 
 # Usage
 
@@ -11634,9 +11633,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/namespace/list.md
 
 # dropbox team namespace list
 
-List all namespaces of the team 
+Display all team namespaces including team folders and shared spaces with their configurations 
 
-
+Enumerates all namespace types in the team including ownership, paths, and access levels. Provides comprehensive view of team's folder architecture. Use for understanding organizational structure, planning migrations, or auditing folder governance.
 
 # Usage
 
@@ -11685,9 +11684,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/namespace/summary.md
 
 # dropbox team namespace summary
 
-Report team namespace status summary. 
+Generate comprehensive summary reports of team namespace usage, member counts, and storage statistics 
 
-
+Aggregates namespace data to show overall team structure, storage distribution, and access patterns. Provides high-level insights into how team content is organized across different namespace types. Useful for capacity planning and organizational assessments.
 
 # Usage
 
@@ -11801,9 +11800,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/namespace/file/list.md
 
 # dropbox team namespace file list
 
-List all files and folders of the team namespaces 
+Display comprehensive file and folder listings within team namespaces for content inventory and analysis 
 
-
+Lists all files and folders within team namespaces with filtering options. Include or exclude deleted items, member folders, shared folders, and team folders. Essential for content audits, migration planning, and understanding data distribution across namespace types.
 
 # Usage
 
@@ -11882,9 +11881,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/namespace/file/size.md
 
 # dropbox team namespace file size
 
-List all files and folders of the team namespaces 
+Calculate storage usage for files and folders in team namespaces, providing detailed size analytics 
 
-
+Analyzes storage consumption across team namespaces with configurable depth scanning. Shows size distribution by namespace type (team, shared, member, app folders). Critical for storage optimization, identifying large folders, and planning archival strategies.
 
 # Usage
 
@@ -11951,9 +11950,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/namespace/member/list.m
 
 # dropbox team namespace member list
 
-List members of shared folders and team folders in the team 
+Show all members with access to each namespace, detailing permissions and access levels 
 
-
+Maps namespace access showing which members can access which folders and their permission levels. Reveals access patterns, over-privileged namespaces, and helps ensure appropriate access controls. Essential for security audits and access reviews.
 
 # Usage
 
@@ -12008,9 +12007,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/runas/file/list.md
 
 # dropbox team runas file list
 
-List files and folders run as a member 
+List files and folders in a team member's account by running operations as that member 
 
-
+Allows admins to view file listings in member accounts without member credentials. Essential for investigating issues, auditing content, or helping members locate files. All actions are logged for security. Use responsibly and follow privacy policies.
 
 # Usage
 
@@ -12070,9 +12069,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/runas/file/batch/copy.m
 
 # dropbox team runas file batch copy
 
-Batch copy files/folders as a member (Irreversible operation)
+Copy multiple files or folders on behalf of team members, useful for content management and organization (Irreversible operation)
 
-
+Admin tool to copy files between member accounts without their credentials. Useful for distributing templates, recovering deleted content, or setting up new members. Operates with admin privileges while maintaining audit trails. Requires appropriate admin permissions.
 
 # Usage
 
@@ -12147,9 +12146,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/runas/file/sync/batch/u
 
 # dropbox team runas file sync batch up
 
-Batch upstream sync with Dropbox (Irreversible operation)
+Upload multiple local files to team members' Dropbox accounts in batch, running as those members (Irreversible operation)
 
-
+Admin bulk upload tool for distributing files to multiple member accounts simultaneously. Ideal for deploying templates, policies, or required documents. Maintains consistent file distribution across teams. All uploads are tracked for compliance.
 
 # Usage
 
@@ -12313,9 +12312,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/runas/sharedfolder/isol
 
 # dropbox team runas sharedfolder isolate
 
-Isolate member from shared folder (Irreversible operation)
+Remove all shared folder access for a team member and transfer ownership, useful for departing employees (Irreversible operation)
 
-
+Emergency admin action to remove all members from a shared folder except its owner. Use for security incidents, data breaches, or when folder content needs immediate access restriction. Preserves folder structure while eliminating external access risks.
 
 # Usage
 
@@ -12379,9 +12378,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/runas/sharedfolder/list
 
 # dropbox team runas sharedfolder list
 
-List shared folders 
+Display all shared folders accessible by a team member, running the operation as that member 
 
-
+Admin view of member's shared folder access including permission levels and folder details. Essential for access audits, investigating over-sharing, or troubleshooting permission issues. Helps ensure appropriate access levels and identify security risks.
 
 # Usage
 
@@ -12442,9 +12441,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/runas/sharedfolder/batc
 
 # dropbox team runas sharedfolder batch leave
 
-Leave shared folders in batch 
+Remove team members from multiple shared folders in batch by running leave operations as those members 
 
-
+Admin tool to remove members from multiple shared folders without their interaction. Useful for access cleanup, security responses, or organizational changes. Operates as the member would, maintaining proper audit trails. Cannot remove folder owners.
 
 # Usage
 
@@ -12533,9 +12532,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/runas/sharedfolder/batc
 
 # dropbox team runas sharedfolder batch share
 
-Share shared folders in batch 
+Share multiple folders on behalf of team members in batch, automating folder sharing processes 
 
-
+Admin batch tool for creating shared folders on behalf of members. Streamlines folder sharing for new projects or team reorganizations. Sets appropriate permissions and sends invitations. All sharing actions are logged for security compliance.
 
 # Usage
 
@@ -12626,9 +12625,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/runas/sharedfolder/batc
 
 # dropbox team runas sharedfolder batch unshare
 
-Unshare shared folders in batch 
+Remove sharing from multiple folders on behalf of team members, managing folder access in bulk 
 
-
+Admin tool to revoke folder sharing in bulk for security or compliance. Removes sharing while preserving folder contents for the owner. Critical for incident response or preventing data leaks. All unshare actions create audit records.
 
 # Usage
 
@@ -12717,9 +12716,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/runas/sharedfolder/memb
 
 # dropbox team runas sharedfolder member batch add
 
-Add members to shared folders in batch 
+Add multiple members to shared folders in batch on behalf of folder owners, streamlining access management 
 
-
+Admin tool to bulk add members to specific shared folders with defined permissions. Efficient for project kickoffs, team expansions, or access standardization. Validates member emails and permissions before applying changes. Creates comprehensive audit trail.
 
 # Usage
 
@@ -12798,9 +12797,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/runas/sharedfolder/memb
 
 # dropbox team runas sharedfolder member batch delete
 
-Remove members from shared folders in batch 
+Remove multiple members from shared folders in batch on behalf of folder owners, managing access efficiently 
 
-
+Admin bulk removal of members from shared folders for security or reorganization. Preserves folder content while revoking access for specified members. Essential for quick security responses or access cleanup. Cannot remove folder owner.
 
 # Usage
 
@@ -12876,9 +12875,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/runas/sharedfolder/moun
 
 # dropbox team runas sharedfolder mount add
 
-Mount a shared folder as another member 
+Mount shared folders to team members' accounts on their behalf, ensuring proper folder synchronization 
 
-
+Admin action to mount shared folders in member accounts when they cannot do it themselves. Useful for troubleshooting sync issues, helping non-technical users, or ensuring critical folders are properly mounted. Operates as if the member performed the action.
 
 # Usage
 
@@ -12940,9 +12939,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/runas/sharedfolder/moun
 
 # dropbox team runas sharedfolder mount delete
 
-The specified user unmounts the designated folder. 
+Unmount shared folders from team members' accounts on their behalf, managing folder synchronization 
 
-
+Admin tool to unmount shared folders from member accounts without removing access. Useful for troubleshooting sync issues, managing local storage, or temporarily removing folders from sync. Member retains access and can remount later.
 
 # Usage
 
@@ -13004,9 +13003,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/runas/sharedfolder/moun
 
 # dropbox team runas sharedfolder mount list
 
-List all shared folders the specified member mounted 
+Display all shared folders currently mounted (synced) to a specific team member's account 
 
-
+Admin view of which shared folders are actively mounted (syncing) in a member's account. Helps diagnose sync issues, understand storage usage, or verify proper folder access. Distinguishes between mounted and unmounted but accessible folders.
 
 # Usage
 
@@ -13067,9 +13066,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/runas/sharedfolder/moun
 
 # dropbox team runas sharedfolder mount mountable
 
-List all shared folders the member can mount 
+Show all available shared folders that a team member can mount but hasn't synced yet 
 
-
+Lists shared folders accessible to a member but not currently synced to their device. Useful for identifying available folders, helping members find content, or understanding why certain folders aren't appearing locally. Shows potential sync options.
 
 # Usage
 
@@ -13131,9 +13130,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/sharedlink/list.md
 
 # dropbox team sharedlink list
 
-List of shared links 
+Display comprehensive list of all shared links created by team members with visibility and expiration details 
 
-
+Comprehensive inventory of all team shared links showing URLs, visibility settings, expiration dates, and creators. Essential for security audits, identifying risky links, and understanding external sharing patterns. Filter by various criteria for focused analysis.
 
 # Usage
 
@@ -13191,9 +13190,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/sharedlink/cap/expiry.m
 
 # dropbox team sharedlink cap expiry
 
-Set expiry cap to shared links in the team (Irreversible operation)
+Apply expiration date limits to all team shared links for enhanced security and compliance (Irreversible operation)
 
-
+Applies expiration dates to existing shared links without them. Essential for security compliance and reducing exposure of perpetual links. Can target links by age or apply blanket expiration policy. Helps prevent unauthorized long-term access to shared content.
 
 # Usage
 
@@ -13273,9 +13272,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/sharedlink/cap/visibili
 
 # dropbox team sharedlink cap visibility
 
-Set visibility cap to shared links in the team (Irreversible operation)
+Enforce visibility restrictions on team shared links, controlling public access levels (Irreversible operation)
 
-
+Modifies shared link visibility settings to enforce team security policies. Can restrict public links to team-only or password-protected access. Critical for preventing data leaks and ensuring links comply with organizational security requirements.
 
 # Usage
 
@@ -13355,9 +13354,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/sharedlink/delete/links
 
 # dropbox team sharedlink delete links
 
-Batch delete shared links (Irreversible operation)
+Delete multiple shared links in batch for security compliance or access control cleanup (Irreversible operation)
 
-
+Bulk deletes shared links based on criteria like age, visibility, or path patterns. Use for security remediation, removing obsolete links, or enforcing new sharing policies. Permanent action that immediately revokes access through deleted links.
 
 # Usage
 
@@ -13437,9 +13436,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/sharedlink/delete/membe
 
 # dropbox team sharedlink delete member
 
-Delete all shared links of the member (Irreversible operation)
+Remove all shared links created by a specific team member, useful for departing employees (Irreversible operation)
 
-
+Removes all shared links created by a specific member, regardless of content location. Essential for secure offboarding, responding to compromised accounts, or enforcing immediate access revocation. Cannot be undone, so use with appropriate authorization.
 
 # Usage
 
@@ -13499,16 +13498,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/sharedlink/update/expir
 
 # dropbox team sharedlink update expiry
 
-Update expiration date of public shared links within the team (Irreversible operation)
+Modify expiration dates for existing shared links across the team to enforce security policies (Irreversible operation)
 
-Note: From Release 87, this command will receive a file to select shared links to update. If you wanted to update the expiry for all shared links in the team, please consider using a combination of `dropbox team sharedlink list`. For example, if you are familiar with the command [jq](https://stedolan.github.io/jq/), then you can do an equivalent operation as like below (force expiry within 28 days for every public link).
-
-```
-tbx team sharedlink list -output json -visibility public | jq '.sharedlink.url' | tbx team sharedlink update expiry -file - -at +720h
-```
-From Release 92, the command will not receive the argument `-days`. If you want to set a relative date/time, please use `-at +HOURh` like `+720h` (720 hours = 30 days).
-
-Commands `dropbox team sharedlink update` is for setting a value to the shared links. Commands `dropbox team sharedlink cap` is for putting a cap value to the shared links. For example: if you set expiry by `dropbox team sharedlink update expiry` with the expiration date 2021-05-06. The command will update the expiry to 2021-05-06 even if the existing link has a shorter expiration date like 2021-05-04.
+Modifies expiration dates for existing shared links to enforce new security policies or extend access for legitimate use cases. Can target specific links or apply bulk updates. Helps maintain balance between security and usability.
 
 # Usage
 
@@ -13588,9 +13580,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/sharedlink/update/passw
 
 # dropbox team sharedlink update password
 
-Set or update shared link passwords (Irreversible operation)
+Add or change passwords on team shared links in batch for enhanced security protection (Irreversible operation)
 
-
+Applies password protection to existing shared links or updates current passwords. Critical for securing sensitive content shared externally. Can target vulnerable links or apply passwords based on content sensitivity. Notify link recipients of new requirements.
 
 # Usage
 
@@ -13671,9 +13663,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/sharedlink/update/visib
 
 # dropbox team sharedlink update visibility
 
-Update visibility of shared links (Irreversible operation)
+Change access levels of existing shared links between public, team-only, and password-protected (Irreversible operation)
 
-
+Updates shared link visibility from public to team-only or other restricted settings. Essential for reducing external exposure and meeting compliance requirements. Can target links by current visibility level or content location. Changes take effect immediately.
 
 # Usage
 
@@ -13754,9 +13746,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/teamfolder/add.md
 
 # dropbox team teamfolder add
 
-Add team folder to the team (Irreversible operation)
+Create a new team folder for centralized team content storage and collaboration (Irreversible operation)
 
-
+Creates new team folders with defined access controls and sync settings. Set up departmental folders, project spaces, or archive locations. Configure initial permissions and determine whether content syncs to member devices by default.
 
 # Usage
 
@@ -13808,9 +13800,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/teamfolder/archive.md
 
 # dropbox team teamfolder archive
 
-Archive team folder (Irreversible operation)
+Archive a team folder to make it read-only while preserving all content and access history (Irreversible operation)
 
-
+Converts active team folders to archived status, making them read-only while preserving all content and permissions. Use for completed projects, historical records, or compliance requirements. Archived folders can be reactivated if needed.
 
 # Usage
 
@@ -13841,9 +13833,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/teamfolder/list.md
 
 # dropbox team teamfolder list
 
-List team folder(s) 
+Display all team folders with their status, sync settings, and member access information 
 
-
+Comprehensive list of all team folders showing names, status (active/archived), sync settings, and access levels. Fundamental for team folder governance, planning reorganizations, and understanding team structure. Export for documentation or analysis.
 
 # Usage
 
@@ -13893,9 +13885,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/teamfolder/permdelete.m
 
 # dropbox team teamfolder permdelete
 
-Permanently delete team folder (Irreversible operation)
+Permanently delete an archived team folder and all its contents, irreversibly freeing storage (Irreversible operation)
 
-
+Irreversibly deletes a team folder and all contained files. Use only with proper authorization and after confirming no critical data remains. Essential for compliance with data retention policies or removing sensitive content. This action cannot be undone.
 
 # Usage
 
@@ -13926,9 +13918,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/teamfolder/replication.
 
 # dropbox team teamfolder replication
 
-Replicate a team folder to another team (Experimental, and Irreversible operation)
+Copy an entire team folder with all contents to another team account for migration or backup (Experimental, and Irreversible operation)
 
-
+Creates an exact duplicate of a team folder preserving structure, permissions, and content. Use for creating backups, setting up test environments, or preparing for major changes. Consider available storage and replication time for large folders.
 
 # Usage
 
@@ -13985,9 +13977,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/teamfolder/batch/archiv
 
 # dropbox team teamfolder batch archive
 
-Archiving team folders (Irreversible operation)
+Archive multiple team folders in batch, efficiently managing folder lifecycle and compliance (Irreversible operation)
 
-
+Bulk archives team folders based on criteria like age, name patterns, or activity levels. Streamlines folder lifecycle management and helps maintain organized team spaces. Preserves all content while preventing new modifications.
 
 # Usage
 
@@ -14061,9 +14053,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/teamfolder/batch/permde
 
 # dropbox team teamfolder batch permdelete
 
-Permanently delete team folders (Irreversible operation)
+Permanently delete multiple archived team folders in batch, freeing storage space (Irreversible operation)
 
-
+Permanently deletes multiple team folders and all their contents without possibility of recovery. Use only with proper authorization for removing obsolete data, complying with retention policies, or emergency cleanup. This action cannot be undone.
 
 # Usage
 
@@ -14133,9 +14125,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/teamfolder/batch/replic
 
 # dropbox team teamfolder batch replication
 
-Batch replication of team folders (Irreversible operation)
+Replicate multiple team folders to another team account in batch for migration or backup (Irreversible operation)
 
-
+Creates copies of multiple team folders with their complete structures and permissions. Useful for creating backups, setting up parallel environments, or preparing for migrations. Consider storage implications before large replications.
 
 # Usage
 
@@ -14212,9 +14204,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/teamfolder/file/list.md
 
 # dropbox team teamfolder file list
 
-List files in team folders 
+Display all files and subfolders within team folders for content inventory and management 
 
-
+Enumerates all files in team folders with details like size, modification dates, and paths. Essential for content audits, migration planning, and understanding data distribution. Can filter by file types or patterns for targeted analysis.
 
 # Usage
 
@@ -14289,9 +14281,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/teamfolder/file/size.md
 
 # dropbox team teamfolder file size
 
-Calculate size of team folders 
+Calculate storage usage for team folders, providing detailed size analytics for capacity planning 
 
-
+Analyzes storage consumption within team folders showing size distribution and largest files. Essential for capacity planning, identifying candidates for archival, and understanding storage costs. Helps optimize team folder usage and plan for growth.
 
 # Usage
 
@@ -14354,9 +14346,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/teamfolder/file/lock/li
 
 # dropbox team teamfolder file lock list
 
-List locks in the team folder 
+Display all locked files within team folders, identifying collaboration bottlenecks 
 
-
+Lists all currently locked files in team folders with lock holder information and lock duration. Helps identify collaboration bottlenecks, stale locks, and users who may need assistance. Essential for maintaining smooth team workflows.
 
 # Usage
 
@@ -14413,9 +14405,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/teamfolder/file/lock/re
 
 # dropbox team teamfolder file lock release
 
-Release lock of the path in the team folder 
+Release specific file locks in team folders to enable collaborative editing 
 
-
+Releases individual file locks in team folders when specific files are blocking work. More precise than bulk release when only certain files need unlocking. Useful for resolving urgent editing conflicts without affecting other locked files.
 
 # Usage
 
@@ -14473,9 +14465,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/teamfolder/file/lock/al
 
 # dropbox team teamfolder file lock all release
 
-Release all locks under the path of the team folder 
+Release all file locks within a team folder path, resolving editing conflicts in bulk 
 
-
+Bulk releases all file locks within specified team folders. Use when multiple locks are blocking team productivity or after system issues. Notifies lock holders when possible. May cause loss of unsaved changes in locked files.
 
 # Usage
 
@@ -14534,9 +14526,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/teamfolder/member/add.m
 
 # dropbox team teamfolder member add
 
-Batch adding users/groups to team folders (Irreversible operation)
+Add multiple users or groups to team folders in batch, streamlining access provisioning (Irreversible operation)
 
-This command will do (1) create new team folders or new sub-folders if the team folder does not exist. The command does not (2) change access inheritance settings of any folders, (3) create a group if that not exist. This command is designed to be idempotent. You can safely retry if any errors happen on the operation. The command will not report an error to keep idempotence. For example, the command will not report an error like, the member already have access to the folder.\n\nExample:\n\n* Sales (team folder, editor access for the group "Sales")\n\t* Sydney (viewer access for individual account sydney@example.com)\n\t* Tokyo (editor access for the group "Tokyo Deal Desk")\n\t\t* Monthly (viewer access for individual account success@example.com)\n* Marketing (team folder, editor access for the group "Marketing")\n\t* Sydney (editor access for the group "Sydney Sales")\n\t* Tokyo (viewer access for the group "Tokyo Sales")\n\n1. Prepare CSV like below\n\n```\nSales,,editor,Sales\nSales,Sydney,editor,sydney@example.com\nSales,Tokyo,editor,Tokyo Deal Desk\nSales,Tokyo/Monthly,viewer,success@example.com\nMarketing,,editor,Marketing\nMarketing,Sydney,editor,Sydney Sales\nMarketing,Tokyo,viewer,Tokyo Sales\n```\n\n2. Then run the command like below\n\n```\ntbx teamfolder member add -file /PATH/TO/DATA.csv\n```\n\nNote: the command will create a team folder if not exist. But the command will not a group if not found. Groups must exist before run this command.
+Grants access to team folders for individuals or groups with defined permissions (view/edit). Use for onboarding, project assignments, or expanding access. Group additions efficiently manage permissions through group membership rather than individual assignments.
 
 # Usage
 
@@ -14613,9 +14605,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/teamfolder/member/delet
 
 # dropbox team teamfolder member delete
 
-Batch removing users/groups from team folders (Irreversible operation)
+Remove multiple users or groups from team folders in batch, managing access revocation efficiently (Irreversible operation)
 
-The command does not (1) change access inheritance settings of any folders, (2) remove a group, (3) unshare a nested folder. For (3), that means the nested folder stays the same setting (e.g. shared link policy for the folder). This command is designed to be idempotent. You can safely retry if any errors happen on the operation. The command will not report an error to keep idempotence. For example, the command will not report an error like, (1) the member already lost access to the folder, (2) the folder is not found.
+Revokes team folder access for specific members or entire groups. Essential for offboarding, project completion, or security responses. Removal is immediate and affects all folder contents. Consider data retention needs before removing members with edit access.
 
 # Usage
 
@@ -14690,9 +14682,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/teamfolder/member/list.
 
 # dropbox team teamfolder member list
 
-List team folder members 
+Display all members with access to each team folder, showing permission levels and access types 
 
-
+Shows complete membership for all team folders including permission levels and whether access is direct or through groups. Critical for access audits, security reviews, and understanding who can access sensitive content. Identifies over-privileged access.
 
 # Usage
 
@@ -14769,9 +14761,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/teamfolder/partial/repl
 
 # dropbox team teamfolder partial replication
 
-Partial team folder replication to another team (Irreversible operation)
+Selectively replicate team folder contents to another team, enabling flexible content migration (Irreversible operation)
 
-
+Copies selected subfolders or files from team folders rather than entire structures. Useful for creating targeted backups, extracting project deliverables, or migrating specific content. More efficient than full replication when only portions are needed.
 
 # Usage
 
@@ -14807,9 +14799,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/teamfolder/policy/list.
 
 # dropbox team teamfolder policy list
 
-List policies of team folders 
+Display all access policies and restrictions applied to team folders for governance review 
 
-
+Shows all policies governing team folder behavior including sync defaults, sharing restrictions, and access controls. Helps understand why folders behave certain ways and ensures policy compliance. Reference before creating new folders or modifying settings.
 
 # Usage
 
@@ -14867,9 +14859,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/teamfolder/sync/setting
 
 # dropbox team teamfolder sync setting list
 
-List team folder sync settings 
+Display sync configuration for all team folders, showing default sync behavior for members 
 
-
+Shows current sync settings for all team folders indicating whether they automatically sync to new members' devices. Helps understand bandwidth impact, storage requirements, and ensures appropriate content distribution policies.
 
 # Usage
 
@@ -14946,9 +14938,9 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/teamfolder/sync/setting
 
 # dropbox team teamfolder sync setting update
 
-Batch update team folder sync settings 
+Modify sync settings for multiple team folders in batch, controlling automatic synchronization behavior 
 
-
+Modifies sync behavior for team folders between automatic sync to all members or manual sync selection. Use to reduce storage usage on devices, manage bandwidth, or ensure critical folders sync automatically. Apply changes during low-activity periods.
 
 # Usage
 
@@ -16225,69 +16217,69 @@ URL: https://toolbox.watermint.org/guides/dropbox-business.md
 
 Below commands are to retrieve information about team members.
 
-| Command                                                               | Description                    |
-|-----------------------------------------------------------------------|--------------------------------|
-| [dropbox team member list](dropbox-team-member-list.md)               | List team member(s)            |
-| [dropbox team member feature](dropbox-team-member-feature.md)         | List member feature settings   |
-| [dropbox team member folder list](dropbox-team-member-folder-list.md) | List folders for each member   |
-| [dropbox team member quota list](dropbox-team-member-quota-list.md)   | List team member quota         |
-| [dropbox team member quota usage](dropbox-team-member-quota-usage.md) | List team member storage usage |
-| [dropbox team activity user](dropbox-team-activity-user.md)           | Activities log per user        |
+| Command                                                               | Description                                                                                                        |
+|-----------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------|
+| [dropbox team member list](dropbox-team-member-list.md)               | Display comprehensive list of all team members with their status, roles, and account details                       |
+| [dropbox team member feature](dropbox-team-member-feature.md)         | Display feature settings and capabilities enabled for specific team members, helping understand member permissions |
+| [dropbox team member folder list](dropbox-team-member-folder-list.md) | Display all folders in each team member's account, useful for content auditing and storage analysis                |
+| [dropbox team member quota list](dropbox-team-member-quota-list.md)   | Display storage quota assignments for all team members, helping monitor and plan storage distribution              |
+| [dropbox team member quota usage](dropbox-team-member-quota-usage.md) | Show actual storage usage for each team member compared to their quotas, identifying storage needs                 |
+| [dropbox team activity user](dropbox-team-activity-user.md)           | Retrieve activity logs for specific team members, showing their file operations, logins, and sharing activities    |
 
 ## Basic management commands
 
 Below commands are for managing team member accounts. Those commands are for a bulk operation by a CSV file.
 
-| Command                                                                                     | Description                                           |
-|---------------------------------------------------------------------------------------------|-------------------------------------------------------|
-| [dropbox team member batch invite](dropbox-team-member-batch-invite.md)                     | Invite member(s)                                      |
-| [dropbox team member batch delete](dropbox-team-member-batch-delete.md)                     | Delete members                                        |
-| [dropbox team member batch detach](dropbox-team-member-batch-detach.md)                     | Convert Dropbox for teams accounts to a Basic account |
-| [dropbox team member batch reinvite](dropbox-team-member-batch-reinvite.md)                 | Reinvite invited status members to the team           |
-| [dropbox team member update batch email](dropbox-team-member-update-batch-email.md)         | Member email operation                                |
-| [dropbox team member update batch profile](dropbox-team-member-update-batch-profile.md)     | Batch update member profiles                          |
-| [dropbox team member update batch visible](dropbox-team-member-update-batch-visible.md)     | Disable directory restriction to members              |
-| [dropbox team member update batch invisible](dropbox-team-member-update-batch-invisible.md) | Enable directory restriction to members               |
-| [dropbox team member quota batch update](dropbox-team-member-quota-batch-update.md)         | Update team member quota                              |
+| Command                                                                                     | Description                                                                                                      |
+|---------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------|
+| [dropbox team member batch invite](dropbox-team-member-batch-invite.md)                     | Send batch invitations to new team members, streamlining the onboarding process for multiple users               |
+| [dropbox team member batch delete](dropbox-team-member-batch-delete.md)                     | Remove multiple team members in batch, efficiently managing team departures and access revocation                |
+| [dropbox team member batch detach](dropbox-team-member-batch-detach.md)                     | Convert multiple team accounts to individual Basic accounts, preserving personal data while removing team access |
+| [dropbox team member batch reinvite](dropbox-team-member-batch-reinvite.md)                 | Resend invitations to pending members who haven't joined yet, ensuring all intended members receive access       |
+| [dropbox team member update batch email](dropbox-team-member-update-batch-email.md)         | Update email addresses for multiple team members in batch, managing email changes efficiently                    |
+| [dropbox team member update batch profile](dropbox-team-member-update-batch-profile.md)     | Update profile information for multiple team members including names and job titles in batch                     |
+| [dropbox team member update batch visible](dropbox-team-member-update-batch-visible.md)     | Make hidden team members visible in the directory, restoring standard visibility settings                        |
+| [dropbox team member update batch invisible](dropbox-team-member-update-batch-invisible.md) | Hide team members from the directory listing, enhancing privacy for sensitive roles or contractors               |
+| [dropbox team member quota batch update](dropbox-team-member-quota-batch-update.md)         | Modify storage quotas for multiple team members in batch, managing storage allocation efficiently                |
 
 ## Member profile setting commands
 
 Member profile commands are for bulk updating member profile information.\nIf you need to update the members' email addresses, use the `member update email` command. The command `member update email` receives a CSV file to bulk update email addresses.\nIf you need to update the member's display name, use the `member update profile` command.
 
-| Command                                                                                 | Description                  |
-|-----------------------------------------------------------------------------------------|------------------------------|
-| [dropbox team member update batch email](dropbox-team-member-update-batch-email.md)     | Member email operation       |
-| [dropbox team member update batch profile](dropbox-team-member-update-batch-profile.md) | Batch update member profiles |
+| Command                                                                                 | Description                                                                                   |
+|-----------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------|
+| [dropbox team member update batch email](dropbox-team-member-update-batch-email.md)     | Update email addresses for multiple team members in batch, managing email changes efficiently |
+| [dropbox team member update batch profile](dropbox-team-member-update-batch-profile.md) | Update profile information for multiple team members including names and job titles in batch  |
 
 ## Member storage quota control commands
 
 You can see existing member storage quota setting or usage by the `dropbox team member quota list` and `dropbox team member quota usage` command. If you need to update member quota, use the `dropbox team member quota update` command. The command `dropbox team member quota update` receives CSV input for bulk updating storage quota setting.
 
-| Command                                                                             | Description                    |
-|-------------------------------------------------------------------------------------|--------------------------------|
-| [dropbox team member quota list](dropbox-team-member-quota-list.md)                 | List team member quota         |
-| [dropbox team member quota usage](dropbox-team-member-quota-usage.md)               | List team member storage usage |
-| [dropbox team member quota batch update](dropbox-team-member-quota-batch-update.md) | Update team member quota       |
+| Command                                                                             | Description                                                                                           |
+|-------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------|
+| [dropbox team member quota list](dropbox-team-member-quota-list.md)                 | Display storage quota assignments for all team members, helping monitor and plan storage distribution |
+| [dropbox team member quota usage](dropbox-team-member-quota-usage.md)               | Show actual storage usage for each team member compared to their quotas, identifying storage needs    |
+| [dropbox team member quota batch update](dropbox-team-member-quota-batch-update.md) | Modify storage quotas for multiple team members in batch, managing storage allocation efficiently     |
 
 ## Suspend/unsuspend member commands
 
 There are two types of commands available for suspending/unsuspending members. If you wanted to suspend/unsuspend a member one by one, please use `dropbox team member suspend` or `dropbox team member unsuspend`. Otherwise, if you want to suspend/unsuspend members through a CSV file, please use the `dropbox team member batch suspend` or `dropbox member batch unsuspend` command.
 
-| Command                                                                       | Description            |
-|-------------------------------------------------------------------------------|------------------------|
-| [dropbox team member suspend](dropbox-team-member-suspend.md)                 | Suspend a member       |
-| [dropbox team member unsuspend](dropbox-team-member-unsuspend.md)             | Unsuspend a member     |
-| [dropbox team member batch suspend](dropbox-team-member-batch-suspend.md)     | Bulk suspend members   |
-| [dropbox team member batch unsuspend](dropbox-team-member-batch-unsuspend.md) | Bulk unsuspend members |
+| Command                                                                       | Description                                                                                           |
+|-------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------|
+| [dropbox team member suspend](dropbox-team-member-suspend.md)                 | Temporarily suspend a team member's access to their account while preserving all data and settings    |
+| [dropbox team member unsuspend](dropbox-team-member-unsuspend.md)             | Restore access for a suspended team member, reactivating their account and all associated permissions |
+| [dropbox team member batch suspend](dropbox-team-member-batch-suspend.md)     | Temporarily suspend multiple team members' access while preserving their data and settings            |
+| [dropbox team member batch unsuspend](dropbox-team-member-batch-unsuspend.md) | Restore access for multiple suspended team members, reactivating their accounts in batch              |
 
 ## Directory restriction commands
 
 Directory restriction is the Dropbox for teams feature to hide a member from others. Below commands update this setting to hide or unhide members from others.
 
-| Command                                                                                     | Description                              |
-|---------------------------------------------------------------------------------------------|------------------------------------------|
-| [dropbox team member update batch visible](dropbox-team-member-update-batch-visible.md)     | Disable directory restriction to members |
-| [dropbox team member update batch invisible](dropbox-team-member-update-batch-invisible.md) | Enable directory restriction to members  |
+| Command                                                                                     | Description                                                                                        |
+|---------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------|
+| [dropbox team member update batch visible](dropbox-team-member-update-batch-visible.md)     | Make hidden team members visible in the directory, restoring standard visibility settings          |
+| [dropbox team member update batch invisible](dropbox-team-member-update-batch-invisible.md) | Hide team members from the directory listing, enhancing privacy for sensitive roles or contractors |
 
 # Group commands
 
@@ -16295,38 +16287,38 @@ Directory restriction is the Dropbox for teams feature to hide a member from oth
 
 Below commands are for managing groups.
 
-| Command                                                               | Description                  |
-|-----------------------------------------------------------------------|------------------------------|
-| [dropbox team group add](dropbox-team-group-add.md)                   | Create new group             |
-| [dropbox team group batch add](dropbox-team-group-batch-add.md)       | Bulk adding groups           |
-| [dropbox team group batch delete](dropbox-team-group-batch-delete.md) | Delete groups                |
-| [dropbox team group delete](dropbox-team-group-delete.md)             | Delete group                 |
-| [dropbox team group list](dropbox-team-group-list.md)                 | List group(s)                |
-| [dropbox team group rename](dropbox-team-group-rename.md)             | Rename the group             |
-| [dropbox team group update type](dropbox-team-group-update-type.md)   | Update group management type |
+| Command                                                               | Description                                                                                                |
+|-----------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------|
+| [dropbox team group add](dropbox-team-group-add.md)                   | Create a new group in your team for organizing members and managing permissions collectively               |
+| [dropbox team group batch add](dropbox-team-group-batch-add.md)       | Create multiple groups at once using batch processing, efficient for large-scale team organization         |
+| [dropbox team group batch delete](dropbox-team-group-batch-delete.md) | Remove multiple groups from your team in batch, streamlining group cleanup and reorganization              |
+| [dropbox team group delete](dropbox-team-group-delete.md)             | Remove a specific group from your team, automatically removing all member associations                     |
+| [dropbox team group list](dropbox-team-group-list.md)                 | Display all groups in your team with member counts and group management types                              |
+| [dropbox team group rename](dropbox-team-group-rename.md)             | Change the name of an existing group to better reflect its purpose or organizational changes               |
+| [dropbox team group update type](dropbox-team-group-update-type.md)   | Change how a group is managed (user-managed vs company-managed), affecting who can modify group membership |
 
 ## Group member management commands
 
 You can add/delete/update group members by the below commands. If you want to add/delete/update group members by CSV file, use `dropbox team group member batch add`, `dropbox team group member batch delete`, or `dropbox team group member batch update`.
 
-| Command                                                                             | Description                       |
-|-------------------------------------------------------------------------------------|-----------------------------------|
-| [dropbox team group member add](dropbox-team-group-member-add.md)                   | Add a member to the group         |
-| [dropbox team group member delete](dropbox-team-group-member-delete.md)             | Delete a member from the group    |
-| [dropbox team group member list](dropbox-team-group-member-list.md)                 | List members of groups            |
-| [dropbox team group member batch add](dropbox-team-group-member-batch-add.md)       | Bulk add members into groups      |
-| [dropbox team group member batch delete](dropbox-team-group-member-batch-delete.md) | Delete members from groups        |
-| [dropbox team group member batch update](dropbox-team-group-member-batch-update.md) | Add or delete members from groups |
+| Command                                                                             | Description                                                                                             |
+|-------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------|
+| [dropbox team group member add](dropbox-team-group-member-add.md)                   | Add individual team members to a specific group for centralized permission management                   |
+| [dropbox team group member delete](dropbox-team-group-member-delete.md)             | Remove a specific member from a group while preserving their other group memberships                    |
+| [dropbox team group member list](dropbox-team-group-member-list.md)                 | Display all members belonging to each group, useful for auditing group compositions and access rights   |
+| [dropbox team group member batch add](dropbox-team-group-member-batch-add.md)       | Add multiple members to groups efficiently using batch processing, ideal for large team reorganizations |
+| [dropbox team group member batch delete](dropbox-team-group-member-batch-delete.md) | Remove multiple members from groups in batch, streamlining group membership management                  |
+| [dropbox team group member batch update](dropbox-team-group-member-batch-update.md) | Update group memberships in bulk by adding or removing members, optimizing group composition changes    |
 
 ## Find and delete unused groups
 
 There are two commands to find unused groups. The first command is `dropbox team group list`. The command `dropbox team group list` will report the number of members of each group. If it's zero, a group is not currently used to adding permission to folders.\nIf you want to see which folder uses each group, use the command `dropbox team group folder list`. `dropbox team group folder list` will report the group to folder mapping. The report `group_with_no_folders` will show groups with no folders.\nYou can safely remove groups once you check both the number of members and folders. After confirmation, you can bulk delete groups by using the command `dropbox team group batch delete`.
 
-| Command                                                               | Description                |
-|-----------------------------------------------------------------------|----------------------------|
-| [dropbox team group list](dropbox-team-group-list.md)                 | List group(s)              |
-| [dropbox team group folder list](dropbox-team-group-folder-list.md)   | List folders of each group |
-| [dropbox team group batch delete](dropbox-team-group-batch-delete.md) | Delete groups              |
+| Command                                                               | Description                                                                                            |
+|-----------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------|
+| [dropbox team group list](dropbox-team-group-list.md)                 | Display all groups in your team with member counts and group management types                          |
+| [dropbox team group folder list](dropbox-team-group-folder-list.md)   | Display all folders accessible by each group, showing group-based content organization and permissions |
+| [dropbox team group batch delete](dropbox-team-group-batch-delete.md) | Remove multiple groups from your team in batch, streamlining group cleanup and reorganization          |
 
 # Team content commands
 
@@ -16337,88 +16329,88 @@ The namespace is a term in the Dropbox API that is used to manage folder permiss
 
 You can create, archive or permanently delete team folders by using the below commands. Please consider using `dropbox team teamfolder batch` commands if you need to handle multiple team folders.
 
-| Command                                                                                       | Description                            |
-|-----------------------------------------------------------------------------------------------|----------------------------------------|
-| [dropbox team teamfolder add](dropbox-team-teamfolder-add.md)                                 | Add team folder to the team            |
-| [dropbox team teamfolder archive](dropbox-team-teamfolder-archive.md)                         | Archive team folder                    |
-| [dropbox team teamfolder batch archive](dropbox-team-teamfolder-batch-archive.md)             | Archiving team folders                 |
-| [dropbox team teamfolder batch permdelete](dropbox-team-teamfolder-batch-permdelete.md)       | Permanently delete team folders        |
-| [dropbox team teamfolder batch replication](dropbox-team-teamfolder-batch-replication.md)     | Batch replication of team folders      |
-| [dropbox team teamfolder file size](dropbox-team-teamfolder-file-size.md)                     | Calculate size of team folders         |
-| [dropbox team teamfolder list](dropbox-team-teamfolder-list.md)                               | List team folder(s)                    |
-| [dropbox team teamfolder permdelete](dropbox-team-teamfolder-permdelete.md)                   | Permanently delete team folder         |
-| [dropbox team teamfolder policy list](dropbox-team-teamfolder-policy-list.md)                 | List policies of team folders          |
-| [dropbox team teamfolder sync setting list](dropbox-team-teamfolder-sync-setting-list.md)     | List team folder sync settings         |
-| [dropbox team teamfolder sync setting update](dropbox-team-teamfolder-sync-setting-update.md) | Batch update team folder sync settings |
+| Command                                                                                       | Description                                                                                             |
+|-----------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------|
+| [dropbox team teamfolder add](dropbox-team-teamfolder-add.md)                                 | Create a new team folder for centralized team content storage and collaboration                         |
+| [dropbox team teamfolder archive](dropbox-team-teamfolder-archive.md)                         | Archive a team folder to make it read-only while preserving all content and access history              |
+| [dropbox team teamfolder batch archive](dropbox-team-teamfolder-batch-archive.md)             | Archive multiple team folders in batch, efficiently managing folder lifecycle and compliance            |
+| [dropbox team teamfolder batch permdelete](dropbox-team-teamfolder-batch-permdelete.md)       | Permanently delete multiple archived team folders in batch, freeing storage space                       |
+| [dropbox team teamfolder batch replication](dropbox-team-teamfolder-batch-replication.md)     | Replicate multiple team folders to another team account in batch for migration or backup                |
+| [dropbox team teamfolder file size](dropbox-team-teamfolder-file-size.md)                     | Calculate storage usage for team folders, providing detailed size analytics for capacity planning       |
+| [dropbox team teamfolder list](dropbox-team-teamfolder-list.md)                               | Display all team folders with their status, sync settings, and member access information                |
+| [dropbox team teamfolder permdelete](dropbox-team-teamfolder-permdelete.md)                   | Permanently delete an archived team folder and all its contents, irreversibly freeing storage           |
+| [dropbox team teamfolder policy list](dropbox-team-teamfolder-policy-list.md)                 | Display all access policies and restrictions applied to team folders for governance review              |
+| [dropbox team teamfolder sync setting list](dropbox-team-teamfolder-sync-setting-list.md)     | Display sync configuration for all team folders, showing default sync behavior for members              |
+| [dropbox team teamfolder sync setting update](dropbox-team-teamfolder-sync-setting-update.md) | Modify sync settings for multiple team folders in batch, controlling automatic synchronization behavior |
 
 ## Team folder permission commands
 
 You can bulk add or delete members into team folders or sub-folders of a team folder through the below commands.
 
-| Command                                                                           | Description                                   |
-|-----------------------------------------------------------------------------------|-----------------------------------------------|
-| [dropbox team teamfolder member list](dropbox-team-teamfolder-member-list.md)     | List team folder members                      |
-| [dropbox team teamfolder member add](dropbox-team-teamfolder-member-add.md)       | Batch adding users/groups to team folders     |
-| [dropbox team teamfolder member delete](dropbox-team-teamfolder-member-delete.md) | Batch removing users/groups from team folders |
+| Command                                                                           | Description                                                                                        |
+|-----------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------|
+| [dropbox team teamfolder member list](dropbox-team-teamfolder-member-list.md)     | Display all members with access to each team folder, showing permission levels and access types    |
+| [dropbox team teamfolder member add](dropbox-team-teamfolder-member-add.md)       | Add multiple users or groups to team folders in batch, streamlining access provisioning            |
+| [dropbox team teamfolder member delete](dropbox-team-teamfolder-member-delete.md) | Remove multiple users or groups from team folders in batch, managing access revocation efficiently |
 
 ## Team folder & shared folder commands
 
 The below commands are for both team folders and shared folders of the team.\nIf you wanted to know who actually use specific folders, please consider using the command `dropbox team content mount list`. Mount is a status a user add a shared folder to his/her Dropbox account.
 
-| Command                                                                 | Description                                                  |
-|-------------------------------------------------------------------------|--------------------------------------------------------------|
-| [dropbox team content member list](dropbox-team-content-member-list.md) | List team folder & shared folder members                     |
-| [dropbox team content member size](dropbox-team-content-member-size.md) | Count number of members of team folders and shared folders   |
-| [dropbox team content mount list](dropbox-team-content-mount-list.md)   | List all mounted/unmounted shared folders of team members.   |
-| [dropbox team content policy list](dropbox-team-content-policy-list.md) | List policies of team folders and shared folders in the team |
+| Command                                                                 | Description                                                                                                                        |
+|-------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------|
+| [dropbox team content member list](dropbox-team-content-member-list.md) | Display all members with access to team folders and shared folders, showing permission levels and folder relationships             |
+| [dropbox team content member size](dropbox-team-content-member-size.md) | Calculate member counts for each team folder and shared folder, helping identify heavily accessed content and optimize permissions |
+| [dropbox team content mount list](dropbox-team-content-mount-list.md)   | Display mount status of all shared folders for team members, identifying which folders are actively synced to member devices       |
+| [dropbox team content policy list](dropbox-team-content-policy-list.md) | Review all access policies and restrictions applied to team folders and shared folders for governance compliance                   |
 
 ## Namespace commands
 
-| Command                                                                     | Description                                                 |
-|-----------------------------------------------------------------------------|-------------------------------------------------------------|
-| [dropbox team namespace list](dropbox-team-namespace-list.md)               | List all namespaces of the team                             |
-| [dropbox team namespace summary](dropbox-team-namespace-summary.md)         | Report team namespace status summary.                       |
-| [dropbox team namespace file list](dropbox-team-namespace-file-list.md)     | List all files and folders of the team namespaces           |
-| [dropbox team namespace file size](dropbox-team-namespace-file-size.md)     | List all files and folders of the team namespaces           |
-| [dropbox team namespace member list](dropbox-team-namespace-member-list.md) | List members of shared folders and team folders in the team |
+| Command                                                                     | Description                                                                                              |
+|-----------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------|
+| [dropbox team namespace list](dropbox-team-namespace-list.md)               | Display all team namespaces including team folders and shared spaces with their configurations           |
+| [dropbox team namespace summary](dropbox-team-namespace-summary.md)         | Generate comprehensive summary reports of team namespace usage, member counts, and storage statistics    |
+| [dropbox team namespace file list](dropbox-team-namespace-file-list.md)     | Display comprehensive file and folder listings within team namespaces for content inventory and analysis |
+| [dropbox team namespace file size](dropbox-team-namespace-file-size.md)     | Calculate storage usage for files and folders in team namespaces, providing detailed size analytics      |
+| [dropbox team namespace member list](dropbox-team-namespace-member-list.md) | Show all members with access to each namespace, detailing permissions and access levels                  |
 
 ## Team file request commands
 
-| Command                                                           | Description                        |
-|-------------------------------------------------------------------|------------------------------------|
-| [dropbox team filerequest list](dropbox-team-filerequest-list.md) | List all file requests in the team |
+| Command                                                           | Description                                                                                                            |
+|-------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------|
+| [dropbox team filerequest list](dropbox-team-filerequest-list.md) | Display all active and closed file requests created by team members, helping track external file collection activities |
 
 ## Member file commands
 
-| Command                                                                       | Description                                                               |
-|-------------------------------------------------------------------------------|---------------------------------------------------------------------------|
-| [dropbox team member file permdelete](dropbox-team-member-file-permdelete.md) | Permanently delete the file or folder at a given path of the team member. |
+| Command                                                                       | Description                                                                                             |
+|-------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------|
+| [dropbox team member file permdelete](dropbox-team-member-file-permdelete.md) | Permanently delete files or folders from a team member's account, bypassing trash for immediate removal |
 
 ## Team insight
 
 Team Insight is a feature of Dropbox Business that provides a view of team folder summary.
 
-| Command                                                                                         | Description                            |
-|-------------------------------------------------------------------------------------------------|----------------------------------------|
-| [dropbox team insight scan](dropbox-team-insight-scan.md)                                       | Scans team data for analysis           |
-| [dropbox team insight scanretry](dropbox-team-insight-scanretry.md)                             | Retry scan for errors on the last scan |
-| [dropbox team insight summarize](dropbox-team-insight-summarize.md)                             | Summarize team data for analysis       |
-| [dropbox team insight report teamfoldermember](dropbox-team-insight-report-teamfoldermember.md) | Report team folder members             |
+| Command                                                                                         | Description                                                                                               |
+|-------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------|
+| [dropbox team insight scan](dropbox-team-insight-scan.md)                                       | Perform comprehensive data scanning across your team for analytics and insights generation                |
+| [dropbox team insight scanretry](dropbox-team-insight-scanretry.md)                             | Re-run failed or incomplete scans to ensure complete data collection for team insights                    |
+| [dropbox team insight summarize](dropbox-team-insight-summarize.md)                             | Generate summary reports from scanned team data, providing actionable insights on team usage and patterns |
+| [dropbox team insight report teamfoldermember](dropbox-team-insight-report-teamfoldermember.md) | Generate detailed reports on team folder membership, showing access patterns and member distribution      |
 
 # Team shared link commands
 
 The team shared link commands are capable of listing all shared links in the team or update/delete specified shared links.
 
-| Command                                                                                   | Description                                                   |
-|-------------------------------------------------------------------------------------------|---------------------------------------------------------------|
-| [dropbox team sharedlink list](dropbox-team-sharedlink-list.md)                           | List of shared links                                          |
-| [dropbox team sharedlink cap expiry](dropbox-team-sharedlink-cap-expiry.md)               | Set expiry cap to shared links in the team                    |
-| [dropbox team sharedlink cap visibility](dropbox-team-sharedlink-cap-visibility.md)       | Set visibility cap to shared links in the team                |
-| [dropbox team sharedlink update expiry](dropbox-team-sharedlink-update-expiry.md)         | Update expiration date of public shared links within the team |
-| [dropbox team sharedlink update password](dropbox-team-sharedlink-update-password.md)     | Set or update shared link passwords                           |
-| [dropbox team sharedlink update visibility](dropbox-team-sharedlink-update-visibility.md) | Update visibility of shared links                             |
-| [dropbox team sharedlink delete links](dropbox-team-sharedlink-delete-links.md)           | Batch delete shared links                                     |
-| [dropbox team sharedlink delete member](dropbox-team-sharedlink-delete-member.md)         | Delete all shared links of the member                         |
+| Command                                                                                   | Description                                                                                                   |
+|-------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------|
+| [dropbox team sharedlink list](dropbox-team-sharedlink-list.md)                           | Display comprehensive list of all shared links created by team members with visibility and expiration details |
+| [dropbox team sharedlink cap expiry](dropbox-team-sharedlink-cap-expiry.md)               | Apply expiration date limits to all team shared links for enhanced security and compliance                    |
+| [dropbox team sharedlink cap visibility](dropbox-team-sharedlink-cap-visibility.md)       | Enforce visibility restrictions on team shared links, controlling public access levels                        |
+| [dropbox team sharedlink update expiry](dropbox-team-sharedlink-update-expiry.md)         | Modify expiration dates for existing shared links across the team to enforce security policies                |
+| [dropbox team sharedlink update password](dropbox-team-sharedlink-update-password.md)     | Add or change passwords on team shared links in batch for enhanced security protection                        |
+| [dropbox team sharedlink update visibility](dropbox-team-sharedlink-update-visibility.md) | Change access levels of existing shared links between public, team-only, and password-protected               |
+| [dropbox team sharedlink delete links](dropbox-team-sharedlink-delete-links.md)           | Delete multiple shared links in batch for security compliance or access control cleanup                       |
+| [dropbox team sharedlink delete member](dropbox-team-sharedlink-delete-member.md)         | Remove all shared links created by a specific team member, useful for departing employees                     |
 
 ## Difference between `dropbox team sharedlink cap` and `dropbox team sharedlink update`
 
@@ -16470,42 +16462,42 @@ Dropbox Business file lock information
 
 ## File lock member title
 
-| Command                                                                                   | Description                                    |
-|-------------------------------------------------------------------------------------------|------------------------------------------------|
-| [dropbox team member file lock all release](dropbox-team-member-file-lock-all-release.md) | Release all locks under the path of the member |
-| [dropbox team member file lock list](dropbox-team-member-file-lock-list.md)               | List locks of the member under the path        |
-| [dropbox team member file lock release](dropbox-team-member-file-lock-release.md)         | Release the lock of the path as the member     |
+| Command                                                                                   | Description                                                                                                       |
+|-------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------|
+| [dropbox team member file lock all release](dropbox-team-member-file-lock-all-release.md) | Release all file locks held by a team member under a specified path, resolving editing conflicts                  |
+| [dropbox team member file lock list](dropbox-team-member-file-lock-list.md)               | Display all files locked by a specific team member under a given path, identifying potential collaboration blocks |
+| [dropbox team member file lock release](dropbox-team-member-file-lock-release.md)         | Release a specific file lock held by a team member, enabling others to edit the file                              |
 
 ## File lock team folder title
 
-| Command                                                                                           | Description                                         |
-|---------------------------------------------------------------------------------------------------|-----------------------------------------------------|
-| [dropbox team teamfolder file list](dropbox-team-teamfolder-file-list.md)                         | List files in team folders                          |
-| [dropbox team teamfolder file lock all release](dropbox-team-teamfolder-file-lock-all-release.md) | Release all locks under the path of the team folder |
-| [dropbox team teamfolder file lock list](dropbox-team-teamfolder-file-lock-list.md)               | List locks in the team folder                       |
-| [dropbox team teamfolder file lock release](dropbox-team-teamfolder-file-lock-release.md)         | Release lock of the path in the team folder         |
+| Command                                                                                           | Description                                                                               |
+|---------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------|
+| [dropbox team teamfolder file list](dropbox-team-teamfolder-file-list.md)                         | Display all files and subfolders within team folders for content inventory and management |
+| [dropbox team teamfolder file lock all release](dropbox-team-teamfolder-file-lock-all-release.md) | Release all file locks within a team folder path, resolving editing conflicts in bulk     |
+| [dropbox team teamfolder file lock list](dropbox-team-teamfolder-file-lock-list.md)               | Display all locked files within team folders, identifying collaboration bottlenecks       |
+| [dropbox team teamfolder file lock release](dropbox-team-teamfolder-file-lock-release.md)         | Release specific file locks in team folders to enable collaborative editing               |
 
 # Activities log commands
 
 The team activity log commands can export activity logs by certain filters or perspectives.
 
-| Command                                                                   | Description                        |
-|---------------------------------------------------------------------------|------------------------------------|
-| [dropbox team activity batch user](dropbox-team-activity-batch-user.md)   | Scan activities for multiple users |
-| [dropbox team activity daily event](dropbox-team-activity-daily-event.md) | Report activities by day           |
-| [dropbox team activity event](dropbox-team-activity-event.md)             | Event log                          |
-| [dropbox team activity user](dropbox-team-activity-user.md)               | Activities log per user            |
+| Command                                                                   | Description                                                                                                                           |
+|---------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------|
+| [dropbox team activity batch user](dropbox-team-activity-batch-user.md)   | Scan and retrieve activity logs for multiple team members in batch, useful for compliance auditing and user behavior analysis         |
+| [dropbox team activity daily event](dropbox-team-activity-daily-event.md) | Generate daily activity reports showing team events grouped by date, helpful for tracking team usage patterns and security monitoring |
+| [dropbox team activity event](dropbox-team-activity-event.md)             | Retrieve detailed team activity event logs with filtering options, essential for security auditing and compliance monitoring          |
+| [dropbox team activity user](dropbox-team-activity-user.md)               | Retrieve activity logs for specific team members, showing their file operations, logins, and sharing activities                       |
 
 # Connected applications and devices commands
 
 The below commands can retrieve information about connected devices or applications in the team.
 
-| Command                                                                   | Description                                                 |
-|---------------------------------------------------------------------------|-------------------------------------------------------------|
-| [dropbox team device list](dropbox-team-device-list.md)                   | List all devices/sessions in the team                       |
-| [dropbox team device unlink](dropbox-team-device-unlink.md)               | Unlink device sessions                                      |
-| [dropbox team linkedapp list](dropbox-team-linkedapp-list.md)             | List linked applications                                    |
-| [dropbox team backup device status](dropbox-team-backup-device-status.md) | Dropbox Backup device status change in the specified period |
+| Command                                                                   | Description                                                                                                                |
+|---------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------|
+| [dropbox team device list](dropbox-team-device-list.md)                   | Display all devices and active sessions connected to team member accounts with device details and last activity timestamps |
+| [dropbox team device unlink](dropbox-team-device-unlink.md)               | Remotely disconnect devices from team member accounts, essential for securing lost/stolen devices or revoking access       |
+| [dropbox team linkedapp list](dropbox-team-linkedapp-list.md)             | Display all third-party applications linked to team member accounts for security auditing and access control               |
+| [dropbox team backup device status](dropbox-team-backup-device-status.md) | Track Dropbox Backup status changes for all team devices over a specified period, monitoring backup health and compliance  |
 
 # Other usecases
 
@@ -16513,32 +16505,32 @@ The below commands can retrieve information about connected devices or applicati
 
 External ID is the attribute that is not shown in any user interface of Dropbox. This attribute is for keeping a relationship between Dropbox and identity source (e.g. Active Directory, HR database) by identity management software such as Dropbox AD Connector. If you are using Dropbox AD Connector and you built a new Active Directory tree. You may need to clear existing external IDs to disconnect relationships with the old Active Directory tree and the new tree.\nIf you skip clear external IDs, Dropbox AD Connector may unintentionally delete accounts during configuring to the new tree.\nIf you want to see existing external IDs, use the `dropbox team member list` command. But the command will not include external ID by default. Please add the option `-experiment report_all_columns` like below.\n\n\n
 
-| Command                                                                                       | Description                        |
-|-----------------------------------------------------------------------------------------------|------------------------------------|
-| [dropbox team member list](dropbox-team-member-list.md)                                       | List team member(s)                |
-| [dropbox team member clear externalid](dropbox-team-member-clear-externalid.md)               | Clear external_id of members       |
-| [dropbox team member update batch externalid](dropbox-team-member-update-batch-externalid.md) | Update External ID of team members |
-| [dropbox team group list](dropbox-team-group-list.md)                                         | List group(s)                      |
-| [dropbox team group clear externalid](dropbox-team-group-clear-externalid.md)                 | Clear an external ID of a group    |
+| Command                                                                                       | Description                                                                                               |
+|-----------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------|
+| [dropbox team member list](dropbox-team-member-list.md)                                       | Display comprehensive list of all team members with their status, roles, and account details              |
+| [dropbox team member clear externalid](dropbox-team-member-clear-externalid.md)               | Remove external ID mappings from team members, useful when disconnecting from identity management systems |
+| [dropbox team member update batch externalid](dropbox-team-member-update-batch-externalid.md) | Set or update external IDs for multiple team members, integrating with identity management systems        |
+| [dropbox team group list](dropbox-team-group-list.md)                                         | Display all groups in your team with member counts and group management types                             |
+| [dropbox team group clear externalid](dropbox-team-group-clear-externalid.md)                 | Remove external ID mappings from groups, useful when disconnecting from external identity providers       |
 
 ## Data migration helper commands
 
 Data migration helper commands copies member folders or team folders to another account or team. Please test before using those commands before actual data migration.
 
-| Command                                                                                       | Description                                            |
-|-----------------------------------------------------------------------------------------------|--------------------------------------------------------|
-| [dropbox team member folder replication](dropbox-team-member-folder-replication.md)           | Replicate a folder to another member's personal folder |
-| [dropbox team member replication](dropbox-team-member-replication.md)                         | Replicate team member files                            |
-| [dropbox team teamfolder partial replication](dropbox-team-teamfolder-partial-replication.md) | Partial team folder replication to another team        |
-| [dropbox team teamfolder replication](dropbox-team-teamfolder-replication.md)                 | Replicate a team folder to another team                |
+| Command                                                                                       | Description                                                                                                     |
+|-----------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|
+| [dropbox team member folder replication](dropbox-team-member-folder-replication.md)           | Copy folder contents from one team member to another's personal space, facilitating content transfer and backup |
+| [dropbox team member replication](dropbox-team-member-replication.md)                         | Replicate all files from one team member's account to another, useful for account transitions or backups        |
+| [dropbox team teamfolder partial replication](dropbox-team-teamfolder-partial-replication.md) | Selectively replicate team folder contents to another team, enabling flexible content migration                 |
+| [dropbox team teamfolder replication](dropbox-team-teamfolder-replication.md)                 | Copy an entire team folder with all contents to another team account for migration or backup                    |
 
 ## Team info commands
 
-| Command                                               | Description                         |
-|-------------------------------------------------------|-------------------------------------|
-| [dropbox team feature](dropbox-team-feature.md)       | Team feature                        |
-| [dropbox team filesystem](dropbox-team-filesystem.md) | Identify team's file system version |
-| [dropbox team info](dropbox-team-info.md)             | Team information                    |
+| Command                                               | Description                                                                                                            |
+|-------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------|
+| [dropbox team feature](dropbox-team-feature.md)       | Display all features and capabilities enabled for your Dropbox team account, including API limits and special features |
+| [dropbox team filesystem](dropbox-team-filesystem.md) | Identify whether your team uses legacy or modern file system architecture, important for feature compatibility         |
+| [dropbox team info](dropbox-team-info.md)             | Display essential team account information including team ID and basic team settings                                   |
 
 # Paper commands
 
@@ -16546,61 +16538,61 @@ Data migration helper commands copies member folders or team folders to another 
 
 Commands for a team's legacy Paper content. Please see the [official guide](https://developers.dropbox.com/paper-migration-guide) for more details about legacy Paper and migration
 
-| Command                                                                               | Description                                               |
-|---------------------------------------------------------------------------------------|-----------------------------------------------------------|
-| [dropbox team content legacypaper count](dropbox-team-content-legacypaper-count.md)   | Count number of Paper documents per member                |
-| [dropbox team content legacypaper list](dropbox-team-content-legacypaper-list.md)     | List team member Paper documents                          |
-| [dropbox team content legacypaper export](dropbox-team-content-legacypaper-export.md) | Export entire team member Paper documents into local path |
+| Command                                                                               | Description                                                                                                                        |
+|---------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------|
+| [dropbox team content legacypaper count](dropbox-team-content-legacypaper-count.md)   | Calculate the total number of legacy Paper documents owned by each team member, useful for content auditing and migration planning |
+| [dropbox team content legacypaper list](dropbox-team-content-legacypaper-list.md)     | Generate a comprehensive list of all legacy Paper documents across the team with ownership and metadata information                |
+| [dropbox team content legacypaper export](dropbox-team-content-legacypaper-export.md) | Export all legacy Paper documents from team members to local storage in HTML or Markdown format for backup or migration            |
 
 # Team admin commands
 
 Below commands are for managing team admins.
 
-| Command                                                                         | Description                                                            |
-|---------------------------------------------------------------------------------|------------------------------------------------------------------------|
-| [dropbox team admin list](dropbox-team-admin-list.md)                           | List admin roles of members                                            |
-| [dropbox team admin role add](dropbox-team-admin-role-add.md)                   | Add a new role to the member                                           |
-| [dropbox team admin role clear](dropbox-team-admin-role-clear.md)               | Remove all admin roles from the member                                 |
-| [dropbox team admin role delete](dropbox-team-admin-role-delete.md)             | Remove a role from the member                                          |
-| [dropbox team admin role list](dropbox-team-admin-role-list.md)                 | List admin roles of the team                                           |
-| [dropbox team admin group role add](dropbox-team-admin-group-role-add.md)       | Add the role to members of the group                                   |
-| [dropbox team admin group role delete](dropbox-team-admin-group-role-delete.md) | Delete the role from all members except members of the exception group |
+| Command                                                                         | Description                                                                                                                      |
+|---------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|
+| [dropbox team admin list](dropbox-team-admin-list.md)                           | Display all team members with their assigned admin roles, helpful for auditing administrative access and permissions             |
+| [dropbox team admin role add](dropbox-team-admin-role-add.md)                   | Grant a specific admin role to an individual team member, enabling granular permission management                                |
+| [dropbox team admin role clear](dropbox-team-admin-role-clear.md)               | Revoke all administrative privileges from a team member, useful for role transitions or security purposes                        |
+| [dropbox team admin role delete](dropbox-team-admin-role-delete.md)             | Remove a specific admin role from a team member while preserving other roles, allowing precise permission adjustments            |
+| [dropbox team admin role list](dropbox-team-admin-role-list.md)                 | Display all available admin roles in the team with their descriptions and permissions                                            |
+| [dropbox team admin group role add](dropbox-team-admin-group-role-add.md)       | Assign admin roles to all members of a specified group, streamlining role management for large teams                             |
+| [dropbox team admin group role delete](dropbox-team-admin-group-role-delete.md) | Remove admin roles from all team members except those in a specified exception group, useful for role cleanup and access control |
 
 # Commands that run as a team member
 
 You can run a command as a team member. For example, you can upload a file into member's folder by using `dropbox team runas file sync batch up`.
 
-| Command                                                                                                       | Description                                          |
-|---------------------------------------------------------------------------------------------------------------|------------------------------------------------------|
-| [dropbox team runas file list](dropbox-team-runas-file-list.md)                                               | List files and folders run as a member               |
-| [dropbox team runas file batch copy](dropbox-team-runas-file-batch-copy.md)                                   | Batch copy files/folders as a member                 |
-| [dropbox team runas file sync batch up](dropbox-team-runas-file-sync-batch-up.md)                             | Batch upstream sync with Dropbox                     |
-| [dropbox team runas sharedfolder list](dropbox-team-runas-sharedfolder-list.md)                               | List shared folders                                  |
-| [dropbox team runas sharedfolder isolate](dropbox-team-runas-sharedfolder-isolate.md)                         | Isolate member from shared folder                    |
-| [dropbox team runas sharedfolder mount add](dropbox-team-runas-sharedfolder-mount-add.md)                     | Mount a shared folder as another member              |
-| [dropbox team runas sharedfolder mount delete](dropbox-team-runas-sharedfolder-mount-delete.md)               | The specified user unmounts the designated folder.   |
-| [dropbox team runas sharedfolder mount list](dropbox-team-runas-sharedfolder-mount-list.md)                   | List all shared folders the specified member mounted |
-| [dropbox team runas sharedfolder mount mountable](dropbox-team-runas-sharedfolder-mount-mountable.md)         | List all shared folders the member can mount         |
-| [dropbox team runas sharedfolder batch leave](dropbox-team-runas-sharedfolder-batch-leave.md)                 | Leave shared folders in batch                        |
-| [dropbox team runas sharedfolder batch share](dropbox-team-runas-sharedfolder-batch-share.md)                 | Share shared folders in batch                        |
-| [dropbox team runas sharedfolder batch unshare](dropbox-team-runas-sharedfolder-batch-unshare.md)             | Unshare shared folders in batch                      |
-| [dropbox team runas sharedfolder member batch add](dropbox-team-runas-sharedfolder-member-batch-add.md)       | Add members to shared folders in batch               |
-| [dropbox team runas sharedfolder member batch delete](dropbox-team-runas-sharedfolder-member-batch-delete.md) | Remove members from shared folders in batch          |
+| Command                                                                                                       | Description                                                                                                  |
+|---------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|
+| [dropbox team runas file list](dropbox-team-runas-file-list.md)                                               | List files and folders in a team member's account by running operations as that member                       |
+| [dropbox team runas file batch copy](dropbox-team-runas-file-batch-copy.md)                                   | Copy multiple files or folders on behalf of team members, useful for content management and organization     |
+| [dropbox team runas file sync batch up](dropbox-team-runas-file-sync-batch-up.md)                             | Upload multiple local files to team members' Dropbox accounts in batch, running as those members             |
+| [dropbox team runas sharedfolder list](dropbox-team-runas-sharedfolder-list.md)                               | Display all shared folders accessible by a team member, running the operation as that member                 |
+| [dropbox team runas sharedfolder isolate](dropbox-team-runas-sharedfolder-isolate.md)                         | Remove all shared folder access for a team member and transfer ownership, useful for departing employees     |
+| [dropbox team runas sharedfolder mount add](dropbox-team-runas-sharedfolder-mount-add.md)                     | Mount shared folders to team members' accounts on their behalf, ensuring proper folder synchronization       |
+| [dropbox team runas sharedfolder mount delete](dropbox-team-runas-sharedfolder-mount-delete.md)               | Unmount shared folders from team members' accounts on their behalf, managing folder synchronization          |
+| [dropbox team runas sharedfolder mount list](dropbox-team-runas-sharedfolder-mount-list.md)                   | Display all shared folders currently mounted (synced) to a specific team member's account                    |
+| [dropbox team runas sharedfolder mount mountable](dropbox-team-runas-sharedfolder-mount-mountable.md)         | Show all available shared folders that a team member can mount but hasn't synced yet                         |
+| [dropbox team runas sharedfolder batch leave](dropbox-team-runas-sharedfolder-batch-leave.md)                 | Remove team members from multiple shared folders in batch by running leave operations as those members       |
+| [dropbox team runas sharedfolder batch share](dropbox-team-runas-sharedfolder-batch-share.md)                 | Share multiple folders on behalf of team members in batch, automating folder sharing processes               |
+| [dropbox team runas sharedfolder batch unshare](dropbox-team-runas-sharedfolder-batch-unshare.md)             | Remove sharing from multiple folders on behalf of team members, managing folder access in bulk               |
+| [dropbox team runas sharedfolder member batch add](dropbox-team-runas-sharedfolder-member-batch-add.md)       | Add multiple members to shared folders in batch on behalf of folder owners, streamlining access management   |
+| [dropbox team runas sharedfolder member batch delete](dropbox-team-runas-sharedfolder-member-batch-delete.md) | Remove multiple members from shared folders in batch on behalf of folder owners, managing access efficiently |
 
 # Legal hold
 
 With legal holds, admins can place a legal hold on members of their team and view and export all the content that's been created or modified by those members.
 
-| Command                                                                                     | Description                                 |
-|---------------------------------------------------------------------------------------------|---------------------------------------------|
-| [dropbox team legalhold add](dropbox-team-legalhold-add.md)                                 | Creates a new legal hold policy.            |
-| [dropbox team legalhold list](dropbox-team-legalhold-list.md)                               | Retrieve existing policies                  |
-| [dropbox team legalhold member batch update](dropbox-team-legalhold-member-batch-update.md) | Update member list of legal hold policy     |
-| [dropbox team legalhold member list](dropbox-team-legalhold-member-list.md)                 | List members of the legal hold              |
-| [dropbox team legalhold release](dropbox-team-legalhold-release.md)                         | Releases a legal hold by ID                 |
-| [dropbox team legalhold revision list](dropbox-team-legalhold-revision-list.md)             | List revisions under legal hold             |
-| [dropbox team legalhold update desc](dropbox-team-legalhold-update-desc.md)                 | Update description of the legal hold policy |
-| [dropbox team legalhold update name](dropbox-team-legalhold-update-name.md)                 | Update name of the legal hold policy        |
+| Command                                                                                     | Description                                                                                               |
+|---------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------|
+| [dropbox team legalhold add](dropbox-team-legalhold-add.md)                                 | Create a legal hold policy to preserve specified team content for compliance or litigation purposes       |
+| [dropbox team legalhold list](dropbox-team-legalhold-list.md)                               | Display all active legal hold policies with their details, members, and preservation status               |
+| [dropbox team legalhold member batch update](dropbox-team-legalhold-member-batch-update.md) | Add or remove multiple team members from legal hold policies in batch for efficient compliance management |
+| [dropbox team legalhold member list](dropbox-team-legalhold-member-list.md)                 | Display all team members currently under legal hold policies with their preservation status               |
+| [dropbox team legalhold release](dropbox-team-legalhold-release.md)                         | Release a legal hold policy and restore normal file operations for affected members and content           |
+| [dropbox team legalhold revision list](dropbox-team-legalhold-revision-list.md)             | Display all file revisions preserved under legal hold policies, ensuring comprehensive data retention     |
+| [dropbox team legalhold update desc](dropbox-team-legalhold-update-desc.md)                 | Modify the description of an existing legal hold policy to reflect changes in scope or purpose            |
+| [dropbox team legalhold update name](dropbox-team-legalhold-update-name.md)                 | Change the name of a legal hold policy for better identification and organization                         |
 
 # Notes:
 

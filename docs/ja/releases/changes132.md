@@ -14,14 +14,14 @@ lang: ja
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "github_public"},
-+ 	ConnScopes:      map[string]string{"Peer": "github_repo"},
-  	Services:        {"github"},
-  	IsSecret:        true,
-  	... // 12 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: false,
+- 	ConnScopes:      map[string]string{"Peer": "github_public"},
++ 	ConnScopes:      map[string]string{"Peer": "github_repo"},
+  	Services:        {"github"},
+  	IsSecret:        true,
+  	... // 12 identical fields
+  }
 ```

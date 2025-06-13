@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team member update batch profile
 
-Batch update member profiles (Irreversible operation)
+Update profile information for multiple team members including names and job titles in batch (Irreversible operation)
+
+Bulk updates member profile information including given names and surnames. Ideal for standardizing name formats, correcting widespread errors, or updating after organizational changes. Maintains consistency across team directories and improves searchability.
 
 # Security
 

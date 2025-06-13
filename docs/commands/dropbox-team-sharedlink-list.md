@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team sharedlink list
 
-List of shared links 
+Display comprehensive list of all shared links created by team members with visibility and expiration details 
+
+Comprehensive inventory of all team shared links showing URLs, visibility settings, expiration dates, and creators. Essential for security audits, identifying risky links, and understanding external sharing patterns. Filter by various criteria for focused analysis.
 
 # Security
 

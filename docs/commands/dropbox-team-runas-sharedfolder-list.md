@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team runas sharedfolder list
 
-List shared folders 
+Display all shared folders accessible by a team member, running the operation as that member 
+
+Admin view of member's shared folder access including permission levels and folder details. Essential for access audits, investigating over-sharing, or troubleshooting permission issues. Helps ensure appropriate access levels and identify security risks.
 
 # Security
 

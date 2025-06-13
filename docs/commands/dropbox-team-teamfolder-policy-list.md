@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team teamfolder policy list
 
-List policies of team folders 
+Display all access policies and restrictions applied to team folders for governance review 
+
+Shows all policies governing team folder behavior including sync defaults, sharing restrictions, and access controls. Helps understand why folders behave certain ways and ensures policy compliance. Reference before creating new folders or modifying settings.
 
 # Security
 

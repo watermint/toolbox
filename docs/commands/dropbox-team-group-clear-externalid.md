@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team group clear externalid
 
-Clear an external ID of a group 
+Remove external ID mappings from groups, useful when disconnecting from external identity providers 
+
+Removes external ID associations from groups when migrating away from identity providers or changing integration systems. Group functionality remains intact but loses external system mapping. Useful for troubleshooting sync issues with identity providers.
 
 # Security
 

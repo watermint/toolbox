@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team member update batch externalid
 
-Update External ID of team members (Irreversible operation)
+Set or update external IDs for multiple team members, integrating with identity management systems (Irreversible operation)
+
+Maps external identity system IDs to Dropbox team members in bulk. Critical for SCIM integration, SSO setup, or syncing with HR systems. Ensures consistent identity mapping across platforms. Updates existing IDs or sets new ones as needed.
 
 # Security
 

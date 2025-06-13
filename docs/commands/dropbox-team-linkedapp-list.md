@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team linkedapp list
 
-List linked applications 
+Display all third-party applications linked to team member accounts for security auditing and access control 
+
+Lists all third-party applications with access to team members' Dropbox accounts. Essential for security audits, identifying unauthorized apps, and managing OAuth integrations. Shows which members use which apps, helping enforce application policies and identify potential security risks.
 
 # Security
 

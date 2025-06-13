@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team filerequest clone
 
-Clone file requests by given data (Experimental, and Irreversible operation)
+Duplicate existing file requests with customized settings, useful for creating similar requests across team members (Experimental, and Irreversible operation)
+
+Creates new file requests based on existing templates with modified settings. Streamlines standardized collection processes like monthly reports or recurring submissions. Preserves folder structure while allowing customization per recipient.
 
 # Security
 

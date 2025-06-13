@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team member feature
 
-List member feature settings 
+Display feature settings and capabilities enabled for specific team members, helping understand member permissions 
+
+Shows which features and capabilities are enabled for team members. Useful for troubleshooting access issues, verifying feature rollouts, and understanding member capabilities. Helps identify why certain members can or cannot access specific functionality.
 
 # Security
 

@@ -6,7 +6,7 @@ lang: en
 
 # dropbox team legalhold list
 
-Retrieve existing policies 
+Display all active legal hold policies with their details, members, and preservation status 
 
 # Security
 

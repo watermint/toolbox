@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team teamfolder batch replication
 
-Batch replication of team folders (Irreversible operation)
+Replicate multiple team folders to another team account in batch for migration or backup (Irreversible operation)
+
+Creates copies of multiple team folders with their complete structures and permissions. Useful for creating backups, setting up parallel environments, or preparing for migrations. Consider storage implications before large replications.
 
 # Security
 

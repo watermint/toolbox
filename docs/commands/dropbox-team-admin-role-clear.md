@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team admin role clear
 
-Remove all admin roles from the member 
+Revoke all administrative privileges from a team member, useful for role transitions or security purposes 
+
+Completely removes all admin roles from a member in a single operation. Essential for offboarding admins, responding to security incidents, or transitioning members to non-administrative positions. More efficient than removing roles individually.
 
 # Security
 

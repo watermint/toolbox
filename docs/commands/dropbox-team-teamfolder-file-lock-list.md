@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team teamfolder file lock list
 
-List locks in the team folder 
+Display all locked files within team folders, identifying collaboration bottlenecks 
+
+Lists all currently locked files in team folders with lock holder information and lock duration. Helps identify collaboration bottlenecks, stale locks, and users who may need assistance. Essential for maintaining smooth team workflows.
 
 # Security
 

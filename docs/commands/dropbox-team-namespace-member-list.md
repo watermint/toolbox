@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team namespace member list
 
-List members of shared folders and team folders in the team 
+Show all members with access to each namespace, detailing permissions and access levels 
+
+Maps namespace access showing which members can access which folders and their permission levels. Reveals access patterns, over-privileged namespaces, and helps ensure appropriate access controls. Essential for security audits and access reviews.
 
 # Security
 

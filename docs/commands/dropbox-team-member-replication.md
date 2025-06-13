@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team member replication
 
-Replicate team member files (Irreversible operation)
+Replicate all files from one team member's account to another, useful for account transitions or backups (Irreversible operation)
+
+Creates complete copies of member data between accounts, preserving folder structures and sharing where possible. Essential for role transitions, creating backups, or merging accounts. Requires sufficient storage in destination account. Consider using batch processing for multiple replications.
 
 # Security
 

@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team admin role delete
 
-Remove a role from the member 
+Remove a specific admin role from a team member while preserving other roles, allowing precise permission adjustments 
+
+Selectively removes individual admin roles without affecting other permissions. Useful for adjusting responsibilities or implementing role-based access changes. The command verifies the member has the role before attempting removal.
 
 # Security
 

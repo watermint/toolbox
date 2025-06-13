@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team content mount list
 
-List all mounted/unmounted shared folders of team members. 
+Display mount status of all shared folders for team members, identifying which folders are actively synced to member devices 
+
+Shows which shared folders are actively syncing to member devices versus cloud-only access. Critical for bandwidth planning, identifying heavy sync users, and troubleshooting sync issues. Helps optimize storage usage on user devices.
 
 # Security
 

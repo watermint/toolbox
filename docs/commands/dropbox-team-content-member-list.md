@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team content member list
 
-List team folder & shared folder members 
+Display all members with access to team folders and shared folders, showing permission levels and folder relationships 
+
+Maps folder access across the team, showing which members can access specific folders and their permission levels. Invaluable for access reviews, identifying over-privileged accounts, and understanding content exposure. Helps maintain principle of least privilege.
 
 # Security
 

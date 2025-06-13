@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team teamfolder partial replication
 
-Partial team folder replication to another team (Irreversible operation)
+Selectively replicate team folder contents to another team, enabling flexible content migration (Irreversible operation)
+
+Copies selected subfolders or files from team folders rather than entire structures. Useful for creating targeted backups, extracting project deliverables, or migrating specific content. More efficient than full replication when only portions are needed.
 
 # Security
 

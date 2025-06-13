@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team runas sharedfolder batch share
 
-Share shared folders in batch 
+Share multiple folders on behalf of team members in batch, automating folder sharing processes 
+
+Admin batch tool for creating shared folders on behalf of members. Streamlines folder sharing for new projects or team reorganizations. Sets appropriate permissions and sends invitations. All sharing actions are logged for security compliance.
 
 # Security
 

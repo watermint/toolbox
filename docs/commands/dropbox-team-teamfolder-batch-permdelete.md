@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team teamfolder batch permdelete
 
-Permanently delete team folders (Irreversible operation)
+Permanently delete multiple archived team folders in batch, freeing storage space (Irreversible operation)
+
+Permanently deletes multiple team folders and all their contents without possibility of recovery. Use only with proper authorization for removing obsolete data, complying with retention policies, or emergency cleanup. This action cannot be undone.
 
 # Security
 

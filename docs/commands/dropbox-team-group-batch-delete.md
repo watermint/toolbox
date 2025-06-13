@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team group batch delete
 
-Delete groups (Irreversible operation)
+Remove multiple groups from your team in batch, streamlining group cleanup and reorganization (Irreversible operation)
+
+Efficiently removes multiple groups in a single operation. Useful for organizational restructuring or cleaning up obsolete groups. Members retain individual permissions but lose group-based access. Verify group contents before deletion as this is irreversible.
 
 # Security
 

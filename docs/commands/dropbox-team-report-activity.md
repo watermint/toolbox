@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team report activity
 
-Activities report 
+Generate detailed activity reports covering all team operations, useful for compliance and usage analysis 
+
+Creates comprehensive activity reports showing team member actions, file operations, sharing events, and administrative changes. Customizable date ranges and filters. Essential for security monitoring, compliance reporting, and understanding team collaboration patterns.
 
 # Security
 

@@ -6,9 +6,9 @@ lang: en
 
 # dropbox team group delete
 
-Delete group (Irreversible operation)
+Remove a specific group from your team, automatically removing all member associations (Irreversible operation)
 
-This command does not confirm whether the group is used in existing folders
+Permanently deletes a group and removes all member associations. Members retain access through other groups or individual permissions. Cannot be undone - consider archiving group by removing members instead if unsure. Folder permissions using this group are also removed.
 
 # Security
 

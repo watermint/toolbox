@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team member clear externalid
 
-Clear external_id of members 
+Remove external ID mappings from team members, useful when disconnecting from identity management systems 
+
+Bulk removes external IDs from team members listed in a CSV file. Essential when migrating between identity providers, cleaning up after SCIM disconnection, or resolving ID conflicts. Does not affect member access, only removes the external identifier mapping.
 
 # Security
 

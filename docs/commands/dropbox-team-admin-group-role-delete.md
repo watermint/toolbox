@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team admin group role delete
 
-Delete the role from all members except members of the exception group 
+Remove admin roles from all team members except those in a specified exception group, useful for role cleanup and access control 
+
+Bulk removes specific admin roles while preserving them for an exception group. Useful for reorganizing admin structures or implementing least-privilege access. The exception group ensures critical admins retain necessary permissions during cleanup operations.
 
 # Security
 

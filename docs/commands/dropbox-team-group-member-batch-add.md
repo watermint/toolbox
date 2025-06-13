@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team group member batch add
 
-Bulk add members into groups (Irreversible operation)
+Add multiple members to groups efficiently using batch processing, ideal for large team reorganizations (Irreversible operation)
+
+Bulk adds members to groups using a mapping file. Validates all memberships before applying changes. Ideal for onboarding, departmental changes, or permission standardization projects. Handles errors gracefully with detailed reporting.
 
 # Security
 

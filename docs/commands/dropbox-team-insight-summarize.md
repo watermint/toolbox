@@ -6,7 +6,7 @@ lang: en
 
 # dropbox team insight summarize
 
-Summarize team data for analysis 
+Generate summary reports from scanned team data, providing actionable insights on team usage and patterns 
 
 # Installation
 

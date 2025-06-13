@@ -6,7 +6,7 @@ lang: en
 
 # dropbox team backup device status
 
-Dropbox Backup device status change in the specified period 
+Track Dropbox Backup status changes for all team devices over a specified period, monitoring backup health and compliance 
 
 Evaluates and reports the latest status of Dropbox Backup per device session from activity logs for a specified time period. If there is no activity during the specified period, it is reported as the value `no_status_update`.
 Multiple device sessions may be displayed in the following cases

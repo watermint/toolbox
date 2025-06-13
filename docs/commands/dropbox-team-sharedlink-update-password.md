@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team sharedlink update password
 
-Set or update shared link passwords (Irreversible operation)
+Add or change passwords on team shared links in batch for enhanced security protection (Irreversible operation)
+
+Applies password protection to existing shared links or updates current passwords. Critical for securing sensitive content shared externally. Can target vulnerable links or apply passwords based on content sensitivity. Notify link recipients of new requirements.
 
 # Security
 

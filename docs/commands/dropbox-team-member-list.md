@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team member list
 
-List team member(s) 
+Display comprehensive list of all team members with their status, roles, and account details 
+
+Provides complete team roster including active, suspended, and optionally deleted members. Shows email addresses, names, roles, and account status. Fundamental for team audits, license management, and understanding team composition. Export for HR or compliance reporting.
 
 # Security
 

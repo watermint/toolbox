@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team runas file sync batch up
 
-Batch upstream sync with Dropbox (Irreversible operation)
+Upload multiple local files to team members' Dropbox accounts in batch, running as those members (Irreversible operation)
+
+Admin bulk upload tool for distributing files to multiple member accounts simultaneously. Ideal for deploying templates, policies, or required documents. Maintains consistent file distribution across teams. All uploads are tracked for compliance.
 
 # Security
 

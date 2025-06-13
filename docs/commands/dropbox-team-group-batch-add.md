@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team group batch add
 
-Bulk adding groups 
+Create multiple groups at once using batch processing, efficient for large-scale team organization 
+
+Bulk creates groups from a data file, ideal for initial setup or reorganizations. Validates all groups before creation to prevent partial failures. Include external IDs for integration with identity management systems. Significantly faster than individual creation.
 
 # Security
 

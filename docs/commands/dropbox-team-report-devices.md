@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team report devices
 
-Devices report 
+Create comprehensive device usage reports showing all connected devices, platforms, and access patterns 
+
+Shows all devices connected to team accounts including type, OS, sync status, and last activity. Critical for security audits, identifying unauthorized devices, and managing device policies. Helps enforce security standards and investigate access anomalies.
 
 # Security
 

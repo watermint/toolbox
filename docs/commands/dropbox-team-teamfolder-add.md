@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team teamfolder add
 
-Add team folder to the team (Irreversible operation)
+Create a new team folder for centralized team content storage and collaboration (Irreversible operation)
+
+Creates new team folders with defined access controls and sync settings. Set up departmental folders, project spaces, or archive locations. Configure initial permissions and determine whether content syncs to member devices by default.
 
 # Security
 

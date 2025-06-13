@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team runas sharedfolder isolate
 
-Isolate member from shared folder (Irreversible operation)
+Remove all shared folder access for a team member and transfer ownership, useful for departing employees (Irreversible operation)
+
+Emergency admin action to remove all members from a shared folder except its owner. Use for security incidents, data breaches, or when folder content needs immediate access restriction. Preserves folder structure while eliminating external access risks.
 
 # Security
 

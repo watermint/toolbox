@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team group member list
 
-List members of groups 
+Display all members belonging to each group, useful for auditing group compositions and access rights 
+
+Lists all groups with their complete member rosters. Essential for access audits, verifying group compositions, and understanding permission inheritance. Helps identify empty groups, over-privileged groups, or members with unexpected access through group membership.
 
 # Security
 

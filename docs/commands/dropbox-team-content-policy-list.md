@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team content policy list
 
-List policies of team folders and shared folders in the team 
+Review all access policies and restrictions applied to team folders and shared folders for governance compliance 
+
+Comprehensive policy audit showing viewer info restrictions, shared link policies, and other governance settings. Essential for compliance verification and ensuring folders meet organizational security requirements. Identifies policy inconsistencies across folders.
 
 # Security
 

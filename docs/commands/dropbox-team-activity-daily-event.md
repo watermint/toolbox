@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team activity daily event
 
-Report activities by day 
+Generate daily activity reports showing team events grouped by date, helpful for tracking team usage patterns and security monitoring 
+
+Aggregates team activity events by day, making it easier to identify trends and anomalies in team behavior. Particularly useful for creating daily security reports, tracking adoption of new features, or identifying unusual activity patterns that might indicate security concerns.
 
 # Security
 

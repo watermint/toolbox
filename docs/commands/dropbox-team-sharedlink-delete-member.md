@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team sharedlink delete member
 
-Delete all shared links of the member (Irreversible operation)
+Remove all shared links created by a specific team member, useful for departing employees (Irreversible operation)
+
+Removes all shared links created by a specific member, regardless of content location. Essential for secure offboarding, responding to compromised accounts, or enforcing immediate access revocation. Cannot be undone, so use with appropriate authorization.
 
 # Security
 

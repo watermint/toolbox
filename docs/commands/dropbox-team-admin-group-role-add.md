@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team admin group role add
 
-Add the role to members of the group 
+Assign admin roles to all members of a specified group, streamlining role management for large teams 
+
+Efficiently grants admin privileges to entire groups rather than individual members. Ideal for departmental admin assignments or when onboarding new admin teams. Changes are applied immediately to all current group members.
 
 # Security
 

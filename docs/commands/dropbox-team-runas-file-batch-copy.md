@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team runas file batch copy
 
-Batch copy files/folders as a member (Irreversible operation)
+Copy multiple files or folders on behalf of team members, useful for content management and organization (Irreversible operation)
+
+Admin tool to copy files between member accounts without their credentials. Useful for distributing templates, recovering deleted content, or setting up new members. Operates with admin privileges while maintaining audit trails. Requires appropriate admin permissions.
 
 # Security
 

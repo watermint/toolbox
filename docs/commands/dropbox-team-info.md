@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team info
 
-Team information 
+Display essential team account information including team ID and basic team settings 
+
+Shows fundamental team account details needed for API integrations and support requests. Team ID is required for various administrative operations. Quick way to verify you're connected to the correct team account.
 
 # Security
 

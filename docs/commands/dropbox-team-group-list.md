@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team group list
 
-List group(s) 
+Display all groups in your team with member counts and group management types 
+
+Complete inventory of team groups showing sizes and management modes. Use to identify empty groups, oversized groups, or groups needing management type changes. Export for regular auditing and compliance documentation.
 
 # Security
 

@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team admin role add
 
-Add a new role to the member 
+Grant a specific admin role to an individual team member, enabling granular permission management 
+
+Assigns specific admin roles to individual members for precise permission control. Use when promoting team members to admin positions or adjusting responsibilities. The command validates that the member doesn't already have the specified role to prevent duplicates.
 
 # Security
 

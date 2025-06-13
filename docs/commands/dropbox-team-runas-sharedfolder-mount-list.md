@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team runas sharedfolder mount list
 
-List all shared folders the specified member mounted 
+Display all shared folders currently mounted (synced) to a specific team member's account 
+
+Admin view of which shared folders are actively mounted (syncing) in a member's account. Helps diagnose sync issues, understand storage usage, or verify proper folder access. Distinguishes between mounted and unmounted but accessible folders.
 
 # Security
 

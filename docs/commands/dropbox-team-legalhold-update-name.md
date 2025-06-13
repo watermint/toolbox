@@ -6,7 +6,7 @@ lang: en
 
 # dropbox team legalhold update name
 
-Update name of the legal hold policy 
+Change the name of a legal hold policy for better identification and organization 
 
 # Security
 

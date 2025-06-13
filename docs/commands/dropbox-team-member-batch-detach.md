@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team member batch detach
 
-Convert Dropbox for teams accounts to a Basic account (Irreversible operation)
+Convert multiple team accounts to individual Basic accounts, preserving personal data while removing team access (Irreversible operation)
+
+Bulk converts team members to personal Dropbox Basic accounts. Members retain their files but lose team features and shared folder access. Useful for contractors ending engagements or when downsizing teams. Consider data retention policies before detaching.
 
 # Security
 

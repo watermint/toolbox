@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team namespace summary
 
-Report team namespace status summary. 
+Generate comprehensive summary reports of team namespace usage, member counts, and storage statistics 
+
+Aggregates namespace data to show overall team structure, storage distribution, and access patterns. Provides high-level insights into how team content is organized across different namespace types. Useful for capacity planning and organizational assessments.
 
 # Security
 

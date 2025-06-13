@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team filesystem
 
-Identify team's file system version 
+Identify whether your team uses legacy or modern file system architecture, important for feature compatibility 
+
+Determines underlying file system version affecting feature availability and API behavior. Modern file system enables advanced features like native Paper and enhanced performance. Legacy teams may need migration for full feature access.
 
 # Security
 

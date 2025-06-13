@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team group member batch delete
 
-Delete members from groups (Irreversible operation)
+Remove multiple members from groups in batch, streamlining group membership management (Irreversible operation)
+
+Bulk removes members from groups using a CSV file mapping. Validates all memberships before making changes. Useful for organizational restructuring, offboarding processes, or cleaning up group memberships. Processes efficiently with detailed error reporting for any issues.
 
 # Security
 

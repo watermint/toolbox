@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team namespace file list
 
-List all files and folders of the team namespaces 
+Display comprehensive file and folder listings within team namespaces for content inventory and analysis 
+
+Lists all files and folders within team namespaces with filtering options. Include or exclude deleted items, member folders, shared folders, and team folders. Essential for content audits, migration planning, and understanding data distribution across namespace types.
 
 # Security
 

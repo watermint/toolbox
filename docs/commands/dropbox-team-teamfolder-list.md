@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team teamfolder list
 
-List team folder(s) 
+Display all team folders with their status, sync settings, and member access information 
+
+Comprehensive list of all team folders showing names, status (active/archived), sync settings, and access levels. Fundamental for team folder governance, planning reorganizations, and understanding team structure. Export for documentation or analysis.
 
 # Security
 

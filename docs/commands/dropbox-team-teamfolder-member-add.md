@@ -6,9 +6,9 @@ lang: en
 
 # dropbox team teamfolder member add
 
-Batch adding users/groups to team folders (Irreversible operation)
+Add multiple users or groups to team folders in batch, streamlining access provisioning (Irreversible operation)
 
-This command will do (1) create new team folders or new sub-folders if the team folder does not exist. The command does not (2) change access inheritance settings of any folders, (3) create a group if that not exist. This command is designed to be idempotent. You can safely retry if any errors happen on the operation. The command will not report an error to keep idempotence. For example, the command will not report an error like, the member already have access to the folder.\n\nExample:\n\n* Sales (team folder, editor access for the group "Sales")\n\t* Sydney (viewer access for individual account sydney@example.com)\n\t* Tokyo (editor access for the group "Tokyo Deal Desk")\n\t\t* Monthly (viewer access for individual account success@example.com)\n* Marketing (team folder, editor access for the group "Marketing")\n\t* Sydney (editor access for the group "Sydney Sales")\n\t* Tokyo (viewer access for the group "Tokyo Sales")\n\n1. Prepare CSV like below\n\n```\nSales,,editor,Sales\nSales,Sydney,editor,sydney@example.com\nSales,Tokyo,editor,Tokyo Deal Desk\nSales,Tokyo/Monthly,viewer,success@example.com\nMarketing,,editor,Marketing\nMarketing,Sydney,editor,Sydney Sales\nMarketing,Tokyo,viewer,Tokyo Sales\n```\n\n2. Then run the command like below\n\n```\ntbx teamfolder member add -file /PATH/TO/DATA.csv\n```\n\nNote: the command will create a team folder if not exist. But the command will not a group if not found. Groups must exist before run this command.
+Grants access to team folders for individuals or groups with defined permissions (view/edit). Use for onboarding, project assignments, or expanding access. Group additions efficiently manage permissions through group membership rather than individual assignments.
 
 # Security
 

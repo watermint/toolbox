@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team member suspend
 
-Suspend a member 
+Temporarily suspend a team member's access to their account while preserving all data and settings 
+
+Immediately blocks member access while maintaining all data, settings, and group memberships. Use for security incidents, policy violations, or temporary leaves. Choose whether to keep data on linked devices. Member can be unsuspended later with full access restored.
 
 # Security
 

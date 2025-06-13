@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team teamfolder file list
 
-List files in team folders 
+Display all files and subfolders within team folders for content inventory and management 
+
+Enumerates all files in team folders with details like size, modification dates, and paths. Essential for content audits, migration planning, and understanding data distribution. Can filter by file types or patterns for targeted analysis.
 
 # Security
 

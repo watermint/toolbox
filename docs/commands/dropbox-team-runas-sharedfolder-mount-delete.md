@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team runas sharedfolder mount delete
 
-The specified user unmounts the designated folder. 
+Unmount shared folders from team members' accounts on their behalf, managing folder synchronization 
+
+Admin tool to unmount shared folders from member accounts without removing access. Useful for troubleshooting sync issues, managing local storage, or temporarily removing folders from sync. Member retains access and can remount later.
 
 # Security
 

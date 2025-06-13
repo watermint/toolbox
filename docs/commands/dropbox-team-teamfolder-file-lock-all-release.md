@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team teamfolder file lock all release
 
-Release all locks under the path of the team folder 
+Release all file locks within a team folder path, resolving editing conflicts in bulk 
+
+Bulk releases all file locks within specified team folders. Use when multiple locks are blocking team productivity or after system issues. Notifies lock holders when possible. May cause loss of unsaved changes in locked files.
 
 # Security
 

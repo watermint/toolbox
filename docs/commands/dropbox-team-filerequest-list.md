@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team filerequest list
 
-List all file requests in the team 
+Display all active and closed file requests created by team members, helping track external file collection activities 
+
+Comprehensive view of all file requests across the team. Monitor external data collection, identify abandoned requests, and ensure compliance with data handling policies. Includes request URLs, creators, and submission counts for audit purposes.
 
 # Security
 

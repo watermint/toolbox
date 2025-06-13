@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team runas sharedfolder batch unshare
 
-Unshare shared folders in batch 
+Remove sharing from multiple folders on behalf of team members, managing folder access in bulk 
+
+Admin tool to revoke folder sharing in bulk for security or compliance. Removes sharing while preserving folder contents for the owner. Critical for incident response or preventing data leaks. All unshare actions create audit records.
 
 # Security
 

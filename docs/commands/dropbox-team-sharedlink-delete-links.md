@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team sharedlink delete links
 
-Batch delete shared links (Irreversible operation)
+Delete multiple shared links in batch for security compliance or access control cleanup (Irreversible operation)
+
+Bulk deletes shared links based on criteria like age, visibility, or path patterns. Use for security remediation, removing obsolete links, or enforcing new sharing policies. Permanent action that immediately revokes access through deleted links.
 
 # Security
 

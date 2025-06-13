@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team teamfolder replication
 
-Replicate a team folder to another team (Experimental, and Irreversible operation)
+Copy an entire team folder with all contents to another team account for migration or backup (Experimental, and Irreversible operation)
+
+Creates an exact duplicate of a team folder preserving structure, permissions, and content. Use for creating backups, setting up test environments, or preparing for major changes. Consider available storage and replication time for large folders.
 
 # Security
 

@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team member file lock release
 
-Release the lock of the path as the member 
+Release a specific file lock held by a team member, enabling others to edit the file 
+
+Releases a single file lock held by a member, allowing others to edit. Use when specific files are blocking team collaboration or when lock holders are unavailable. More precise than bulk release when only specific files need unlocking.
 
 # Security
 

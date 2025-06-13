@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team legalhold release
 
-Releases a legal hold by ID 
+Release a legal hold policy and restore normal file operations for affected members and content 
+
+Ends a legal hold policy and removes preservation requirements. Content becomes subject to normal retention and deletion policies again. Use when litigation concludes or preservation is no longer required. The release is logged for audit purposes but cannot be undone.
 
 # Security
 

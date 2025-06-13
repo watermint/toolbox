@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team member quota list
 
-List team member quota 
+Display storage quota assignments for all team members, helping monitor and plan storage distribution 
+
+Shows current storage quota settings for all team members, distinguishing between default and custom quotas. Identifies members with special storage needs or restrictions. Use for capacity planning and ensuring fair storage distribution across teams.
 
 # Security
 

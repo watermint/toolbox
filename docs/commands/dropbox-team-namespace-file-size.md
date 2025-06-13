@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team namespace file size
 
-List all files and folders of the team namespaces 
+Calculate storage usage for files and folders in team namespaces, providing detailed size analytics 
+
+Analyzes storage consumption across team namespaces with configurable depth scanning. Shows size distribution by namespace type (team, shared, member, app folders). Critical for storage optimization, identifying large folders, and planning archival strategies.
 
 # Security
 

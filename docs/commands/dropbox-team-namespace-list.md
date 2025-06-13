@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team namespace list
 
-List all namespaces of the team 
+Display all team namespaces including team folders and shared spaces with their configurations 
+
+Enumerates all namespace types in the team including ownership, paths, and access levels. Provides comprehensive view of team's folder architecture. Use for understanding organizational structure, planning migrations, or auditing folder governance.
 
 # Security
 

@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team runas sharedfolder mount add
 
-Mount a shared folder as another member 
+Mount shared folders to team members' accounts on their behalf, ensuring proper folder synchronization 
+
+Admin action to mount shared folders in member accounts when they cannot do it themselves. Useful for troubleshooting sync issues, helping non-technical users, or ensuring critical folders are properly mounted. Operates as if the member performed the action.
 
 # Security
 

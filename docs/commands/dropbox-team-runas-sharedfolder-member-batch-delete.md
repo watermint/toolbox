@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team runas sharedfolder member batch delete
 
-Remove members from shared folders in batch 
+Remove multiple members from shared folders in batch on behalf of folder owners, managing access efficiently 
+
+Admin bulk removal of members from shared folders for security or reorganization. Preserves folder content while revoking access for specified members. Essential for quick security responses or access cleanup. Cannot remove folder owner.
 
 # Security
 

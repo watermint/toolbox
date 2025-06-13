@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team member update batch visible
 
-Disable directory restriction to members (Irreversible operation)
+Make hidden team members visible in the directory, restoring standard visibility settings (Irreversible operation)
+
+Bulk restores visibility for previously hidden members in team directories. Use when privacy requirements change, contractors become employees, or to correct visibility errors. Members become searchable and appear in team listings again.
 
 # Security
 

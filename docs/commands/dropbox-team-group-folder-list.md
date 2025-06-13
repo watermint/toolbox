@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team group folder list
 
-List folders of each group 
+Display all folders accessible by each group, showing group-based content organization and permissions 
+
+Maps group permissions to folders, revealing content access patterns. Essential for access reviews and understanding permission inheritance. Helps identify over-permissioned groups and optimize folder structures for security.
 
 # Security
 

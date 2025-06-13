@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team activity user
 
-Activities log per user 
+Retrieve activity logs for specific team members, showing their file operations, logins, and sharing activities 
+
+Retrieves detailed activity logs for individual team members, including file operations, sharing activities, and login events. Essential for user-specific audits, investigating security incidents, or understanding individual usage patterns. Can filter by activity category for focused analysis.
 
 # Security
 

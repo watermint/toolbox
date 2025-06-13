@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team sharedlink cap expiry
 
-Set expiry cap to shared links in the team (Irreversible operation)
+Apply expiration date limits to all team shared links for enhanced security and compliance (Irreversible operation)
+
+Applies expiration dates to existing shared links without them. Essential for security compliance and reducing exposure of perpetual links. Can target links by age or apply blanket expiration policy. Helps prevent unauthorized long-term access to shared content.
 
 # Security
 

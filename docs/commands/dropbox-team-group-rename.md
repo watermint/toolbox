@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team group rename
 
-Rename the group (Irreversible operation)
+Change the name of an existing group to better reflect its purpose or organizational changes (Irreversible operation)
+
+Updates the display name of a group while maintaining all members and permissions. Useful when departments restructure, projects change names, or group purposes evolve. The rename is immediate and affects all references to the group throughout the system.
 
 # Security
 

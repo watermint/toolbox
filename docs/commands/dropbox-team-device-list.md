@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team device list
 
-List all devices/sessions in the team 
+Display all devices and active sessions connected to team member accounts with device details and last activity timestamps 
+
+Complete device inventory showing all connected devices, platforms, and session ages. Critical for security audits, identifying unauthorized devices, and managing device limits. Export data to track device sprawl and plan security policies.
 
 # Security
 

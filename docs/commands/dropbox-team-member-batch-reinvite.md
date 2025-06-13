@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team member batch reinvite
 
-Reinvite invited status members to the team (Irreversible operation)
+Resend invitations to pending members who haven't joined yet, ensuring all intended members receive access (Irreversible operation)
+
+Resends invitations to all members with pending status. Useful when initial invites expire, get lost in spam, or after resolving email delivery issues. Can send silently for SSO environments. Helps ensure complete team onboarding.
 
 # Security
 

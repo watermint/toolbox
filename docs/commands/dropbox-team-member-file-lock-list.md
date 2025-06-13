@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team member file lock list
 
-List locks of the member under the path 
+Display all files locked by a specific team member under a given path, identifying potential collaboration blocks 
+
+Lists all files currently locked by a specific member within a path. Helps identify collaboration bottlenecks, troubleshoot editing conflicts, and audit file access patterns. Useful for understanding why team members cannot edit certain files.
 
 # Security
 

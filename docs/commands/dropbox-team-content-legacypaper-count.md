@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team content legacypaper count
 
-Count number of Paper documents per member 
+Calculate the total number of legacy Paper documents owned by each team member, useful for content auditing and migration planning 
+
+Provides Paper document counts per member, distinguishing between created and accessed documents. Essential for planning Paper-to-Dropbox migrations, identifying heavy Paper users, and estimating migration scope. Filter options help focus on relevant document sets.
 
 # Security
 

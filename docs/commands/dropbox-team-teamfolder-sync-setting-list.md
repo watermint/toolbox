@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team teamfolder sync setting list
 
-List team folder sync settings 
+Display sync configuration for all team folders, showing default sync behavior for members 
+
+Shows current sync settings for all team folders indicating whether they automatically sync to new members' devices. Helps understand bandwidth impact, storage requirements, and ensures appropriate content distribution policies.
 
 # Security
 

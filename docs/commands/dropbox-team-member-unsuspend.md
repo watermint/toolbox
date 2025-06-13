@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team member unsuspend
 
-Unsuspend a member 
+Restore access for a suspended team member, reactivating their account and all associated permissions 
+
+Reactivates a suspended member's account, restoring full access to data and team resources. All previous permissions, group memberships, and settings are preserved. Use when suspension reasons are resolved or members return from leave.
 
 # Security
 

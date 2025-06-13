@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team teamfolder file lock release
 
-Release lock of the path in the team folder 
+Release specific file locks in team folders to enable collaborative editing 
+
+Releases individual file locks in team folders when specific files are blocking work. More precise than bulk release when only certain files need unlocking. Useful for resolving urgent editing conflicts without affecting other locked files.
 
 # Security
 

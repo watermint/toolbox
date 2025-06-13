@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team member quota usage
 
-List team member storage usage 
+Show actual storage usage for each team member compared to their quotas, identifying storage needs 
+
+Displays current storage consumption versus allocated quotas for each member. Highlights members approaching limits, underutilizing space, or needing quota adjustments. Critical for proactive storage management and preventing work disruptions due to full quotas.
 
 # Security
 

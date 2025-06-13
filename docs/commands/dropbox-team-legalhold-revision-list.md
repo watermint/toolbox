@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team legalhold revision list
 
-List revisions under legal hold 
+Display all file revisions preserved under legal hold policies, ensuring comprehensive data retention 
+
+Shows the complete revision history of files under legal hold including all modifications. Tracks file versions preserved by the policy to ensure nothing is lost. Critical for maintaining defensible preservation records and demonstrating compliance with legal requirements.
 
 # Security
 

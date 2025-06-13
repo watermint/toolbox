@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team feature
 
-Team feature 
+Display all features and capabilities enabled for your Dropbox team account, including API limits and special features 
+
+Shows team's enabled features, beta access, and API rate limits. Check before using advanced features or planning integrations. Features may vary by subscription level. Useful for troubleshooting feature availability issues.
 
 # Security
 

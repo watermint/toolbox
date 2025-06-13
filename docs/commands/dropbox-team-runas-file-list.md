@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team runas file list
 
-List files and folders run as a member 
+List files and folders in a team member's account by running operations as that member 
+
+Allows admins to view file listings in member accounts without member credentials. Essential for investigating issues, auditing content, or helping members locate files. All actions are logged for security. Use responsibly and follow privacy policies.
 
 # Security
 

@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team runas sharedfolder batch leave
 
-Leave shared folders in batch 
+Remove team members from multiple shared folders in batch by running leave operations as those members 
+
+Admin tool to remove members from multiple shared folders without their interaction. Useful for access cleanup, security responses, or organizational changes. Operates as the member would, maintaining proper audit trails. Cannot remove folder owners.
 
 # Security
 

@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team sharedlink update visibility
 
-Update visibility of shared links (Irreversible operation)
+Change access levels of existing shared links between public, team-only, and password-protected (Irreversible operation)
+
+Updates shared link visibility from public to team-only or other restricted settings. Essential for reducing external exposure and meeting compliance requirements. Can target links by current visibility level or content location. Changes take effect immediately.
 
 # Security
 

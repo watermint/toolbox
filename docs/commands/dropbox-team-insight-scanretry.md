@@ -6,7 +6,7 @@ lang: en
 
 # dropbox team insight scanretry
 
-Retry scan for errors on the last scan 
+Re-run failed or incomplete scans to ensure complete data collection for team insights 
 
 # Security
 

@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team report membership
 
-Membership report 
+Generate team membership reports including member status, roles, and account statistics over time 
+
+Provides membership analytics including active users, growth trends, and role distributions. Track team expansion, monitor license usage, and identify inactive accounts. Useful for budget planning and optimizing team size.
 
 # Security
 

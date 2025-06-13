@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team member file lock all release
 
-Release all locks under the path of the member 
+Release all file locks held by a team member under a specified path, resolving editing conflicts 
+
+Bulk releases all file locks held by a member within a specified folder path. Essential when members leave unexpectedly or during system issues. Processes in batches for efficiency. Consider notifying affected users as their unsaved changes in locked files may be lost.
 
 # Security
 

@@ -6,7 +6,7 @@ lang: en
 
 # dropbox team insight scan
 
-Scans team data for analysis 
+Perform comprehensive data scanning across your team for analytics and insights generation 
 
 This command collects various team data, such as files in team folders, permissions and shared links, and stores them in a database.
 The collected data can be analysed with commands such as `dropbox team insight report teamfoldermember`, or with database tools that support SQLite in general.

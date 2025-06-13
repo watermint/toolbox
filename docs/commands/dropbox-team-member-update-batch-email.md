@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team member update batch email
 
-Member email operation (Irreversible operation)
+Update email addresses for multiple team members in batch, managing email changes efficiently (Irreversible operation)
+
+Bulk updates member email addresses using a CSV mapping file. Essential for domain migrations, name changes, or correcting email errors. Validates new addresses and preserves all member data and permissions. Option to update unverified emails with caution.
 
 # Security
 

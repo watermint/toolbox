@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team member batch unsuspend
 
-Bulk unsuspend members 
+Restore access for multiple suspended team members, reactivating their accounts in batch 
+
+Bulk reactivates suspended team members, restoring full access to their accounts and data. Use when members return from leave, investigations conclude, or access restrictions lift. All previous permissions and group memberships are restored automatically.
 
 # Security
 

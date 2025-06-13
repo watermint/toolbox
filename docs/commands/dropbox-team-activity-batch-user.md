@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team activity batch user
 
-Scan activities for multiple users 
+Scan and retrieve activity logs for multiple team members in batch, useful for compliance auditing and user behavior analysis 
+
+This command processes a list of user email addresses from a file and retrieves their activity logs within a specified time range. Useful for HR investigations, compliance reporting, or analyzing patterns across specific user groups.
 
 # Security
 

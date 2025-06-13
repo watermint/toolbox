@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team legalhold update desc
 
-Update description of the legal hold policy 
+Modify the description of an existing legal hold policy to reflect changes in scope or purpose 
+
+Updates the description field of a legal hold policy for better documentation. Useful for adding case references, updating matter details, or clarifying preservation scope. Changes are tracked in the revision history for audit purposes.
 
 # Security
 

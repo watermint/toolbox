@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team member update batch invisible
 
-Enable directory restriction to members (Irreversible operation)
+Hide team members from the directory listing, enhancing privacy for sensitive roles or contractors (Irreversible operation)
+
+Bulk hides members from team directory searches and listings. Useful for executives, security personnel, or external contractors who need access but shouldn't appear in directories. Hidden members retain all functionality but enhanced privacy.
 
 # Security
 

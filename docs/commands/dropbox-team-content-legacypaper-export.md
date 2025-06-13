@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team content legacypaper export
 
-Export entire team member Paper documents into local path 
+Export all legacy Paper documents from team members to local storage in HTML or Markdown format for backup or migration 
+
+Bulk exports team Paper documents to local storage, preserving content before migrations or for compliance archives. Supports HTML and Markdown formats. Creates organized folder structure by member. Consider available disk space as this may export large amounts of data.
 
 # Security
 

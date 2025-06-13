@@ -6,7 +6,7 @@ lang: en
 
 # dropbox team legalhold add
 
-Creates a new legal hold policy. 
+Create a legal hold policy to preserve specified team content for compliance or litigation purposes 
 
 # Security
 

@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team group member delete
 
-Delete a member from the group (Irreversible operation)
+Remove a specific member from a group while preserving their other group memberships (Irreversible operation)
+
+Removes an individual member from a single group without affecting their membership in other groups. Use for targeted permission adjustments or when members change departments. The removal takes effect immediately, revoking any inherited permissions from that group.
 
 # Security
 

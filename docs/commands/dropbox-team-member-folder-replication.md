@@ -6,10 +6,9 @@ lang: en
 
 # dropbox team member folder replication
 
-Replicate a folder to another member's personal folder (Irreversible operation)
+Copy folder contents from one team member to another's personal space, facilitating content transfer and backup (Irreversible operation)
 
-This command will replicate files under the source folder to the destination folder. The source folder can be a source member's personal folder, a shared folder, or a team folder. But that must be mounted and accessible. This command will overwrite a file if the file already exists on the destination path. 
-This command is the one-way copy from source path in a source member, to destination path in destination member. That means the command will not delete the file on the destination path, which deleted on the source path.
+Copies complete folder hierarchies between members' personal spaces, preserving structure. Ideal for creating backups, transitioning responsibilities, or setting up new members with standard folder structures. Monitor available storage before large replications.
 
 # Security
 

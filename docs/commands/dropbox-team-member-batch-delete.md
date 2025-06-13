@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team member batch delete
 
-Delete members (Irreversible operation)
+Remove multiple team members in batch, efficiently managing team departures and access revocation (Irreversible operation)
+
+Bulk removes team members while preserving their data through transfers. Requires specifying destination member for file transfers and admin notification email. Ideal for layoffs, department closures, or mass offboarding. Optionally wipes data from linked devices for security.
 
 # Security
 

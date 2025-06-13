@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team content member size
 
-Count number of members of team folders and shared folders 
+Calculate member counts for each team folder and shared folder, helping identify heavily accessed content and optimize permissions 
+
+Analyzes folder membership density to identify over-shared content. High member counts may indicate security risks or performance issues. Use to prioritize permission reviews and identify candidates for access restriction or folder restructuring.
 
 # Security
 

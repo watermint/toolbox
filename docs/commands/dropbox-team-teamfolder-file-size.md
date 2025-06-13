@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team teamfolder file size
 
-Calculate size of team folders 
+Calculate storage usage for team folders, providing detailed size analytics for capacity planning 
+
+Analyzes storage consumption within team folders showing size distribution and largest files. Essential for capacity planning, identifying candidates for archival, and understanding storage costs. Helps optimize team folder usage and plan for growth.
 
 # Security
 

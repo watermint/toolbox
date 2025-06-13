@@ -6,9 +6,9 @@ lang: en
 
 # dropbox team teamfolder member delete
 
-Batch removing users/groups from team folders (Irreversible operation)
+Remove multiple users or groups from team folders in batch, managing access revocation efficiently (Irreversible operation)
 
-The command does not (1) change access inheritance settings of any folders, (2) remove a group, (3) unshare a nested folder. For (3), that means the nested folder stays the same setting (e.g. shared link policy for the folder). This command is designed to be idempotent. You can safely retry if any errors happen on the operation. The command will not report an error to keep idempotence. For example, the command will not report an error like, (1) the member already lost access to the folder, (2) the folder is not found.
+Revokes team folder access for specific members or entire groups. Essential for offboarding, project completion, or security responses. Removal is immediate and affects all folder contents. Consider data retention needs before removing members with edit access.
 
 # Security
 

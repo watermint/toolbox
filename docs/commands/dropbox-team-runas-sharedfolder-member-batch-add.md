@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team runas sharedfolder member batch add
 
-Add members to shared folders in batch 
+Add multiple members to shared folders in batch on behalf of folder owners, streamlining access management 
+
+Admin tool to bulk add members to specific shared folders with defined permissions. Efficient for project kickoffs, team expansions, or access standardization. Validates member emails and permissions before applying changes. Creates comprehensive audit trail.
 
 # Security
 

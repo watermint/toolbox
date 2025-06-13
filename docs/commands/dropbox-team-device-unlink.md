@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team device unlink
 
-Unlink device sessions (Irreversible operation)
+Remotely disconnect devices from team member accounts, essential for securing lost/stolen devices or revoking access (Irreversible operation)
+
+Immediately terminates device sessions, forcing re-authentication. Critical security tool for lost devices, departing employees, or suspicious activity. Device must reconnect and re-sync after unlinking. Consider member communication before bulk unlinking.
 
 # Security
 

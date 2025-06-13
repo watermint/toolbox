@@ -6,16 +6,9 @@ lang: en
 
 # dropbox team sharedlink update expiry
 
-Update expiration date of public shared links within the team (Irreversible operation)
+Modify expiration dates for existing shared links across the team to enforce security policies (Irreversible operation)
 
-Note: From Release 87, this command will receive a file to select shared links to update. If you wanted to update the expiry for all shared links in the team, please consider using a combination of `dropbox team sharedlink list`. For example, if you are familiar with the command [jq](https://stedolan.github.io/jq/), then you can do an equivalent operation as like below (force expiry within 28 days for every public link).
-
-```
-tbx team sharedlink list -output json -visibility public | jq '.sharedlink.url' | tbx team sharedlink update expiry -file - -at +720h
-```
-From Release 92, the command will not receive the argument `-days`. If you want to set a relative date/time, please use `-at +HOURh` like `+720h` (720 hours = 30 days).
-
-Commands `dropbox team sharedlink update` is for setting a value to the shared links. Commands `dropbox team sharedlink cap` is for putting a cap value to the shared links. For example: if you set expiry by `dropbox team sharedlink update expiry` with the expiration date 2021-05-06. The command will update the expiry to 2021-05-06 even if the existing link has a shorter expiration date like 2021-05-04.
+Modifies expiration dates for existing shared links to enforce new security policies or extend access for legitimate use cases. Can target specific links or apply bulk updates. Helps maintain balance between security and usability.
 
 # Security
 

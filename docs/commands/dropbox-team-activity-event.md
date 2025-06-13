@@ -6,7 +6,7 @@ lang: en
 
 # dropbox team activity event
 
-Event log 
+Retrieve detailed team activity event logs with filtering options, essential for security auditing and compliance monitoring 
 
 From release 91, the command parses `-start-time` or `-end-time` as the relative duration from now with the format like "-24h" (24 hours) or "-10m" (10 minutes).
 If you wanted to retrieve events every hour, then run like:
