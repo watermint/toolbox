@@ -1,199 +1,94 @@
-# Development Documentation
+# Development Guide
 
-Welcome to the watermint toolbox development documentation. This directory contains comprehensive guides for developers working on the toolbox project.
+Quick reference for watermint toolbox development.
 
-## Documentation Index
+## Quick Start
 
-### Core Development Guides
-
-1. **[BUILD.md](BUILD.md)** - Building and compilation instructions
-   - Prerequisites and environment setup
-   - Docker build process
-   - CI/CD configuration
-   - Release process
-
-2. **[DOCUMENTATION_SYSTEM.md](DOCUMENTATION_SYSTEM.md)** - How documentation is generated
-   - Documentation generation commands
-   - Message resource system
-   - Internationalization support
-   - Adding new documentation
-
-3. **[COMMAND_STRUCTURE.md](COMMAND_STRUCTURE.md)** - Recipe/command architecture
-   - Creating new commands
-   - Recipe components and patterns
-   - Testing strategies
-   - Best practices
-
-4. **[RECIPE_CITRON_ARCHITECTURE.md](RECIPE_CITRON_ARCHITECTURE.md)** - Recipe vs Citron directories
-   - Architectural separation
-   - When to use each directory
-   - Service integration patterns
-   - Directory organization
-
-5. **[BUILD_PREFLIGHT.md](BUILD_PREFLIGHT.md)** - Preflight command details
-   - What preflight does
-   - Message validation system
-   - Integration with development workflow
-   - Troubleshooting
-
-6. **[MESSAGE_RESOURCES.md](MESSAGE_RESOURCES.md)** - Internationalization system
-   - Message file structure
-   - Key naming conventions
-   - Adding translations
-   - Template variables
-
-7. **[DOCUMENTATION_FLOW.md](DOCUMENTATION_FLOW.md)** - Documentation generation flow
-   - Step-by-step process
-   - File generation details
-   - Error handling
-   - Performance considerations
-
-## Quick Start for Developers
-
-### Setting Up Development Environment
-1. Clone the repository
-2. Set up application keys (see [BUILD.md](BUILD.md))
-3. Run `go mod download` to fetch dependencies
-4. Run `go run tbx.go dev build preflight` to verify setup
-
-### Common Development Tasks
-
-#### Adding a New Command
-1. Create recipe file in appropriate directory
-2. Add message resources
-3. Run `dev build catalogue`
-4. Run `dev build preflight`
-5. Test your command
-
-#### Updating Documentation
-1. Modify message resources or documentation templates
-2. Run `dev build doc` to regenerate
-3. Run `dev build preflight` to validate
-4. Review generated files in `docs/`
-
-#### Before Committing
-Always run:
 ```bash
-go run tbx.go dev build preflight
+# Clone and setup
+git clone https://github.com/watermint/toolbox.git
+cd toolbox
+
+# Install dependencies
+go mod download
+
+# Setup API keys (see BUILD.md for details)
+cp resources/toolbox.appkeys.example resources/toolbox.appkeys
+# Edit toolbox.appkeys with your API credentials
+
+# Verify setup
+go run . dev build preflight -quick
+
+# Run a command
+go run . version
 ```
 
-### Development Commands
+## Key Commands
 
-Key development commands you'll use:
+```bash
+# Before committing - ALWAYS run this
+go run . dev build preflight
 
-- `dev build preflight` - Validate and prepare for commit
-- `dev build doc` - Generate documentation
-- `dev build catalogue` - Update command catalogue
-- `dev test recipe` - Run recipe tests
-- `dev release candidate` - Prepare release
+# Development commands
+go run . dev build doc          # Generate documentation
+go run . dev build catalogue    # Update command registry
+go run . dev test recipe       # Run tests
+go run . dev release candidate # Prepare release
+```
 
-## Architecture Overview
+## Documentation
 
-### Project Structure
+- **[ARCHITECTURE.md](ARCHITECTURE.md)** - Project structure and command system
+- **[BUILD.md](BUILD.md)** - Building, testing, and releasing  
+- **[DOCUMENTATION.md](DOCUMENTATION.md)** - Documentation and message system
+
+## Project Structure
+
 ```
 toolbox/
-├── recipe/          # Utility and dev commands
-├── citron/          # Service-specific commands
-├── infra/           # Infrastructure code
-├── domain/          # Domain-specific logic
+├── recipe/          # Toolbox utilities and dev commands
+├── citron/          # External service integrations
+├── infra/           # Infrastructure and framework
+├── domain/          # Domain logic and models
 ├── essentials/      # Core utilities
-├── resources/       # Messages and templates
-├── docs/            # Generated documentation
-└── dev/             # Development documentation
+├── resources/       # Messages, templates, keys
+└── docs/            # Generated documentation
 ```
 
-### Key Concepts
-- **Recipes**: Command implementations
-- **Ingredients**: Reusable components
-- **Messages**: Internationalized text resources
-- **Connections**: External service integrations
-- **Reports**: Output formatting
+## Adding a New Command
 
-## Contributing
-
-### Code Style
-- Follow Go conventions
-- Use meaningful variable names
-- Add comprehensive error handling
-- Include tests for new functionality
-
-### Documentation Style
-- Keep documentation concise and clear
-- Include examples where helpful
-- Update relevant docs when changing functionality
-- Maintain both English and Japanese messages
+1. Create recipe file in appropriate directory
+2. Add message resources to `resources/messages/*/messages.json`
+3. Run `go run . dev build catalogue`
+4. Run `go run . dev build preflight`
+5. Test your command
 
 ## Testing
 
-### Running Tests
 ```bash
-# Run all tests
+# Run all tests (use -p 1 for stateful tests)
 go test -p 1 ./...
 
 # Run specific package tests
 go test ./recipe/dev/build/...
 
-# Run with coverage
-go test -cover ./...
+# Enable debug output
+go run . -debug <command>
 ```
 
-### Test Categories
-- Unit tests: Fast, isolated tests
-- Integration tests: Tests with external dependencies
-- End-to-end tests: Full command execution tests
+## Common Tasks
 
-## Debugging
+| Task | Command |
+|------|---------|
+| Add new command | Create recipe → Add messages → Run catalogue → Run preflight |
+| Update docs | Edit messages → Run `dev build doc` → Run preflight |
+| Debug issue | Use `-debug` flag or `-capture-path logs` |
+| Check setup | Run `dev build preflight` |
 
-### Enable Debug Logging
-```bash
-tbx -debug <command>
-```
+## Important Notes
 
-### Capture Detailed Logs
-```bash
-tbx -capture-path logs <command>
-```
-
-### Experiment Mode
-```bash
-tbx -experiment <command>
-```
-
-## Resources
-
-### Internal Documentation
-- Message files: `resources/messages/`
-- Templates: `resources/templates/`
-- Build scripts: `resources/build/`
-
-### External Resources
-- [Project Website](https://toolbox.watermint.org)
-- [GitHub Repository](https://github.com/watermint/toolbox)
-- [Release Notes](../docs/releases/)
-
-## Getting Help
-
-If you need help:
-1. Check the documentation in this directory
-2. Look at existing code for examples
-3. Run commands with `-help` flag
-4. Check the test files for usage examples
-
-## Maintenance
-
-### Regular Tasks
-- Update dependencies: `go mod tidy`
-- Run security checks: `go mod audit`
-- Update documentation: `dev build preflight`
-- Clean build artifacts: `go clean`
-
-### Release Checklist
-1. Update version in `resources/release/release`
-2. Update release notes
-3. Run `dev release candidate`
-4. Run `dev build preflight`
-5. Create and push release
-
----
-
-Remember: Always run `dev build preflight` before committing changes!
+- **Always run `dev build preflight` before committing**
+- Follow existing code patterns and conventions
+- Add messages for ALL user-facing text
+- Test with both English and Japanese locales
+- See individual guides for detailed information
