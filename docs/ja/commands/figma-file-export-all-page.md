@@ -80,7 +80,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 ## オプション:
 
 **-format**
-: 書き出し形式（png/jpg/svg/pdf). Options:.   • jpg (Format: jpg).   • png (Format: png).   • svg (Format: svg).   • pdf (PDF document format). Default: pdf
+: 書き出し形式（png/jpg/svg/pdf). Options:.   • jpg (形式: jpg).   • png (形式: png).   • svg (形式: svg).   • pdf (PDF文書形式). Default: pdf
 
 **-path**
 : 出力フォルダーパス

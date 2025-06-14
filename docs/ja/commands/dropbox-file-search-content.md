@@ -8,7 +8,7 @@ lang: ja
 
 ファイルコンテンツを検索 
 
-Searches for files by content with options for file type and category filtering.
+ファイルの内容を検索して、指定されたキーワードやフレーズを含むファイルを見つけます。
 
 # セキュリティ
 
@@ -88,7 +88,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 : ファイルパス標準を選択します。これは、特にDropbox for Teams向けのオプションです。Dropboxの個人版を使用している場合は、選択したものが何であってもほとんど問題ありません。Dropbox for Teamsでは、更新されたチームスペースで`home`を選択すると、ユーザー名付きの個人フォルダが選択されます。これは、個人フォルダ内のファイルを参照したりアップロードしたりする場合に便利です。なぜなら、パスにユーザー名付きのフォルダ名を指定する必要がないからです。一方、`root`を指定すると、アクセス権のあるすべてのフォルダにアクセスできます。ただし、個人フォルダにアクセスする場合には、個人フォルダの名前を含むパスを指定する必要があります。. Options: root (すべてのフォルダーへのフルアクセス権限), home (個人用ホームフォルダーへの限定アクセス). Default: root
 
 **-category**
-: 指定されたファイルカテゴリに検索を限定します (image/document/pdf/spreadsheet/presentation/audio/video/folder/paper/others).. Options:.   •  (category: ).   • image (画像ファイル).   • document (ドキュメント).   • pdf (PDFファイル).   • spreadsheet (スプレッドシート).   • presentation (プレゼンテーション).   • audio (音声ファイル).   • video (動画ファイル).   • folder (フォルダー).   • paper (Paperドキュメント).   • others (その他)
+: 指定されたファイルカテゴリに検索を限定します (image/document/pdf/spreadsheet/presentation/audio/video/folder/paper/others).. Options:.   •  (カテゴリ: ).   • image (画像ファイル).   • document (ドキュメント).   • pdf (PDFファイル).   • spreadsheet (スプレッドシート).   • presentation (プレゼンテーション).   • audio (音声ファイル).   • video (動画ファイル).   • folder (フォルダー).   • paper (Paperドキュメント).   • others (その他)
 
 **-extension**
 : 指定されたファイル拡張子に検索を限定します.

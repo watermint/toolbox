@@ -8,7 +8,7 @@ lang: ja
 
 利用可能なライセンスキーのリスト 
 
-Display all installed license keys and their details including expiration dates, enabled features, and status. This is useful for managing multiple licenses, checking license validity, and understanding what functionality is available.
+インストールされているすべてのライセンスキーとその詳細（有効期限、有効な機能、ステータス）を表示します。複数のライセンスの管理、ライセンスの有効性確認、利用可能な機能の把握に役立ちます。
 
 # インストール
 

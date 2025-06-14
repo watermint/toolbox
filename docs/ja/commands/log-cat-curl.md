@@ -8,7 +8,7 @@ lang: ja
 
 キャプチャログを `curl` サンプルとしてフォーマットする 
 
-Convert API request logs into equivalent curl commands that can be executed independently. This is extremely useful for debugging API issues, reproducing requests outside of the toolbox, sharing examples with support, or creating test scripts.
+APIリクエストログを独立して実行可能な同等のcurlコマンドに変換します。APIの問題のデバッグ、toolbox外でのリクエストの再現、サポートとの例の共有、テストスクリプトの作成に非常に役立ちます。
 
 # インストール
 

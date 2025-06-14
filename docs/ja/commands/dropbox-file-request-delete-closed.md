@@ -8,7 +8,7 @@ lang: ja
 
 このアカウントの全ての閉じられているファイルリクエストを削除します (非可逆な操作です)
 
-Deletes file requests that have been closed and are no longer accepting uploads.
+クローズされ、アップロードを受け付けなくなったファイルリクエストを削除します。
 
 # セキュリティ
 

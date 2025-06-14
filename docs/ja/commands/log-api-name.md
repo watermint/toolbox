@@ -8,7 +8,7 @@ lang: ja
 
 ジョブ名で指定されたジョブのAPIログの統計情報を表示する 
 
-Analyze and display API call statistics for jobs identified by command name rather than job ID. This allows you to aggregate statistics across multiple executions of the same command, helping identify patterns and performance trends over time.
+ジョブIDではなくコマンド名で識別されるジョブのAPI呼び出し統計を分析し表示します。同じコマンドの複数実行にわたって統計を集約し、時間の経過とともにパターンやパフォーマンストレンドの識別に役立ちます。
 
 # インストール
 

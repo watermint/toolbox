@@ -8,7 +8,7 @@ lang: ja
 
 ファイルリクエストを作成します (非可逆な操作です)
 
-Creates a file request folder where others can upload files without Dropbox access.
+Dropboxアクセス権限がないユーザーがファイルをアップロードできるファイルリクエストフォルダを作成します。
 
 # セキュリティ
 

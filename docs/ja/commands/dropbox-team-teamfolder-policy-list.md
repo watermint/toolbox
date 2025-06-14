@@ -89,7 +89,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 ## オプション:
 
 **-base-path**
-: ファイルパス標準を選択します。これは、特にDropbox for Teams向けのオプションです。Dropboxの個人版を使用している場合は、選択したものが何であってもほとんど問題ありません。Dropbox for Teamsでは、更新されたチームスペースで`home`を選択すると、ユーザー名付きの個人フォルダが選択されます。これは、個人フォルダ内のファイルを参照したりアップロードしたりする場合に便利です。なぜなら、パスにユーザー名付きのフォルダ名を指定する必要がないからです。一方、`root`を指定すると、アクセス権のあるすべてのフォルダにアクセスできます。ただし、個人フォルダにアクセスする場合には、個人フォルダの名前を含むパスを指定する必要があります。. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
+: ファイルパス標準を選択します。これは、特にDropbox for Teams向けのオプションです。Dropboxの個人版を使用している場合は、選択したものが何であってもほとんど問題ありません。Dropbox for Teamsでは、更新されたチームスペースで`home`を選択すると、ユーザー名付きの個人フォルダが選択されます。これは、個人フォルダ内のファイルを参照したりアップロードしたりする場合に便利です。なぜなら、パスにユーザー名付きのフォルダ名を指定する必要がないからです。一方、`root`を指定すると、アクセス権のあるすべてのフォルダにアクセスできます。ただし、個人フォルダにアクセスする場合には、個人フォルダの名前を含むパスを指定する必要があります。. Options: root (権限を持つすべてのフォルダへのフルアクセス), home (個人用ホームフォルダへの限定アクセス). Default: root
 
 **-folder-name**
 : フォルダ名によるフィルター. 名前による完全一致でフィルター.
@@ -104,7 +104,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 : アカウントの別名. Default: default
 
 **-scan-timeout**
-: スキャンのタイムアウト設定. スキャンタイムアウトした場合、チームフォルダのサブフォルダのパスは `TEAMFOLDER_NAME/:ERROR-SCAN-TIMEOUT:/SUBFOLDER_NAME` のようなダミーパスに置き換えられます.. Options: short (scantimeout: short), long (scantimeout: long). Default: short
+: スキャンのタイムアウト設定. スキャンタイムアウトした場合、チームフォルダのサブフォルダのパスは `TEAMFOLDER_NAME/:ERROR-SCAN-TIMEOUT:/SUBFOLDER_NAME` のようなダミーパスに置き換えられます.. Options: short (スキャンタイムアウト: short), long (スキャンタイムアウト: long). Default: short
 
 ## 共通のオプション:
 

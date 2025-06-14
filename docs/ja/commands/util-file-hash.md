@@ -39,7 +39,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 ## オプション:
 
 **-algorithm**
-: ハッシュアルゴリズム(md5/sha1/sha256). Options:.   • md5 (algorithm: md5).   • sha1 (algorithm: sha1).   • sha256 (algorithm: sha256). Default: sha1
+: ハッシュアルゴリズム(md5/sha1/sha256). Options:.   • md5 (アルゴリズム: md5).   • sha1 (アルゴリズム: sha1).   • sha256 (アルゴリズム: sha256). Default: sha1
 
 **-file**
 : ダイジェストを作成するファイルへのパス

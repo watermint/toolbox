@@ -8,7 +8,7 @@ lang: ja
 
 機能を有効化します. 
 
-Turn on a specific feature in the watermint toolbox configuration. Features control various aspects of the application's behavior, performance settings, and experimental functionality. Enabling features allows you to access new capabilities or modify application behavior.
+watermint toolbox設定で特定の機能を有効にします。機能はアプリケーションの動作、パフォーマンス設定、実験的機能のさまざまな側面を制御します。機能を有効にすることで、新機能へのアクセスやアプリケーション動作の変更が可能になります。
 
 # インストール
 

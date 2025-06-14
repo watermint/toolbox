@@ -39,7 +39,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 ## オプション:
 
 **-precision**
-: 時間精度 (second/ms/ns). Options:.   • second (precision: second).   • ms (precision: ms).   • ns (precision: ns). Default: second
+: 時間精度 (second/ms/ns). Options:.   • second (精度: second).   • ms (精度: ms).   • ns (精度: ns). Default: second
 
 ## 共通のオプション:
 

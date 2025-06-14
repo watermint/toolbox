@@ -91,10 +91,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 : ファイルパス標準を選択します。これは、特にDropbox for Teams向けのオプションです。Dropboxの個人版を使用している場合は、選択したものが何であってもほとんど問題ありません。Dropbox for Teamsでは、更新されたチームスペースで`home`を選択すると、ユーザー名付きの個人フォルダが選択されます。これは、個人フォルダ内のファイルを参照したりアップロードしたりする場合に便利です。なぜなら、パスにユーザー名付きのフォルダ名を指定する必要がないからです。一方、`root`を指定すると、アクセス権のあるすべてのフォルダにアクセスできます。ただし、個人フォルダにアクセスする場合には、個人フォルダの名前を含むパスを指定する必要があります。. Options: root (すべてのフォルダーへのフルアクセス権限), home (個人用ホームフォルダーへの限定アクセス). Default: root
 
 **-filter-by**
-: Paperドキュメントのフィルタリング方法（doc_created/doc_accessed）を指定します.. Options: docs_created (filterby: docs_created), docs_accessed (filterby: docs_accessed). Default: docs_created
+: Paperドキュメントのフィルタリング方法（doc_created/doc_accessed）を指定します.. Options: docs_created (フィルタ条件: docs_created), docs_accessed (フィルタ条件: docs_accessed). Default: docs_created
 
 **-format**
-: エクスポートファイル形式 (html/markdown). Options: html (HTML format), markdown (Markdown format). Default: html
+: エクスポートファイル形式 (html/markdown). Options: html (HTML形式), markdown (Markdown形式). Default: html
 
 **-path**
 : エクスポートフォルダのパス

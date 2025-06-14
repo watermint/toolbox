@@ -14371,3 +14371,769 @@ $ ./tbx dropbox team member list -output json --output-filter "[.profile.email, 
 ```
 
 In case you want to test the output filter, you can run the command first without the output filter option.\nThe command will generate the raw JSON output.\nThen, you can test the query with the command [util json query](https://toolbox.watermint.org/commands/util-json-query.html) to test the query.\n
+
+- [Authentication Guide](https://toolbox.watermint.org/guides/troubleshooting.md)
+---
+Title: Authentication Guide
+URL: https://toolbox.watermint.org/guides/troubleshooting.md
+---
+
+# Authentication Overview
+
+Authentication Overview
+
+The watermint toolbox requires proper authentication to access Dropbox services. The toolbox supports multiple authentication methods and securely manages tokens for seamless operation.
+
+Key authentication concepts:
+- OAuth 2.0 flow for secure authorization
+- Token-based authentication for API access
+- Secure token storage in local database
+- Automatic token refresh when possible
+- Support for multiple account configurations
+
+# Dropbox Authentication
+
+Dropbox Authentication
+
+The toolbox uses OAuth 2.0 to authenticate with Dropbox. This process involves:
+
+1. Initial Authorization:
+   - Run any command that requires Dropbox access
+   - The toolbox will open a browser window to Dropbox authorization page
+   - Sign in to your Dropbox account and grant permissions
+   - The toolbox receives an authorization code and exchanges it for access tokens
+
+2. Supported Account Types:
+   - Personal Dropbox accounts
+   - Dropbox Business accounts (with team member access)
+   - Dropbox Business admin accounts (with full team access)
+
+3. Required Permissions:
+   - File access permissions (read/write as needed)
+   - Team information access (for business accounts)
+   - User information access for account identification
+
+4. Authentication Flow:
+   - Commands automatically detect when authentication is needed
+   - Browser-based OAuth flow ensures secure credential handling
+   - No passwords or API keys need to be manually entered
+
+# Token Management
+
+Token Management
+
+The toolbox securely manages authentication tokens:
+
+1. Token Storage:
+   - Tokens are stored in encrypted local database
+   - Default location: $HOME/.toolbox/secrets/secrets.db
+   - Custom database path can be specified with -auth-database flag
+
+2. Token Lifecycle:
+   - Access tokens are automatically refreshed when possible
+   - Expired tokens trigger re-authentication flow
+   - Tokens are associated with specific account configurations
+
+3. Multiple Accounts:
+   - Support for multiple Dropbox accounts
+   - Each account maintains separate token storage
+   - Account selection via command-line flags or configuration
+
+4. Token Security:
+   - Tokens are encrypted at rest
+   - No tokens are logged or exposed in command output
+   - Secure deletion when accounts are removed
+
+5. Managing Tokens:
+   - Use 'config auth list' to view configured accounts
+   - Use 'config auth delete' to remove account configurations
+   - Re-authentication is automatic when tokens are invalid
+
+# Authentication Troubleshooting
+
+Authentication Troubleshooting
+
+Common authentication issues and solutions:
+
+1. Browser Not Opening:
+   - Check if you're running in a headless environment
+   - Use -auto-open=false flag to disable automatic browser opening
+   - Copy the authorization URL manually if needed
+
+2. Permission Denied Errors:
+   - Verify you have necessary permissions on your Dropbox account
+   - For business accounts, ensure you have appropriate team member access
+   - Re-authenticate if permissions have changed
+
+3. Token Expired Errors:
+   - Run the command again to trigger automatic re-authentication
+   - Check if your account has been suspended or permissions revoked
+   - Clear old tokens with 'config auth delete' if needed
+
+4. Database Access Issues:
+   - Ensure the secrets database directory is writable
+   - Check file permissions on the database file
+   - Use -auth-database flag to specify alternative location
+
+5. Network Connectivity:
+   - Verify internet connection for OAuth flow
+   - Check if corporate firewalls are blocking access
+   - Ensure access to dropbox.com and dropboxapi.com domains
+
+6. Multiple Account Conflicts:
+   - Use 'config auth list' to see all configured accounts
+   - Remove conflicting accounts with 'config auth delete'
+   - Specify explicit account in command if needed
+
+# Security Best Practices
+
+Security Best Practices
+
+Follow these security practices when using authentication:
+
+1. Token Protection:
+   - Never share your secrets database file
+   - Use appropriate file permissions on the database
+   - Regularly review and clean up unused account configurations
+
+2. Account Access:
+   - Use dedicated service accounts for automation
+   - Regularly review OAuth app authorizations in your Dropbox account
+   - Revoke access for unused or suspicious applications
+
+3. Environment Security:
+   - Use secure workstations for authentication
+   - Avoid authenticating on shared or public computers
+   - Clear browser history after authentication if using public computers
+
+4. Network Security:
+   - Use secure networks for authentication
+   - Avoid public WiFi for initial authentication
+   - Consider using VPN for additional security
+
+5. Monitoring:
+   - Regularly review Dropbox account activity logs
+   - Monitor for unexpected API usage
+   - Set up alerts for unusual account activity
+
+6. Backup and Recovery:
+   - Keep secure backups of important data
+   - Have a recovery plan if authentication is compromised
+   - Know how to revoke and re-establish authentication
+
+- [Error Handling Guide](https://toolbox.watermint.org/guides/troubleshooting.md)
+---
+Title: Error Handling Guide
+URL: https://toolbox.watermint.org/guides/troubleshooting.md
+---
+
+# Common Errors and Solutions
+
+Common Errors and Solutions
+
+This section covers the most frequently encountered errors and their solutions:
+
+1. Command Not Found:
+   - Ensure you're using the correct command syntax
+   - Use 'help' or '--help' to see available commands
+   - Check for typos in command names
+
+2. Invalid Arguments:
+   - Verify required arguments are provided
+   - Check argument formats (paths, emails, etc.)
+   - Use quotes for arguments containing spaces
+
+3. Configuration Issues:
+   - Check if required configuration files exist
+   - Verify configuration file permissions
+   - Use default configurations when in doubt
+
+4. Output Directory Issues:
+   - Ensure output directories exist and are writable
+   - Check disk space availability
+   - Avoid paths with special characters
+
+5. General Troubleshooting Steps:
+   - Run with -debug flag for detailed logging
+   - Check the command documentation
+   - Verify your environment meets requirements
+   - Try with minimal arguments first
+
+# Network Errors
+
+Network Errors
+
+Network connectivity issues and solutions:
+
+1. Connection Timeout:
+   - Check internet connectivity
+   - Verify DNS resolution for dropbox.com and dropboxapi.com
+   - Try again after network issues are resolved
+   - Consider using -bandwidth-kb flag to limit transfer speed
+
+2. SSL/TLS Errors:
+   - Update your system certificates
+   - Check if corporate firewalls are interfering
+   - Verify system time is accurate
+
+3. Proxy Issues:
+   - Configure system proxy settings if needed
+   - Check proxy authentication requirements
+   - Test direct connection when possible
+
+4. DNS Resolution Failures:
+   - Try using different DNS servers
+   - Check /etc/hosts file for conflicts
+   - Verify network configuration
+
+5. Intermittent Connection Issues:
+   - Implement retry logic with delays
+   - Use smaller batch sizes for large operations
+   - Monitor network stability during transfers
+
+6. Corporate Network Restrictions:
+   - Work with IT team to whitelist required domains
+   - Request access to necessary ports (443, 80)
+   - Consider using mobile hotspot for testing
+
+# Authentication Errors
+
+Authentication Errors
+
+Authentication-related errors and solutions:
+
+1. Token Expired/Invalid:
+   - Run the command again to trigger re-authentication
+   - Use 'config auth delete' to remove old credentials
+   - Ensure system time is accurate
+
+2. Permission Denied:
+   - Verify account has necessary permissions
+   - Check if account is suspended or restricted
+   - For business accounts, ensure proper team member access
+
+3. OAuth Flow Failures:
+   - Try different browser or incognito mode
+   - Clear browser cookies for dropbox.com
+   - Check if ad blockers are interfering
+
+4. Browser Not Opening:
+   - Use -auto-open=false and copy URL manually
+   - Check if running in headless environment
+   - Verify default browser configuration
+
+5. Multiple Account Conflicts:
+   - Use 'config auth list' to see configured accounts
+   - Remove conflicting accounts with 'config auth delete'
+   - Specify account explicitly in commands
+
+6. Database Access Issues:
+   - Check permissions on secrets database file
+   - Verify database directory is writable
+   - Use -auth-database flag for custom location
+
+# File System Errors
+
+File System Errors
+
+Local file system related errors and solutions:
+
+1. Permission Denied:
+   - Check file and directory permissions
+   - Ensure user has read/write access as needed
+   - Use sudo cautiously and only when necessary
+
+2. Disk Space Issues:
+   - Check available disk space with df -h
+   - Clean up temporary files and logs
+   - Use -budget-storage=low flag to reduce storage usage
+
+3. Path Not Found:
+   - Verify file and directory paths exist
+   - Use absolute paths when relative paths fail
+   - Check for typos in path names
+
+4. File Lock Issues:
+   - Close applications that might have files open
+   - Check for running processes using files
+   - Wait and retry if files are temporarily locked
+
+5. Character Encoding Issues:
+   - Ensure file names use valid character encoding
+   - Avoid special characters in file names
+   - Use UTF-8 encoding for text files
+
+6. Symlink and Junction Issues:
+   - Verify symlinks point to valid targets
+   - Check permissions on symlink targets
+   - Consider using direct paths instead of symlinks
+
+7. Long Path Names:
+   - Keep path lengths reasonable (< 260 characters on Windows)
+   - Use shorter directory and file names
+   - Move operations closer to root directory
+
+# Rate Limit Errors
+
+Rate Limit Errors
+
+API rate limiting errors and solutions:
+
+1. Too Many Requests (429 Error):
+   - Wait before retrying (toolbox handles this automatically)
+   - Reduce concurrency with -concurrency flag
+   - Use smaller batch sizes for bulk operations
+
+2. Daily/Hourly Limits:
+   - Spread operations across multiple days
+   - Monitor API usage patterns
+   - Consider using multiple accounts for large operations
+
+3. Burst Limit Exceeded:
+   - Add delays between operations
+   - Use batch operations when available
+   - Avoid rapid sequential API calls
+
+4. Team Rate Limits:
+   - Coordinate with other team members using the API
+   - Implement organization-wide rate limiting policies
+   - Monitor team-wide API usage
+
+5. Optimization Strategies:
+   - Use list operations instead of individual file requests
+   - Cache results to avoid repeated API calls
+   - Combine multiple operations into single requests where possible
+
+6. Monitoring and Planning:
+   - Track API usage patterns
+   - Plan large operations during off-peak hours
+   - Set up alerts for approaching rate limits
+
+# API Errors
+
+API Errors
+
+General API errors and solutions:
+
+1. 400 Bad Request:
+   - Verify request parameters are correct
+   - Check data formats (dates, emails, paths)
+   - Ensure required fields are provided
+
+2. 401 Unauthorized:
+   - Check authentication credentials
+   - Verify token hasn't expired
+   - Ensure proper authorization scope
+
+3. 403 Forbidden:
+   - Verify account permissions
+   - Check if feature is available for account type
+   - Ensure API access hasn't been restricted
+
+4. 404 Not Found:
+   - Verify file/folder paths exist
+   - Check if items have been moved or deleted
+   - Ensure proper path formatting
+
+5. 409 Conflict:
+   - Handle concurrent modification conflicts
+   - Retry with updated information
+   - Resolve conflicts manually if needed
+
+6. 500 Internal Server Error:
+   - Retry the operation after a delay
+   - Check Dropbox status page for service issues
+   - Contact support if error persists
+
+7. Service Unavailable (503):
+   - Wait and retry (temporary service issues)
+   - Check for scheduled maintenance
+   - Use exponential backoff for retries
+
+# Debug Techniques
+
+Debug Techniques
+
+Advanced debugging techniques for troubleshooting:
+
+1. Enable Debug Logging:
+   - Use -debug flag for verbose output
+   - Check log files for detailed information
+   - Look for specific error messages and codes
+
+2. Test with Minimal Parameters:
+   - Start with simplest possible command
+   - Add parameters one by one to isolate issues
+   - Use default values when possible
+
+3. Environment Verification:
+   - Check system requirements
+   - Verify environment variables
+   - Test on different machines if available
+
+4. Network Diagnostics:
+   - Use ping/traceroute to test connectivity
+   - Check firewall and proxy settings
+   - Monitor network traffic during operations
+
+5. API Testing:
+   - Use API testing tools to verify endpoints
+   - Check API responses manually
+   - Verify request formats and parameters
+
+6. Log Analysis:
+   - Review application logs systematically
+   - Look for patterns in error messages
+   - Check timestamps for sequence of events
+
+7. Isolation Testing:
+   - Test with different accounts
+   - Try operations on different files/folders
+   - Use minimal test data sets
+
+8. Community Resources:
+   - Search documentation and FAQ
+   - Check community forums and discussions
+   - Report bugs with detailed reproduction steps
+
+- [Best Practices Guide](https://toolbox.watermint.org/guides/troubleshooting.md)
+---
+Title: Best Practices Guide
+URL: https://toolbox.watermint.org/guides/troubleshooting.md
+---
+
+# General Best Practices
+
+General Best Practices
+
+Follow these general guidelines for effective toolbox usage:
+
+1. Command Preparation:
+   - Always read command documentation before use
+   - Test commands with sample data first
+   - Use --help flag to understand available options
+   - Verify required permissions and prerequisites
+
+2. Data Backup:
+   - Create backups before major operations
+   - Test restore procedures regularly
+   - Use version control for important files
+   - Document backup and recovery procedures
+
+3. Error Handling:
+   - Enable debug logging for troubleshooting (-debug flag)
+   - Keep logs of important operations
+   - Implement proper error checking in scripts
+   - Have rollback procedures for critical operations
+
+4. Resource Management:
+   - Monitor disk space before large operations
+   - Use appropriate concurrency settings (-concurrency flag)
+   - Manage memory usage with -budget-memory flag
+   - Clean up temporary files and logs regularly
+
+5. Documentation:
+   - Document custom workflows and procedures
+   - Keep track of configuration changes
+   - Maintain inventory of automated scripts
+   - Document troubleshooting steps for common issues
+
+6. Testing:
+   - Test commands in development environment first
+   - Use small datasets for initial testing
+   - Validate results before processing large batches
+   - Implement automated testing for critical workflows
+
+# Performance Optimization
+
+Performance Optimization
+
+Optimize toolbox performance with these techniques:
+
+1. Concurrency Management:
+   - Adjust -concurrency flag based on system resources
+   - Higher concurrency for I/O intensive operations
+   - Lower concurrency for CPU intensive operations
+   - Monitor system resources during operations
+
+2. Bandwidth Optimization:
+   - Use -bandwidth-kb flag to limit network usage
+   - Schedule large transfers during off-peak hours
+   - Consider network conditions and limitations
+   - Monitor transfer speeds and adjust accordingly
+
+3. Memory Management:
+   - Use -budget-memory=low for memory-constrained environments
+   - Process data in smaller chunks for large datasets
+   - Monitor memory usage during operations
+   - Clear caches and temporary data regularly
+
+4. Storage Optimization:
+   - Use -budget-storage=low to reduce storage usage
+   - Clean up logs and temporary files regularly
+   - Use appropriate output formats (avoid verbose formats when not needed)
+   - Compress data when possible
+
+5. Batch Operations:
+   - Group similar operations together
+   - Use batch commands when available
+   - Minimize API calls with efficient operations
+   - Process multiple items in single commands
+
+6. Caching Strategies:
+   - Leverage local caching for frequently accessed data
+   - Avoid redundant API calls
+   - Use incremental operations when possible
+   - Cache authentication tokens properly
+
+7. Network Optimization:
+   - Use stable, high-speed network connections
+   - Avoid wireless connections for large transfers
+   - Consider geographic proximity to servers
+   - Implement retry logic with exponential backoff
+
+# Security Best Practices
+
+Security Best Practices
+
+Maintain security while using the toolbox:
+
+1. Authentication Security:
+   - Use strong, unique passwords for accounts
+   - Enable two-factor authentication when available
+   - Regularly review and rotate credentials
+   - Use dedicated service accounts for automation
+
+2. Token Management:
+   - Protect authentication database files
+   - Use appropriate file permissions (600 or 700)
+   - Avoid sharing authentication databases
+   - Regularly audit configured accounts
+
+3. Data Protection:
+   - Encrypt sensitive data at rest and in transit
+   - Use secure protocols (HTTPS, SSH) for all communications
+   - Implement proper access controls
+   - Regular security audits of data access
+
+4. Environment Security:
+   - Use secure workstations for operations
+   - Keep systems updated with security patches
+   - Use anti-virus and anti-malware protection
+   - Secure physical access to systems
+
+5. Network Security:
+   - Use VPN for remote access
+   - Avoid public WiFi for sensitive operations
+   - Implement network segmentation where appropriate
+   - Monitor network traffic for anomalies
+
+6. Audit and Monitoring:
+   - Log all significant operations
+   - Monitor account activity regularly
+   - Set up alerts for unusual activity
+   - Maintain audit trails for compliance
+
+7. Incident Response:
+   - Have incident response procedures
+   - Know how to revoke access quickly
+   - Maintain contact information for security teams
+   - Practice incident response scenarios
+
+# Automation Best Practices
+
+Automation Best Practices
+
+Best practices for automating toolbox operations:
+
+1. Script Development:
+   - Use version control for all scripts
+   - Implement proper error handling and logging
+   - Add comments and documentation
+   - Use configuration files for parameters
+
+2. Scheduling and Execution:
+   - Use cron jobs or task schedulers appropriately
+   - Implement proper locking to prevent concurrent runs
+   - Set up monitoring and alerting for failures
+   - Use appropriate user accounts for automation
+
+3. Parameter Management:
+   - Use configuration files instead of hardcoded values
+   - Implement parameter validation
+   - Use environment variables for sensitive data
+   - Provide default values where appropriate
+
+4. Error Handling:
+   - Implement comprehensive error checking
+   - Use appropriate exit codes
+   - Log errors with sufficient detail
+   - Implement retry logic with backoff
+
+5. Testing:
+   - Test scripts in development environment
+   - Use test data for validation
+   - Implement automated testing where possible
+   - Validate results automatically
+
+6. Monitoring:
+   - Log all significant operations
+   - Monitor script execution times
+   - Set up alerts for failures
+   - Track resource usage
+
+7. Maintenance:
+   - Regular review and updates of scripts
+   - Monitor for deprecated features
+   - Keep dependencies updated
+   - Document maintenance procedures
+
+# Data Management Best Practices
+
+Data Management Best Practices
+
+Effective data management strategies:
+
+1. Data Organization:
+   - Use consistent naming conventions
+   - Organize data in logical folder structures
+   - Implement proper file and folder hierarchy
+   - Use metadata and tags effectively
+
+2. Data Validation:
+   - Verify data integrity before and after operations
+   - Use checksums for critical data
+   - Implement data validation rules
+   - Test with sample data before processing
+
+3. Backup Strategies:
+   - Implement regular automated backups
+   - Test backup restoration procedures
+   - Use multiple backup locations (3-2-1 rule)
+   - Document backup and recovery procedures
+
+4. Data Lifecycle Management:
+   - Define data retention policies
+   - Implement automated archiving
+   - Clean up old and unnecessary data
+   - Monitor storage usage trends
+
+5. Data Synchronization:
+   - Use incremental sync when possible
+   - Verify sync operations regularly
+   - Handle conflicts appropriately
+   - Monitor sync performance and errors
+
+6. Data Quality:
+   - Implement data quality checks
+   - Clean and normalize data regularly
+   - Remove duplicates and inconsistencies
+   - Validate data formats and standards
+
+7. Compliance and Governance:
+   - Follow data governance policies
+   - Ensure compliance with regulations
+   - Implement proper access controls
+   - Maintain audit trails for data operations
+
+# Team Collaboration Best Practices
+
+Team Collaboration Best Practices
+
+Effective team collaboration with toolbox:
+
+1. Account Management:
+   - Use dedicated service accounts for shared operations
+   - Implement proper access controls and permissions
+   - Regular review of account access and privileges
+   - Document account usage and responsibilities
+
+2. Configuration Management:
+   - Use centralized configuration management
+   - Version control for shared configurations
+   - Implement configuration validation
+   - Document configuration changes
+
+3. Workflow Coordination:
+   - Define clear workflows and procedures
+   - Implement proper change management
+   - Use communication channels for coordination
+   - Schedule operations to avoid conflicts
+
+4. Knowledge Sharing:
+   - Document procedures and best practices
+   - Conduct regular training sessions
+   - Share troubleshooting experiences
+   - Maintain knowledge base and FAQ
+
+5. Quality Assurance:
+   - Implement peer review processes
+   - Use testing and validation procedures
+   - Define quality standards and metrics
+   - Regular audits of processes and results
+
+6. Communication:
+   - Establish clear communication protocols
+   - Use collaboration tools effectively
+   - Document decisions and changes
+   - Regular team meetings and updates
+
+7. Incident Management:
+   - Define incident response procedures
+   - Establish escalation paths
+   - Maintain contact information
+   - Conduct post-incident reviews
+
+# Maintenance and Updates
+
+Maintenance and Updates
+
+Keep your toolbox installation and workflows updated:
+
+1. Software Updates:
+   - Regularly check for toolbox updates
+   - Test updates in development environment first
+   - Keep dependencies updated
+   - Monitor for security updates
+
+2. Configuration Maintenance:
+   - Regular review of configurations
+   - Update deprecated settings
+   - Optimize performance settings
+   - Clean up unused configurations
+
+3. Data Maintenance:
+   - Regular cleanup of logs and temporary files
+   - Archive old data appropriately
+   - Optimize storage usage
+   - Validate data integrity periodically
+
+4. Documentation Updates:
+   - Keep documentation current with changes
+   - Update procedures and workflows
+   - Review and update troubleshooting guides
+   - Maintain version history
+
+5. Performance Monitoring:
+   - Monitor system performance regularly
+   - Track operation times and success rates
+   - Identify and address bottlenecks
+   - Optimize based on usage patterns
+
+6. Security Maintenance:
+   - Regular security audits
+   - Update security configurations
+   - Review access permissions
+   - Monitor for security vulnerabilities
+
+7. Backup and Recovery:
+   - Test backup and recovery procedures
+   - Update recovery documentation
+   - Verify backup integrity
+   - Practice disaster recovery scenarios
+
+8. Training and Skills:
+   - Keep team skills current
+   - Provide training on new features
+   - Share knowledge and best practices
+   - Encourage continuous learning

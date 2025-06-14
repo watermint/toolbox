@@ -92,7 +92,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 : アカウントの別名. Default: default
 
 **-type**
-: グループタイプ（user_managed/company_managed). Options: user_managed (type: user_managed), company_managed (type: company_managed). Default: company_managed
+: グループタイプ（user_managed/company_managed). Options: user_managed (タイプ: user_managed), company_managed (タイプ: company_managed). Default: company_managed
 
 ## 共通のオプション:
 

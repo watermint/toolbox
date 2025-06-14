@@ -6,7 +6,7 @@ lang: ja
 
 # dev doc msg catalogue_options
 
-Generate option descriptions for all recipes in catalogue (Irreversible operation)
+カタログ内のすべてのレシピのオプション説明を生成する (非可逆な操作です)
 
 # インストール
 
@@ -39,7 +39,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 ## オプション:
 
 **-dry-run**
-: Show what would be created without actually creating messages. Default: false
+: 実際にメッセージを作成せずに、作成されるものを表示する. Default: false
 
 ## 共通のオプション:
 

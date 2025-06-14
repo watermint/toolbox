@@ -8,7 +8,7 @@ lang: ja
 
 利用可能なオプション機能一覧. 
 
-Display all available optional features in the watermint toolbox with their descriptions, current status, and configuration details. This is useful for understanding what functionality can be enabled or disabled, and for managing feature preferences.
+watermint toolboxで利用可能なすべてのオプション機能を説明、現在のステータス、設定詳細とともに表示します。有効化または無効化できる機能の理解や機能設定の管理に役立ちます。
 
 # インストール
 

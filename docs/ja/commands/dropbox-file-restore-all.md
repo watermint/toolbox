@@ -8,7 +8,7 @@ lang: ja
 
 指定されたパス以下をリストアします (試験的実装かつ非可逆な操作です)
 
-Restores all deleted files and folders within a specified path.
+指定されたパス内のすべての削除されたファイルとフォルダを復元します。
 
 # セキュリティ
 

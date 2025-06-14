@@ -8,7 +8,7 @@ lang: ja
 
 ライセンスキーのインストール 
 
-Install and activate a license key for the watermint toolbox. License keys may be required for certain features, premium functionality, or commercial usage. This command stores the license key securely and validates its authenticity.
+watermint toolboxのライセンスキーをインストールして有効化します。特定の機能、プレミアム機能、商用利用にはライセンスキーが必要な場合があります。このコマンドはライセンスキーを安全に保存し、その真正性を検証します。
 
 # インストール
 

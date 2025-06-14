@@ -1,12 +1,12 @@
 ---
 layout: command
-title: コマンド `dev doc msg update`
+title: コマンド `dev doc msg translate`
 lang: ja
 ---
 
-# dev doc msg update
+# dev doc msg translate
 
-メッセージを更新 
+翻訳ヘルパー 
 
 # インストール
 
@@ -22,12 +22,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe dev doc msg update 
+.\tbx.exe dev doc msg translate 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx dev doc msg update 
+$HOME/Desktop/tbx dev doc msg translate 
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -39,13 +39,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 ## オプション:
 
 **-key**
-: メッセージキー
-
-**-message**
-: 新しいメッセージテキスト
-
-**-msg-lang**
-: 言語. Options: en (メッセージ言語: en), ja (メッセージ言語: ja). Default: en
+: 確認するメッセージキー
 
 ## 共通のオプション:
 

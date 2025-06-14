@@ -42,7 +42,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 : 誤差補正レベル（l/m/q/h）.. Options:.   • l (低レベルエラー訂正).   • m (中レベルエラー訂正).   • q (最高レベルエラー訂正).   • h (高レベルエラー訂正). Default: m
 
 **-mode**
-: QRコードのエンコードモード. Options:.   • auto (mode: auto).   • numeric (mode: numeric).   • alpha_numeric (mode: alpha_numeric).   • unicode (mode: unicode). Default: auto
+: QRコードのエンコードモード. Options:.   • auto (モード: auto).   • numeric (モード: numeric).   • alpha_numeric (モード: alpha_numeric).   • unicode (モード: unicode). Default: auto
 
 **-out**
 : ファイル名付きの出力パス

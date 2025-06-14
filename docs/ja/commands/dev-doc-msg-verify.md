@@ -6,7 +6,7 @@ lang: ja
 
 # dev doc msg verify
 
-Verify message template variables consistency 
+メッセージテンプレート変数の一貫性を検証する 
 
 # インストール
 

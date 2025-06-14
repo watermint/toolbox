@@ -39,10 +39,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 ## オプション:
 
 **-format**
-: 時間フォーマット. Options:.   • iso8601 (Format: iso8601).   • rfc1123 (Format: rfc1123).   • rfc1123z (Format: rfc1123z).   • rfc3339 (Format: rfc3339).   • rfc3339_nano (Format: rfc3339_nano).   • rfc822 (Format: rfc822).   • rfc822z (Format: rfc822z). Default: iso8601
+: 時間フォーマット. Options:.   • iso8601 (形式: iso8601).   • rfc1123 (形式: rfc1123).   • rfc1123z (形式: rfc1123z).   • rfc3339 (形式: rfc3339).   • rfc3339_nano (形式: rfc3339_nano).   • rfc822 (形式: rfc822).   • rfc822z (形式: rfc822z). Default: iso8601
 
 **-precision**
-: 時間精度 (second/ms/ns). Options:.   • second (precision: second).   • ms (precision: ms).   • ns (precision: ns). Default: second
+: 時間精度 (second/ms/ns). Options:.   • second (精度: second).   • ms (精度: ms).   • ns (精度: ns). Default: second
 
 **-time**
 : Unix 時間. Default: 0

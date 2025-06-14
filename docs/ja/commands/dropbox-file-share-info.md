@@ -8,7 +8,7 @@ lang: ja
 
 ファイルの共有情報を取得する 
 
-Retrieves sharing information and permissions for a specific file or folder.
+ファイルまたはフォルダの共有情報と権限の詳細を表示します。
 
 # セキュリティ
 

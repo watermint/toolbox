@@ -57,7 +57,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 : 必要に応じてテキスト
 
 **-text-align**
-: テキストの配置. Options:.   • left (textalign: left).   • center (textalign: center).   • right (textalign: right). Default: left
+: テキストの配置. Options:.   • left (テキスト配置: left).   • center (テキスト配置: center).   • right (テキスト配置: right). Default: left
 
 **-text-color**
 : 文字色. Default: black

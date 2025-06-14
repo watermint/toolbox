@@ -39,7 +39,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 ## オプション:
 
 **-kind**
-: ログの種別. Options:.   • toolbox (kind: toolbox).   • capture (kind: capture).   • summary (kind: summary).   • recipe (kind: recipe).   • result (kind: result). Default: toolbox
+: ログの種別. Options:.   • toolbox (種類: toolbox).   • capture (種類: capture).   • summary (種類: summary).   • recipe (種類: recipe).   • result (種類: result). Default: toolbox
 
 **-path**
 : ワークスペースへのパス.

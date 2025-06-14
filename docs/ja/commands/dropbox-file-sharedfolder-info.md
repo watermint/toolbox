@@ -8,7 +8,7 @@ lang: ja
 
 共有フォルダ情報の取得 
 
-Displays detailed information about a specific shared folder including members and permissions.
+特定の共有フォルダの詳細情報とメンバーを表示します。
 
 # セキュリティ
 

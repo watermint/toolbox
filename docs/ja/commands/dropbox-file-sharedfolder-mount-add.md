@@ -8,7 +8,7 @@ lang: ja
 
 共有フォルダを現在のユーザーのDropboxに追加する 
 
-Mounts a shared folder to your Dropbox, making it appear in your file structure.
+共有フォルダをDropboxにマウントし、ファイル構造に表示されるようにします。
 
 # セキュリティ
 

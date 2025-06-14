@@ -8,7 +8,7 @@ lang: ja
 
 特定の拡張子を持つファイルの復元 (試験的実装かつ非可逆な操作です)
 
-Restores deleted files matching specific file extensions within a path.
+パス内の特定のファイル拡張子に一致する削除されたファイルを復元します。
 
 # セキュリティ
 

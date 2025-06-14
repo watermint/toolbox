@@ -6,7 +6,7 @@ lang: ja
 
 # dev doc review options
 
-Review missing SelectString option descriptions (Irreversible operation)
+不足しているSelectStringオプションの説明をレビューする (非可逆な操作です)
 
 # インストール
 
@@ -107,15 +107,15 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## レポート: missing_options
 
-Missing SelectString option
+不足しているSelectStringオプション
 このコマンドはレポートを3種類の書式で出力します. `missing_options.csv`, `missing_options.json`, ならびに `missing_options.xlsx`.
 
-| 列          | 説明         |
-|-------------|--------------|
-| recipe      | Recipe name  |
-| field       | Field name   |
-| option      | Option value |
-| message_key | Message key  |
+| 列          | 説明           |
+|-------------|----------------|
+| recipe      | レシピ名       |
+| field       | フィールド名   |
+| option      | オプション値   |
+| message_key | メッセージキー |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 

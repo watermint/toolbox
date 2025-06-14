@@ -6,7 +6,7 @@ lang: ja
 
 # dev doc msg options
 
-Generate option descriptions for SelectString fields 
+SelectStringフィールドのオプション説明を生成する 
 
 # インストール
 
@@ -39,10 +39,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 ## オプション:
 
 **-dry-run**
-: Show what would be created without actually creating messages. Default: false
+: 実際にメッセージを作成せずに、作成されるものを表示する. Default: false
 
 **-target-path**
-: Target path to scan for SelectString fields. Default: citron
+: SelectStringフィールドをスキャンする対象パス. Default: citron
 
 ## 共通のオプション:
 

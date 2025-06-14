@@ -8,7 +8,7 @@ lang: ja
 
 ファイル名を検索 
 
-Searches for files and folders by name pattern across the Dropbox account.
+ファイル名とフォルダ名を検索して、指定されたパターンに一致するアイテムを見つけます。
 
 # セキュリティ
 
@@ -85,10 +85,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 ## オプション:
 
 **-base-path**
-: ファイルパス標準を選択します。これは、特にDropbox for Teams向けのオプションです。Dropboxの個人版を使用している場合は、選択したものが何であってもほとんど問題ありません。Dropbox for Teamsでは、更新されたチームスペースで`home`を選択すると、ユーザー名付きの個人フォルダが選択されます。これは、個人フォルダ内のファイルを参照したりアップロードしたりする場合に便利です。なぜなら、パスにユーザー名付きのフォルダ名を指定する必要がないからです。一方、`root`を指定すると、アクセス権のあるすべてのフォルダにアクセスできます。ただし、個人フォルダにアクセスする場合には、個人フォルダの名前を含むパスを指定する必要があります。. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
+: ファイルパス標準を選択します。これは、特にDropbox for Teams向けのオプションです。Dropboxの個人版を使用している場合は、選択したものが何であってもほとんど問題ありません。Dropbox for Teamsでは、更新されたチームスペースで`home`を選択すると、ユーザー名付きの個人フォルダが選択されます。これは、個人フォルダ内のファイルを参照したりアップロードしたりする場合に便利です。なぜなら、パスにユーザー名付きのフォルダ名を指定する必要がないからです。一方、`root`を指定すると、アクセス権のあるすべてのフォルダにアクセスできます。ただし、個人フォルダにアクセスする場合には、個人フォルダの名前を含むパスを指定する必要があります。. Options: root (権限を持つすべてのフォルダへのフルアクセス), home (個人用ホームフォルダへの限定アクセス). Default: root
 
 **-category**
-: 指定されたファイルカテゴリに検索を限定します (image/document/pdf/spreadsheet/presentation/audio/video/folder/paper/others).. Options:.   •  (category: ).   • image (category: image).   • document (category: document).   • pdf (category: pdf).   • spreadsheet (category: spreadsheet).   • presentation (category: presentation).   • audio (category: audio).   • video (category: video).   • folder (category: folder).   • paper (category: paper).   • others (category: others)
+: 指定されたファイルカテゴリに検索を限定します (image/document/pdf/spreadsheet/presentation/audio/video/folder/paper/others).. Options:.   •  (カテゴリ: ).   • image (カテゴリ: image).   • document (カテゴリ: document).   • pdf (カテゴリ: pdf).   • spreadsheet (カテゴリ: spreadsheet).   • presentation (カテゴリ: presentation).   • audio (カテゴリ: audio).   • video (カテゴリ: video).   • folder (カテゴリ: folder).   • paper (カテゴリ: paper).   • others (カテゴリ: others)
 
 **-extension**
 : 指定されたファイル拡張子に検索を限定します.

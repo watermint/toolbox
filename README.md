@@ -45,6 +45,7 @@ In general, new security issues are discovered every day. To avoid leaving these
 
 # Announcements
 
+* [#905 Deprecation: Some of utilities command will be removed after release of 2025-08-01](https://github.com/watermint/toolbox/discussions/905)
 * [#886 Releases released after 2024-02-01 will no longer include macOS Intel binaries.](https://github.com/watermint/toolbox/discussions/886)
 
 # Security and privacy

@@ -42,13 +42,13 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 : 誤差補正レベル（l/m/q/h）.. Options:.   • l (低レベルエラー訂正).   • m (中レベルエラー訂正).   • q (最高レベルエラー訂正).   • h (高レベルエラー訂正). Default: m
 
 **-hidden**
-: SSIDが隠されている場合は、`true`となります. SSIDが表示されている場合は、`false`とします.. Options:.   •  (hidden: ).   • true (hidden: true).   • false (hidden: false)
+: SSIDが隠されている場合は、`true`となります. SSIDが表示されている場合は、`false`とします.. Options:.   •  (非表示: ).   • true (非表示: true).   • false (非表示: false)
 
 **-mode**
-: QRコードのエンコードモード. Options:.   • auto (mode: auto).   • numeric (mode: numeric).   • alpha_numeric (mode: alpha_numeric).   • unicode (mode: unicode). Default: auto
+: QRコードのエンコードモード. Options:.   • auto (モード: auto).   • numeric (モード: numeric).   • alpha_numeric (モード: alpha_numeric).   • unicode (モード: unicode). Default: auto
 
 **-network-type**
-: ネットワークの種類.. Options:.   • WPA.   • WEP.   •  (networktype: ). Default: WPA
+: ネットワークの種類.. Options:.   • WPA.   • WEP.   •  (ネットワークタイプ: ). Default: WPA
 
 **-out**
 : ファイル名付きの出力パス

@@ -4,6 +4,12 @@
       "discussions": {
         "nodes": [
           {
+            "number": 905,
+            "title": "Deprecation: Some of utilities command will be removed after release of 2025-08-01",
+            "updatedAt": "2025-06-13T22:55:28Z",
+            "url": "https://github.com/watermint/toolbox/discussions/905"
+          },
+          {
             "number": 886,
             "title": "Releases released after 2024-02-01 will no longer include macOS Intel binaries.",
             "updatedAt": "2024-12-31T04:27:53Z",

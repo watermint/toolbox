@@ -8,7 +8,7 @@ lang: ja
 
 ジョブIDで指定されたジョブのAPIログの統計情報を表示する 
 
-Analyze and display API call statistics for a specific job execution. This includes request counts, response times, error rates, and endpoint usage patterns. Useful for performance analysis, debugging API issues, and understanding application behavior during command execution.
+特定のジョブ実行のAPI呼び出し統計を分析し表示します。リクエスト数、レスポンス時間、エラー率、エンドポイント使用パターンが含まれます。パフォーマンス分析、APIの問題のデバッグ、コマンド実行中のアプリケーションの動作理解に役立ちます。
 
 # インストール
 

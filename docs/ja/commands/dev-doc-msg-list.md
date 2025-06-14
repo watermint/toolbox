@@ -39,7 +39,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 ## オプション:
 
 **-msg-lang**
-: 言語. Options: en (msglang: en), ja (msglang: ja). Default: en
+: 言語. Options: en (メッセージ言語: en), ja (メッセージ言語: ja). Default: en
 
 **-prefix**
 : キープレフィックスでフィルタ

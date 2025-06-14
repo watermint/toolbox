@@ -89,7 +89,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 : Paperのコンテンツ
 
 **-format**
-: 入力フォーマット (html/markdown/plain_text). Options:.   • markdown (Markdown format).   • plain_text (Plain text format).   • html (HTML format). Default: markdown
+: 入力フォーマット (html/markdown/plain_text). Options:.   • markdown (Markdown形式).   • plain_text (プレーンテキスト形式).   • html (HTML形式). Default: markdown
 
 **-path**
 : ユーザーのDropbox内のパス

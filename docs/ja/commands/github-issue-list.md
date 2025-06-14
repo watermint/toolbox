@@ -78,7 +78,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 ## オプション:
 
 **-filter**
-: どのような種類の課題を返すかを示します.. Options:.   • assigned (filter: assigned).   • created (filter: created).   • mentioned (filter: mentioned).   • subscribed (filter: subscribed).   • repos (filter: repos).   • all (filter: all). Default: assigned
+: どのような種類の課題を返すかを示します.. Options:.   • assigned (フィルタ: assigned).   • created (フィルタ: created).   • mentioned (フィルタ: mentioned).   • subscribed (フィルタ: subscribed).   • repos (フィルタ: repos).   • all (フィルタ: all). Default: assigned
 
 **-labels**
 : カンマで区切られたラベル名のリスト.
@@ -96,7 +96,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 : 指定した時間以降に更新された通知のみを表示します.
 
 **-state**
-: 返すべき課題の状態を示す.. Options:.   • open (Open issues only).   • closed (Closed issues only).   • all (All issues). Default: open
+: 返すべき課題の状態を示す.. Options:.   • open (オープンイシューのみ).   • closed (クローズされたイシューのみ).   • all (すべてのイシュー). Default: open
 
 ## 共通のオプション:
 

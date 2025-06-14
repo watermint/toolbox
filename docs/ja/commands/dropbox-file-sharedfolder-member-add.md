@@ -8,7 +8,7 @@ lang: ja
 
 共有フォルダへのメンバーの追加 
 
-Adds new members to a shared folder with specified access permissions.
+共有フォルダに新しいメンバーを追加し、指定されたアクセス権限を付与します。
 
 # セキュリティ
 

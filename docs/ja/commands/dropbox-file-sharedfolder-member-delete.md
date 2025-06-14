@@ -8,7 +8,7 @@ lang: ja
 
 共有フォルダからメンバーを削除する 
 
-Removes members from a shared folder, revoking their access.
+共有フォルダからメンバーを削除し、そのアクセス権を取り消します。
 
 # セキュリティ
 

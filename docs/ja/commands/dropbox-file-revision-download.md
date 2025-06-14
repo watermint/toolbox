@@ -8,7 +8,7 @@ lang: ja
 
 ファイルリビジョンをダウンロードする 
 
-Downloads a specific revision/version of a file from its revision history.
+ファイルのリビジョン履歴から特定のリビジョン/バージョンをダウンロードします。
 
 # セキュリティ
 

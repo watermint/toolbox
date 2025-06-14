@@ -33,6 +33,21 @@ The `dev doc` command group provides specialized documentation tools:
 - **`dev doc msg list`** - List all messages
 - **`dev doc msg update`** - Update message values
 - **`dev doc msg verify`** - Verify message integrity
+- **`dev doc msg translate`** - Helper to identify missing translations
+
+##### Language Options
+All message commands support the `-msg-lang` option to specify the target language:
+- `-msg-lang en` - Add/update English messages (default)
+- `-msg-lang ja` - Add/update Japanese messages
+
+Example:
+```bash
+# Add English message
+go run . dev doc msg add -key "command.desc" -message "Description"
+
+# Add Japanese translation
+go run . dev doc msg add -key "command.desc" -message "説明" -msg-lang ja
+```
 
 #### Documentation Review (`dev doc review`)
 - **`dev doc review approve`** - Approve documentation
@@ -171,16 +186,20 @@ The system validates:
 
 ### For New Commands
 1. Create recipe file
-2. Add message keys:
-```json
-{
-  "myfeature.command.desc": "Brief description",
-  "myfeature.command.readme": "Detailed documentation",
-  "myfeature.command.arg.input": "Input file",
-  "myfeature.command.arg.input.desc": "Path to input file"
-}
+2. Add English message keys:
+```bash
+go run . dev doc msg add -key "myfeature.command.desc" -message "Brief description"
+go run . dev doc msg add -key "myfeature.command.readme" -message "Detailed documentation"
+go run . dev doc msg add -key "myfeature.command.arg.input" -message "Input file"
+go run . dev doc msg add -key "myfeature.command.arg.input.desc" -message "Path to input file"
 ```
-3. Add Japanese translations
+3. Add Japanese translations:
+```bash
+go run . dev doc msg add -key "myfeature.command.desc" -message "簡潔な説明" -msg-lang ja
+go run . dev doc msg add -key "myfeature.command.readme" -message "詳細なドキュメント" -msg-lang ja
+go run . dev doc msg add -key "myfeature.command.arg.input" -message "入力ファイル" -msg-lang ja
+go run . dev doc msg add -key "myfeature.command.arg.input.desc" -message "入力ファイルのパス" -msg-lang ja
+```
 4. Run `dev build preflight`
 
 ### For New Features

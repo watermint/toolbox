@@ -8,7 +8,7 @@ lang: ja
 
 指定したジョブIDのログを取得する 
 
-Extract and display log files for a specific job execution identified by its Job ID. This includes debug logs, API capture logs, error messages, and system information. Essential for troubleshooting failed executions and analyzing job performance.
+ジョブIDで識別される特定のジョブ実行のログファイルを抽出して表示します。デバッグログ、APIキャプチャログ、エラーメッセージ、システム情報が含まれます。失敗した実行のトラブルシューティングやジョブパフォーマンスの分析に不可欠です。
 
 # インストール
 
@@ -44,7 +44,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 : ジョブID
 
 **-kind**
-: ログの種別. Options:.   • toolbox (kind: toolbox).   • capture (kind: capture).   • summary (kind: summary).   • recipe (kind: recipe).   • result (kind: result). Default: toolbox
+: ログの種別. Options:.   • toolbox (種類: toolbox).   • capture (種類: capture).   • summary (種類: summary).   • recipe (種類: recipe).   • result (種類: result). Default: toolbox
 
 **-path**
 : ワークスペースへのパス.

@@ -86,7 +86,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 : 一括アップロード時のブロックサイズ. Default: 24
 
 **-method**
-: アップロード方法. Options: block (Block upload method (parallel chunks)), sequential (Sequential upload method). Default: block
+: アップロード方法. Options: block (ブロックアップロード方式（並列チャンク）), sequential (シーケンシャルアップロード方式). Default: block
 
 **-num-files**
 : ファイル数.. Default: 1000
