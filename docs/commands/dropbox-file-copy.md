@@ -8,6 +8,8 @@ lang: en
 
 Copy files 
 
+Copies files or folders from one location to another within the same Dropbox account.
+
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:

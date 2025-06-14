@@ -8,6 +8,8 @@ lang: en
 
 Batch import files from URL (Irreversible operation)
 
+Imports multiple files into Dropbox by downloading from a list of URLs.
+
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:

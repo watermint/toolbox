@@ -8,6 +8,8 @@ lang: en
 
 List file revisions 
 
+Lists all available revisions for a file showing modification times and sizes.
+
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:

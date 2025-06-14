@@ -8,6 +8,8 @@ lang: en
 
 List all auth credentials 
 
+Display all stored authentication credentials and their details including application names, scopes, peer names, and timestamps. This is useful for auditing access, managing multiple accounts, and understanding which services you're authenticated with.
+
 # Installation
 
 Please download the pre-compiled binary from [Latest Release](https://github.com/watermint/toolbox/releases/latest). If you are using Windows, please download the zip file like `tbx-xx.x.xxx-win.zip`. Then, extract the archive and place `tbx.exe` on the Desktop folder. 

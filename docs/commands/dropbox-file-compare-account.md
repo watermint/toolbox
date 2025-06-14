@@ -8,6 +8,8 @@ lang: en
 
 Compare files of two accounts 
 
+Compares files and folders between two different Dropbox accounts to identify differences.
+
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:

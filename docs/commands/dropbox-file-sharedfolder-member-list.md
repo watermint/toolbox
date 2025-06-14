@@ -8,6 +8,8 @@ lang: en
 
 List shared folder members 
 
+Lists all members of a shared folder with their access levels and email addresses.
+
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:

@@ -8,6 +8,8 @@ lang: en
 
 Delete file or folder (Irreversible operation)
 
+Permanently deletes files or folders from Dropbox (irreversible operation).
+
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:

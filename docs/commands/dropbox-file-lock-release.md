@@ -8,6 +8,8 @@ lang: en
 
 Release a lock 
 
+Releases the lock on a specific file, allowing others to edit it.
+
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:

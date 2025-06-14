@@ -8,6 +8,8 @@ lang: en
 
 Delete a file request by the file request URL (Irreversible operation)
 
+Deletes a specific file request using its URL.
+
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:

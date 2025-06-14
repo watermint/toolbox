@@ -8,6 +8,8 @@ lang: en
 
 List available optional features. 
 
+Display all available optional features in the watermint toolbox with their descriptions, current status, and configuration details. This is useful for understanding what functionality can be enabled or disabled, and for managing feature preferences.
+
 # Installation
 
 Please download the pre-compiled binary from [Latest Release](https://github.com/watermint/toolbox/releases/latest). If you are using Windows, please download the zip file like `tbx-xx.x.xxx-win.zip`. Then, extract the archive and place `tbx.exe` on the Desktop folder. 

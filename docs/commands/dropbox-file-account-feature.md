@@ -8,6 +8,8 @@ lang: en
 
 List Dropbox account features 
 
+Retrieves and displays the enabled features and capabilities for the connected Dropbox account.
+
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:

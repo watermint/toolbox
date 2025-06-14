@@ -53,6 +53,7 @@ import (
 	infrauiapp_ui "github.com/watermint/toolbox/infra/ui/app_ui"
 	ingredientig_dropboxig_file "github.com/watermint/toolbox/ingredient/ig_dropbox/ig_file"
 	recipedevdiag "github.com/watermint/toolbox/recipe/dev/diag"
+	recipedevdoc "github.com/watermint/toolbox/recipe/dev/doc"
 	recipeutiltidymove "github.com/watermint/toolbox/recipe/util/tidy/move"
 )
 
@@ -121,6 +122,7 @@ func AutoDetectedMessageObjects() []interface{} {
 		&infrauiapp_ui.MsgProgress{},
 		&ingredientig_dropboxig_file.MsgUpload{},
 		&recipedevdiag.MsgLoader{},
+		&recipedevdoc.MsgKnowledge{},
 		&recipeutiltidymove.MsgLocal{},
 	}
 }

@@ -8,6 +8,8 @@ lang: en
 
 Lock a file 
 
+Acquires an exclusive lock on a file to prevent others from editing it.
+
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:

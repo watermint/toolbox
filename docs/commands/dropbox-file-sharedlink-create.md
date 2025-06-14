@@ -8,6 +8,8 @@ lang: en
 
 Create shared link (Irreversible operation)
 
+Creates a shared link for a file or folder with optional password protection and expiration date.
+
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:

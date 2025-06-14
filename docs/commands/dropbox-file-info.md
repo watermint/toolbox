@@ -8,6 +8,8 @@ lang: en
 
 Resolve metadata of the path 
 
+Retrieves and displays metadata information for a specific file or folder path.
+
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:

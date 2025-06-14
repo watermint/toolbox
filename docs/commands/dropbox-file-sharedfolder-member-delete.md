@@ -8,6 +8,8 @@ lang: en
 
 Remove a member from the shared folder 
 
+Removes members from a shared folder, revoking their access.
+
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:

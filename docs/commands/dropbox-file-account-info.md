@@ -8,6 +8,8 @@ lang: en
 
 Dropbox account info 
 
+Displays profile information for the connected Dropbox account including name and email.
+
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:

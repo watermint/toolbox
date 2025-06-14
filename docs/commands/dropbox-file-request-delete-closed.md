@@ -8,6 +8,8 @@ lang: en
 
 Delete all closed file requests on this account. (Irreversible operation)
 
+Deletes file requests that have been closed and are no longer accepting uploads.
+
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:

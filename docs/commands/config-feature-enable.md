@@ -8,6 +8,8 @@ lang: en
 
 Enable a feature. 
 
+Turn on a specific feature in the watermint toolbox configuration. Features control various aspects of the application's behavior, performance settings, and experimental functionality. Enabling features allows you to access new capabilities or modify application behavior.
+
 # Installation
 
 Please download the pre-compiled binary from [Latest Release](https://github.com/watermint/toolbox/releases/latest). If you are using Windows, please download the zip file like `tbx-xx.x.xxx-win.zip`. Then, extract the archive and place `tbx.exe` on the Desktop folder. 

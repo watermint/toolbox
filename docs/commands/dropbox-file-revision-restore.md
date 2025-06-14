@@ -8,6 +8,8 @@ lang: en
 
 Restore the file revision 
 
+Restores a file to a previous revision from its version history.
+
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:

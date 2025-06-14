@@ -8,6 +8,8 @@ lang: en
 
 Export document (Experimental)
 
+Exports Dropbox Paper documents and Google Docs to local files in specified formats.
+
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:

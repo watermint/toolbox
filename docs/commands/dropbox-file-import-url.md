@@ -8,6 +8,8 @@ lang: en
 
 Import file from the URL (Irreversible operation)
 
+Imports a single file into Dropbox by downloading from a specified URL.
+
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:

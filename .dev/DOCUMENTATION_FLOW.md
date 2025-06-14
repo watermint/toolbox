@@ -275,6 +275,66 @@ git diff resources/messages/
 5. **Document Features**: Add messages for all new features
 6. **Clean Commits**: Include doc updates with feature commits
 
+## Dev Doc Commands
+
+The `dev doc` command group provides tools for managing documentation and messages. These commands are used both internally by the build process and can be run independently for specific documentation tasks.
+
+### Command Overview
+
+#### Main Commands
+- **`dev doc knowledge`** (Experimental): Generates a reduced-size knowledge base document optimized for LLM training
+- **`dev doc markdown`**: Generates messages from markdown source files
+
+#### Message Management (`dev doc msg`)
+- **`dev doc msg add`**: Add new message keys to the message resources
+- **`dev doc msg catalogue_options`**: Manage catalogue-related message options
+- **`dev doc msg delete`**: Remove message keys from the message resources
+- **`dev doc msg list`**: List all messages in the system
+- **`dev doc msg options`**: Configure message handling options
+- **`dev doc msg update`**: Update existing message values
+- **`dev doc msg verify`**: Verify message integrity and usage
+
+#### Documentation Review (`dev doc review`)
+- **`dev doc review approve`**: Approve pending documentation changes
+- **`dev doc review batch`**: Perform batch review operations
+- **`dev doc review list`**: List documentation items pending review
+- **`dev doc review options`**: Configure review process options
+
+### Usage in Documentation Flow
+
+The `dev doc` commands integrate with the main documentation flow:
+
+1. **During `dev build doc`**: 
+   - Uses internal documentation generation logic
+   - Calls message verification routines
+   - Generates knowledge base via `dev doc knowledge` logic
+
+2. **During `dev build preflight`**:
+   - Message verification uses `dev doc msg verify` internally
+   - Knowledge base generation incorporates `dev doc knowledge` functionality
+
+3. **For Maintenance**:
+   - Use `dev doc msg` commands to manage translations
+   - Use `dev doc review` commands for documentation quality control
+   - Run `dev doc knowledge` to generate optimized LLM training data
+
+### Command Details
+
+#### dev doc knowledge
+- **Purpose**: Creates a condensed version of all documentation
+- **Output**: Single markdown file optimized for LLM consumption
+- **Usage**: `go run . dev doc knowledge`
+- **Features**: Reduces redundancy, optimizes format for training
+
+#### dev doc msg verify
+- **Purpose**: Validates message consistency across languages
+- **Checks**:
+  - Missing message keys
+  - Unused message keys
+  - Translation completeness
+  - Format consistency
+- **Usage**: `go run . dev doc msg verify`
+
 ## Summary
 
 The `dev build preflight` command orchestrates a complex documentation generation process that ensures:

@@ -8,6 +8,8 @@ lang: en
 
 Apply file/folder structure template to the Dropbox path 
 
+Applies a saved file/folder structure template to create directories and files in Dropbox.
+
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:

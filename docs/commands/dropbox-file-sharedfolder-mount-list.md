@@ -8,6 +8,8 @@ lang: en
 
 List all shared folders the current user has mounted 
 
+Lists all shared folders currently mounted in your Dropbox.
+
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:

@@ -8,6 +8,8 @@ lang: en
 
 List files and folders 
 
+Lists files and folders at a given path with options for recursive listing and filtering.
+
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:

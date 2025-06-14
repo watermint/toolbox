@@ -8,6 +8,8 @@ lang: en
 
 Unshare a folder 
 
+Stops sharing a folder and optionally leaves a copy for current members.
+
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:

@@ -8,6 +8,8 @@ lang: en
 
 Move files (Irreversible operation)
 
+Moves files or folders from one location to another within Dropbox (irreversible operation).
+
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:

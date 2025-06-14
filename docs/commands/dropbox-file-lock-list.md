@@ -8,6 +8,8 @@ lang: en
 
 List locks under the specified path 
 
+Lists all files that are currently locked, showing lock holder information.
+
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:

@@ -8,6 +8,8 @@ lang: en
 
 Create a file request (Irreversible operation)
 
+Creates a file request folder where others can upload files without Dropbox access.
+
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:

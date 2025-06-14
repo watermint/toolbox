@@ -8,6 +8,8 @@ lang: en
 
 Format capture logs as `curl` sample 
 
+Convert API request logs into equivalent curl commands that can be executed independently. This is extremely useful for debugging API issues, reproducing requests outside of the toolbox, sharing examples with support, or creating test scripts.
+
 # Installation
 
 Please download the pre-compiled binary from [Latest Release](https://github.com/watermint/toolbox/releases/latest). If you are using Windows, please download the zip file like `tbx-xx.x.xxx-win.zip`. Then, extract the archive and place `tbx.exe` on the Desktop folder. 

@@ -8,6 +8,8 @@ lang: en
 
 List file requests of the individual account 
 
+Lists all file requests in the account with their status and details.
+
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:

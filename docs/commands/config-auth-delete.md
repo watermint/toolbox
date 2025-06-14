@@ -8,6 +8,8 @@ lang: en
 
 Delete existing auth credential 
 
+Remove stored authentication credentials for a specific service account. This is useful when you need to revoke access, change accounts, or clean up old authentication tokens. The command requires both the application key name and peer name to identify the credential to delete.
+
 # Installation
 
 Please download the pre-compiled binary from [Latest Release](https://github.com/watermint/toolbox/releases/latest). If you are using Windows, please download the zip file like `tbx-xx.x.xxx-win.zip`. Then, extract the archive and place `tbx.exe` on the Desktop folder. 

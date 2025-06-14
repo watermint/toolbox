@@ -8,6 +8,8 @@ lang: en
 
 Search file content 
 
+Searches for files by content with options for file type and category filtering.
+
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:

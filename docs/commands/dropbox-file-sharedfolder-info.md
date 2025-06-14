@@ -8,6 +8,8 @@ lang: en
 
 Get shared folder info 
 
+Displays detailed information about a specific shared folder including members and permissions.
+
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:

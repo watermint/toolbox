@@ -8,7 +8,7 @@ lang: en
 
 Replicate file content to the other account (Irreversible operation)
 
-This command will replicate files/folders. But it does not include sharing permissions. The command replicates only folder contents of given path.
+Replicates files and folders from one Dropbox account to another, mirroring the source structure.
 
 # Security
 

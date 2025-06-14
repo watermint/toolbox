@@ -8,6 +8,8 @@ lang: en
 
 Export a document from the URL 
 
+Exports a file from Dropbox by downloading it from a shared link URL.
+
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:

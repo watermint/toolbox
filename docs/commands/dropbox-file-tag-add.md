@@ -8,7 +8,7 @@ lang: en
 
 Add tag to file or folder 
 
-Add a custom tag to a file or folder in Dropbox. Tags help organize and categorize your content for easier searching and management. You can add multiple tags to the same file or folder.
+Adds a custom tag to a file or folder for organization and categorization.
 
 # Security
 

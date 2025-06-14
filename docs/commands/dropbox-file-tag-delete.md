@@ -8,7 +8,7 @@ lang: en
 
 Delete a tag from the file/folder 
 
-Remove a specific tag from a file or folder in Dropbox. This operation only removes the tag association and does not affect the file or folder itself. Use this command to clean up outdated or incorrect tags.
+Removes a specific tag from a file or folder.
 
 # Security
 

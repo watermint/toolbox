@@ -8,6 +8,8 @@ lang: en
 
 Install a license key 
 
+Install and activate a license key for the watermint toolbox. License keys may be required for certain features, premium functionality, or commercial usage. This command stores the license key securely and validates its authenticity.
+
 # Installation
 
 Please download the pre-compiled binary from [Latest Release](https://github.com/watermint/toolbox/releases/latest). If you are using Windows, please download the zip file like `tbx-xx.x.xxx-win.zip`. Then, extract the archive and place `tbx.exe` on the Desktop folder. 

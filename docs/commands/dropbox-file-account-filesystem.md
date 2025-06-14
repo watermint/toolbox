@@ -8,6 +8,8 @@ lang: en
 
 Show Dropbox file system version 
 
+Shows the file system version/type being used by the account (individual or team file system).
+
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:

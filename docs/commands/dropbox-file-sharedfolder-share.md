@@ -8,6 +8,8 @@ lang: en
 
 Share a folder 
 
+Creates a shared folder from an existing folder with configurable sharing policies and permissions.
+
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:

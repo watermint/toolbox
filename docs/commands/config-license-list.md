@@ -8,6 +8,8 @@ lang: en
 
 List available license keys 
 
+Display all installed license keys and their details including expiration dates, enabled features, and status. This is useful for managing multiple licenses, checking license validity, and understanding what functionality is available.
+
 # Installation
 
 Please download the pre-compiled binary from [Latest Release](https://github.com/watermint/toolbox/releases/latest). If you are using Windows, please download the zip file like `tbx-xx.x.xxx-win.zip`. Then, extract the archive and place `tbx.exe` on the Desktop folder. 

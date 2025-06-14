@@ -8,6 +8,8 @@ lang: en
 
 Restore files under given path (Experimental, and Irreversible operation)
 
+Restores all deleted files and folders within a specified path.
+
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:

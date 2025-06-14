@@ -8,6 +8,8 @@ lang: en
 
 Sync online files (Irreversible operation)
 
+Synchronizes files between two different locations within Dropbox online storage.
+
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:

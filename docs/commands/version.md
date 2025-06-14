@@ -8,6 +8,8 @@ lang: en
 
 Show version 
 
+Display version information for the watermint toolbox including build date, Git commit hash, and component versions. This is useful for troubleshooting, bug reports, and ensuring you have the latest version.
+
 # Installation
 
 Please download the pre-compiled binary from [Latest Release](https://github.com/watermint/toolbox/releases/latest). If you are using Windows, please download the zip file like `tbx-xx.x.xxx-win.zip`. Then, extract the archive and place `tbx.exe` on the Desktop folder. 

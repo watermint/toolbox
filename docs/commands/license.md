@@ -8,6 +8,8 @@ lang: en
 
 Show license information 
 
+Display detailed license information for the watermint toolbox and all its components. This includes open source licenses, copyright notices, and third-party dependencies used in the application.
+
 # Installation
 
 Please download the pre-compiled binary from [Latest Release](https://github.com/watermint/toolbox/releases/latest). If you are using Windows, please download the zip file like `tbx-xx.x.xxx-win.zip`. Then, extract the archive and place `tbx.exe` on the Desktop folder. 

@@ -8,6 +8,8 @@ lang: en
 
 Show statistics of the API log of the job specified by the job ID 
 
+Analyze and display API call statistics for a specific job execution. This includes request counts, response times, error rates, and endpoint usage patterns. Useful for performance analysis, debugging API issues, and understanding application behavior during command execution.
+
 # Installation
 
 Please download the pre-compiled binary from [Latest Release](https://github.com/watermint/toolbox/releases/latest). If you are using Windows, please download the zip file like `tbx-xx.x.xxx-win.zip`. Then, extract the archive and place `tbx.exe` on the Desktop folder. 

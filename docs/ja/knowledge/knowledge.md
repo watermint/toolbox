@@ -12,36 +12,64 @@ Title: Common Options for All Commands
 URL: https://toolbox.watermint.org/commands/common-options.md
 ---
 
-
 ## Common command options
 
+**-auth-database**
+: Custom path to auth database (default: $HOME/.toolbox/secrets/secrets.db)
 
+**-auto-open**
+: Auto open URL or artifact folder. Default: false
 
-| Option             | Description                                                                                                                                           | Default              |
-|--------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------|
-| `-auth-database`   | Custom path to auth database (default: $HOME/.toolbox/secrets/secrets.db)                                                                             |                      |
-| `-auto-open`       | Auto open URL or artifact folder                                                                                                                      | false                |
-| `-bandwidth-kb`    | Bandwidth limit in K bytes per sec for upload/download content. 0 for unlimited                                                                       | 0                    |
-| `-budget-memory`   | Memory budget (limits some feature to reduce memory footprint)                                                                                        | normal               |
-| `-budget-storage`  | Storage budget (limits logs or some feature to reduce storage usage)                                                                                  | normal               |
-| `-concurrency`     | Maximum concurrency for running operation                                                                                                             | Number of processors |
-| `-debug`           | Enable debug mode                                                                                                                                     | false                |
-| `-experiment`      | Enable experimental feature(s).                                                                                                                       |                      |
-| `-extra`           | Extra parameter file path                                                                                                                             |                      |
-| `-lang`            | Display language                                                                                                                                      | auto                 |
-| `-output`          | Output format (none/text/markdown/json)                                                                                                               | text                 |
-| `-output-filter`   | Output filter query (jq syntax). The output of the report is filtered using jq syntax. This option is only applied when the report is output as JSON. |                      |
-| `-proxy`           | HTTP/HTTPS proxy (hostname:port). Please specify `DIRECT` if you want to skip setting proxy.                                                          |                      |
-| `-quiet`           | Suppress non-error messages, and make output readable by a machine (JSON format)                                                                      | false                |
-| `-retain-job-data` | Job data retain policy                                                                                                                                | default              |
-| `-secure`          | Do not store tokens into a file                                                                                                                       | false                |
-| `-skip-logging`    | Skip logging in the local storage                                                                                                                     | false                |
-| `-verbose`         | Show current operations for more detail.                                                                                                              | false                |
-| `-workspace`       | Workspace path                                                                                                                                        |                      |
+**-bandwidth-kb**
+: Bandwidth limit in K bytes per sec for upload/download content. 0 for unlimited. Default: 0
 
+**-budget-memory**
+: Memory budget (limits some feature to reduce memory footprint). Options: low, normal. Default: normal
 
+**-budget-storage**
+: Storage budget (limits logs or some feature to reduce storage usage). Options: low, normal, unlimited. Default: normal
 
+**-concurrency**
+: Maximum concurrency for running operation. Default: Number of processors
 
+**-debug**
+: Enable debug mode. Default: false
+
+**-experiment**
+: Enable experimental feature(s).
+
+**-extra**
+: Extra parameter file path
+
+**-lang**
+: Display language. Options: auto, en, ja. Default: auto
+
+**-output**
+: Output format (none/text/markdown/json). Options: text, markdown, json, none. Default: text
+
+**-output-filter**
+: Output filter query (jq syntax). The output of the report is filtered using jq syntax. This option is only applied when the report is output as JSON.
+
+**-proxy**
+: HTTP/HTTPS proxy (hostname:port). Please specify `DIRECT` if you want to skip setting proxy.
+
+**-quiet**
+: Suppress non-error messages, and make output readable by a machine (JSON format). Default: false
+
+**-retain-job-data**
+: Job data retain policy. Options: default, on_error, none. Default: default
+
+**-secure**
+: Do not store tokens into a file. Default: false
+
+**-skip-logging**
+: Skip logging in the local storage. Default: false
+
+**-verbose**
+: Show current operations for more detail.. Default: false
+
+**-workspace**
+: Workspace path
 
 ## Commands
 
@@ -54,7 +82,7 @@ URL: https://toolbox.watermint.org/commands/license.md
 
 Show license information 
 
-
+Display detailed license information for the watermint toolbox and all its components. This includes open source licenses, copyright notices, and third-party dependencies used in the application.
 
 # Usage
 
@@ -62,9 +90,6 @@ This document uses the Desktop folder for command example.
 ```
 tbx license 
 ```
-
-
-
 
 ---
 Title: version
@@ -75,7 +100,7 @@ URL: https://toolbox.watermint.org/commands/version.md
 
 Show version 
 
-
+Display version information for the watermint toolbox including build date, Git commit hash, and component versions. This is useful for troubleshooting, bug reports, and ensuring you have the latest version.
 
 # Usage
 
@@ -84,10 +109,7 @@ This document uses the Desktop folder for command example.
 tbx version 
 ```
 
-
 # Results
-
-
 
 ## Report: versions
 
@@ -100,11 +122,7 @@ The command will generate a report in three different formats. `versions.csv`, `
 | component | Component   |
 | version   | Version     |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `versions_0000.xlsx`, `versions_0001.xlsx`, `versions_0002.xlsx`, ...
-
-
 
 ---
 Title: config auth delete
@@ -115,7 +133,7 @@ URL: https://toolbox.watermint.org/commands/config/auth/delete.md
 
 Delete existing auth credential 
 
-
+Remove stored authentication credentials for a specific service account. This is useful when you need to revoke access, change accounts, or clean up old authentication tokens. The command requires both the application key name and peer name to identify the credential to delete.
 
 # Usage
 
@@ -124,22 +142,15 @@ This document uses the Desktop folder for command example.
 tbx config auth delete -key-name KEY_NAME -peer-name PEER_NAME
 ```
 
-
 ## Options:
 
+**-key-name**
+: Application key name
 
-
-| Option       | Description          | Default |
-|--------------|----------------------|---------|
-| `-key-name`  | Application key name |         |
-| `-peer-name` | Peer name            |         |
-
-
-
+**-peer-name**
+: Peer name
 
 # Results
-
-
 
 ## Report: deleted
 
@@ -154,11 +165,7 @@ The command will generate a report in three different formats. `deleted.csv`, `d
 | description | Description      |
 | timestamp   | Timestamp        |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `deleted_0000.xlsx`, `deleted_0001.xlsx`, `deleted_0002.xlsx`, ...
-
-
 
 ---
 Title: config auth list
@@ -169,7 +176,7 @@ URL: https://toolbox.watermint.org/commands/config/auth/list.md
 
 List all auth credentials 
 
-
+Display all stored authentication credentials and their details including application names, scopes, peer names, and timestamps. This is useful for auditing access, managing multiple accounts, and understanding which services you're authenticated with.
 
 # Usage
 
@@ -178,10 +185,7 @@ This document uses the Desktop folder for command example.
 tbx config auth list 
 ```
 
-
 # Results
-
-
 
 ## Report: entity
 
@@ -196,11 +200,7 @@ The command will generate a report in three different formats. `entity.csv`, `en
 | description | Description      |
 | timestamp   | Timestamp        |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `entity_0000.xlsx`, `entity_0001.xlsx`, `entity_0002.xlsx`, ...
-
-
 
 ---
 Title: config feature disable
@@ -211,7 +211,7 @@ URL: https://toolbox.watermint.org/commands/config/feature/disable.md
 
 Disable a feature. 
 
-
+Turn off a specific feature in the watermint toolbox configuration. Features control various aspects of the application's behavior, performance settings, and experimental functionality. Disabling features can help with troubleshooting or reverting to previous behavior.
 
 # Usage
 
@@ -220,19 +220,10 @@ This document uses the Desktop folder for command example.
 tbx config feature disable -key FEATURE
 ```
 
-
 ## Options:
 
-
-
-| Option | Description  | Default |
-|--------|--------------|---------|
-| `-key` | Feature key. |         |
-
-
-
-
-
+**-key**
+: Feature key.
 
 ---
 Title: config feature enable
@@ -243,7 +234,7 @@ URL: https://toolbox.watermint.org/commands/config/feature/enable.md
 
 Enable a feature. 
 
-
+Turn on a specific feature in the watermint toolbox configuration. Features control various aspects of the application's behavior, performance settings, and experimental functionality. Enabling features allows you to access new capabilities or modify application behavior.
 
 # Usage
 
@@ -252,19 +243,10 @@ This document uses the Desktop folder for command example.
 tbx config feature enable -key FEATURE
 ```
 
-
 ## Options:
 
-
-
-| Option | Description  | Default |
-|--------|--------------|---------|
-| `-key` | Feature key. |         |
-
-
-
-
-
+**-key**
+: Feature key.
 
 ---
 Title: config feature list
@@ -275,7 +257,7 @@ URL: https://toolbox.watermint.org/commands/config/feature/list.md
 
 List available optional features. 
 
-
+Display all available optional features in the watermint toolbox with their descriptions, current status, and configuration details. This is useful for understanding what functionality can be enabled or disabled, and for managing feature preferences.
 
 # Usage
 
@@ -283,9 +265,6 @@ This document uses the Desktop folder for command example.
 ```
 tbx config feature list 
 ```
-
-
-
 
 ---
 Title: config license install
@@ -296,7 +275,7 @@ URL: https://toolbox.watermint.org/commands/config/license/install.md
 
 Install a license key 
 
-
+Install and activate a license key for the watermint toolbox. License keys may be required for certain features, premium functionality, or commercial usage. This command stores the license key securely and validates its authenticity.
 
 # Usage
 
@@ -305,19 +284,10 @@ This document uses the Desktop folder for command example.
 tbx config license install -key LICENSE_KEY
 ```
 
-
 ## Options:
 
-
-
-| Option | Description | Default |
-|--------|-------------|---------|
-| `-key` | License key |         |
-
-
-
-
-
+**-key**
+: License key
 
 ---
 Title: config license list
@@ -328,7 +298,7 @@ URL: https://toolbox.watermint.org/commands/config/license/list.md
 
 List available license keys 
 
-
+Display all installed license keys and their details including expiration dates, enabled features, and status. This is useful for managing multiple licenses, checking license validity, and understanding what functionality is available.
 
 # Usage
 
@@ -337,10 +307,7 @@ This document uses the Desktop folder for command example.
 tbx config license list 
 ```
 
-
 # Results
-
-
 
 ## Report: keys
 
@@ -356,11 +323,7 @@ The command will generate a report in three different formats. `keys.csv`, `keys
 | licensee_email   | Licensee email                      |
 | licensed_recipes | Recipes enabled by this license key |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `keys_0000.xlsx`, `keys_0001.xlsx`, `keys_0002.xlsx`, ...
-
-
 
 ---
 Title: log api job
@@ -371,7 +334,7 @@ URL: https://toolbox.watermint.org/commands/log/api/job.md
 
 Show statistics of the API log of the job specified by the job ID 
 
-
+Analyze and display API call statistics for a specific job execution. This includes request counts, response times, error rates, and endpoint usage patterns. Useful for performance analysis, debugging API issues, and understanding application behavior during command execution.
 
 # Usage
 
@@ -380,23 +343,18 @@ This document uses the Desktop folder for command example.
 tbx log api job 
 ```
 
-
 ## Options:
 
+**-full-url**
+: Show full URL. Default: false
 
+**-interval-second**
+: Interval in seconds for the time series. Default: 3600
 
-| Option             | Description                             | Default |
-|--------------------|-----------------------------------------|---------|
-| `-full-url`        | Show full URL                           | false   |
-| `-interval-second` | Interval in seconds for the time series | 3600    |
-| `-job-id`          | Job ID                                  |         |
-
-
-
+**-job-id**
+: Job ID
 
 # Results
-
-
 
 ## Report: latencies
 
@@ -414,10 +372,7 @@ The command will generate a report in three different formats. `latencies.csv`, 
 | p_70       | Percentile 70      |
 | p_90       | Percentile 90      |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `latencies_0000.xlsx`, `latencies_0001.xlsx`, `latencies_0002.xlsx`, ...
-
 
 ## Report: population
 
@@ -431,10 +386,7 @@ The command will generate a report in three different formats. `population.csv`,
 | population | Number of requests |
 | proportion | Proportion         |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `population_0000.xlsx`, `population_0001.xlsx`, `population_0002.xlsx`, ...
-
 
 ## Report: time_series
 
@@ -452,11 +404,7 @@ The command will generate a report in three different formats. `time_series.csv`
 | code_5xx   | Number of requests with 5xx              |
 | code_other | Number of requests with other            |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `time_series_0000.xlsx`, `time_series_0001.xlsx`, `time_series_0002.xlsx`, ...
-
-
 
 ---
 Title: log api name
@@ -467,7 +415,7 @@ URL: https://toolbox.watermint.org/commands/log/api/name.md
 
 Show statistics of the API log of the job specified by the job name 
 
-
+Analyze and display API call statistics for jobs identified by command name rather than job ID. This allows you to aggregate statistics across multiple executions of the same command, helping identify patterns and performance trends over time.
 
 # Usage
 
@@ -476,23 +424,18 @@ This document uses the Desktop folder for command example.
 tbx log api name -name JOB_NAME
 ```
 
-
 ## Options:
 
+**-full-url**
+: Show full URL. Default: false
 
+**-interval-second**
+: Interval in seconds for the time series. Default: 3600
 
-| Option             | Description                                             | Default |
-|--------------------|---------------------------------------------------------|---------|
-| `-full-url`        | Show full URL                                           | false   |
-| `-interval-second` | Interval in seconds for the time series                 | 3600    |
-| `-name`            | Job command line path (e.g. `dropbox team member list`) |         |
-
-
-
+**-name**
+: Job command line path (e.g. `dropbox team member list`)
 
 # Results
-
-
 
 ## Report: latencies
 
@@ -510,10 +453,7 @@ The command will generate a report in three different formats. `latencies.csv`, 
 | p_70       | Percentile 70      |
 | p_90       | Percentile 90      |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `latencies_0000.xlsx`, `latencies_0001.xlsx`, `latencies_0002.xlsx`, ...
-
 
 ## Report: population
 
@@ -527,10 +467,7 @@ The command will generate a report in three different formats. `population.csv`,
 | population | Number of requests |
 | proportion | Proportion         |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `population_0000.xlsx`, `population_0001.xlsx`, `population_0002.xlsx`, ...
-
 
 ## Report: time_series
 
@@ -548,11 +485,7 @@ The command will generate a report in three different formats. `time_series.csv`
 | code_5xx   | Number of requests with 5xx              |
 | code_other | Number of requests with other            |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `time_series_0000.xlsx`, `time_series_0001.xlsx`, `time_series_0002.xlsx`, ...
-
-
 
 ---
 Title: log cat curl
@@ -563,7 +496,7 @@ URL: https://toolbox.watermint.org/commands/log/cat/curl.md
 
 Format capture logs as `curl` sample 
 
-
+Convert API request logs into equivalent curl commands that can be executed independently. This is extremely useful for debugging API issues, reproducing requests outside of the toolbox, sharing examples with support, or creating test scripts.
 
 # Usage
 
@@ -572,20 +505,13 @@ This document uses the Desktop folder for command example.
 tbx log cat curl 
 ```
 
-
 ## Options:
 
+**-buffer-size**
+: Buffer size for each request. Default: 65536
 
-
-| Option         | Description                                               | Default |
-|----------------|-----------------------------------------------------------|---------|
-| `-buffer-size` | Buffer size for each request                              | 65536   |
-| `-record`      | Give a record of capture log file via command line option |         |
-
-
-
-
-
+**-record**
+: Give a record of capture log file via command line option
 
 ---
 Title: log cat job
@@ -596,7 +522,7 @@ URL: https://toolbox.watermint.org/commands/log/cat/job.md
 
 Retrieve logs of specified Job ID 
 
-
+Extract and display log files for a specific job execution identified by its Job ID. This includes debug logs, API capture logs, error messages, and system information. Essential for troubleshooting failed executions and analyzing job performance.
 
 # Usage
 
@@ -605,21 +531,16 @@ This document uses the Desktop folder for command example.
 tbx log cat job -id JOB_ID
 ```
 
-
 ## Options:
 
+**-id**
+: Job ID
 
+**-kind**
+: Kind of log. Options:.   • toolbox (kind: toolbox).   • capture (kind: capture).   • summary (kind: summary).   • recipe (kind: recipe).   • result (kind: result). Default: toolbox
 
-| Option  | Description           | Default |
-|---------|-----------------------|---------|
-| `-id`   | Job ID                |         |
-| `-kind` | Kind of log           | toolbox |
-| `-path` | Path to the workspace |         |
-
-
-
-
-
+**-path**
+: Path to the workspace
 
 ---
 Title: log cat kind
@@ -630,8 +551,6 @@ URL: https://toolbox.watermint.org/commands/log/cat/kind.md
 
 Concatenate and print logs of specified log kind 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -639,20 +558,13 @@ This document uses the Desktop folder for command example.
 tbx log cat kind 
 ```
 
-
 ## Options:
 
+**-kind**
+: Log kind.. Options:.   • toolbox (kind: toolbox).   • capture (kind: capture).   • summary (kind: summary).   • recipe (kind: recipe).   • result (kind: result). Default: toolbox
 
-
-| Option  | Description        | Default |
-|---------|--------------------|---------|
-| `-kind` | Log kind.          | toolbox |
-| `-path` | Path to workspace. |         |
-
-
-
-
-
+**-path**
+: Path to workspace.
 
 ---
 Title: log cat last
@@ -663,8 +575,6 @@ URL: https://toolbox.watermint.org/commands/log/cat/last.md
 
 Print the last job log files 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -672,20 +582,13 @@ This document uses the Desktop folder for command example.
 tbx log cat last 
 ```
 
-
 ## Options:
 
+**-kind**
+: Log kind. Options:.   • toolbox (kind: toolbox).   • capture (kind: capture).   • summary (kind: summary).   • recipe (kind: recipe).   • result (kind: result). Default: toolbox
 
-
-| Option  | Description        | Default |
-|---------|--------------------|---------|
-| `-kind` | Log kind           | toolbox |
-| `-path` | Path to workspace. |         |
-
-
-
-
-
+**-path**
+: Path to workspace.
 
 ---
 Title: log job archive
@@ -696,8 +599,6 @@ URL: https://toolbox.watermint.org/commands/log/job/archive.md
 
 Archive jobs 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -705,20 +606,13 @@ This document uses the Desktop folder for command example.
 tbx log job archive 
 ```
 
-
 ## Options:
 
+**-days**
+: Target days old. Default: 7
 
-
-| Option  | Description           | Default |
-|---------|-----------------------|---------|
-| `-days` | Target days old       | 7       |
-| `-path` | Path to the workspace |         |
-
-
-
-
-
+**-path**
+: Path to the workspace
 
 ---
 Title: log job delete
@@ -729,8 +623,6 @@ URL: https://toolbox.watermint.org/commands/log/job/delete.md
 
 Delete old job history 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -738,20 +630,13 @@ This document uses the Desktop folder for command example.
 tbx log job delete 
 ```
 
-
 ## Options:
 
+**-days**
+: Target days old. Default: 28
 
-
-| Option  | Description           | Default |
-|---------|-----------------------|---------|
-| `-days` | Target days old       | 28      |
-| `-path` | Path to the workspace |         |
-
-
-
-
-
+**-path**
+: Path to the workspace
 
 ---
 Title: log job list
@@ -762,8 +647,6 @@ URL: https://toolbox.watermint.org/commands/log/job/list.md
 
 Show job history 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -771,21 +654,12 @@ This document uses the Desktop folder for command example.
 tbx log job list 
 ```
 
-
 ## Options:
 
-
-
-| Option  | Description       | Default |
-|---------|-------------------|---------|
-| `-path` | Path to workspace |         |
-
-
-
+**-path**
+: Path to workspace
 
 # Results
-
-
 
 ## Report: log
 
@@ -800,11 +674,7 @@ The command will generate a report in three different formats. `log.csv`, `log.j
 | time_start  | Time Started  |
 | time_finish | Time Finished |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `log_0000.xlsx`, `log_0001.xlsx`, `log_0002.xlsx`, ...
-
-
 
 ---
 Title: util archive unzip
@@ -815,8 +685,6 @@ URL: https://toolbox.watermint.org/commands/util/archive/unzip.md
 
 Extract the zip archive file 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -824,20 +692,13 @@ This document uses the Desktop folder for command example.
 tbx util archive unzip -in /LOCAL/PATH/TO/ARCHIVE.zip -out /LOCAL/PATH/TO/EXTRACT
 ```
 
-
 ## Options:
 
+**-in**
+: Zip archive file path
 
-
-| Option | Description           | Default |
-|--------|-----------------------|---------|
-| `-in`  | Zip archive file path |         |
-| `-out` | Path to extract files |         |
-
-
-
-
-
+**-out**
+: Path to extract files
 
 ---
 Title: util archive zip
@@ -848,8 +709,6 @@ URL: https://toolbox.watermint.org/commands/util/archive/zip.md
 
 Compress target files into the zip archive 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -857,21 +716,16 @@ This document uses the Desktop folder for command example.
 tbx util archive zip -out /LOCAL/PATH/TO/ARCHIVE.zip -target /LOCAL/PATH/TO/COMPRESS
 ```
 
-
 ## Options:
 
+**-comment**
+: Comment for the zip archive
 
+**-out**
+: Zip archive file path
 
-| Option     | Description                 | Default |
-|------------|-----------------------------|---------|
-| `-comment` | Comment for the zip archive |         |
-| `-out`     | Zip archive file path       |         |
-| `-target`  | Target path to compress     |         |
-
-
-
-
-
+**-target**
+: Target path to compress
 
 ---
 Title: util cert selfsigned
@@ -882,8 +736,6 @@ URL: https://toolbox.watermint.org/commands/util/cert/selfsigned.md
 
 Generate self-signed certificate and key 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -891,20 +743,13 @@ This document uses the Desktop folder for command example.
 tbx util cert selfsigned -out /LOCAL/PATH/TO/GENERATE_CERT_AND_KEY
 ```
 
-
 ## Options:
 
+**-days**
+: Number of validity days of the certificate. Default: 365
 
-
-| Option  | Description                                | Default |
-|---------|--------------------------------------------|---------|
-| `-days` | Number of validity days of the certificate | 365     |
-| `-out`  | Output folder path                         |         |
-
-
-
-
-
+**-out**
+: Output folder path
 
 ---
 Title: util database exec
@@ -915,8 +760,6 @@ URL: https://toolbox.watermint.org/commands/util/database/exec.md
 
 Execute query on SQLite3 database file 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -924,20 +767,13 @@ This document uses the Desktop folder for command example.
 tbx util database exec -file /LOCAL/PATH/DATA.sql -sql SQL
 ```
 
-
 ## Options:
 
+**-file**
+: Path to data file
 
-
-| Option  | Description       | Default |
-|---------|-------------------|---------|
-| `-file` | Path to data file |         |
-| `-sql`  | Query             |         |
-
-
-
-
-
+**-sql**
+: Query
 
 ---
 Title: util database query
@@ -948,8 +784,6 @@ URL: https://toolbox.watermint.org/commands/util/database/query.md
 
 Query SQLite3 database 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -957,30 +791,25 @@ This document uses the Desktop folder for command example.
 tbx util database query -file /LOCAL/PATH/DATA.sql -sql SQL
 ```
 
-
 ## Options:
 
+**-file**
+: Path to data file
 
+**-result**
+: Query result
 
-| Option           | Description       | Default |
-|------------------|-------------------|---------|
-| `-file`          | Path to data file |         |
-| `-result`        | Query result      |         |
-| `-result-format` | Output format     |         |
-| `-sql`           | Query             |         |
+**-result-format**
+: Output format
 
-
-
+**-sql**
+: Query
 
 # Grid data output of the command
 
-
 ## Grid data output: Result
 
-
 Query result
-
-
 
 ---
 Title: util date today
@@ -991,8 +820,6 @@ URL: https://toolbox.watermint.org/commands/util/date/today.md
 
 Display current date 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -1000,20 +827,13 @@ This document uses the Desktop folder for command example.
 tbx util date today 
 ```
 
-
 ## Options:
 
+**-offset**
+: Offset (day). Default: 0
 
-
-| Option    | Description  | Default |
-|-----------|--------------|---------|
-| `-offset` | Offset (day) | 0       |
-| `-utc`    | Use UTC      | false   |
-
-
-
-
-
+**-utc**
+: Use UTC. Default: false
 
 ---
 Title: util datetime now
@@ -1024,8 +844,6 @@ URL: https://toolbox.watermint.org/commands/util/datetime/now.md
 
 Display current date/time 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -1033,23 +851,22 @@ This document uses the Desktop folder for command example.
 tbx util datetime now 
 ```
 
-
 ## Options:
 
+**-offset-day**
+: Offset (day). Default: 0
 
+**-offset-hour**
+: Offset (hour). Default: 0
 
-| Option         | Description   | Default |
-|----------------|---------------|---------|
-| `-offset-day`  | Offset (day)  | 0       |
-| `-offset-hour` | Offset (hour) | 0       |
-| `-offset-min`  | Offset (min)  | 0       |
-| `-offset-sec`  | Offset (sec)  | 0       |
-| `-utc`         | Use UTC       | false   |
+**-offset-min**
+: Offset (min). Default: 0
 
+**-offset-sec**
+: Offset (sec). Default: 0
 
-
-
-
+**-utc**
+: Use UTC. Default: false
 
 ---
 Title: util decode base32
@@ -1060,8 +877,6 @@ URL: https://toolbox.watermint.org/commands/util/decode/base32.md
 
 Decode text from Base32 (RFC 4648) format 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -1069,27 +884,19 @@ This document uses the Desktop folder for command example.
 tbx util decode base32 -text /LOCAL/PATH/TO/INPUT.txt
 ```
 
-
 ## Options:
 
+**-no-padding**
+: No padding. Default: false
 
-
-| Option        | Description | Default |
-|---------------|-------------|---------|
-| `-no-padding` | No padding  | false   |
-| `-text`       | Text        |         |
-
-
-
+**-text**
+: Text
 
 # Text inputs
-
 
 ## Text input: Text
 
 Text to decode
-
-
 
 ---
 Title: util decode base64
@@ -1100,8 +907,6 @@ URL: https://toolbox.watermint.org/commands/util/decode/base64.md
 
 Decode text from Base64 (RFC 4648) format 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -1109,27 +914,19 @@ This document uses the Desktop folder for command example.
 tbx util decode base64 -text /LOCAL/PATH/TO/INPUT.txt
 ```
 
-
 ## Options:
 
+**-no-padding**
+: No padding. Default: false
 
-
-| Option        | Description | Default |
-|---------------|-------------|---------|
-| `-no-padding` | No padding  | false   |
-| `-text`       | Text        |         |
-
-
-
+**-text**
+: Text
 
 # Text inputs
-
 
 ## Text input: Text
 
 Text to decode
-
-
 
 ---
 Title: util desktop open
@@ -1140,8 +937,6 @@ URL: https://toolbox.watermint.org/commands/util/desktop/open.md
 
 Open a file or folder with the default application 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -1149,19 +944,10 @@ This document uses the Desktop folder for command example.
 tbx util desktop open -path /LOCAL/PATH/TO/open
 ```
 
-
 ## Options:
 
-
-
-| Option  | Description                        | Default |
-|---------|------------------------------------|---------|
-| `-path` | Path to the file or folder to open |         |
-
-
-
-
-
+**-path**
+: Path to the file or folder to open
 
 ---
 Title: util encode base32
@@ -1172,8 +958,6 @@ URL: https://toolbox.watermint.org/commands/util/encode/base32.md
 
 Encode text into Base32 (RFC 4648) format 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -1181,27 +965,19 @@ This document uses the Desktop folder for command example.
 tbx util encode base32 -text /LOCAL/PATH/TO/INPUT.txt
 ```
 
-
 ## Options:
 
+**-no-padding**
+: No padding. Default: false
 
-
-| Option        | Description | Default |
-|---------------|-------------|---------|
-| `-no-padding` | No padding  | false   |
-| `-text`       | Text        |         |
-
-
-
+**-text**
+: Text
 
 # Text inputs
-
 
 ## Text input: Text
 
 Text to encode
-
-
 
 ---
 Title: util encode base64
@@ -1212,8 +988,6 @@ URL: https://toolbox.watermint.org/commands/util/encode/base64.md
 
 Encode text into Base64 (RFC 4648) format 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -1221,27 +995,19 @@ This document uses the Desktop folder for command example.
 tbx util encode base64 -text /LOCAL/PATH/TO/INPUT.txt
 ```
 
-
 ## Options:
 
+**-no-padding**
+: No padding. Default: false
 
-
-| Option        | Description | Default |
-|---------------|-------------|---------|
-| `-no-padding` | No padding  | false   |
-| `-text`       | Text        |         |
-
-
-
+**-text**
+: Text
 
 # Text inputs
-
 
 ## Text input: Text
 
 Text to encode
-
-
 
 ---
 Title: util feed json
@@ -1252,8 +1018,6 @@ URL: https://toolbox.watermint.org/commands/util/feed/json.md
 
 Load feed from the URL and output the content as JSON 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -1261,20 +1025,13 @@ This document uses the Desktop folder for command example.
 tbx util feed json -url URL
 ```
 
-
 ## Options:
 
+**-compact**
+: Compact output. Default: false
 
-
-| Option     | Description     | Default |
-|------------|-----------------|---------|
-| `-compact` | Compact output  | false   |
-| `-url`     | URL of the feed |         |
-
-
-
-
-
+**-url**
+: URL of the feed
 
 ---
 Title: util file hash
@@ -1285,8 +1042,6 @@ URL: https://toolbox.watermint.org/commands/util/file/hash.md
 
 File Hash 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -1294,20 +1049,13 @@ This document uses the Desktop folder for command example.
 tbx util file hash -file /LOCAL/PATH/TO/DIGEST
 ```
 
-
 ## Options:
 
+**-algorithm**
+: Hash algorithm (md5/sha1/sha256). Options:.   • md5 (algorithm: md5).   • sha1 (algorithm: sha1).   • sha256 (algorithm: sha256). Default: sha1
 
-
-| Option       | Description                       | Default |
-|--------------|-----------------------------------|---------|
-| `-algorithm` | Hash algorithm (md5/sha1/sha256)  | sha1    |
-| `-file`      | Path to the file to create digest |         |
-
-
-
-
-
+**-file**
+: Path to the file to create digest
 
 ---
 Title: util git clone
@@ -1318,8 +1066,6 @@ URL: https://toolbox.watermint.org/commands/util/git/clone.md
 
 Clone git repository 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -1327,22 +1073,19 @@ This document uses the Desktop folder for command example.
 tbx util git clone -local-path /LOCAL/PATH/TO/CLONE -url https://github.com/username/repository.git
 ```
 
-
 ## Options:
 
+**-local-path**
+: Local path to clone repository
 
+**-reference**
+: Reference name
 
-| Option         | Description                    | Default |
-|----------------|--------------------------------|---------|
-| `-local-path`  | Local path to clone repository |         |
-| `-reference`   | Reference name                 |         |
-| `-remote-name` | Name of the remote             | origin  |
-| `-url`         | Git repository URL             |         |
+**-remote-name**
+: Name of the remote. Default: origin
 
-
-
-
-
+**-url**
+: Git repository URL
 
 ---
 Title: util image exif
@@ -1353,8 +1096,6 @@ URL: https://toolbox.watermint.org/commands/util/image/exif.md
 
 Print EXIF metadata of image file 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -1362,21 +1103,12 @@ This document uses the Desktop folder for command example.
 tbx util image exif -file /LOCAL/PATH/TO/IMG.jpg
 ```
 
-
 ## Options:
 
-
-
-| Option  | Description       | Default |
-|---------|-------------------|---------|
-| `-file` | Path to data file |         |
-
-
-
+**-file**
+: Path to data file
 
 # Results
-
-
 
 ## Report: metadata
 
@@ -1390,11 +1122,7 @@ The command will generate a report in three different formats. `metadata.csv`, `
 | make               | The name of the manufacturer                                                                         |
 | model              | The model name or model number                                                                       |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `metadata_0000.xlsx`, `metadata_0001.xlsx`, `metadata_0002.xlsx`, ...
-
-
 
 ---
 Title: util image placeholder
@@ -1405,8 +1133,6 @@ URL: https://toolbox.watermint.org/commands/util/image/placeholder.md
 
 Create placeholder image 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -1414,28 +1140,37 @@ This document uses the Desktop folder for command example.
 tbx util image placeholder -path /LOCAL/PATH/TO/save.png
 ```
 
-
 ## Options:
 
+**-color**
+: Background color. Default: white
 
+**-font-path**
+: Path to TrueType font (required if you need to draw text)
 
-| Option           | Description                                               | Default |
-|------------------|-----------------------------------------------------------|---------|
-| `-color`         | Background color                                          | white   |
-| `-font-path`     | Path to TrueType font (required if you need to draw text) |         |
-| `-font-size`     | Font size                                                 | 12      |
-| `-height`        | Height (pixels)                                           | 400     |
-| `-path`          | Path to export generated image                            |         |
-| `-text`          | Text if you need                                          |         |
-| `-text-align`    | Text alignment                                            | left    |
-| `-text-color`    | Text color                                                | black   |
-| `-text-position` | Text position                                             | center  |
-| `-width`         | Width (pixels)                                            | 640     |
+**-font-size**
+: Font size. Default: 12
 
+**-height**
+: Height (pixels). Default: 400
 
+**-path**
+: Path to export generated image
 
+**-text**
+: Text if you need
 
+**-text-align**
+: Text alignment. Options:.   • left (textalign: left).   • center (textalign: center).   • right (textalign: right). Default: left
 
+**-text-color**
+: Text color. Default: black
+
+**-text-position**
+: Text position. Default: center
+
+**-width**
+: Width (pixels). Default: 640
 
 ---
 Title: util json query
@@ -1455,28 +1190,22 @@ This document uses the Desktop folder for command example.
 tbx util json query -path /LOCAL/PATH/TO/DATA.json -query QUERY
 ```
 
-
 ## Options:
 
+**-compact**
+: Compact output. Default: false
 
+**-path**
+: File path
 
-| Option     | Description    | Default |
-|------------|----------------|---------|
-| `-compact` | Compact output | false   |
-| `-path`    | File path      |         |
-| `-query`   | Query string   |         |
-
-
-
+**-query**
+: Query string
 
 # Text inputs
-
 
 ## Text input: Path
 
 The path to the JSON file
-
-
 
 ---
 Title: util net download
@@ -1487,8 +1216,6 @@ URL: https://toolbox.watermint.org/commands/util/net/download.md
 
 Download a file 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -1496,20 +1223,13 @@ This document uses the Desktop folder for command example.
 tbx util net download -out /LOCAL/PATH/TO/STORE -url URL_TO_DOWNLOAD
 ```
 
-
 ## Options:
 
+**-out**
+: Local path to store
 
-
-| Option | Description         | Default |
-|--------|---------------------|---------|
-| `-out` | Local path to store |         |
-| `-url` | URL to download     |         |
-
-
-
-
-
+**-url**
+: URL to download
 
 ---
 Title: util qrcode create
@@ -1520,8 +1240,6 @@ URL: https://toolbox.watermint.org/commands/util/qrcode/create.md
 
 Create a QR code image file 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -1529,30 +1247,28 @@ This document uses the Desktop folder for command example.
 tbx util qrcode create -out /LOCAL/PATH/TO/OUT.png -text /LOCAL/PATH/TO/INPUT.txt
 ```
 
-
 ## Options:
 
+**-error-correction-level**
+: Error correction level (l/m/q/h).. Options:.   • l (errorcorrectionlevel: l).   • m (errorcorrectionlevel: m).   • q (errorcorrectionlevel: q).   • h (errorcorrectionlevel: h). Default: m
 
+**-mode**
+: QR code encoding mode. Options:.   • auto (mode: auto).   • numeric (mode: numeric).   • alpha_numeric (mode: alpha_numeric).   • unicode (mode: unicode). Default: auto
 
-| Option                    | Description                       | Default |
-|---------------------------|-----------------------------------|---------|
-| `-error-correction-level` | Error correction level (l/m/q/h). | m       |
-| `-mode`                   | QR code encoding mode             | auto    |
-| `-out`                    | Output path with file name        |         |
-| `-size`                   | Image resolution (pixels)         | 256     |
-| `-text`                   | Text data                         |         |
+**-out**
+: Output path with file name
 
+**-size**
+: Image resolution (pixels). Default: 256
 
-
+**-text**
+: Text data
 
 # Text inputs
-
 
 ## Text input: Text
 
 Text
-
-
 
 ---
 Title: util qrcode wifi
@@ -1563,8 +1279,6 @@ URL: https://toolbox.watermint.org/commands/util/qrcode/wifi.md
 
 Generate QR code for WIFI configuration 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -1572,25 +1286,28 @@ This document uses the Desktop folder for command example.
 tbx util qrcode wifi -out /LOCAL/PATH/TO/OUT.png -ssid SSID
 ```
 
-
 ## Options:
 
+**-error-correction-level**
+: Error correction level (l/m/q/h).. Options:.   • l (errorcorrectionlevel: l).   • m (errorcorrectionlevel: m).   • q (errorcorrectionlevel: q).   • h (errorcorrectionlevel: h). Default: m
 
+**-hidden**
+: `true` if an SSID is hidden. `false` if an SSID is visible.. Options:.   •  (hidden: ).   • true (hidden: true).   • false (hidden: false)
 
-| Option                    | Description                                                 | Default |
-|---------------------------|-------------------------------------------------------------|---------|
-| `-error-correction-level` | Error correction level (l/m/q/h).                           | m       |
-| `-hidden`                 | `true` if an SSID is hidden. `false` if an SSID is visible. |         |
-| `-mode`                   | QR code encoding mode                                       | auto    |
-| `-network-type`           | Network type.                                               | WPA     |
-| `-out`                    | Output path with file name                                  |         |
-| `-size`                   | Image resolution (pixels)                                   | 256     |
-| `-ssid`                   | Network SSID                                                |         |
+**-mode**
+: QR code encoding mode. Options:.   • auto (mode: auto).   • numeric (mode: numeric).   • alpha_numeric (mode: alpha_numeric).   • unicode (mode: unicode). Default: auto
 
+**-network-type**
+: Network type.. Options:.   • WPA.   • WEP.   •  (networktype: ). Default: WPA
 
+**-out**
+: Output path with file name
 
+**-size**
+: Image resolution (pixels). Default: 256
 
-
+**-ssid**
+: Network SSID
 
 ---
 Title: util release install
@@ -1601,8 +1318,6 @@ URL: https://toolbox.watermint.org/commands/util/release/install.md
 
 Download & install watermint toolbox to the path 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -1610,22 +1325,19 @@ This document uses the Desktop folder for command example.
 tbx util release install -path /LOCAL/PATH/TO/INSTALL
 ```
 
-
 ## Options:
 
+**-accept-license-agreement**
+: Accept the target release's license agreement. Default: false
 
+**-path**
+: Path to install
 
-| Option                      | Description                                   | Default |
-|-----------------------------|-----------------------------------------------|---------|
-| `-accept-license-agreement` | Accept the target release's license agreement | false   |
-| `-path`                     | Path to install                               |         |
-| `-peer`                     | Account alias                                 | default |
-| `-release`                  | Release tag name                              | latest  |
+**-peer**
+: Account alias. Default: default
 
-
-
-
-
+**-release**
+: Release tag name. Default: latest
 
 ---
 Title: util table format xlsx
@@ -1636,8 +1348,6 @@ URL: https://toolbox.watermint.org/commands/util/table/format/xlsx.md
 
 Formatting xlsx file into text 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -1645,23 +1355,22 @@ This document uses the Desktop folder for command example.
 tbx util table format xlsx -sheet SHEET_NAME -dest /LOCAL/PATH/TO/out.txt -template /LOCAL/PATH/TO/template.txt -source /LOCAL/PATH/TO/source.xlsx
 ```
 
-
 ## Options:
 
+**-dest**
+: Destination file path
 
+**-position**
+: Start position of table. Default: A1
 
-| Option      | Description             | Default |
-|-------------|-------------------------|---------|
-| `-dest`     | Destination file path   |         |
-| `-position` | Start position of table | A1      |
-| `-sheet`    | Sheet name              |         |
-| `-source`   | Data source xlsx file   |         |
-| `-template` | Template file           |         |
+**-sheet**
+: Sheet name
 
+**-source**
+: Data source xlsx file
 
-
-
-
+**-template**
+: Template file
 
 ---
 Title: util text case down
@@ -1672,8 +1381,6 @@ URL: https://toolbox.watermint.org/commands/util/text/case/down.md
 
 Print lower case text 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -1681,26 +1388,16 @@ This document uses the Desktop folder for command example.
 tbx util text case down -text /LOCAL/PATH/TO/INPUT.txt
 ```
 
-
 ## Options:
 
-
-
-| Option  | Description | Default |
-|---------|-------------|---------|
-| `-text` | Text        |         |
-
-
-
+**-text**
+: Text
 
 # Text inputs
-
 
 ## Text input: Text
 
 Text to change case
-
-
 
 ---
 Title: util text case up
@@ -1711,8 +1408,6 @@ URL: https://toolbox.watermint.org/commands/util/text/case/up.md
 
 Print upper case text 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -1720,26 +1415,16 @@ This document uses the Desktop folder for command example.
 tbx util text case up -text /LOCAL/PATH/TO/INPUT.txt
 ```
 
-
 ## Options:
 
-
-
-| Option  | Description | Default |
-|---------|-------------|---------|
-| `-text` | Text        |         |
-
-
-
+**-text**
+: Text
 
 # Text inputs
-
 
 ## Text input: Text
 
 Text to change case
-
-
 
 ---
 Title: util text encoding from
@@ -1750,8 +1435,6 @@ URL: https://toolbox.watermint.org/commands/util/text/encoding/from.md
 
 Convert text encoding to UTF-8 text file from specified encoding. 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -1759,28 +1442,22 @@ This document uses the Desktop folder for command example.
 tbx util text encoding from -in /LOCAL/PATH/TO/INPUT_FILE -out /LOCAL/PATH/TO/OUTPUT_FILE -encoding ENCODING
 ```
 
-
 ## Options:
 
+**-encoding**
+: Encoding name
 
+**-in**
+: Input file path
 
-| Option      | Description      | Default |
-|-------------|------------------|---------|
-| `-encoding` | Encoding name    |         |
-| `-in`       | Input file path  |         |
-| `-out`      | Output file path |         |
-
-
-
+**-out**
+: Output file path
 
 # Text inputs
-
 
 ## Text input: In
 
 Text to change encoding
-
-
 
 ---
 Title: util text encoding to
@@ -1791,8 +1468,6 @@ URL: https://toolbox.watermint.org/commands/util/text/encoding/to.md
 
 Convert text encoding to specified encoding from UTF-8 text file. 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -1800,28 +1475,22 @@ This document uses the Desktop folder for command example.
 tbx util text encoding to -in /LOCAL/PATH/TO/INPUT_FILE -out /LOCAL/PATH/TO/OUTPUT_FILE -encoding ENCODING
 ```
 
-
 ## Options:
 
+**-encoding**
+: Encoding name
 
+**-in**
+: Input file path
 
-| Option      | Description      | Default |
-|-------------|------------------|---------|
-| `-encoding` | Encoding name    |         |
-| `-in`       | Input file path  |         |
-| `-out`      | Output file path |         |
-
-
-
+**-out**
+: Output file path
 
 # Text inputs
-
 
 ## Text input: In
 
 Text to change encoding
-
-
 
 ---
 Title: util text nlp english entity
@@ -1832,8 +1501,6 @@ URL: https://toolbox.watermint.org/commands/util/text/nlp/english/entity.md
 
 Split English text into entities 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -1841,27 +1508,19 @@ This document uses the Desktop folder for command example.
 tbx util text nlp english entity -in /LOCAL/PATH/TO/INPUT.txt
 ```
 
-
 ## Options:
 
+**-ignore-line-break**
+: Consider line break as regular white space while tokenizing. Default: false
 
-
-| Option               | Description                                                 | Default |
-|----------------------|-------------------------------------------------------------|---------|
-| `-ignore-line-break` | Consider line break as regular white space while tokenizing | false   |
-| `-in`                | Input file path                                             |         |
-
-
-
+**-in**
+: Input file path
 
 # Text inputs
-
 
 ## Text input: In
 
 English text file to split
-
-
 
 ---
 Title: util text nlp english sentence
@@ -1872,8 +1531,6 @@ URL: https://toolbox.watermint.org/commands/util/text/nlp/english/sentence.md
 
 Split English text into sentences 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -1881,27 +1538,19 @@ This document uses the Desktop folder for command example.
 tbx util text nlp english sentence -in /LOCAL/PATH/TO/INPUT.txt
 ```
 
-
 ## Options:
 
+**-ignore-line-break**
+: Consider line break as regular white space while tokenizing. Default: false
 
-
-| Option               | Description                                                 | Default |
-|----------------------|-------------------------------------------------------------|---------|
-| `-ignore-line-break` | Consider line break as regular white space while tokenizing | false   |
-| `-in`                | Input file path                                             |         |
-
-
-
+**-in**
+: Input file path
 
 # Text inputs
-
 
 ## Text input: In
 
 English text file to split
-
-
 
 ---
 Title: util text nlp english token
@@ -1912,8 +1561,6 @@ URL: https://toolbox.watermint.org/commands/util/text/nlp/english/token.md
 
 Split English text into tokens 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -1921,27 +1568,19 @@ This document uses the Desktop folder for command example.
 tbx util text nlp english token -in /LOCAL/PATH/TO/INPUT.txt
 ```
 
-
 ## Options:
 
+**-ignore-line-break**
+: Consider line break as regular white space while tokenizing. Default: false
 
-
-| Option               | Description                                                 | Default |
-|----------------------|-------------------------------------------------------------|---------|
-| `-ignore-line-break` | Consider line break as regular white space while tokenizing | false   |
-| `-in`                | Input file path                                             |         |
-
-
-
+**-in**
+: Input file path
 
 # Text inputs
-
 
 ## Text input: In
 
 English text file to split
-
-
 
 ---
 Title: util text nlp japanese token
@@ -1952,8 +1591,6 @@ URL: https://toolbox.watermint.org/commands/util/text/nlp/japanese/token.md
 
 Tokenize Japanese text 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -1961,30 +1598,28 @@ This document uses the Desktop folder for command example.
 tbx util text nlp japanese token -in /LOCAL/PATH/TO/INPUT.txt
 ```
 
-
 ## Options:
 
+**-dictionary**
+: Dictionary name of the token. Options: ipa (dictionary: ipa), uni (dictionary: uni). Default: ipa
 
+**-ignore-line-break**
+: Ignore line break. Default: false
 
-| Option               | Description                            | Default |
-|----------------------|----------------------------------------|---------|
-| `-dictionary`        | Dictionary name of the token           | ipa     |
-| `-ignore-line-break` | Ignore line break                      | false   |
-| `-in`                | Input file path                        |         |
-| `-mode`              | Tokenize mode (normal/search/extended) | normal  |
-| `-omit-bos-eos`      | Omit BOS/EOS tokens                    | false   |
+**-in**
+: Input file path
 
+**-mode**
+: Tokenize mode (normal/search/extended). Options:.   • normal (mode: normal).   • search (mode: search).   • extend (mode: extend). Default: normal
 
-
+**-omit-bos-eos**
+: Omit BOS/EOS tokens. Default: false
 
 # Text inputs
-
 
 ## Text input: In
 
 Input file path
-
-
 
 ---
 Title: util text nlp japanese wakati
@@ -1995,8 +1630,6 @@ URL: https://toolbox.watermint.org/commands/util/text/nlp/japanese/wakati.md
 
 Wakachigaki (tokenize Japanese text) 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -2004,29 +1637,25 @@ This document uses the Desktop folder for command example.
 tbx util text nlp japanese wakati -in /LOCAL/PATH/TO/INPUT.txt
 ```
 
-
 ## Options:
 
+**-dictionary**
+: Dictionary name (ipa/uni). Options: ipa (dictionary: ipa), uni (dictionary: uni). Default: ipa
 
+**-ignore-line-break**
+: Ignore line break. Default: false
 
-| Option               | Description               | Default |
-|----------------------|---------------------------|---------|
-| `-dictionary`        | Dictionary name (ipa/uni) | ipa     |
-| `-ignore-line-break` | Ignore line break         | false   |
-| `-in`                | Input file path           |         |
-| `-separator`         | Text separator            |         |
+**-in**
+: Input file path
 
-
-
+**-separator**
+: Text separator. Default:  
 
 # Text inputs
-
 
 ## Text input: In
 
 Input text file path
-
-
 
 ---
 Title: util tidy move dispatch
@@ -2037,8 +1666,6 @@ URL: https://toolbox.watermint.org/commands/util/tidy/move/dispatch.md
 
 Dispatch files (Irreversible operation)
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -2046,24 +1673,17 @@ This document uses the Desktop folder for command example.
 tbx util tidy move dispatch -file /PATH/TO/DATA_FILE.csv
 ```
 
-
 ## Options:
 
+**-file**
+: Path to data file
 
-
-| Option     | Description       | Default |
-|------------|-------------------|---------|
-| `-file`    | Path to data file |         |
-| `-preview` | Preview mode      | false   |
-
-
-
+**-preview**
+: Preview mode. Default: false
 
 # File formats
 
-
 ## Format: File
-
 
 Data file for dispatch rules.
 
@@ -2075,15 +1695,11 @@ Data file for dispatch rules.
 | dest_path_pattern   | Destination path pattern                      | <no value>/Document/<no value>-<no value> |
 | dest_file_pattern   | Destination file name pattern                 | TBX_<no value>-<no value>-<no value>      |
 
-
-
 The first line is a header line. The program will accept a file without the header.
 ```
 suffix,source_path,source_file_pattern,dest_path_pattern,dest_file_pattern
 .pdf,<no value>/Downloads,toolbox-([0-9]{4})-([0-9]{2})-([0-9]{2}),<no value>/Document/<no value>-<no value>,TBX_<no value>-<no value>-<no value>
 ```
-
-
 
 ---
 Title: util tidy move simple
@@ -2094,8 +1710,6 @@ URL: https://toolbox.watermint.org/commands/util/tidy/move/simple.md
 
 Archive local files 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -2103,23 +1717,22 @@ This document uses the Desktop folder for command example.
 tbx util tidy move simple -dst /LOCAL/DEST -src /LOCAL/SRC
 ```
 
-
 ## Options:
 
+**-dst**
+: The destination folder path. The command will create folders if they do not exist on the path.
 
+**-exclude-folders**
+: Exclude folders. Default: false
 
-| Option                  | Description                                                                                    | Default |
-|-------------------------|------------------------------------------------------------------------------------------------|---------|
-| `-dst`                  | The destination folder path. The command will create folders if they do not exist on the path. |         |
-| `-exclude-folders`      | Exclude folders                                                                                | false   |
-| `-include-system-files` | Include system files                                                                           | false   |
-| `-preview`              | Preview mode                                                                                   | false   |
-| `-src`                  | The source folder path.                                                                        |         |
+**-include-system-files**
+: Include system files. Default: false
 
+**-preview**
+: Preview mode. Default: false
 
-
-
-
+**-src**
+: The source folder path.
 
 ---
 Title: util tidy pack remote
@@ -2130,8 +1743,6 @@ URL: https://toolbox.watermint.org/commands/util/tidy/pack/remote.md
 
 Package remote folder into the zip file 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -2139,23 +1750,18 @@ This document uses the Desktop folder for command example.
 tbx util tidy pack remote -dropbox-path /DROPBOX/PATH/TO/DOWNLOAD -local-path /LOCAL/PATH/TO/STORE.zip
 ```
 
-
 ## Options:
 
+**-dropbox-path**
+: Dropbox path to download
 
+**-local-path**
+: Local path to store zip file
 
-| Option          | Description                  | Default |
-|-----------------|------------------------------|---------|
-| `-dropbox-path` | Dropbox path to download     |         |
-| `-local-path`   | Local path to store zip file |         |
-| `-peer`         | Account alias                | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: operation_log
 
@@ -2174,11 +1780,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | result.path                       | Path                                                                                                                 |
 | result.name                       | File name                                                                                                            |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
-
-
 
 ---
 Title: util time now
@@ -2189,8 +1791,6 @@ URL: https://toolbox.watermint.org/commands/util/time/now.md
 
 Display current time 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -2198,19 +1798,10 @@ This document uses the Desktop folder for command example.
 tbx util time now 
 ```
 
-
 ## Options:
 
-
-
-| Option | Description | Default |
-|--------|-------------|---------|
-| `-utc` | Use UTC     | false   |
-
-
-
-
-
+**-utc**
+: Use UTC. Default: false
 
 ---
 Title: util unixtime format
@@ -2221,8 +1812,6 @@ URL: https://toolbox.watermint.org/commands/util/unixtime/format.md
 
 Time format to convert the unix time (epoch seconds from 1970-01-01) 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -2230,21 +1819,16 @@ This document uses the Desktop folder for command example.
 tbx util unixtime format 
 ```
 
-
 ## Options:
 
+**-format**
+: Time format. Options:.   • iso8601 (Format: iso8601).   • rfc1123 (Format: rfc1123).   • rfc1123z (Format: rfc1123z).   • rfc3339 (Format: rfc3339).   • rfc3339_nano (Format: rfc3339_nano).   • rfc822 (Format: rfc822).   • rfc822z (Format: rfc822z). Default: iso8601
 
+**-precision**
+: Time precision (second/ms/ns). Options:.   • second (precision: second).   • ms (precision: ms).   • ns (precision: ns). Default: second
 
-| Option       | Description                   | Default |
-|--------------|-------------------------------|---------|
-| `-format`    | Time format                   | iso8601 |
-| `-precision` | Time precision (second/ms/ns) | second  |
-| `-time`      | Unix Time                     | 0       |
-
-
-
-
-
+**-time**
+: Unix Time. Default: 0
 
 ---
 Title: util unixtime now
@@ -2255,8 +1839,6 @@ URL: https://toolbox.watermint.org/commands/util/unixtime/now.md
 
 Display current time in unixtime 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -2264,19 +1846,10 @@ This document uses the Desktop folder for command example.
 tbx util unixtime now 
 ```
 
-
 ## Options:
 
-
-
-| Option       | Description                   | Default |
-|--------------|-------------------------------|---------|
-| `-precision` | Time precision (second/ms/ns) | second  |
-
-
-
-
-
+**-precision**
+: Time precision (second/ms/ns). Options:.   • second (precision: second).   • ms (precision: ms).   • ns (precision: ns). Default: second
 
 ---
 Title: util uuid timestamp
@@ -2287,8 +1860,6 @@ URL: https://toolbox.watermint.org/commands/util/uuid/timestamp.md
 
 UUID Timestamp 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -2296,19 +1867,10 @@ This document uses the Desktop folder for command example.
 tbx util uuid timestamp -uuid UUID
 ```
 
-
 ## Options:
 
-
-
-| Option  | Description | Default |
-|---------|-------------|---------|
-| `-uuid` | UUID        |         |
-
-
-
-
-
+**-uuid**
+: UUID
 
 ---
 Title: util uuid ulid
@@ -2319,17 +1881,12 @@ URL: https://toolbox.watermint.org/commands/util/uuid/ulid.md
 
 ULID Utility 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
 ```
 tbx util uuid ulid 
 ```
-
-
-
 
 ---
 Title: util uuid v4
@@ -2340,8 +1897,6 @@ URL: https://toolbox.watermint.org/commands/util/uuid/v4.md
 
 Generate UUID v4 (random UUID) 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -2349,19 +1904,10 @@ This document uses the Desktop folder for command example.
 tbx util uuid v4 
 ```
 
-
 ## Options:
 
-
-
-| Option        | Description               | Default |
-|---------------|---------------------------|---------|
-| `-upper-case` | Output UUID in upper case | false   |
-
-
-
-
-
+**-upper-case**
+: Output UUID in upper case. Default: false
 
 ---
 Title: util uuid v7
@@ -2372,8 +1918,6 @@ URL: https://toolbox.watermint.org/commands/util/uuid/v7.md
 
 Generate UUID v7 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -2381,19 +1925,10 @@ This document uses the Desktop folder for command example.
 tbx util uuid v7 
 ```
 
-
 ## Options:
 
-
-
-| Option        | Description | Default |
-|---------------|-------------|---------|
-| `-upper-case` | Upper case  | false   |
-
-
-
-
-
+**-upper-case**
+: Upper case. Default: false
 
 ---
 Title: util uuid version
@@ -2404,8 +1939,6 @@ URL: https://toolbox.watermint.org/commands/util/uuid/version.md
 
 Parse version and variant of UUID 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -2413,21 +1946,12 @@ This document uses the Desktop folder for command example.
 tbx util uuid version -uuid UUID
 ```
 
-
 ## Options:
 
-
-
-| Option  | Description | Default |
-|---------|-------------|---------|
-| `-uuid` | UUID        |         |
-
-
-
+**-uuid**
+: UUID
 
 # Results
-
-
 
 ## Report: metadata
 
@@ -2440,11 +1964,7 @@ The command will generate a report in three different formats. `metadata.csv`, `
 | version | UUID version |
 | variant | UUID variant |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `metadata_0000.xlsx`, `metadata_0001.xlsx`, `metadata_0002.xlsx`, ...
-
-
 
 ---
 Title: util xlsx create
@@ -2455,8 +1975,6 @@ URL: https://toolbox.watermint.org/commands/util/xlsx/create.md
 
 Create an empty spreadsheet 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -2464,20 +1982,13 @@ This document uses the Desktop folder for command example.
 tbx util xlsx create -file /LOCAL/PATH/TO/CREATE.xlsx -sheet SHEET_NAME
 ```
 
-
 ## Options:
 
+**-file**
+: Path to data file
 
-
-| Option   | Description       | Default |
-|----------|-------------------|---------|
-| `-file`  | Path to data file |         |
-| `-sheet` | Sheet name        |         |
-
-
-
-
-
+**-sheet**
+: Sheet name
 
 ---
 Title: util xlsx sheet export
@@ -2488,8 +1999,6 @@ URL: https://toolbox.watermint.org/commands/util/xlsx/sheet/export.md
 
 Export data from the xlsx file 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -2497,30 +2006,25 @@ This document uses the Desktop folder for command example.
 tbx util xlsx sheet export -file /LOCAL/PATH/TO/EXPORT.xlsx -sheet SHEET_NAME
 ```
 
-
 ## Options:
 
+**-data**
+: Export data path
 
+**-data-format**
+: Output format
 
-| Option         | Description       | Default |
-|----------------|-------------------|---------|
-| `-data`        | Export data path  |         |
-| `-data-format` | Output format     |         |
-| `-file`        | Path to data file |         |
-| `-sheet`       | Sheet name        |         |
+**-file**
+: Path to data file
 
-
-
+**-sheet**
+: Sheet name
 
 # Grid data output of the command
 
-
 ## Grid data output: Data
 
-
 Export data
-
-
 
 ---
 Title: util xlsx sheet import
@@ -2531,8 +2035,6 @@ URL: https://toolbox.watermint.org/commands/util/xlsx/sheet/import.md
 
 Import data into xlsx file 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -2540,31 +2042,28 @@ This document uses the Desktop folder for command example.
 tbx util xlsx sheet import -data /LOCAL/PATH/TO/INPUT.csv -file /LOCAL/PATH/TO/TARGET.xlsx -sheet SHEET_NAME
 ```
 
-
 ## Options:
 
+**-create**
+: Create a file if not found. Default: false
 
+**-data**
+: Data path
 
-| Option      | Description                                             | Default |
-|-------------|---------------------------------------------------------|---------|
-| `-create`   | Create a file if not found                              | false   |
-| `-data`     | Data path                                               |         |
-| `-file`     | Path to data file                                       |         |
-| `-position` | Start position to import in A1 notation. Default: `A1`. | A1      |
-| `-sheet`    | Sheet name                                              |         |
+**-file**
+: Path to data file
 
+**-position**
+: Start position to import in A1 notation. Default: `A1`.. Default: A1
 
-
+**-sheet**
+: Sheet name
 
 # Grid data input for the command
 
-
 ## Grid data input: Data
 
-
 Input data file
-
-
 
 ---
 Title: util xlsx sheet list
@@ -2575,8 +2074,6 @@ URL: https://toolbox.watermint.org/commands/util/xlsx/sheet/list.md
 
 List sheets of the xlsx file 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -2584,21 +2081,12 @@ This document uses the Desktop folder for command example.
 tbx util xlsx sheet list -file /LOCAL/PATH/TO/process.xlsx
 ```
 
-
 ## Options:
 
-
-
-| Option  | Description       | Default |
-|---------|-------------------|---------|
-| `-file` | Path to data file |         |
-
-
-
+**-file**
+: Path to data file
 
 # Results
-
-
 
 ## Report: sheets
 
@@ -2612,11 +2100,7 @@ The command will generate a report in three different formats. `sheets.csv`, `sh
 | cols   | Number of columns                     |
 | hidden | True if the sheet is marked as hidden |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `sheets_0000.xlsx`, `sheets_0001.xlsx`, `sheets_0002.xlsx`, ...
-
-
 
 ---
 Title: deepl translate text
@@ -2627,8 +2111,6 @@ URL: https://toolbox.watermint.org/commands/deepl/translate/text.md
 
 Translate text 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -2636,22 +2118,19 @@ This document uses the Desktop folder for command example.
 tbx deepl translate text -target-lang TARGET_LANG -text TEXT_TO_TRANSLATE
 ```
 
-
 ## Options:
 
+**-peer**
+: Account alias. Default: default
 
+**-source-lang**
+: Source language code (auto detect when omitted)
 
-| Option         | Description                                     | Default |
-|----------------|-------------------------------------------------|---------|
-| `-peer`        | Account alias                                   | default |
-| `-source-lang` | Source language code (auto detect when omitted) |         |
-| `-target-lang` | Target language code                            |         |
-| `-text`        | Text to translate                               |         |
+**-target-lang**
+: Target language code
 
-
-
-
-
+**-text**
+: Text to translate
 
 ---
 Title: dropbox file copy
@@ -2662,7 +2141,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/copy.md
 
 Copy files 
 
-
+Copies files or folders from one location to another within the same Dropbox account.
 
 # Usage
 
@@ -2671,22 +2150,19 @@ This document uses the Desktop folder for command example.
 tbx dropbox file copy -src /SRC/PATH -dst /DST/PATH
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-dst**
+: Destination path
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-dst`       | Destination path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |         |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-| `-src`       | Source path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |         |
+**-peer**
+: Account alias. Default: default
 
-
-
-
-
+**-src**
+: Source path
 
 ---
 Title: dropbox file delete
@@ -2697,7 +2173,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/delete.md
 
 Delete file or folder (Irreversible operation)
 
-
+Permanently deletes files or folders from Dropbox (irreversible operation).
 
 # Usage
 
@@ -2706,21 +2182,16 @@ This document uses the Desktop folder for command example.
 tbx dropbox file delete -path /PATH/TO/DELETE
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-path**
+: Path to delete
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-path`      | Path to delete                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |         |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-
-
-
-
-
+**-peer**
+: Account alias. Default: default
 
 ---
 Title: dropbox file info
@@ -2731,7 +2202,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/info.md
 
 Resolve metadata of the path 
 
-
+Retrieves and displays metadata information for a specific file or folder path.
 
 # Usage
 
@@ -2740,23 +2211,18 @@ This document uses the Desktop folder for command example.
 tbx dropbox file info -path /DROPBOX/PATH/TO/FILE
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-path**
+: Path
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-path`      | Path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |         |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: metadata
 
@@ -2777,11 +2243,7 @@ The command will generate a report in three different formats. `metadata.csv`, `
 | shared_folder_id            | If this folder is a shared folder mount point, the ID of the shared folder mounted at this location.                 |
 | parent_shared_folder_id     | ID of shared folder that holds this file.                                                                            |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `metadata_0000.xlsx`, `metadata_0001.xlsx`, `metadata_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox file list
@@ -2792,7 +2254,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/list.md
 
 List files and folders 
 
-
+Lists files and folders at a given path with options for recursive listing and filtering.
 
 # Usage
 
@@ -2801,27 +2263,30 @@ This document uses the Desktop folder for command example.
 tbx dropbox file list -path /path
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-include-deleted**
+: Include deleted files. Default: false
 
-| Option                             | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`                       | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-include-deleted`                 | Include deleted files                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | false   |
-| `-include-explicit-shared-members` | If true, the results will include a flag for each file indicating whether or not that file has any explicit members.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | false   |
-| `-include-mounted-folders`         | If true, the results will include entries under mounted folders which include app folder, shared folder and team folder.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | false   |
-| `-path`                            | Path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |         |
-| `-peer`                            | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-| `-recursive`                       | List recursively                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        | false   |
+**-include-explicit-shared-members**
+: If true, the results will include a flag for each file indicating whether or not that file has any explicit members.. Default: false
 
+**-include-mounted-folders**
+: If true, the results will include entries under mounted folders which include app folder, shared folder and team folder.. Default: false
 
+**-path**
+: Path
 
+**-peer**
+: Account alias. Default: default
+
+**-recursive**
+: List recursively. Default: false
 
 # Results
-
-
 
 ## Report: file_list
 
@@ -2838,11 +2303,7 @@ The command will generate a report in three different formats. `file_list.csv`, 
 | size                        | The file size in bytes.                                                                                              |
 | has_explicit_shared_members | If true, the results will include a flag for each file indicating whether or not that file has any explicit members. |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `file_list_0000.xlsx`, `file_list_0001.xlsx`, `file_list_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox file merge
@@ -2853,7 +2314,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/merge.md
 
 Merge paths (Irreversible operation)
 
-
+Merges contents from one folder into another, with options for dry-run and empty folder handling.
 
 # Usage
 
@@ -2865,22 +2326,26 @@ Please add `-dry-run=false` option after verifying integrity of expected result.
 
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-dry-run**
+: Dry run. Default: true
 
-| Option                   | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|--------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`             | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-dry-run`               | Dry run                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | true    |
-| `-from`                  | Source path for merge                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |         |
-| `-keep-empty-folder`     | Keep empty folders after merge                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | false   |
-| `-peer`                  | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-| `-to`                    | Destination path for merge                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |         |
-| `-within-same-namespace` | Do not cross namespace. This is to preserve sharing permissions including shared links                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | false   |
+**-from**
+: Source path for merge
 
+**-keep-empty-folder**
+: Keep empty folders after merge. Default: false
 
+**-peer**
+: Account alias. Default: default
 
+**-to**
+: Destination path for merge
 
-
+**-within-same-namespace**
+: Do not cross namespace. This is to preserve sharing permissions including shared links. Default: false
 
 ---
 Title: dropbox file move
@@ -2891,7 +2356,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/move.md
 
 Move files (Irreversible operation)
 
-
+Moves files or folders from one location to another within Dropbox (irreversible operation).
 
 # Usage
 
@@ -2900,22 +2365,19 @@ This document uses the Desktop folder for command example.
 tbx dropbox file move -src /SRC/PATH -dst /DST/PATH
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-dst**
+: Destination path
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-dst`       | Destination path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |         |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-| `-src`       | Source path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |         |
+**-peer**
+: Account alias. Default: default
 
-
-
-
-
+**-src**
+: Source path
 
 ---
 Title: dropbox file replication
@@ -2926,7 +2388,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/replication.md
 
 Replicate file content to the other account (Irreversible operation)
 
-This command will replicate files/folders. But it does not include sharing permissions. The command replicates only folder contents of given path.
+Replicates files and folders from one Dropbox account to another, mirroring the source structure.
 
 # Usage
 
@@ -2935,25 +2397,24 @@ This document uses the Desktop folder for command example.
 tbx dropbox file replication -src source -src-path /path/src -dst dest -dst-path /path/dest
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-dst**
+: Account alias (destination). Default: dst
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-dst`       | Account alias (destination)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | dst     |
-| `-dst-path`  | Destination path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |         |
-| `-src`       | Account alias (source)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | src     |
-| `-src-path`  | Source path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |         |
+**-dst-path**
+: Destination path
 
+**-src**
+: Account alias (source). Default: src
 
-
+**-src-path**
+: Source path
 
 # Results
-
-
 
 ## Report: replication_diff
 
@@ -2972,11 +2433,7 @@ The command will generate a report in three different formats. `replication_diff
 | right_size | size of right file                                                                                                                                                                     |
 | right_hash | Content hash of right file                                                                                                                                                             |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `replication_diff_0000.xlsx`, `replication_diff_0001.xlsx`, `replication_diff_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox file size
@@ -2987,7 +2444,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/size.md
 
 Storage usage 
 
-
+Calculates and reports the size of folders and their contents at specified depth levels.
 
 # Usage
 
@@ -2996,24 +2453,21 @@ This document uses the Desktop folder for command example.
 tbx dropbox file size -path /
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-depth**
+: Report entries for files and folders up to the specified depth. Default: 2
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-depth`     | Report entries for files and folders up to the specified depth                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | 2       |
-| `-path`      | Path to scan                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |         |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
+**-path**
+: Path to scan
 
-
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: size
 
@@ -3031,11 +2485,7 @@ The command will generate a report in three different formats. `size.csv`, `size
 | mod_time_latest        | The latest modification time of a file in this folder or child folders.   |
 | operational_complexity | Operational complexity factor                                             |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `size_0000.xlsx`, `size_0001.xlsx`, `size_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox file watch
@@ -3046,7 +2496,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/watch.md
 
 Watch file activities 
 
-
+Monitors a path for changes and outputs file/folder modifications in real-time.
 
 # Usage
 
@@ -3055,22 +2505,19 @@ This document uses the Desktop folder for command example.
 tbx dropbox file watch -path /DROPBOX/PATH/TO/WATCH
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-path**
+: Path to watch
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-path`      | Path to watch                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |         |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-| `-recursive` | Watch path recursively                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | false   |
+**-peer**
+: Account alias. Default: default
 
-
-
-
-
+**-recursive**
+: Watch path recursively. Default: false
 
 ---
 Title: dropbox file account feature
@@ -3081,7 +2528,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/account/feature.md
 
 List Dropbox account features 
 
-
+Retrieves and displays the enabled features and capabilities for the connected Dropbox account.
 
 # Usage
 
@@ -3090,21 +2537,12 @@ This document uses the Desktop folder for command example.
 tbx dropbox file account feature 
 ```
 
-
 ## Options:
 
-
-
-| Option  | Description   | Default |
-|---------|---------------|---------|
-| `-peer` | Account alias | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: report
 
@@ -3118,11 +2556,7 @@ The command will generate a report in three different formats. `report.csv`, `re
 | team_shared_dropbox  | This feature contains information about whether or not the user is part of a team with a shared team root.                                        |
 | distinct_member_home | This feature contains information about whether or not the user's home namespace is distinct from their root namespace.                           |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `report_0000.xlsx`, `report_0001.xlsx`, `report_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox file account filesystem
@@ -3133,7 +2567,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/account/filesystem.md
 
 Show Dropbox file system version 
 
-
+Shows the file system version/type being used by the account (individual or team file system).
 
 # Usage
 
@@ -3142,21 +2576,12 @@ This document uses the Desktop folder for command example.
 tbx dropbox file account filesystem 
 ```
 
-
 ## Options:
 
-
-
-| Option  | Description   | Default |
-|---------|---------------|---------|
-| `-peer` | Account alias | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: file_system
 
@@ -3172,11 +2597,7 @@ The command will generate a report in three different formats. `file_system.csv`
 | is_team_folder_api_supported                | True if team folder API is supported                            |
 | is_path_root_required_to_access_team_folder | True if Dropbox-API-Path-Root is required to access team folder |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `file_system_0000.xlsx`, `file_system_0001.xlsx`, `file_system_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox file account info
@@ -3187,7 +2608,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/account/info.md
 
 Dropbox account info 
 
-
+Displays profile information for the connected Dropbox account including name and email.
 
 # Usage
 
@@ -3196,21 +2617,12 @@ This document uses the Desktop folder for command example.
 tbx dropbox file account info 
 ```
 
-
 ## Options:
 
-
-
-| Option  | Description   | Default |
-|---------|---------------|---------|
-| `-peer` | Account alias | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: profile
 
@@ -3225,11 +2637,7 @@ The command will generate a report in three different formats. `profile.csv`, `p
 | surname        | Also known as a last name or family name.                                           |
 | display_name   | A name that can be used directly to represent the name of a user's Dropbox account. |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `profile_0000.xlsx`, `profile_0001.xlsx`, `profile_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox file compare account
@@ -3240,7 +2648,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/compare/account.md
 
 Compare files of two accounts 
 
-
+Compares files and folders between two different Dropbox accounts to identify differences.
 
 # Usage
 
@@ -3252,22 +2660,22 @@ If you want to compare different paths in same account, please specify same alia
 
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-left**
+: Account alias (left). Default: left
 
-| Option        | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|---------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`  | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-left`       | Account alias (left)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | left    |
-| `-left-path`  | The path from account root (left)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |         |
-| `-right`      | Account alias (right)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | right   |
-| `-right-path` | The path from account root (right)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |         |
+**-left-path**
+: The path from account root (left)
 
+**-right**
+: Account alias (right). Default: right
 
-
+**-right-path**
+: The path from account root (right)
 
 # Results
-
-
 
 ## Report: diff
 
@@ -3286,11 +2694,7 @@ The command will generate a report in three different formats. `diff.csv`, `diff
 | right_size | size of right file                                                                                                                                                                     |
 | right_hash | Content hash of right file                                                                                                                                                             |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `diff_0000.xlsx`, `diff_0001.xlsx`, `diff_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox file compare local
@@ -3301,7 +2705,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/compare/local.md
 
 Compare local folders and Dropbox folders 
 
-
+Compares local files and folders with their Dropbox counterparts to identify differences.
 
 # Usage
 
@@ -3310,24 +2714,21 @@ This document uses the Desktop folder for command example.
 tbx dropbox file compare local -local-path /path/to/local -dropbox-path /path/on/dropbox
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-dropbox-path**
+: Dropbox path
 
-| Option          | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|-----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`    | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-dropbox-path` | Dropbox path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |         |
-| `-local-path`   | Local path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |         |
-| `-peer`         | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
+**-local-path**
+: Local path
 
-
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: diff
 
@@ -3346,10 +2747,7 @@ The command will generate a report in three different formats. `diff.csv`, `diff
 | right_size | size of right file                                                                                                                                                                     |
 | right_hash | Content hash of right file                                                                                                                                                             |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `diff_0000.xlsx`, `diff_0001.xlsx`, `diff_0002.xlsx`, ...
-
 
 ## Report: skip
 
@@ -3368,11 +2766,7 @@ The command will generate a report in three different formats. `skip.csv`, `skip
 | right_size | size of right file                                                                                                                                                                     |
 | right_hash | Content hash of right file                                                                                                                                                             |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `skip_0000.xlsx`, `skip_0001.xlsx`, `skip_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox file export doc
@@ -3383,7 +2777,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/export/doc.md
 
 Export document (Experimental)
 
-
+Exports Dropbox Paper documents and Google Docs to local files in specified formats.
 
 # Usage
 
@@ -3392,25 +2786,24 @@ This document uses the Desktop folder for command example.
 tbx dropbox file export doc -dropbox-path /DROPBOX/PATH/TO/FILE -local-path /LOCAL/PATH/TO/EXPORT
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-dropbox-path**
+: Dropbox document path to export.
 
-| Option          | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|-----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`    | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-dropbox-path` | Dropbox document path to export.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |         |
-| `-format`       | Export format                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |         |
-| `-local-path`   | Local path to save                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |         |
-| `-peer`         | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
+**-format**
+: Export format
 
+**-local-path**
+: Local path to save
 
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: operation_log
 
@@ -3427,11 +2820,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | export_name     | File name for export file.                                                                             |
 | export_size     | File size of export file.                                                                              |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox file export url
@@ -3442,7 +2831,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/export/url.md
 
 Export a document from the URL 
 
-
+Exports a file from Dropbox by downloading it from a shared link URL.
 
 # Usage
 
@@ -3451,26 +2840,27 @@ This document uses the Desktop folder for command example.
 tbx dropbox file export url -local-path /LOCAL/PATH/TO/EXPORT -url DOCUMENT_URL
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-format**
+: Export format
 
-| Option        | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|---------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`  | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-format`     | Export format                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |         |
-| `-local-path` | Local path to export                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |         |
-| `-password`   | Password for the shared link                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |         |
-| `-peer`       | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-| `-url`        | URL of the document                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |         |
+**-local-path**
+: Local path to export
 
+**-password**
+: Password for the shared link
 
+**-peer**
+: Account alias. Default: default
 
+**-url**
+: URL of the document
 
 # Results
-
-
 
 ## Report: operation_log
 
@@ -3487,11 +2877,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | export_name     | File name for export file.                                                                             |
 | export_size     | File size of export file.                                                                              |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox file import url
@@ -3502,7 +2888,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/import/url.md
 
 Import file from the URL (Irreversible operation)
 
-
+Imports a single file into Dropbox by downloading from a specified URL.
 
 # Usage
 
@@ -3511,24 +2897,21 @@ This document uses the Desktop folder for command example.
 tbx dropbox file import url -url URL -path /path/to/import
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-path**
+: Path to import
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-path`      | Path to import                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |         |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-| `-url`       | URL                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |         |
+**-peer**
+: Account alias. Default: default
 
-
-
+**-url**
+: URL
 
 # Results
-
-
 
 ## Report: operation_log
 
@@ -3546,11 +2929,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | size                        | The file size in bytes.                                                                                              |
 | has_explicit_shared_members | If true, the results will include a flag for each file indicating whether or not that file has any explicit members. |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox file import batch url
@@ -3561,7 +2940,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/import/batch/url.md
 
 Batch import files from URL (Irreversible operation)
 
-
+Imports multiple files into Dropbox by downloading from a list of URLs.
 
 # Usage
 
@@ -3570,26 +2949,23 @@ This document uses the Desktop folder for command example.
 tbx dropbox file import batch url -file /path/to/data/file -path /path/to/import
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-file**
+: Data file
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-file`      | Data file                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |         |
-| `-path`      | Path to import                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |         |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
+**-path**
+: Path to import
 
-
-
+**-peer**
+: Account alias. Default: default
 
 # File formats
 
-
 ## Format: File
-
 
 Data file for batch importing files from URLs.
 
@@ -3598,8 +2974,6 @@ Data file for batch importing files from URLs.
 | url    | URL to download                                                         | http://example.com/2019/12/26.zip |
 | path   | Path to store file (use path given by `-path` when the record is empty) | /backup/2019-12-16.zip            |
 
-
-
 The first line is a header line. The program will accept a file without the header.
 ```
 url,path
@@ -3607,8 +2981,6 @@ http://example.com/2019/12/26.zip,/backup/2019-12-16.zip
 ```
 
 # Results
-
-
 
 ## Report: operation_log
 
@@ -3629,11 +3001,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | result.size                        | The file size in bytes.                                                                                              |
 | result.has_explicit_shared_members | If true, the results will include a flag for each file indicating whether or not that file has any explicit members. |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox file lock acquire
@@ -3644,7 +3012,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/lock/acquire.md
 
 Lock a file 
 
-
+Acquires an exclusive lock on a file to prevent others from editing it.
 
 # Usage
 
@@ -3653,23 +3021,18 @@ This document uses the Desktop folder for command example.
 tbx dropbox file lock acquire -path /DROPBOX/FILE/PATH/TO/LOCK
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-path**
+: File path to lock
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-path`      | File path to lock                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |         |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: operation_log
 
@@ -3689,11 +3052,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | result.lock_holder_name | The display name of the lock holder.                                                                   |
 | result.lock_created     | The timestamp when the lock was created.                                                               |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox file lock list
@@ -3704,7 +3063,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/lock/list.md
 
 List locks under the specified path 
 
-
+Lists all files that are currently locked, showing lock holder information.
 
 # Usage
 
@@ -3713,23 +3072,18 @@ This document uses the Desktop folder for command example.
 tbx dropbox file lock list -path /DROPBOX/PATH/TO/SEARCH/LOCK
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-path**
+: Path
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-path`      | Path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |         |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: lock
 
@@ -3748,11 +3102,7 @@ The command will generate a report in three different formats. `lock.csv`, `lock
 | lock_holder_name | The display name of the lock holder.                                                                   |
 | lock_created     | The timestamp when the lock was created.                                                               |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `lock_0000.xlsx`, `lock_0001.xlsx`, `lock_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox file lock release
@@ -3763,7 +3113,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/lock/release.md
 
 Release a lock 
 
-
+Releases the lock on a specific file, allowing others to edit it.
 
 # Usage
 
@@ -3772,23 +3122,18 @@ This document uses the Desktop folder for command example.
 tbx dropbox file lock release -path /DROPBOX/FILE/PATH/TO/UNLOCK
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-path**
+: Path to the file
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-path`      | Path to the file                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |         |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: operation_log
 
@@ -3808,11 +3153,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | result.lock_holder_name | The display name of the lock holder.                                                                   |
 | result.lock_created     | The timestamp when the lock was created.                                                               |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox file lock all release
@@ -3823,7 +3164,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/lock/all/release.md
 
 Release all locks under the specified path 
 
-
+Releases all file locks held by the current user across the account.
 
 # Usage
 
@@ -3832,24 +3173,21 @@ This document uses the Desktop folder for command example.
 tbx dropbox file lock all release -path /DROPBOX/PATH/TO/RELEASE/LOCK
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-batch-size**
+: Operation batch size. Default: 100
 
-| Option        | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|---------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`  | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-batch-size` | Operation batch size                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | 100     |
-| `-path`       | Path to release locks                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |         |
-| `-peer`       | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
+**-path**
+: Path to release locks
 
-
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: operation_log
 
@@ -3869,11 +3207,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | result.lock_holder_name | The display name of the lock holder.                                                                   |
 | result.lock_created     | The timestamp when the lock was created.                                                               |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox file lock batch acquire
@@ -3884,7 +3218,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/lock/batch/acquire.md
 
 Lock multiple files 
 
-
+Acquires locks on multiple files in a single batch operation.
 
 # Usage
 
@@ -3893,34 +3227,29 @@ This document uses the Desktop folder for command example.
 tbx dropbox file lock batch acquire -file /PATH/TO/DATA_FILE.csv
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-batch-size**
+: Operation batch size. Default: 100
 
-| Option        | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|---------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`  | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-batch-size` | Operation batch size                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | 100     |
-| `-file`       | Path to data file                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |         |
-| `-peer`       | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
+**-file**
+: Path to data file
 
-
-
+**-peer**
+: Account alias. Default: default
 
 # File formats
 
-
 ## Format: File
-
 
 Path
 
 | Column | Description      | Example              |
 |--------|------------------|----------------------|
 | path   | Path to the file | /Report/2021-02.xlsx |
-
-
 
 The first line is a header line. The program will accept a file without the header.
 ```
@@ -3929,8 +3258,6 @@ path
 ```
 
 # Results
-
-
 
 ## Report: operation_log
 
@@ -3950,11 +3277,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | result.lock_holder_name | The display name of the lock holder.                                                                   |
 | result.lock_created     | The timestamp when the lock was created.                                                               |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox file lock batch release
@@ -3965,7 +3288,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/lock/batch/release.md
 
 Release multiple locks 
 
-
+Releases locks on multiple files in a single batch operation.
 
 # Usage
 
@@ -3974,33 +3297,26 @@ This document uses the Desktop folder for command example.
 tbx dropbox file lock batch release -file /PATH/TO/DATA_FILE.csv
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-file**
+: Path to data file
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-file`      | Path to data file                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |         |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # File formats
 
-
 ## Format: File
-
 
 Path
 
 | Column | Description      | Example              |
 |--------|------------------|----------------------|
 | path   | Path to the file | /Report/2021-02.xlsx |
-
-
 
 The first line is a header line. The program will accept a file without the header.
 ```
@@ -4009,8 +3325,6 @@ path
 ```
 
 # Results
-
-
 
 ## Report: operation_log
 
@@ -4030,11 +3344,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | result.lock_holder_name | The display name of the lock holder.                                                                   |
 | result.lock_created     | The timestamp when the lock was created.                                                               |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox file request create
@@ -4045,7 +3355,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/request/create.md
 
 Create a file request (Irreversible operation)
 
-
+Creates a file request folder where others can upload files without Dropbox access.
 
 # Usage
 
@@ -4054,26 +3364,27 @@ This document uses the Desktop folder for command example.
 tbx dropbox file request create -path /DROPBOX/PATH/OF/FILE_REQUEST -title TITLE
 ```
 
-
 ## Options:
 
+**-allow-late-uploads**
+: If set, allow uploads after the deadline has passed (one_day/two_days/seven_days/thirty_days/always)
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option                | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|-----------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-allow-late-uploads` | If set, allow uploads after the deadline has passed (one_day/two_days/seven_days/thirty_days/always)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |         |
-| `-base-path`          | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-deadline`           | The deadline for this file request.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |         |
-| `-path`               | The path for the folder in Dropbox where uploaded files will be sent.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |         |
-| `-peer`               | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-| `-title`              | The title of the file request                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |         |
+**-deadline**
+: The deadline for this file request.
 
+**-path**
+: The path for the folder in Dropbox where uploaded files will be sent.
 
+**-peer**
+: Account alias. Default: default
 
+**-title**
+: The title of the file request
 
 # Results
-
-
 
 ## Report: file_request
 
@@ -4092,11 +3403,7 @@ The command will generate a report in three different formats. `file_request.csv
 | deadline                    | The deadline for this file request.                                       |
 | deadline_allow_late_uploads | If set, allow uploads after the deadline has passed.                      |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `file_request_0000.xlsx`, `file_request_0001.xlsx`, `file_request_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox file request list
@@ -4107,7 +3414,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/request/list.md
 
 List file requests of the individual account 
 
-
+Lists all file requests in the account with their status and details.
 
 # Usage
 
@@ -4116,22 +3423,15 @@ This document uses the Desktop folder for command example.
 tbx dropbox file request list 
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: file_requests
 
@@ -4150,11 +3450,7 @@ The command will generate a report in three different formats. `file_requests.cs
 | deadline                    | The deadline for this file request.                                       |
 | deadline_allow_late_uploads | If set, allow uploads after the deadline has passed.                      |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `file_requests_0000.xlsx`, `file_requests_0001.xlsx`, `file_requests_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox file request delete closed
@@ -4165,7 +3461,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/request/delete/closed.m
 
 Delete all closed file requests on this account. (Irreversible operation)
 
-
+Deletes file requests that have been closed and are no longer accepting uploads.
 
 # Usage
 
@@ -4174,22 +3470,15 @@ This document uses the Desktop folder for command example.
 tbx dropbox file request delete closed 
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: deleted
 
@@ -4208,11 +3497,7 @@ The command will generate a report in three different formats. `deleted.csv`, `d
 | deadline                    | The deadline for this file request.                                       |
 | deadline_allow_late_uploads | If set, allow uploads after the deadline has passed.                      |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `deleted_0000.xlsx`, `deleted_0001.xlsx`, `deleted_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox file request delete url
@@ -4223,7 +3508,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/request/delete/url.md
 
 Delete a file request by the file request URL (Irreversible operation)
 
-
+Deletes a specific file request using its URL.
 
 # Usage
 
@@ -4232,24 +3517,21 @@ This document uses the Desktop folder for command example.
 tbx dropbox file request delete url -url URL
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-force**
+: Force delete the file request.. Default: false
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-force`     | Force delete the file request.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | false   |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-| `-url`       | URL of the file request.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |         |
+**-peer**
+: Account alias. Default: default
 
-
-
+**-url**
+: URL of the file request.
 
 # Results
-
-
 
 ## Report: deleted
 
@@ -4268,11 +3550,7 @@ The command will generate a report in three different formats. `deleted.csv`, `d
 | deadline                    | The deadline for this file request.                                       |
 | deadline_allow_late_uploads | If set, allow uploads after the deadline has passed.                      |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `deleted_0000.xlsx`, `deleted_0001.xlsx`, `deleted_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox file restore all
@@ -4283,7 +3561,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/restore/all.md
 
 Restore files under given path (Experimental, and Irreversible operation)
 
-
+Restores all deleted files and folders within a specified path.
 
 # Usage
 
@@ -4292,23 +3570,18 @@ This document uses the Desktop folder for command example.
 tbx dropbox file restore all -path /DROPBOX/PATH/TO/RESTORE
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-path**
+: Path
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-path`      | Path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |         |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: operation_log
 
@@ -4328,11 +3601,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | result.size                        | The file size in bytes.                                                                                              |
 | result.has_explicit_shared_members | If true, the results will include a flag for each file indicating whether or not that file has any explicit members. |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox file restore ext
@@ -4343,7 +3612,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/restore/ext.md
 
 Restore files with a specific extension (Experimental, and Irreversible operation)
 
-
+Restores deleted files matching specific file extensions within a path.
 
 # Usage
 
@@ -4352,24 +3621,21 @@ This document uses the Desktop folder for command example.
 tbx dropbox file restore ext -ext EXT -path /DROPBOX/PATH/TO/RESTORE
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-ext**
+: Extension to restore (e.g. jpg, png, pdf)
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-ext`       | Extension to restore (e.g. jpg, png, pdf)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |         |
-| `-path`      | Path to restore                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |         |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
+**-path**
+: Path to restore
 
-
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: operation_log
 
@@ -4389,11 +3655,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | result.size                        | The file size in bytes.                                                                                              |
 | result.has_explicit_shared_members | If true, the results will include a flag for each file indicating whether or not that file has any explicit members. |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox file revision download
@@ -4404,7 +3666,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/revision/download.md
 
 Download the file revision 
 
-
+Downloads a specific revision/version of a file from its revision history.
 
 # Usage
 
@@ -4413,24 +3675,21 @@ This document uses the Desktop folder for command example.
 tbx dropbox file revision download -local-path /LOCAL/PATH/TO/DOWNLOAD -revision REVISION
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-local-path**
+: Local path to store downloaded file
 
-| Option        | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|---------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`  | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-local-path` | Local path to store downloaded file                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |         |
-| `-peer`       | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-| `-revision`   | File revision                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |         |
+**-peer**
+: Account alias. Default: default
 
-
-
+**-revision**
+: File revision
 
 # Results
-
-
 
 ## Report: entry
 
@@ -4449,11 +3708,7 @@ The command will generate a report in three different formats. `entry.csv`, `ent
 | content_hash                | A hash of the file content.                                                                                          |
 | has_explicit_shared_members | If true, the results will include a flag for each file indicating whether or not that file has any explicit members. |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `entry_0000.xlsx`, `entry_0001.xlsx`, `entry_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox file revision list
@@ -4464,7 +3719,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/revision/list.md
 
 List file revisions 
 
-
+Lists all available revisions for a file showing modification times and sizes.
 
 # Usage
 
@@ -4473,23 +3728,18 @@ This document uses the Desktop folder for command example.
 tbx dropbox file revision list -path /DROPBOX/PATH/TO/FILE
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-path**
+: File path
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-path`      | File path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |         |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: revisions
 
@@ -4508,11 +3758,7 @@ The command will generate a report in three different formats. `revisions.csv`, 
 | content_hash                | A hash of the file content.                                                                                          |
 | has_explicit_shared_members | If true, the results will include a flag for each file indicating whether or not that file has any explicit members. |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `revisions_0000.xlsx`, `revisions_0001.xlsx`, `revisions_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox file revision restore
@@ -4523,7 +3769,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/revision/restore.md
 
 Restore the file revision 
 
-
+Restores a file to a previous revision from its version history.
 
 # Usage
 
@@ -4532,24 +3778,21 @@ This document uses the Desktop folder for command example.
 tbx dropbox file revision restore -path /DROPBOX/PATH/TO/RESTORE -revision REVISION
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-path**
+: File path
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-path`      | File path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |         |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-| `-revision`  | File revision                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |         |
+**-peer**
+: Account alias. Default: default
 
-
-
+**-revision**
+: File revision
 
 # Results
-
-
 
 ## Report: entry
 
@@ -4568,11 +3811,7 @@ The command will generate a report in three different formats. `entry.csv`, `ent
 | content_hash                | A hash of the file content.                                                                                          |
 | has_explicit_shared_members | If true, the results will include a flag for each file indicating whether or not that file has any explicit members. |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `entry_0000.xlsx`, `entry_0001.xlsx`, `entry_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox file search content
@@ -4583,7 +3822,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/search/content.md
 
 Search file content 
 
-
+Searches for files by content with options for file type and category filtering.
 
 # Usage
 
@@ -4592,27 +3831,30 @@ This document uses the Desktop folder for command example.
 tbx dropbox file search content -query QUERY
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-category**
+: Restricts search to only the file categories specified (image/document/pdf/spreadsheet/presentation/audio/video/folder/paper/others).. Options:.   •  (category: ).   • image (category: image).   • document (category: document).   • pdf (category: pdf).   • spreadsheet (category: spreadsheet).   • presentation (category: presentation).   • audio (category: audio).   • video (category: video).   • folder (category: folder).   • paper (category: paper).   • others (category: others)
 
-| Option         | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`   | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-category`    | Restricts search to only the file categories specified (image/document/pdf/spreadsheet/presentation/audio/video/folder/paper/others).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |         |
-| `-extension`   | Restricts search to only the extensions specified.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |         |
-| `-max-results` | Maximum number of entries to return                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | 25      |
-| `-path`        | Scopes the search to a path in the user's Dropbox.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |         |
-| `-peer`        | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-| `-query`       | The string to search for.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |         |
+**-extension**
+: Restricts search to only the extensions specified.
 
+**-max-results**
+: Maximum number of entries to return. Default: 25
 
+**-path**
+: Scopes the search to a path in the user's Dropbox.
 
+**-peer**
+: Account alias. Default: default
+
+**-query**
+: The string to search for.
 
 # Results
-
-
 
 ## Report: matches
 
@@ -4625,11 +3867,7 @@ The command will generate a report in three different formats. `matches.csv`, `m
 | path_display   | Display path             |
 | highlight_html | Highlighted text in HTML |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `matches_0000.xlsx`, `matches_0001.xlsx`, `matches_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox file search name
@@ -4640,7 +3878,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/search/name.md
 
 Search file name 
 
-
+Searches for files and folders by name pattern across the Dropbox account.
 
 # Usage
 
@@ -4649,26 +3887,27 @@ This document uses the Desktop folder for command example.
 tbx dropbox file search name -query QUERY
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-category**
+: Restricts search to only the file categories specified (image/document/pdf/spreadsheet/presentation/audio/video/folder/paper/others).. Options:.   •  (category: ).   • image (category: image).   • document (category: document).   • pdf (category: pdf).   • spreadsheet (category: spreadsheet).   • presentation (category: presentation).   • audio (category: audio).   • video (category: video).   • folder (category: folder).   • paper (category: paper).   • others (category: others)
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-category`  | Restricts search to only the file categories specified (image/document/pdf/spreadsheet/presentation/audio/video/folder/paper/others).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |         |
-| `-extension` | Restricts search to only the extensions specified.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |         |
-| `-path`      | Scopes the search to a path in the user's Dropbox.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |         |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-| `-query`     | The string to search for.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |         |
+**-extension**
+: Restricts search to only the extensions specified.
 
+**-path**
+: Scopes the search to a path in the user's Dropbox.
 
+**-peer**
+: Account alias. Default: default
 
+**-query**
+: The string to search for.
 
 # Results
-
-
 
 ## Report: matches
 
@@ -4681,11 +3920,7 @@ The command will generate a report in three different formats. `matches.csv`, `m
 | path_display   | Display path             |
 | highlight_html | Highlighted text in HTML |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `matches_0000.xlsx`, `matches_0001.xlsx`, `matches_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox file share info
@@ -4696,7 +3931,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/share/info.md
 
 Retrieve sharing information of the file 
 
-
+Retrieves sharing information and permissions for a specific file or folder.
 
 # Usage
 
@@ -4705,23 +3940,18 @@ This document uses the Desktop folder for command example.
 tbx dropbox file share info -path /DROPBOX/PATH/TO/GET_INFO
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-path**
+: File path
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-path`      | File path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |         |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: metadata
 
@@ -4744,11 +3974,7 @@ The command will generate a report in three different formats. `metadata.csv`, `
 | shared_folder_id            | If this folder is a shared folder mount point, the ID of the shared folder mounted at this location.                 |
 | parent_shared_folder_id     | ID of shared folder that holds this file.                                                                            |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `metadata_0000.xlsx`, `metadata_0001.xlsx`, `metadata_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox file sharedfolder info
@@ -4759,7 +3985,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/sharedfolder/info.md
 
 Get shared folder info 
 
-
+Displays detailed information about a specific shared folder including members and permissions.
 
 # Usage
 
@@ -4768,23 +3994,18 @@ This document uses the Desktop folder for command example.
 tbx dropbox file sharedfolder info -shared-folder-id NAMESPACE_ID
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-peer**
+: Account alias. Default: default
 
-| Option              | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|---------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`        | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-peer`             | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-| `-shared-folder-id` | Shared folder ID                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |         |
-
-
-
+**-shared-folder-id**
+: Shared folder ID
 
 # Results
-
-
 
 ## Report: policies
 
@@ -4807,11 +4028,7 @@ The command will generate a report in three different formats. `policies.csv`, `
 | owner_team_name       | Team name of the team that owns the folder                                                                |
 | access_inheritance    | Access inheritance type                                                                                   |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `policies_0000.xlsx`, `policies_0001.xlsx`, `policies_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox file sharedfolder leave
@@ -4822,7 +4039,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/sharedfolder/leave.md
 
 Leave the shared folder 
 
-Upon success, the current user will no longer have access to the folder. Please use `dropbox file sharedfolder list` command to find the shared_folder_id of the folder you want to leave.
+Removes yourself from a shared folder you've been added to.
 
 # Usage
 
@@ -4831,22 +4048,19 @@ This document uses the Desktop folder for command example.
 tbx dropbox file sharedfolder leave -shared-folder-id SHARED_FOLDER_ID
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-keep-copy**
+: Keep a copy of the folder's contents upon relinquishing membership.. Default: false
 
-| Option              | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|---------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`        | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-keep-copy`        | Keep a copy of the folder's contents upon relinquishing membership.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | false   |
-| `-peer`             | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-| `-shared-folder-id` | The ID for the shared folder.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |         |
+**-peer**
+: Account alias. Default: default
 
-
-
-
-
+**-shared-folder-id**
+: The ID for the shared folder.
 
 ---
 Title: dropbox file sharedfolder list
@@ -4857,7 +4071,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/sharedfolder/list.md
 
 List shared folders 
 
-
+Lists all shared folders you have access to with their sharing details.
 
 # Usage
 
@@ -4866,22 +4080,15 @@ This document uses the Desktop folder for command example.
 tbx dropbox file sharedfolder list 
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: shared_folder
 
@@ -4904,11 +4111,7 @@ The command will generate a report in three different formats. `shared_folder.cs
 | owner_team_name       | Team name of the team that owns the folder                                                                |
 | access_inheritance    | Access inheritance type                                                                                   |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `shared_folder_0000.xlsx`, `shared_folder_0001.xlsx`, `shared_folder_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox file sharedfolder share
@@ -4919,7 +4122,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/sharedfolder/share.md
 
 Share a folder 
 
-
+Creates a shared folder from an existing folder with configurable sharing policies and permissions.
 
 # Usage
 
@@ -4928,26 +4131,27 @@ This document uses the Desktop folder for command example.
 tbx dropbox file sharedfolder share -path /DROPBOX/PATH/TO/SHARE
 ```
 
-
 ## Options:
 
+**-acl-update-policy**
+: Who can change a shared folder's access control list (ACL).. Options: owner (aclupdatepolicy: owner), editor (aclupdatepolicy: editor). Default: owner
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option                | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|-----------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-acl-update-policy`  | Who can change a shared folder's access control list (ACL).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | owner   |
-| `-base-path`          | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-member-policy`      | Who can be a member of this shared folder.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | anyone  |
-| `-path`               | Path to be shared                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |         |
-| `-peer`               | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-| `-shared-link-policy` | Who can view shared links in this folder.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | anyone  |
+**-member-policy**
+: Who can be a member of this shared folder.. Options: team (memberpolicy: team), anyone (memberpolicy: anyone). Default: anyone
 
+**-path**
+: Path to be shared
 
+**-peer**
+: Account alias. Default: default
 
+**-shared-link-policy**
+: Who can view shared links in this folder.. Options: anyone (sharedlinkpolicy: anyone), members (sharedlinkpolicy: members). Default: anyone
 
 # Results
-
-
 
 ## Report: shared
 
@@ -4972,11 +4176,7 @@ The command will generate a report in three different formats. `shared.csv`, `sh
 | owner_team_name         | Team name of the team that owns the folder                                                                              |
 | access_inheritance      | Access inheritance type                                                                                                 |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `shared_0000.xlsx`, `shared_0001.xlsx`, `shared_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox file sharedfolder unshare
@@ -4987,7 +4187,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/sharedfolder/unshare.md
 
 Unshare a folder 
 
-
+Stops sharing a folder and optionally leaves a copy for current members.
 
 # Usage
 
@@ -4996,22 +4196,19 @@ This document uses the Desktop folder for command example.
 tbx dropbox file sharedfolder unshare -path /DROPBOX/PATH/TO/UNSHARE
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-leave-copy**
+: If true, members of this shared folder will get a copy of this folder after it's unshared.. Default: false
 
-| Option        | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|---------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`  | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-leave-copy` | If true, members of this shared folder will get a copy of this folder after it's unshared.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | false   |
-| `-path`       | Path to be unshared                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |         |
-| `-peer`       | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
+**-path**
+: Path to be unshared
 
-
-
-
-
+**-peer**
+: Account alias. Default: default
 
 ---
 Title: dropbox file sharedfolder member add
@@ -5022,7 +4219,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/sharedfolder/member/add
 
 Add a member to the shared folder 
 
-
+Adds new members to a shared folder with specified access permissions.
 
 # Usage
 
@@ -5031,25 +4228,28 @@ This document uses the Desktop folder for command example.
 tbx dropbox file sharedfolder member add -email EMAIL -path /DROPBOX/PATH/TO/ADD
 ```
 
-
 ## Options:
 
+**-access-level**
+: Access type (viewer/editor). Options:.   • editor (Can edit, comment, and share).   • viewer (Can view and comment).   • viewer_no_comment (Can only view). Default: editor
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option          | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|-----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-access-level` | Access type (viewer/editor)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | editor  |
-| `-base-path`    | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-email`        | Email address of the folder member                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |         |
-| `-message`      | Custom message for invitation                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |         |
-| `-path`         | Path to the shared folder                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |         |
-| `-peer`         | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-| `-silent`       | Do not send invitation email                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | false   |
+**-email**
+: Email address of the folder member
 
+**-message**
+: Custom message for invitation
 
+**-path**
+: Path to the shared folder
 
+**-peer**
+: Account alias. Default: default
 
-
+**-silent**
+: Do not send invitation email. Default: false
 
 ---
 Title: dropbox file sharedfolder member delete
@@ -5060,7 +4260,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/sharedfolder/member/del
 
 Remove a member from the shared folder 
 
-
+Removes members from a shared folder, revoking their access.
 
 # Usage
 
@@ -5069,23 +4269,22 @@ This document uses the Desktop folder for command example.
 tbx dropbox file sharedfolder member delete -email EMAIL -path /DROPBOX/PATH/TO/DELETE
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-email**
+: Email address of the folder member
 
-| Option        | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|---------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`  | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-email`      | Email address of the folder member                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |         |
-| `-leave-copy` | If true, members of this shared folder will get a copy of this folder after it's unshared.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | false   |
-| `-path`       | Path to the shared folder                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |         |
-| `-peer`       | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
+**-leave-copy**
+: If true, members of this shared folder will get a copy of this folder after it's unshared.. Default: false
 
+**-path**
+: Path to the shared folder
 
-
-
-
+**-peer**
+: Account alias. Default: default
 
 ---
 Title: dropbox file sharedfolder member list
@@ -5096,7 +4295,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/sharedfolder/member/lis
 
 List shared folder members 
 
-
+Lists all members of a shared folder with their access levels and email addresses.
 
 # Usage
 
@@ -5105,22 +4304,15 @@ This document uses the Desktop folder for command example.
 tbx dropbox file sharedfolder member list 
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: member
 
@@ -5140,11 +4332,7 @@ The command will generate a report in three different formats. `member.csv`, `me
 | group_name            | Name of a group                                                                                           |
 | invitee_email         | Email address of invitee for this folder                                                                  |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `member_0000.xlsx`, `member_0001.xlsx`, `member_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox file sharedfolder mount add
@@ -5155,7 +4343,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/sharedfolder/mount/add.
 
 Add the shared folder to the current user's Dropbox 
 
-
+Mounts a shared folder to your Dropbox, making it appear in your file structure.
 
 # Usage
 
@@ -5164,23 +4352,18 @@ This document uses the Desktop folder for command example.
 tbx dropbox file sharedfolder mount add -shared-folder-id SHARED_FOLDER_ID
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-peer**
+: Account alias. Default: default
 
-| Option              | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|---------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`        | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-peer`             | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-| `-shared-folder-id` | The ID for the shared folder.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |         |
-
-
-
+**-shared-folder-id**
+: The ID for the shared folder.
 
 # Results
-
-
 
 ## Report: mount
 
@@ -5203,11 +4386,7 @@ The command will generate a report in three different formats. `mount.csv`, `mou
 | owner_team_name       | Team name of the team that owns the folder                                                                |
 | access_inheritance    | Access inheritance type                                                                                   |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `mount_0000.xlsx`, `mount_0001.xlsx`, `mount_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox file sharedfolder mount delete
@@ -5218,7 +4397,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/sharedfolder/mount/dele
 
 Unmount the shared folder 
 
-Upon success, the current user cannot access the folder unless adding the folder again. Please use `dropbox file sharedfolder mount list` command to find the shared_folder_id of the folder you want to delete.
+Unmounts a shared folder from your Dropbox without leaving the folder.
 
 # Usage
 
@@ -5227,23 +4406,18 @@ This document uses the Desktop folder for command example.
 tbx dropbox file sharedfolder mount delete -shared-folder-id SHARED_FOLDER_ID
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-peer**
+: Account alias. Default: default
 
-| Option              | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|---------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`        | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-peer`             | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-| `-shared-folder-id` | The ID for the shared folder.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |         |
-
-
-
+**-shared-folder-id**
+: The ID for the shared folder.
 
 # Results
-
-
 
 ## Report: mount
 
@@ -5266,11 +4440,7 @@ The command will generate a report in three different formats. `mount.csv`, `mou
 | owner_team_name       | Team name of the team that owns the folder                                                                |
 | access_inheritance    | Access inheritance type                                                                                   |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `mount_0000.xlsx`, `mount_0001.xlsx`, `mount_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox file sharedfolder mount list
@@ -5281,7 +4451,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/sharedfolder/mount/list
 
 List all shared folders the current user has mounted 
 
-
+Lists all shared folders currently mounted in your Dropbox.
 
 # Usage
 
@@ -5290,22 +4460,15 @@ This document uses the Desktop folder for command example.
 tbx dropbox file sharedfolder mount list 
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: mounts
 
@@ -5328,11 +4491,7 @@ The command will generate a report in three different formats. `mounts.csv`, `mo
 | owner_team_name       | Team name of the team that owns the folder                                                                |
 | access_inheritance    | Access inheritance type                                                                                   |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `mounts_0000.xlsx`, `mounts_0001.xlsx`, `mounts_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox file sharedfolder mount mountable
@@ -5343,7 +4502,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/sharedfolder/mount/moun
 
 List all shared folders the current user can mount 
 
-
+Lists shared folders that can be mounted but aren't currently in your Dropbox.
 
 # Usage
 
@@ -5352,23 +4511,18 @@ This document uses the Desktop folder for command example.
 tbx dropbox file sharedfolder mount mountable 
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-include-mounted**
+: Include mounted folders.. Default: false
 
-| Option             | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|--------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`       | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-include-mounted` | Include mounted folders.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | false   |
-| `-peer`            | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: mountables
 
@@ -5391,11 +4545,7 @@ The command will generate a report in three different formats. `mountables.csv`,
 | owner_team_name       | Team name of the team that owns the folder                                                                |
 | access_inheritance    | Access inheritance type                                                                                   |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `mountables_0000.xlsx`, `mountables_0001.xlsx`, `mountables_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox file sharedlink create
@@ -5406,7 +4556,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/sharedlink/create.md
 
 Create shared link (Irreversible operation)
 
-
+Creates a shared link for a file or folder with optional password protection and expiration date.
 
 # Usage
 
@@ -5415,26 +4565,27 @@ This document uses the Desktop folder for command example.
 tbx dropbox file sharedlink create -path /path/to/share
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-expires**
+: Expiration date/time of the shared link
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-expires`   | Expiration date/time of the shared link                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |         |
-| `-password`  | Password                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |         |
-| `-path`      | Path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |         |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-| `-team-only` | Link is accessible only by team members                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | false   |
+**-password**
+: Password
 
+**-path**
+: Path
 
+**-peer**
+: Account alias. Default: default
 
+**-team-only**
+: Link is accessible only by team members. Default: false
 
 # Results
-
-
 
 ## Report: created
 
@@ -5451,11 +4602,7 @@ The command will generate a report in three different formats. `created.csv`, `c
 | path_lower | The lowercased full path in the user's Dropbox.                                                                                                                                                                     |
 | visibility | The current visibility of the link after considering the shared links policies of the team (in case the link's owner is part of a team) and the shared folder (in case the linked file is part of a shared folder). |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `created_0000.xlsx`, `created_0001.xlsx`, `created_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox file sharedlink delete
@@ -5475,24 +4622,21 @@ This document uses the Desktop folder for command example.
 tbx dropbox file sharedlink delete -path /path/to/delete
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-path**
+: File or folder path to remove shared link
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-path`      | File or folder path to remove shared link                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |         |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-| `-recursive` | Remove shared links recursively                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | false   |
+**-peer**
+: Account alias. Default: default
 
-
-
+**-recursive**
+: Remove shared links recursively. Default: false
 
 # Results
-
-
 
 ## Report: shared_link
 
@@ -5510,11 +4654,7 @@ The command will generate a report in three different formats. `shared_link.csv`
 | input.path_lower | The lowercased full path in the user's Dropbox.                                                                                                                                                                     |
 | input.visibility | The current visibility of the link after considering the shared links policies of the team (in case the link's owner is part of a team) and the shared folder (in case the linked file is part of a shared folder). |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `shared_link_0000.xlsx`, `shared_link_0001.xlsx`, `shared_link_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox file sharedlink info
@@ -5525,8 +4665,6 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/sharedlink/info.md
 
 Get information about the shared link 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -5534,24 +4672,21 @@ This document uses the Desktop folder for command example.
 tbx dropbox file sharedlink info -url SHARED_LINK_URL
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-password**
+: Password of the link if required.
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-password`  | Password of the link if required.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |         |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-| `-url`       | URL of the shared link                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |         |
+**-peer**
+: Account alias. Default: default
 
-
-
+**-url**
+: URL of the shared link
 
 # Results
-
-
 
 ## Report: shared_link
 
@@ -5569,11 +4704,7 @@ The command will generate a report in three different formats. `shared_link.csv`
 | size                        | The file size in bytes.                                                                                              |
 | has_explicit_shared_members | If true, the results will include a flag for each file indicating whether or not that file has any explicit members. |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `shared_link_0000.xlsx`, `shared_link_0001.xlsx`, `shared_link_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox file sharedlink list
@@ -5584,8 +4715,6 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/sharedlink/list.md
 
 List shared links 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -5593,22 +4722,15 @@ This document uses the Desktop folder for command example.
 tbx dropbox file sharedlink list 
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: shared_link
 
@@ -5624,11 +4746,7 @@ The command will generate a report in three different formats. `shared_link.csv`
 | path_lower | The lowercased full path in the user's Dropbox.                                                                                                                                                                     |
 | visibility | The current visibility of the link after considering the shared links policies of the team (in case the link's owner is part of a team) and the shared folder (in case the linked file is part of a shared folder). |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `shared_link_0000.xlsx`, `shared_link_0001.xlsx`, `shared_link_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox file sharedlink file list
@@ -5639,8 +4757,6 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/sharedlink/file/list.md
 
 List files for the shared link 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -5648,24 +4764,21 @@ This document uses the Desktop folder for command example.
 tbx dropbox file sharedlink file list -url SHAREDLINK_URL
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-password**
+: Password for the shared link
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-password`  | Password for the shared link                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |         |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-| `-url`       | Shared link URL                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |         |
+**-peer**
+: Account alias. Default: default
 
-
-
+**-url**
+: Shared link URL
 
 # Results
-
-
 
 ## Report: file_list
 
@@ -5682,11 +4795,7 @@ The command will generate a report in three different formats. `file_list.csv`, 
 | size                        | The file size in bytes.                                                                                              |
 | has_explicit_shared_members | If true, the results will include a flag for each file indicating whether or not that file has any explicit members. |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `file_list_0000.xlsx`, `file_list_0001.xlsx`, `file_list_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox file sync down
@@ -5697,7 +4806,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/sync/down.md
 
 Downstream sync with Dropbox 
 
-
+Downloads files from Dropbox to local filesystem with filtering and overwrite options.
 
 # Usage
 
@@ -5706,30 +4815,39 @@ This document uses the Desktop folder for command example.
 tbx dropbox file sync down -dropbox-path /DROPBOX/PATH/TO/DOWNLOAD -local-path /LOCAL/PATH/TO/SAVE
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-delete**
+: Delete local file if a file is removed on Dropbox. Default: false
 
-| Option                 | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`           | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-delete`              | Delete local file if a file is removed on Dropbox                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | false   |
-| `-dropbox-path`        | Dropbox path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |         |
-| `-local-path`          | Local path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |         |
-| `-name-disable-ignore` | Filter by name. Filter system file or ignore files.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |         |
-| `-name-name`           | Filter by name. Filter by exact match to the name.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |         |
-| `-name-name-prefix`    | Filter by name. Filter by name match to the prefix.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |         |
-| `-name-name-suffix`    | Filter by name. Filter by name match to the suffix.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |         |
-| `-peer`                | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-| `-skip-existing`       | Skip existing files. Do not overwrite                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | false   |
+**-dropbox-path**
+: Dropbox path
 
+**-local-path**
+: Local path
 
+**-name-disable-ignore**
+: Filter by name. Filter system file or ignore files.
 
+**-name-name**
+: Filter by name. Filter by exact match to the name.
+
+**-name-name-prefix**
+: Filter by name. Filter by name match to the prefix.
+
+**-name-name-suffix**
+: Filter by name. Filter by name match to the suffix.
+
+**-peer**
+: Account alias. Default: default
+
+**-skip-existing**
+: Skip existing files. Do not overwrite. Default: false
 
 # Results
-
-
 
 ## Report: deleted
 
@@ -5743,10 +4861,7 @@ The command will generate a report in three different formats. `deleted.csv`, `d
 | entry_shard.shard_id         | Shard ID         |
 | entry_shard.attributes       | Shard attributes |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `deleted_0000.xlsx`, `deleted_0001.xlsx`, `deleted_0002.xlsx`, ...
-
 
 ## Report: downloaded
 
@@ -5766,10 +4881,7 @@ The command will generate a report in three different formats. `downloaded.csv`,
 | input.has_explicit_shared_members | If true, the results will include a flag for each file indicating whether or not that file has any explicit members. |
 | result.path                       | Path                                                                                                                 |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `downloaded_0000.xlsx`, `downloaded_0001.xlsx`, `downloaded_0002.xlsx`, ...
-
 
 ## Report: skipped
 
@@ -5785,10 +4897,7 @@ The command will generate a report in three different formats. `skipped.csv`, `s
 | input.entry_shard.shard_id         | Shard ID                               |
 | input.entry_shard.attributes       | Shard attributes                       |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `skipped_0000.xlsx`, `skipped_0001.xlsx`, `skipped_0002.xlsx`, ...
-
 
 ## Report: summary
 
@@ -5807,11 +4916,7 @@ The command will generate a report in three different formats. `summary.csv`, `s
 | num_delete            | Number of deleted entries.                    |
 | num_api_call          | The number of estimated API calls for upload. |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `summary_0000.xlsx`, `summary_0001.xlsx`, `summary_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox file sync online
@@ -5822,7 +4927,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/sync/online.md
 
 Sync online files (Irreversible operation)
 
-
+Synchronizes files between two different locations within Dropbox online storage.
 
 # Usage
 
@@ -5831,30 +4936,39 @@ This document uses the Desktop folder for command example.
 tbx dropbox file sync online -src /DROPBOX/PATH/SRC -dst /DROPBOX/PATH/DST
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-delete**
+: Delete file if a file is removed in source path. Default: false
 
-| Option                 | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`           | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-delete`              | Delete file if a file is removed in source path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | false   |
-| `-dst`                 | Destination path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |         |
-| `-name-disable-ignore` | Filter by name. Filter system file or ignore files.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |         |
-| `-name-name`           | Filter by name. Filter by exact match to the name.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |         |
-| `-name-name-prefix`    | Filter by name. Filter by name match to the prefix.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |         |
-| `-name-name-suffix`    | Filter by name. Filter by name match to the suffix.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |         |
-| `-peer`                | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-| `-skip-existing`       | Skip existing files. Do not overwrite                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | false   |
-| `-src`                 | Source path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |         |
+**-dst**
+: Destination path
 
+**-name-disable-ignore**
+: Filter by name. Filter system file or ignore files.
 
+**-name-name**
+: Filter by name. Filter by exact match to the name.
 
+**-name-name-prefix**
+: Filter by name. Filter by name match to the prefix.
+
+**-name-name-suffix**
+: Filter by name. Filter by name match to the suffix.
+
+**-peer**
+: Account alias. Default: default
+
+**-skip-existing**
+: Skip existing files. Do not overwrite. Default: false
+
+**-src**
+: Source path
 
 # Results
-
-
 
 ## Report: deleted
 
@@ -5868,10 +4982,7 @@ The command will generate a report in three different formats. `deleted.csv`, `d
 | entry_shard.shard_id         | Shard ID         |
 | entry_shard.attributes       | Shard attributes |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `deleted_0000.xlsx`, `deleted_0001.xlsx`, `deleted_0002.xlsx`, ...
-
 
 ## Report: skipped
 
@@ -5887,10 +4998,7 @@ The command will generate a report in three different formats. `skipped.csv`, `s
 | input.entry_shard.shard_id         | Shard ID                               |
 | input.entry_shard.attributes       | Shard attributes                       |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `skipped_0000.xlsx`, `skipped_0001.xlsx`, `skipped_0002.xlsx`, ...
-
 
 ## Report: summary
 
@@ -5909,10 +5017,7 @@ The command will generate a report in three different formats. `summary.csv`, `s
 | num_delete            | Number of deleted entries.                    |
 | num_api_call          | The number of estimated API calls for upload. |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `summary_0000.xlsx`, `summary_0001.xlsx`, `summary_0002.xlsx`, ...
-
 
 ## Report: uploaded
 
@@ -5932,11 +5037,7 @@ The command will generate a report in three different formats. `uploaded.csv`, `
 | result.content_hash                | A hash of the file content.                                                                                          |
 | result.has_explicit_shared_members | If true, the results will include a flag for each file indicating whether or not that file has any explicit members. |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `uploaded_0000.xlsx`, `uploaded_0001.xlsx`, `uploaded_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox file sync up
@@ -5947,7 +5048,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/sync/up.md
 
 Upstream sync with Dropbox (Irreversible operation)
 
-
+Uploads files from local filesystem to Dropbox with filtering and overwrite options.
 
 # Usage
 
@@ -5956,31 +5057,42 @@ This document uses the Desktop folder for command example.
 tbx dropbox file sync up -dropbox-path /DROPBOX/PATH/TO/UPLOAD -local-path /LOCAL/PATH/OF/CONTENT
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-batch-size**
+: Batch commit size. Default: 50
 
-| Option                 | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`           | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-batch-size`          | Batch commit size                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | 50      |
-| `-delete`              | Delete Dropbox file if a file is removed locally                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        | false   |
-| `-dropbox-path`        | Destination Dropbox path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |         |
-| `-local-path`          | Local file path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |         |
-| `-name-disable-ignore` | Filter by name. Filter system file or ignore files.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |         |
-| `-name-name`           | Filter by name. Filter by exact match to the name.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |         |
-| `-name-name-prefix`    | Filter by name. Filter by name match to the prefix.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |         |
-| `-name-name-suffix`    | Filter by name. Filter by name match to the suffix.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |         |
-| `-overwrite`           | Overwrite existing file on the target path if that exists.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | false   |
-| `-peer`                | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
+**-delete**
+: Delete Dropbox file if a file is removed locally. Default: false
 
+**-dropbox-path**
+: Destination Dropbox path
 
+**-local-path**
+: Local file path
 
+**-name-disable-ignore**
+: Filter by name. Filter system file or ignore files.
+
+**-name-name**
+: Filter by name. Filter by exact match to the name.
+
+**-name-name-prefix**
+: Filter by name. Filter by name match to the prefix.
+
+**-name-name-suffix**
+: Filter by name. Filter by name match to the suffix.
+
+**-overwrite**
+: Overwrite existing file on the target path if that exists.. Default: false
+
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: deleted
 
@@ -5994,10 +5106,7 @@ The command will generate a report in three different formats. `deleted.csv`, `d
 | entry_shard.shard_id         | Shard ID         |
 | entry_shard.attributes       | Shard attributes |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `deleted_0000.xlsx`, `deleted_0001.xlsx`, `deleted_0002.xlsx`, ...
-
 
 ## Report: skipped
 
@@ -6013,10 +5122,7 @@ The command will generate a report in three different formats. `skipped.csv`, `s
 | input.entry_shard.shard_id         | Shard ID                               |
 | input.entry_shard.attributes       | Shard attributes                       |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `skipped_0000.xlsx`, `skipped_0001.xlsx`, `skipped_0002.xlsx`, ...
-
 
 ## Report: summary
 
@@ -6035,10 +5141,7 @@ The command will generate a report in three different formats. `summary.csv`, `s
 | num_delete            | Number of deleted entries.                    |
 | num_api_call          | The number of estimated API calls for upload. |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `summary_0000.xlsx`, `summary_0001.xlsx`, `summary_0002.xlsx`, ...
-
 
 ## Report: uploaded
 
@@ -6058,11 +5161,7 @@ The command will generate a report in three different formats. `uploaded.csv`, `
 | result.content_hash                | A hash of the file content.                                                                                          |
 | result.has_explicit_shared_members | If true, the results will include a flag for each file indicating whether or not that file has any explicit members. |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `uploaded_0000.xlsx`, `uploaded_0001.xlsx`, `uploaded_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox file tag add
@@ -6073,7 +5172,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/tag/add.md
 
 Add tag to file or folder 
 
-Add a custom tag to a file or folder in Dropbox. Tags help organize and categorize your content for easier searching and management. You can add multiple tags to the same file or folder.
+Adds a custom tag to a file or folder for organization and categorization.
 
 # Usage
 
@@ -6082,22 +5181,19 @@ This document uses the Desktop folder for command example.
 tbx dropbox file tag add -path /DROPBOX/PATH/TO/TARGET -tag TAG_NAME
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-path**
+: File or folder path to add a tag.
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-path`      | File or folder path to add a tag.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |         |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-| `-tag`       | Tag to add to the file or folder.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |         |
+**-peer**
+: Account alias. Default: default
 
-
-
-
-
+**-tag**
+: Tag to add to the file or folder.
 
 ---
 Title: dropbox file tag delete
@@ -6108,7 +5204,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/tag/delete.md
 
 Delete a tag from the file/folder 
 
-Remove a specific tag from a file or folder in Dropbox. This operation only removes the tag association and does not affect the file or folder itself. Use this command to clean up outdated or incorrect tags.
+Removes a specific tag from a file or folder.
 
 # Usage
 
@@ -6117,22 +5213,19 @@ This document uses the Desktop folder for command example.
 tbx dropbox file tag delete -path /DROPBOX/PATH/TO/PROCESS -tag TAG_NAME
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-path**
+: File or folder path to remove a tag.
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-path`      | File or folder path to remove a tag.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |         |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-| `-tag`       | Tag name                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |         |
+**-peer**
+: Account alias. Default: default
 
-
-
-
-
+**-tag**
+: Tag name
 
 ---
 Title: dropbox file tag list
@@ -6143,7 +5236,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/tag/list.md
 
 List tags of the path 
 
-Display all tags associated with a specific file or folder in Dropbox. This command helps you see what tags have been applied to organize and categorize your content. The output shows each tag along with the file path.
+Lists all tags associated with a specific file or folder path.
 
 # Usage
 
@@ -6152,23 +5245,18 @@ This document uses the Desktop folder for command example.
 tbx dropbox file tag list -path /DROPBOX/PATH/TO/TARGET
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-path**
+: Target path
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-path`      | Target path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |         |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: tags
 
@@ -6180,11 +5268,7 @@ The command will generate a report in three different formats. `tags.csv`, `tags
 | path   | File path   |
 | tag    | File tag    |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `tags_0000.xlsx`, `tags_0001.xlsx`, `tags_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox file template apply
@@ -6195,7 +5279,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/template/apply.md
 
 Apply file/folder structure template to the Dropbox path 
 
-
+Applies a saved file/folder structure template to create directories and files in Dropbox.
 
 # Usage
 
@@ -6204,22 +5288,19 @@ This document uses the Desktop folder for command example.
 tbx dropbox file template apply -path /DROPBOX/PATH/TO/APPLY -template /LOCAL/PATH/TO/template.json
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-path**
+: Path to apply template
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-path`      | Path to apply template                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |         |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-| `-template`  | Path to template file                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |         |
+**-peer**
+: Account alias. Default: default
 
-
-
-
-
+**-template**
+: Path to template file
 
 ---
 Title: dropbox file template capture
@@ -6230,7 +5311,7 @@ URL: https://toolbox.watermint.org/commands/dropbox/file/template/capture.md
 
 Capture file/folder structure as template from Dropbox path 
 
-
+Captures the file/folder structure from a Dropbox path and saves it as a reusable template.
 
 # Usage
 
@@ -6239,22 +5320,19 @@ This document uses the Desktop folder for command example.
 tbx dropbox file template capture -out /LOCAL/PATH/template.json -path /DROPBOX/PATH/TO/CAPTURE
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-out**
+: Template output path
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-out`       | Template output path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |         |
-| `-path`      | Capture target path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |         |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
+**-path**
+: Capture target path
 
-
-
-
-
+**-peer**
+: Account alias. Default: default
 
 ---
 Title: dropbox paper append
@@ -6265,8 +5343,6 @@ URL: https://toolbox.watermint.org/commands/dropbox/paper/append.md
 
 Append the content to the end of the existing Paper doc 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -6274,25 +5350,24 @@ This document uses the Desktop folder for command example.
 tbx dropbox paper append -content /LOCAL/PATH/TO/INPUT.txt -path /DROPBOX/PATH/TO/APPEND.paper
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-content**
+: Paper content
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default  |
-|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root     |
-| `-content`   | Paper content                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |          |
-| `-format`    | Import format (html/markdown/plain_text)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | markdown |
-| `-path`      | Path in the user's Dropbox                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |          |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default  |
+**-format**
+: Import format (html/markdown/plain_text). Options:.   • markdown (Markdown format).   • plain_text (Plain text format).   • html (HTML format). Default: markdown
 
+**-path**
+: Path in the user's Dropbox
 
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: created
 
@@ -6303,18 +5378,13 @@ The command will generate a report in three different formats. `created.csv`, `c
 |----------------|----------------|
 | paper_revision | Paper revision |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `created_0000.xlsx`, `created_0001.xlsx`, `created_0002.xlsx`, ...
 
 # Text inputs
 
-
 ## Text input: Content
 
 Paper content
-
-
 
 ---
 Title: dropbox paper create
@@ -6325,8 +5395,6 @@ URL: https://toolbox.watermint.org/commands/dropbox/paper/create.md
 
 Create new Paper in the path 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -6334,25 +5402,24 @@ This document uses the Desktop folder for command example.
 tbx dropbox paper create -content /LOCAL/PATH/TO/INPUT.txt -path /DROPBOX/PATH/TO/CREATE.paper
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-content**
+: Paper content
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default  |
-|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root     |
-| `-content`   | Paper content                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |          |
-| `-format`    | Import format (html/markdown/plain_text)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | markdown |
-| `-path`      | Path in the user's Dropbox                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |          |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default  |
+**-format**
+: Import format (html/markdown/plain_text). Options:.   • markdown (Markdown format).   • plain_text (Plain text format).   • html (HTML format). Default: markdown
 
+**-path**
+: Path in the user's Dropbox
 
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: created
 
@@ -6365,18 +5432,13 @@ The command will generate a report in three different formats. `created.csv`, `c
 | result_path    | Result path      |
 | paper_revision | Paper revision   |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `created_0000.xlsx`, `created_0001.xlsx`, `created_0002.xlsx`, ...
 
 # Text inputs
 
-
 ## Text input: Content
 
 Paper content
-
-
 
 ---
 Title: dropbox paper overwrite
@@ -6387,8 +5449,6 @@ URL: https://toolbox.watermint.org/commands/dropbox/paper/overwrite.md
 
 Overwrite an existing Paper document 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -6396,25 +5456,24 @@ This document uses the Desktop folder for command example.
 tbx dropbox paper overwrite -content /LOCAL/PATH/TO/INPUT.txt -path /DROPBOX/PATH/TO/OVERWRITE.paper
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-content**
+: Paper content
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default  |
-|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root     |
-| `-content`   | Paper content                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |          |
-| `-format`    | Import format (html/markdown/plain_text)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | markdown |
-| `-path`      | Path in the user's Dropbox                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |          |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default  |
+**-format**
+: Import format (html/markdown/plain_text). Options:.   • markdown (Markdown format).   • plain_text (Plain text format).   • html (HTML format). Default: markdown
 
+**-path**
+: Path in the user's Dropbox
 
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: created
 
@@ -6425,18 +5484,13 @@ The command will generate a report in three different formats. `created.csv`, `c
 |----------------|----------------|
 | paper_revision | Paper revision |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `created_0000.xlsx`, `created_0001.xlsx`, `created_0002.xlsx`, ...
 
 # Text inputs
 
-
 ## Text input: Content
 
 Paper content
-
-
 
 ---
 Title: dropbox paper prepend
@@ -6447,8 +5501,6 @@ URL: https://toolbox.watermint.org/commands/dropbox/paper/prepend.md
 
 Append the content to the beginning of the existing Paper doc 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -6456,25 +5508,24 @@ This document uses the Desktop folder for command example.
 tbx dropbox paper prepend -content /LOCAL/PATH/TO/INPUT.txt -path /DROPBOX/PATH/TO/PREPEND.paper
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-content**
+: Paper content
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default  |
-|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root     |
-| `-content`   | Paper content                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |          |
-| `-format`    | Import format (html/markdown/plain_text)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | markdown |
-| `-path`      | Path in the user's Dropbox                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |          |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default  |
+**-format**
+: Import format (html/markdown/plain_text). Options:.   • markdown (Markdown format).   • plain_text (Plain text format).   • html (HTML format). Default: markdown
 
+**-path**
+: Path in the user's Dropbox
 
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: created
 
@@ -6485,18 +5536,13 @@ The command will generate a report in three different formats. `created.csv`, `c
 |----------------|----------------|
 | paper_revision | Paper revision |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `created_0000.xlsx`, `created_0001.xlsx`, `created_0002.xlsx`, ...
 
 # Text inputs
 
-
 ## Text input: Content
 
 Paper content
-
-
 
 ---
 Title: dropbox sign request list
@@ -6507,8 +5553,6 @@ URL: https://toolbox.watermint.org/commands/dropbox/sign/request/list.md
 
 List signature requests 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -6516,22 +5560,15 @@ This document uses the Desktop folder for command example.
 tbx dropbox sign request list 
 ```
 
-
 ## Options:
 
+**-account-id**
+: Which account to return SignatureRequests for. Must be a team member. Use `all` to indicate all team members. Defaults to your account.
 
-
-| Option        | Description                                                                                                                             | Default |
-|---------------|-----------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-account-id` | Which account to return SignatureRequests for. Must be a team member. Use `all` to indicate all team members. Defaults to your account. |         |
-| `-peer`       | Account alias                                                                                                                           | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: requests
 
@@ -6550,11 +5587,7 @@ The command will generate a report in three different formats. `requests.csv`, `
 | is_complete             | Whether or not the SignatureRequest has been fully executed by all signers. |
 | is_declined             | Whether or not the SignatureRequest has been declined by a signer.          |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `requests_0000.xlsx`, `requests_0001.xlsx`, `requests_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox sign request signature list
@@ -6565,8 +5598,6 @@ URL: https://toolbox.watermint.org/commands/dropbox/sign/request/signature/list.
 
 List signatures of requests 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -6574,22 +5605,15 @@ This document uses the Desktop folder for command example.
 tbx dropbox sign request signature list 
 ```
 
-
 ## Options:
 
+**-account-id**
+: Which account to return SignatureRequests for. Must be a team member. Use `all` to indicate all team members. Defaults to your account.
 
-
-| Option        | Description                                                                                                                             | Default |
-|---------------|-----------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-account-id` | Which account to return SignatureRequests for. Must be a team member. Use `all` to indicate all team members. Defaults to your account. |         |
-| `-peer`       | Account alias                                                                                                                           | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: signatures
 
@@ -6616,11 +5640,7 @@ The command will generate a report in three different formats. `signatures.csv`,
 | decline_reason          | The reason provided by the signer for declining the request.                   |
 | signed_at_rfc3339       | Time that the document was signed or empty.                                    |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `signatures_0000.xlsx`, `signatures_0001.xlsx`, `signatures_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team feature
@@ -6640,21 +5660,12 @@ This document uses the Desktop folder for command example.
 tbx dropbox team feature 
 ```
 
-
 ## Options:
 
-
-
-| Option  | Description   | Default |
-|---------|---------------|---------|
-| `-peer` | Account alias | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: feature
 
@@ -6670,11 +5681,7 @@ The command will generate a report in three different formats. `feature.csv`, `f
 | has_team_selective_sync     | Team supports selective sync                      |
 | has_distinct_member_homes   | Team has distinct member home folders             |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `feature_0000.xlsx`, `feature_0001.xlsx`, `feature_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team filesystem
@@ -6694,21 +5701,12 @@ This document uses the Desktop folder for command example.
 tbx dropbox team filesystem 
 ```
 
-
 ## Options:
 
-
-
-| Option  | Description   | Default |
-|---------|---------------|---------|
-| `-peer` | Account alias | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: file_system
 
@@ -6724,11 +5722,7 @@ The command will generate a report in three different formats. `file_system.csv`
 | is_team_folder_api_supported                | True if team folder API is supported                            |
 | is_path_root_required_to_access_team_folder | True if Dropbox-API-Path-Root is required to access team folder |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `file_system_0000.xlsx`, `file_system_0001.xlsx`, `file_system_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team info
@@ -6748,21 +5742,12 @@ This document uses the Desktop folder for command example.
 tbx dropbox team info 
 ```
 
-
 ## Options:
 
-
-
-| Option  | Description   | Default |
-|---------|---------------|---------|
-| `-peer` | Account alias | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: info
 
@@ -6781,11 +5766,7 @@ The command will generate a report in three different formats. `info.csv`, `info
 | policy_emm_state            | This describes the Enterprise Mobility Management (EMM) state for this team (disabled, optional, or required) |
 | policy_office_add_in        | The admin policy around the Dropbox Office Add-In for this team (disabled, or enabled)                        |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `info_0000.xlsx`, `info_0001.xlsx`, `info_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team activity event
@@ -6824,8 +5805,6 @@ If you prefer CSV format, then use the `jq` command to convert it.
 cat latest_events.json | jq -r '[.timestamp, .actor[.actor.".tag"].display_name, .actor[.actor.".tag"].email, .event_type.description, .event_category.".tag", .origin.access_method.end_user.".tag", .origin.geo_location.ip_address, .origin.geo_location.country, .origin.geo_location.city, .involve_non_team_member, (.participants | @text), (.context | @text)] | @csv' >> all.csv
 ```
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -6833,24 +5812,21 @@ This document uses the Desktop folder for command example.
 tbx dropbox team activity event 
 ```
 
-
 ## Options:
 
+**-category**
+: Filter the returned events to a single category. This field is optional.
 
+**-end-time**
+: Ending time (exclusive).
 
-| Option        | Description                                                              | Default |
-|---------------|--------------------------------------------------------------------------|---------|
-| `-category`   | Filter the returned events to a single category. This field is optional. |         |
-| `-end-time`   | Ending time (exclusive).                                                 |         |
-| `-peer`       | Account alias                                                            | default |
-| `-start-time` | Starting time (inclusive)                                                |         |
+**-peer**
+: Account alias. Default: default
 
-
-
+**-start-time**
+: Starting time (inclusive)
 
 # Results
-
-
 
 ## Report: event
 
@@ -6874,11 +5850,7 @@ The command will generate a report in three different formats. `event.csv`, `eve
 | assets                   | Zero or more content assets involved in the action.                                                |
 | other_info               | The variable event schema applicable to this type of action.                                       |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `event_0000.xlsx`, `event_0001.xlsx`, `event_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team activity user
@@ -6898,24 +5870,21 @@ This document uses the Desktop folder for command example.
 tbx dropbox team activity user 
 ```
 
-
 ## Options:
 
+**-category**
+: Filter the returned events to a single category. This field is optional.
 
+**-end-time**
+: Ending time (exclusive).
 
-| Option        | Description                                                              | Default |
-|---------------|--------------------------------------------------------------------------|---------|
-| `-category`   | Filter the returned events to a single category. This field is optional. |         |
-| `-end-time`   | Ending time (exclusive).                                                 |         |
-| `-peer`       | Account alias                                                            | default |
-| `-start-time` | Starting time (inclusive)                                                |         |
+**-peer**
+: Account alias. Default: default
 
-
-
+**-start-time**
+: Starting time (inclusive)
 
 # Results
-
-
 
 ## Report: user
 
@@ -6939,10 +5908,7 @@ The command will generate a report in three different formats. `user.csv`, `user
 | assets                   | Zero or more content assets involved in the action.                                                |
 | other_info               | The variable event schema applicable to this type of action.                                       |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `user_0000.xlsx`, `user_0001.xlsx`, `user_0002.xlsx`, ...
-
 
 ## Report: user_summary
 
@@ -6961,11 +5927,7 @@ The command will generate a report in three different formats. `user_summary.csv
 | result.paper           | Number of activities of Paper          |
 | result.others          | Number of other category activities    |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `user_summary_0000.xlsx`, `user_summary_0001.xlsx`, `user_summary_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team activity batch user
@@ -6985,35 +5947,32 @@ This document uses the Desktop folder for command example.
 tbx dropbox team activity batch user -file /path/to/file.csv
 ```
 
-
 ## Options:
 
+**-category**
+: Filter the returned events to a single category. This field is optional.
 
+**-end-time**
+: Ending time (exclusive).
 
-| Option        | Description                                                              | Default |
-|---------------|--------------------------------------------------------------------------|---------|
-| `-category`   | Filter the returned events to a single category. This field is optional. |         |
-| `-end-time`   | Ending time (exclusive).                                                 |         |
-| `-file`       | User email address list file                                             |         |
-| `-peer`       | Account alias                                                            | default |
-| `-start-time` | Starting time (inclusive)                                                |         |
+**-file**
+: User email address list file
 
+**-peer**
+: Account alias. Default: default
 
-
+**-start-time**
+: Starting time (inclusive)
 
 # File formats
 
-
 ## Format: File
-
 
 Data file for batch retrieving activities of members.
 
 | Column | Description        | Example          |
 |--------|--------------------|------------------|
 | email  | User email address | john@example.com |
-
-
 
 The first line is a header line. The program will accept a file without the header.
 ```
@@ -7022,8 +5981,6 @@ john@example.com
 ```
 
 # Results
-
-
 
 ## Report: combined
 
@@ -7047,10 +6004,7 @@ The command will generate a report in three different formats. `combined.csv`, `
 | assets                   | Zero or more content assets involved in the action.                                                |
 | other_info               | The variable event schema applicable to this type of action.                                       |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `combined_0000.xlsx`, `combined_0001.xlsx`, `combined_0002.xlsx`, ...
-
 
 ## Report: user
 
@@ -7074,11 +6028,7 @@ The command will generate a report in three different formats. `user.csv`, `user
 | assets                   | Zero or more content assets involved in the action.                                                |
 | other_info               | The variable event schema applicable to this type of action.                                       |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `user_0000.xlsx`, `user_0001.xlsx`, `user_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team activity daily event
@@ -7098,24 +6048,21 @@ This document uses the Desktop folder for command example.
 tbx dropbox team activity daily event -start-date DATE
 ```
 
-
 ## Options:
 
+**-category**
+: Event category
 
+**-end-date**
+: End date
 
-| Option        | Description    | Default |
-|---------------|----------------|---------|
-| `-category`   | Event category |         |
-| `-end-date`   | End date       |         |
-| `-peer`       | Account alias  | default |
-| `-start-date` | Start date     |         |
+**-peer**
+: Account alias. Default: default
 
-
-
+**-start-date**
+: Start date
 
 # Results
-
-
 
 ## Report: event
 
@@ -7139,11 +6086,7 @@ The command will generate a report in three different formats. `event.csv`, `eve
 | assets                   | Zero or more content assets involved in the action.                                                |
 | other_info               | The variable event schema applicable to this type of action.                                       |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `event_0000.xlsx`, `event_0001.xlsx`, `event_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team admin list
@@ -7163,30 +6106,25 @@ This document uses the Desktop folder for command example.
 tbx dropbox team admin list 
 ```
 
-
 ## Options:
 
+**-include-non-admin**
+: Include non admin members in the report. Default: false
 
+**-member-roles**
+: Member to admin-role mappings
 
-| Option                 | Description                             | Default |
-|------------------------|-----------------------------------------|---------|
-| `-include-non-admin`   | Include non admin members in the report | false   |
-| `-member-roles`        | Member to admin-role mappings           |         |
-| `-member-roles-format` | Output format                           |         |
-| `-peer`                | Account alias                           | default |
+**-member-roles-format**
+: Output format
 
-
-
+**-peer**
+: Account alias. Default: default
 
 # Grid data output of the command
 
-
 ## Grid data output: MemberRoles
 
-
 Member to admin-role mappings
-
-
 
 ---
 Title: dropbox team admin group role add
@@ -7206,23 +6144,18 @@ This document uses the Desktop folder for command example.
 tbx dropbox team admin group role add -group GROUP_NAME -role-id ROLE_ID
 ```
 
-
 ## Options:
 
+**-group**
+: Group name
 
+**-peer**
+: Account alias. Default: default
 
-| Option     | Description   | Default |
-|------------|---------------|---------|
-| `-group`   | Group name    |         |
-| `-peer`    | Account alias | default |
-| `-role-id` | Role ID       |         |
-
-
-
+**-role-id**
+: Role ID
 
 # Results
-
-
 
 ## Report: roles
 
@@ -7237,11 +6170,7 @@ The command will generate a report in three different formats. `roles.csv`, `rol
 | name           | The role display name.              |
 | description    | Role description.                   |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `roles_0000.xlsx`, `roles_0001.xlsx`, `roles_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team admin group role delete
@@ -7261,23 +6190,18 @@ This document uses the Desktop folder for command example.
 tbx dropbox team admin group role delete -exception-group GROUP_NAME -role-id ROLE_ID
 ```
 
-
 ## Options:
 
+**-exception-group**
+: Exception group name
 
+**-peer**
+: Account alias. Default: default
 
-| Option             | Description          | Default |
-|--------------------|----------------------|---------|
-| `-exception-group` | Exception group name |         |
-| `-peer`            | Account alias        | default |
-| `-role-id`         | Role ID              |         |
-
-
-
+**-role-id**
+: Role ID
 
 # Results
-
-
 
 ## Report: roles
 
@@ -7292,11 +6216,7 @@ The command will generate a report in three different formats. `roles.csv`, `rol
 | name           | The role display name.              |
 | description    | Role description.                   |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `roles_0000.xlsx`, `roles_0001.xlsx`, `roles_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team admin role add
@@ -7316,23 +6236,18 @@ This document uses the Desktop folder for command example.
 tbx dropbox team admin role add -email EMAIL -role-id ROLE_ID
 ```
 
-
 ## Options:
 
+**-email**
+: Email address of the member
 
+**-peer**
+: Account alias. Default: default
 
-| Option     | Description                 | Default |
-|------------|-----------------------------|---------|
-| `-email`   | Email address of the member |         |
-| `-peer`    | Account alias               | default |
-| `-role-id` | Role ID                     |         |
-
-
-
+**-role-id**
+: Role ID
 
 # Results
-
-
 
 ## Report: roles
 
@@ -7347,11 +6262,7 @@ The command will generate a report in three different formats. `roles.csv`, `rol
 | name           | The role display name.              |
 | description    | Role description.                   |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `roles_0000.xlsx`, `roles_0001.xlsx`, `roles_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team admin role clear
@@ -7371,20 +6282,13 @@ This document uses the Desktop folder for command example.
 tbx dropbox team admin role clear -email EMAIL
 ```
 
-
 ## Options:
 
+**-email**
+: Email address of the member
 
-
-| Option   | Description                 | Default |
-|----------|-----------------------------|---------|
-| `-email` | Email address of the member |         |
-| `-peer`  | Account alias               | default |
-
-
-
-
-
+**-peer**
+: Account alias. Default: default
 
 ---
 Title: dropbox team admin role delete
@@ -7404,23 +6308,18 @@ This document uses the Desktop folder for command example.
 tbx dropbox team admin role delete -email EMAIL -role-id ROLE_ID
 ```
 
-
 ## Options:
 
+**-email**
+: Email address of the member
 
+**-peer**
+: Account alias. Default: default
 
-| Option     | Description                 | Default |
-|------------|-----------------------------|---------|
-| `-email`   | Email address of the member |         |
-| `-peer`    | Account alias               | default |
-| `-role-id` | Role ID                     |         |
-
-
-
+**-role-id**
+: Role ID
 
 # Results
-
-
 
 ## Report: roles
 
@@ -7435,11 +6334,7 @@ The command will generate a report in three different formats. `roles.csv`, `rol
 | name           | The role display name.              |
 | description    | Role description.                   |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `roles_0000.xlsx`, `roles_0001.xlsx`, `roles_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team admin role list
@@ -7459,21 +6354,12 @@ This document uses the Desktop folder for command example.
 tbx dropbox team admin role list 
 ```
 
-
 ## Options:
 
-
-
-| Option  | Description   | Default |
-|---------|---------------|---------|
-| `-peer` | Account alias | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: roles
 
@@ -7486,11 +6372,7 @@ The command will generate a report in three different formats. `roles.csv`, `rol
 | name        | The role display name.              |
 | description | Role description.                   |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `roles_0000.xlsx`, `roles_0001.xlsx`, `roles_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team backup device status
@@ -7515,23 +6397,18 @@ This document uses the Desktop folder for command example.
 tbx dropbox team backup device status -start-time "2024-01-01"
 ```
 
-
 ## Options:
 
+**-end-time**
+: End date/time of the period to retrieve data for (exclusive). If this is not specified, the current time is used.
 
+**-peer**
+: Account alias. Default: default
 
-| Option        | Description                                                                                                       | Default |
-|---------------|-------------------------------------------------------------------------------------------------------------------|---------|
-| `-end-time`   | End date/time of the period to retrieve data for (exclusive). If this is not specified, the current time is used. |         |
-| `-peer`       | Account alias                                                                                                     | default |
-| `-start-time` | Start date/time of the period to retrieve data for (inclusive).                                                   |         |
-
-
-
+**-start-time**
+: Start date/time of the period to retrieve data for (inclusive).
 
 # Results
-
-
 
 ## Report: devices
 
@@ -7551,11 +6428,7 @@ The command will generate a report in three different formats. `devices.csv`, `d
 | timestamp                   | Timestamp of the event               |
 | latest_status               | Latest status of the device          |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `devices_0000.xlsx`, `devices_0001.xlsx`, `devices_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team content legacypaper count
@@ -7575,22 +6448,15 @@ This document uses the Desktop folder for command example.
 tbx dropbox team content legacypaper count 
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: stats
 
@@ -7603,11 +6469,7 @@ The command will generate a report in three different formats. `stats.csv`, `sta
 | created      | Number of created Paper docs  |
 | accessed     | Number of accessed Paper docs |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `stats_0000.xlsx`, `stats_0001.xlsx`, `stats_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team content legacypaper export
@@ -7627,25 +6489,24 @@ This document uses the Desktop folder for command example.
 tbx dropbox team content legacypaper export -path /LOCAL/PATH/TO/EXPORT
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-filter-by**
+: Specify how the Paper docs should be filtered (doc_created/doc_accessed).. Options: docs_created (filterby: docs_created), docs_accessed (filterby: docs_accessed). Default: docs_created
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default      |
-|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root         |
-| `-filter-by` | Specify how the Paper docs should be filtered (doc_created/doc_accessed).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | docs_created |
-| `-format`    | Export file format (html/markdown)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | html         |
-| `-path`      | Export folder path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |              |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default      |
+**-format**
+: Export file format (html/markdown). Options: html (HTML format), markdown (Markdown format). Default: html
 
+**-path**
+: Export folder path
 
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: paper
 
@@ -7661,11 +6522,7 @@ The command will generate a report in three different formats. `paper.csv`, `pap
 | paper_revision | Paper revision            |
 | export_path    | Export file path          |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `paper_0000.xlsx`, `paper_0001.xlsx`, `paper_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team content legacypaper list
@@ -7685,23 +6542,18 @@ This document uses the Desktop folder for command example.
 tbx dropbox team content legacypaper list 
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-filter-by**
+: Specify how the Paper docs should be filtered (doc_created/doc_accessed).. Options: docs_created (filterby: docs_created), docs_accessed (filterby: docs_accessed). Default: docs_created
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default      |
-|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root         |
-| `-filter-by` | Specify how the Paper docs should be filtered (doc_created/doc_accessed).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | docs_created |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default      |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: paper
 
@@ -7716,11 +6568,7 @@ The command will generate a report in three different formats. `paper.csv`, `pap
 | paper_title    | Paper title               |
 | paper_revision | Paper revision            |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `paper_0000.xlsx`, `paper_0001.xlsx`, `paper_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team content member list
@@ -7740,28 +6588,33 @@ This document uses the Desktop folder for command example.
 tbx dropbox team content member list 
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-folder-name**
+: Filter by folder name. Filter by exact match to the name.
 
-| Option                  | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|-------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`            | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-folder-name`          | Filter by folder name. Filter by exact match to the name.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |         |
-| `-folder-name-prefix`   | Filter by folder name. Filter by name match to the prefix.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |         |
-| `-folder-name-suffix`   | Filter by folder name. Filter by name match to the suffix.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |         |
-| `-member-type-external` | Filter folder members. Keep only members that are external (not in the same team). Note: Invited members are marked as external member.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |         |
-| `-member-type-internal` | Filter folder members. Keep only members that are internal (in the same team). Note: Invited members are marked as external member.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |         |
-| `-peer`                 | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-| `-scan-timeout`         | Scan timeout mode. If the scan timeouts, the path of a subfolder of the team folder will be replaced with a dummy path like `TEAMFOLDER_NAME/:ERROR-SCAN-TIMEOUT:/SUBFOLDER_NAME`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | short   |
+**-folder-name-prefix**
+: Filter by folder name. Filter by name match to the prefix.
 
+**-folder-name-suffix**
+: Filter by folder name. Filter by name match to the suffix.
 
+**-member-type-external**
+: Filter folder members. Keep only members that are external (not in the same team). Note: Invited members are marked as external member.
 
+**-member-type-internal**
+: Filter folder members. Keep only members that are internal (in the same team). Note: Invited members are marked as external member.
+
+**-peer**
+: Account alias. Default: default
+
+**-scan-timeout**
+: Scan timeout mode. If the scan timeouts, the path of a subfolder of the team folder will be replaced with a dummy path like `TEAMFOLDER_NAME/:ERROR-SCAN-TIMEOUT:/SUBFOLDER_NAME`.. Options: short (scantimeout: short), long (scantimeout: long). Default: short
 
 # Results
-
-
 
 ## Report: membership
 
@@ -7779,10 +6632,7 @@ The command will generate a report in three different formats. `membership.csv`,
 | member_email    | Email address of this member                                                                                                         |
 | same_team       | Whether the member is in the same team or not. Returns empty if the member is not able to determine whether in the same team or not. |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `membership_0000.xlsx`, `membership_0001.xlsx`, `membership_0002.xlsx`, ...
-
 
 ## Report: no_member
 
@@ -7795,11 +6645,7 @@ The command will generate a report in three different formats. `no_member.csv`, 
 | path            | Path                                                                                                     |
 | folder_type     | Type of the folder. (`team_folder`: a team folder or in a team folder, `shared_folder`: a shared folder) |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `no_member_0000.xlsx`, `no_member_0001.xlsx`, `no_member_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team content member size
@@ -7819,27 +6665,30 @@ This document uses the Desktop folder for command example.
 tbx dropbox team content member size 
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-folder-name**
+: Filter by folder name. Filter by exact match to the name.
 
-| Option                 | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`           | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-folder-name`         | Filter by folder name. Filter by exact match to the name.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |         |
-| `-folder-name-prefix`  | Filter by folder name. Filter by name match to the prefix.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |         |
-| `-folder-name-suffix`  | Filter by folder name. Filter by name match to the suffix.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |         |
-| `-include-sub-folders` | Include sub-folders to the report.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | false   |
-| `-peer`                | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-| `-scan-timeout`        | Scan timeout mode. If the scan timeouts, the path of a subfolder of the team folder will be replaced with a dummy path like `TEAMFOLDER_NAME/:ERROR-SCAN-TIMEOUT:/SUBFOLDER_NAME`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | short   |
+**-folder-name-prefix**
+: Filter by folder name. Filter by name match to the prefix.
 
+**-folder-name-suffix**
+: Filter by folder name. Filter by name match to the suffix.
 
+**-include-sub-folders**
+: Include sub-folders to the report.. Default: false
 
+**-peer**
+: Account alias. Default: default
+
+**-scan-timeout**
+: Scan timeout mode. If the scan timeouts, the path of a subfolder of the team folder will be replaced with a dummy path like `TEAMFOLDER_NAME/:ERROR-SCAN-TIMEOUT:/SUBFOLDER_NAME`.. Options: short (scantimeout: short), long (scantimeout: long). Default: short
 
 # Results
-
-
 
 ## Report: member_count
 
@@ -7857,11 +6706,7 @@ The command will generate a report in three different formats. `member_count.csv
 | count_total           | Total number of members                                                                                                                |
 | count_external_groups | Number of external teams' groups                                                                                                       |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `member_count_0000.xlsx`, `member_count_0001.xlsx`, `member_count_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team content mount list
@@ -7881,26 +6726,27 @@ This document uses the Desktop folder for command example.
 tbx dropbox team content mount list 
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-member-email**
+: Filter members. Filter by email address.
 
-| Option                | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|-----------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`          | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-member-email`       | Filter members. Filter by email address.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |         |
-| `-member-name`        | Filter members. Filter by exact match to the name.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |         |
-| `-member-name-prefix` | Filter members. Filter by name match to the prefix.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |         |
-| `-member-name-suffix` | Filter members. Filter by name match to the suffix.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |         |
-| `-peer`               | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
+**-member-name**
+: Filter members. Filter by exact match to the name.
 
+**-member-name-prefix**
+: Filter members. Filter by name match to the prefix.
 
+**-member-name-suffix**
+: Filter members. Filter by name match to the suffix.
 
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: mount
 
@@ -7923,11 +6769,7 @@ The command will generate a report in three different formats. `mount.csv`, `mou
 | policy_viewer_info       | Who can enable/disable viewer info for this shared folder.                                                |
 | owner_team_name          | Team name of the team that owns the folder                                                                |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `mount_0000.xlsx`, `mount_0001.xlsx`, `mount_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team content policy list
@@ -7947,26 +6789,27 @@ This document uses the Desktop folder for command example.
 tbx dropbox team content policy list 
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-folder-name**
+: Filter by folder name. Filter by exact match to the name.
 
-| Option                | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|-----------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`          | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-folder-name`        | Filter by folder name. Filter by exact match to the name.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |         |
-| `-folder-name-prefix` | Filter by folder name. Filter by name match to the prefix.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |         |
-| `-folder-name-suffix` | Filter by folder name. Filter by name match to the suffix.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |         |
-| `-peer`               | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-| `-scan-timeout`       | Scan timeout mode. If the scan timeouts, the path of a subfolder of the team folder will be replaced with a dummy path like `TEAMFOLDER_NAME/:ERROR-SCAN-TIMEOUT:/SUBFOLDER_NAME`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | short   |
+**-folder-name-prefix**
+: Filter by folder name. Filter by name match to the prefix.
 
+**-folder-name-suffix**
+: Filter by folder name. Filter by name match to the suffix.
 
+**-peer**
+: Account alias. Default: default
 
+**-scan-timeout**
+: Scan timeout mode. If the scan timeouts, the path of a subfolder of the team folder will be replaced with a dummy path like `TEAMFOLDER_NAME/:ERROR-SCAN-TIMEOUT:/SUBFOLDER_NAME`.. Options: short (scantimeout: short), long (scantimeout: long). Default: short
 
 # Results
-
-
 
 ## Report: policy
 
@@ -7983,11 +6826,7 @@ The command will generate a report in three different formats. `policy.csv`, `po
 | policy_member        | Who can be a member of this shared folder, taking into account both the folder and the team-wide policy. |
 | policy_viewer_info   | Who can enable/disable viewer info for this shared folder.                                               |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `policy_0000.xlsx`, `policy_0001.xlsx`, `policy_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team device list
@@ -8007,21 +6846,12 @@ This document uses the Desktop folder for command example.
 tbx dropbox team device list 
 ```
 
-
 ## Options:
 
-
-
-| Option  | Description   | Default |
-|---------|---------------|---------|
-| `-peer` | Account alias | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: device
 
@@ -8055,11 +6885,7 @@ The command will generate a report in three different formats. `device.csv`, `de
 | os_version                    | The hosting OS version.                                                              |
 | last_carrier                  | Last carrier used by the device (optional).                                          |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `device_0000.xlsx`, `device_0001.xlsx`, `device_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team device unlink
@@ -8079,25 +6905,20 @@ This document uses the Desktop folder for command example.
 tbx dropbox team device unlink -file /path/to/data/file.csv
 ```
 
-
 ## Options:
 
+**-delete-on-unlink**
+: Delete files on unlink. Default: false
 
+**-file**
+: Data file
 
-| Option              | Description            | Default |
-|---------------------|------------------------|---------|
-| `-delete-on-unlink` | Delete files on unlink | false   |
-| `-file`             | Data file              |         |
-| `-peer`             | Account alias          | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # File formats
 
-
 ## Format: File
-
 
 This report shows a list of current existing sessions in the team with team member information.
 
@@ -8132,8 +6953,6 @@ This report shows a list of current existing sessions in the team with team memb
 | os_version                    | The hosting OS version.                                                              | (empty string if not set)                                                                                       |
 | last_carrier                  | Last carrier used by the device (optional).                                          | AT&T                                                                                                            |
 
-
-
 The first line is a header line. The program will accept a file without the header.
 ```
 team_member_id,email,status,given_name,surname,familiar_name,display_name,abbreviated_name,external_id,account_id,device_tag,id,user_agent,os,browser,ip_address,country,created,updated,expires,host_name,client_type,client_version,platform,is_delete_on_unlink_supported,device_name,os_version,last_carrier
@@ -8141,8 +6960,6 @@ dbmid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx,john.smith@example.com,active,John,Smi
 ```
 
 # Results
-
-
 
 ## Report: operation_log
 
@@ -8178,11 +6995,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | input.os_version                    | The hosting OS version.                                                              |
 | input.last_carrier                  | Last carrier used by the device (optional).                                          |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team filerequest list
@@ -8202,22 +7015,15 @@ This document uses the Desktop folder for command example.
 tbx dropbox team filerequest list 
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: file_request
 
@@ -8239,11 +7045,7 @@ The command will generate a report in three different formats. `file_request.csv
 | deadline                    | The deadline for this file request.                                           |
 | deadline_allow_late_uploads | If set, allow uploads after the deadline has passed                           |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `file_request_0000.xlsx`, `file_request_0001.xlsx`, `file_request_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team group add
@@ -8263,23 +7065,18 @@ This document uses the Desktop folder for command example.
 tbx dropbox team group add -name GROUP_NAME
 ```
 
-
 ## Options:
 
+**-management-type**
+: Group management type `company_managed` or `user_managed`. Options: company_managed (Managed by company administrators), user_managed (Managed by individual users). Default: company_managed
 
+**-name**
+: Group name
 
-| Option             | Description                                               | Default         |
-|--------------------|-----------------------------------------------------------|-----------------|
-| `-management-type` | Group management type `company_managed` or `user_managed` | company_managed |
-| `-name`            | Group name                                                |                 |
-| `-peer`            | Account alias                                             | default         |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: added_group
 
@@ -8292,11 +7089,7 @@ The command will generate a report in three different formats. `added_group.csv`
 | group_management_type | Who is allowed to manage the group (user_managed, company_managed, or system_managed) |
 | member_count          | The number of members in the group.                                                   |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `added_group_0000.xlsx`, `added_group_0001.xlsx`, `added_group_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team group delete
@@ -8316,20 +7109,13 @@ This document uses the Desktop folder for command example.
 tbx dropbox team group delete -name GROUP_NAME
 ```
 
-
 ## Options:
 
+**-name**
+: Group name
 
-
-| Option  | Description   | Default |
-|---------|---------------|---------|
-| `-name` | Group name    |         |
-| `-peer` | Account alias | default |
-
-
-
-
-
+**-peer**
+: Account alias. Default: default
 
 ---
 Title: dropbox team group list
@@ -8349,21 +7135,12 @@ This document uses the Desktop folder for command example.
 tbx dropbox team group list 
 ```
 
-
 ## Options:
 
-
-
-| Option  | Description   | Default |
-|---------|---------------|---------|
-| `-peer` | Account alias | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: group
 
@@ -8376,11 +7153,7 @@ The command will generate a report in three different formats. `group.csv`, `gro
 | group_management_type | Who is allowed to manage the group (user_managed, company_managed, or system_managed) |
 | member_count          | The number of members in the group.                                                   |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `group_0000.xlsx`, `group_0001.xlsx`, `group_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team group rename
@@ -8400,23 +7173,18 @@ This document uses the Desktop folder for command example.
 tbx dropbox team group rename -current-name CURRENT_NAME -new-name NEW_NAME
 ```
 
-
 ## Options:
 
+**-current-name**
+: Current group name
 
+**-new-name**
+: New group name
 
-| Option          | Description        | Default |
-|-----------------|--------------------|---------|
-| `-current-name` | Current group name |         |
-| `-new-name`     | New group name     |         |
-| `-peer`         | Account alias      | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: operation_log
 
@@ -8433,11 +7201,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | result.group_management_type | Who is allowed to manage the group (user_managed, company_managed, or system_managed) |
 | result.member_count          | The number of members in the group.                                                   |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team group batch add
@@ -8457,33 +7221,26 @@ This document uses the Desktop folder for command example.
 tbx dropbox team group batch add -file /PATH/TO/DATA_FILE.csv
 ```
 
-
 ## Options:
 
+**-file**
+: Path to data file
 
+**-management-type**
+: Who is allowed to manage the group (user_managed, company_managed, or system_managed). Options: company_managed (Managed by company administrators), user_managed (Managed by individual users). Default: company_managed
 
-| Option             | Description                                                                           | Default         |
-|--------------------|---------------------------------------------------------------------------------------|-----------------|
-| `-file`            | Path to data file                                                                     |                 |
-| `-management-type` | Who is allowed to manage the group (user_managed, company_managed, or system_managed) | company_managed |
-| `-peer`            | Account alias                                                                         | default         |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # File formats
 
-
 ## Format: File
-
 
 Data file for batch operation to groups.
 
 | Column | Description | Example |
 |--------|-------------|---------|
 | name   | Group name  | Sales   |
-
-
 
 The first line is a header line. The program will accept a file without the header.
 ```
@@ -8492,8 +7249,6 @@ Sales
 ```
 
 # Results
-
-
 
 ## Report: operation_log
 
@@ -8509,11 +7264,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | result.group_management_type | Who is allowed to manage the group (user_managed, company_managed, or system_managed) |
 | result.member_count          | The number of members in the group.                                                   |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team group batch delete
@@ -8533,32 +7284,23 @@ This document uses the Desktop folder for command example.
 tbx dropbox team group batch delete -file /path/to/file.csv
 ```
 
-
 ## Options:
 
+**-file**
+: Data file for group name list
 
-
-| Option  | Description                   | Default |
-|---------|-------------------------------|---------|
-| `-file` | Data file for group name list |         |
-| `-peer` | Account alias                 | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # File formats
 
-
 ## Format: File
-
 
 Data file for batch operation to groups.
 
 | Column | Description | Example |
 |--------|-------------|---------|
 | name   | Group name  | Sales   |
-
-
 
 The first line is a header line. The program will accept a file without the header.
 ```
@@ -8567,8 +7309,6 @@ Sales
 ```
 
 # Results
-
-
 
 ## Report: operation_log
 
@@ -8584,11 +7324,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | result.group_management_type | Who is allowed to manage the group (user_managed, company_managed, or system_managed) |
 | result.member_count          | The number of members in the group.                                                   |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team group clear externalid
@@ -8608,32 +7344,23 @@ This document uses the Desktop folder for command example.
 tbx dropbox team group clear externalid -file /PATH/TO/DATA_FILE.csv
 ```
 
-
 ## Options:
 
+**-file**
+: Path to data file
 
-
-| Option  | Description       | Default |
-|---------|-------------------|---------|
-| `-file` | Path to data file |         |
-| `-peer` | Account alias     | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # File formats
 
-
 ## Format: File
-
 
 Group name
 
 | Column | Description                           | Example |
 |--------|---------------------------------------|---------|
 | name   | Name of group to clear an external ID | Sales   |
-
-
 
 The first line is a header line. The program will accept a file without the header.
 ```
@@ -8642,8 +7369,6 @@ Sales
 ```
 
 # Results
-
-
 
 ## Report: operation_log
 
@@ -8661,11 +7386,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | result.group_external_id     | External ID that a team can attach to the group.                                      |
 | result.member_count          | The number of members in the group.                                                   |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team group folder list
@@ -8685,30 +7406,39 @@ This document uses the Desktop folder for command example.
 tbx dropbox team group folder list 
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-folder-name**
+: Filter by folder name. Filter by exact match to the name.
 
-| Option                     | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|----------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`               | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-folder-name`             | Filter by folder name. Filter by exact match to the name.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |         |
-| `-folder-name-prefix`      | Filter by folder name. Filter by name match to the prefix.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |         |
-| `-folder-name-suffix`      | Filter by folder name. Filter by name match to the suffix.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |         |
-| `-group-name`              | Filter by group name. Filter by exact match to the name.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |         |
-| `-group-name-prefix`       | Filter by group name. Filter by name match to the prefix.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |         |
-| `-group-name-suffix`       | Filter by group name. Filter by name match to the suffix.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |         |
-| `-include-external-groups` | Include external groups in the report.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | false   |
-| `-peer`                    | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-| `-scan-timeout`            | Scan timeout mode. If the scan timeouts, the path of a subfolder of the team folder will be replaced with a dummy path like `TEAMFOLDER_NAME/:ERROR-SCAN-TIMEOUT:/SUBFOLDER_NAME`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | short   |
+**-folder-name-prefix**
+: Filter by folder name. Filter by name match to the prefix.
 
+**-folder-name-suffix**
+: Filter by folder name. Filter by name match to the suffix.
 
+**-group-name**
+: Filter by group name. Filter by exact match to the name.
 
+**-group-name-prefix**
+: Filter by group name. Filter by name match to the prefix.
+
+**-group-name-suffix**
+: Filter by group name. Filter by name match to the suffix.
+
+**-include-external-groups**
+: Include external groups in the report.. Default: false
+
+**-peer**
+: Account alias. Default: default
+
+**-scan-timeout**
+: Scan timeout mode. If the scan timeouts, the path of a subfolder of the team folder will be replaced with a dummy path like `TEAMFOLDER_NAME/:ERROR-SCAN-TIMEOUT:/SUBFOLDER_NAME`.. Options: short (scantimeout: short), long (scantimeout: long). Default: short
 
 # Results
-
-
 
 ## Report: group_to_folder
 
@@ -8726,10 +7456,7 @@ The command will generate a report in three different formats. `group_to_folder.
 | folder_type        | Type of the folder. (`team_folder`: a team folder or in a team folder, `shared_folder`: a shared folder) |
 | owner_team_name    | Team name of the team that owns the folder                                                               |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `group_to_folder_0000.xlsx`, `group_to_folder_0001.xlsx`, `group_to_folder_0002.xlsx`, ...
-
 
 ## Report: group_with_no_folders
 
@@ -8742,11 +7469,7 @@ The command will generate a report in three different formats. `group_with_no_fo
 | group_management_type | Who is allowed to manage the group (user_managed, company_managed, or system_managed) |
 | member_count          | The number of members in the group.                                                   |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `group_with_no_folders_0000.xlsx`, `group_with_no_folders_0001.xlsx`, `group_with_no_folders_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team group member add
@@ -8766,23 +7489,18 @@ This document uses the Desktop folder for command example.
 tbx dropbox team group member add -group-name GROUP_NAME -member-email EMAIL
 ```
 
-
 ## Options:
 
+**-group-name**
+: Group name
 
+**-member-email**
+: Email address of the member
 
-| Option          | Description                 | Default |
-|-----------------|-----------------------------|---------|
-| `-group-name`   | Group name                  |         |
-| `-member-email` | Email address of the member |         |
-| `-peer`         | Account alias               | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: operation_log
 
@@ -8799,11 +7517,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | result.group_management_type | Who is allowed to manage the group (user_managed, company_managed, or system_managed) |
 | result.member_count          | The number of members in the group.                                                   |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team group member delete
@@ -8823,23 +7537,18 @@ This document uses the Desktop folder for command example.
 tbx dropbox team group member delete -group-name GROUP_NAME -member-email EMAIL
 ```
 
-
 ## Options:
 
+**-group-name**
+: Name of the group
 
+**-member-email**
+: Email address of the member
 
-| Option          | Description                 | Default |
-|-----------------|-----------------------------|---------|
-| `-group-name`   | Name of the group           |         |
-| `-member-email` | Email address of the member |         |
-| `-peer`         | Account alias               | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: operation_log
 
@@ -8856,11 +7565,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | result.group_management_type | Who is allowed to manage the group (user_managed, company_managed, or system_managed) |
 | result.member_count          | The number of members in the group.                                                   |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team group member list
@@ -8880,21 +7585,12 @@ This document uses the Desktop folder for command example.
 tbx dropbox team group member list 
 ```
 
-
 ## Options:
 
-
-
-| Option  | Description   | Default |
-|---------|---------------|---------|
-| `-peer` | Account alias | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: group_member
 
@@ -8911,11 +7607,7 @@ The command will generate a report in three different formats. `group_member.csv
 | surname               | Also known as a last name or family name.                                             |
 | given_name            | Also known as a first name                                                            |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `group_member_0000.xlsx`, `group_member_0001.xlsx`, `group_member_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team group member batch add
@@ -8935,24 +7627,17 @@ This document uses the Desktop folder for command example.
 tbx dropbox team group member batch add -file /PATH/TO/DATA_FILE.csv
 ```
 
-
 ## Options:
 
+**-file**
+: Path to data file
 
-
-| Option  | Description       | Default |
-|---------|-------------------|---------|
-| `-file` | Path to data file |         |
-| `-peer` | Account alias     | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # File formats
 
-
 ## Format: File
-
 
 Add members into groups
 
@@ -8961,8 +7646,6 @@ Add members into groups
 | group_name   | Group name           | Sales            |
 | member_email | Member email address | taro@example.com |
 
-
-
 The first line is a header line. The program will accept a file without the header.
 ```
 group_name,member_email
@@ -8970,8 +7653,6 @@ Sales,taro@example.com
 ```
 
 # Results
-
-
 
 ## Report: operation_log
 
@@ -8985,11 +7666,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | input.GroupName   | Group name                             |
 | input.MemberEmail | Member email address                   |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team group member batch delete
@@ -9009,24 +7686,17 @@ This document uses the Desktop folder for command example.
 tbx dropbox team group member batch delete -file /PATH/TO/DATA_FILE.csv
 ```
 
-
 ## Options:
 
+**-file**
+: Path to data file
 
-
-| Option  | Description       | Default |
-|---------|-------------------|---------|
-| `-file` | Path to data file |         |
-| `-peer` | Account alias     | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # File formats
 
-
 ## Format: File
-
 
 Add members into groups
 
@@ -9035,8 +7705,6 @@ Add members into groups
 | group_name   | Group name           | Sales            |
 | member_email | Member email address | taro@example.com |
 
-
-
 The first line is a header line. The program will accept a file without the header.
 ```
 group_name,member_email
@@ -9044,8 +7712,6 @@ Sales,taro@example.com
 ```
 
 # Results
-
-
 
 ## Report: operation_log
 
@@ -9059,11 +7725,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | input.GroupName   | Group name                             |
 | input.MemberEmail | Member email address                   |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team group member batch update
@@ -9083,24 +7745,17 @@ This document uses the Desktop folder for command example.
 tbx dropbox team group member batch update -file /PATH/TO/DATA_FILE.csv
 ```
 
-
 ## Options:
 
+**-file**
+: Path to data file
 
-
-| Option  | Description       | Default |
-|---------|-------------------|---------|
-| `-file` | Path to data file |         |
-| `-peer` | Account alias     | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # File formats
 
-
 ## Format: File
-
 
 Add members into groups
 
@@ -9109,8 +7764,6 @@ Add members into groups
 | group_name   | Group name           | Sales            |
 | member_email | Member email address | taro@example.com |
 
-
-
 The first line is a header line. The program will accept a file without the header.
 ```
 group_name,member_email
@@ -9118,8 +7771,6 @@ Sales,taro@example.com
 ```
 
 # Results
-
-
 
 ## Report: operation_log
 
@@ -9133,11 +7784,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | input.GroupName   | Group name                             |
 | input.MemberEmail | Member email address                   |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team group update type
@@ -9157,23 +7804,18 @@ This document uses the Desktop folder for command example.
 tbx dropbox team group update type -name GROUP_NAME
 ```
 
-
 ## Options:
 
+**-name**
+: Group name
 
+**-peer**
+: Account alias. Default: default
 
-| Option  | Description                               | Default         |
-|---------|-------------------------------------------|-----------------|
-| `-name` | Group name                                |                 |
-| `-peer` | Account alias                             | default         |
-| `-type` | Group type (user_managed/company_managed) | company_managed |
-
-
-
+**-type**
+: Group type (user_managed/company_managed). Options: user_managed (type: user_managed), company_managed (type: company_managed). Default: company_managed
 
 # Results
-
-
 
 ## Report: group
 
@@ -9188,11 +7830,7 @@ The command will generate a report in three different formats. `group.csv`, `gro
 | group_external_id     | External ID that a team can attach to the group.                                      |
 | member_count          | The number of members in the group.                                                   |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `group_0000.xlsx`, `group_0001.xlsx`, `group_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team insight scan
@@ -9214,11 +7852,9 @@ The time required for scanning depends on the response of the Dropbox server, bu
 
 During the scan, users might delete, move or add files during that time. The command does not aim to capture all those differences and report exact results, but to provide rough information as quickly as possible.
 
-
 For database file sizes:
 
 As this command retrieves all metadata, including the team's files, the size of the database increases with the size of those metadata. Benchmark results show that the database size is around 10-12 GB per 10 million files stored in the team. Make sure that the path specified by `-database` has enough space before running.
-
 
 About scan errors:
 
@@ -9233,26 +7869,27 @@ This document uses the Desktop folder for command example.
 tbx dropbox team insight scan -database /LOCAL/PATH/TO/database
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-database**
+: Path to database
 
-| Option                 | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`           | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-database`            | Path to database                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |         |
-| `-max-retries`         | Maximum number of retries                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | 3       |
-| `-peer`                | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-| `-scan-member-folders` | Scan member folders                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | false   |
-| `-skip-summarize`      | Skip summarize tasks                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | false   |
+**-max-retries**
+: Maximum number of retries. Default: 3
 
+**-peer**
+: Account alias. Default: default
 
+**-scan-member-folders**
+: Scan member folders. Default: false
 
+**-skip-summarize**
+: Skip summarize tasks. Default: false
 
 # Results
-
-
 
 ## Report: errors
 
@@ -9266,11 +7903,7 @@ The command will generate a report in three different formats. `errors.csv`, `er
 | tag      | Error tag      |
 | detail   | Error details  |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `errors_0000.xlsx`, `errors_0001.xlsx`, `errors_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team insight report teamfoldermember
@@ -9281,8 +7914,6 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/insight/report/teamfold
 
 Generate detailed reports on team folder membership, showing access patterns and member distribution 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -9290,21 +7921,12 @@ This document uses the Desktop folder for command example.
 tbx dropbox team insight report teamfoldermember -database /LOCAL/PATH/TO/database
 ```
 
-
 ## Options:
 
-
-
-| Option      | Description      | Default |
-|-------------|------------------|---------|
-| `-database` | Path to database |         |
-
-
-
+**-database**
+: Path to database
 
 # Results
-
-
 
 ## Report: entry
 
@@ -9330,11 +7952,7 @@ The command will generate a report in three different formats. `entry.csv`, `ent
 | user_display_name   | User display name                      |
 | user_account_id     | User account ID                        |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `entry_0000.xlsx`, `entry_0001.xlsx`, `entry_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team legalhold add
@@ -9345,8 +7963,6 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/legalhold/add.md
 
 Create a legal hold policy to preserve specified team content for compliance or litigation purposes 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -9354,36 +7970,35 @@ This document uses the Desktop folder for command example.
 tbx dropbox team legalhold add -member /PATH/TO/member_email.csv -name POLICY_NAME
 ```
 
-
 ## Options:
 
+**-description**
+: A description of the legal hold policy.
 
+**-end-date**
+: End date of the legal hold policy.
 
-| Option         | Description                                                | Default |
-|----------------|------------------------------------------------------------|---------|
-| `-description` | A description of the legal hold policy.                    |         |
-| `-end-date`    | End date of the legal hold policy.                         |         |
-| `-member`      | Email of the member or members you want to place a hold on |         |
-| `-name`        | Policy name.                                               |         |
-| `-peer`        | Account alias                                              | default |
-| `-start-date`  | Start date of the legal hold policy.                       |         |
+**-member**
+: Email of the member or members you want to place a hold on
 
+**-name**
+: Policy name.
 
+**-peer**
+: Account alias. Default: default
 
+**-start-date**
+: Start date of the legal hold policy.
 
 # File formats
 
-
 ## Format: Member
-
 
 Member email address
 
 | Column | Description               | Example          |
 |--------|---------------------------|------------------|
 | email  | Team member email address | emma@example.com |
-
-
 
 The first line is a header line. The program will accept a file without the header.
 ```
@@ -9392,8 +8007,6 @@ emma@example.com
 ```
 
 # Results
-
-
 
 ## Report: policy
 
@@ -9411,11 +8024,7 @@ The command will generate a report in three different formats. `policy.csv`, `po
 | activation_time           | The time at which the legal hold was activated. |
 | permanently_deleted_users | Number of users permanently removed.            |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `policy_0000.xlsx`, `policy_0001.xlsx`, `policy_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team legalhold list
@@ -9426,8 +8035,6 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/legalhold/list.md
 
 Display all active legal hold policies with their details, members, and preservation status 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -9435,22 +8042,15 @@ This document uses the Desktop folder for command example.
 tbx dropbox team legalhold list 
 ```
 
-
 ## Options:
 
+**-include-released**
+: Whether to return holds that were released.. Default: false
 
-
-| Option              | Description                                 | Default |
-|---------------------|---------------------------------------------|---------|
-| `-include-released` | Whether to return holds that were released. | false   |
-| `-peer`             | Account alias                               | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: policies
 
@@ -9468,11 +8068,7 @@ The command will generate a report in three different formats. `policies.csv`, `
 | activation_time           | The time at which the legal hold was activated. |
 | permanently_deleted_users | Number of users permanently removed.            |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `policies_0000.xlsx`, `policies_0001.xlsx`, `policies_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team legalhold release
@@ -9492,20 +8088,13 @@ This document uses the Desktop folder for command example.
 tbx dropbox team legalhold release -policy-id POLICY_ID
 ```
 
-
 ## Options:
 
+**-peer**
+: Account alias. Default: default
 
-
-| Option       | Description          | Default |
-|--------------|----------------------|---------|
-| `-peer`      | Account alias        | default |
-| `-policy-id` | Legal hold policy ID |         |
-
-
-
-
-
+**-policy-id**
+: Legal hold policy ID
 
 ---
 Title: dropbox team legalhold member list
@@ -9516,8 +8105,6 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/legalhold/member/list.m
 
 Display all team members currently under legal hold policies with their preservation status 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -9525,22 +8112,15 @@ This document uses the Desktop folder for command example.
 tbx dropbox team legalhold member list -policy-id POLICY_ID
 ```
 
-
 ## Options:
 
+**-peer**
+: Account alias. Default: default
 
-
-| Option       | Description          | Default |
-|--------------|----------------------|---------|
-| `-peer`      | Account alias        | default |
-| `-policy-id` | Legal hold policy ID |         |
-
-
-
+**-policy-id**
+: Legal hold policy ID
 
 # Results
-
-
 
 ## Report: member
 
@@ -9567,11 +8147,7 @@ The command will generate a report in three different formats. `member.csv`, `me
 | role             | The user's role in the team (team_admin, user_management_admin, support_admin, or member_only)                       |
 | tag              | Operation tag                                                                                                        |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `member_0000.xlsx`, `member_0001.xlsx`, `member_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team legalhold member batch update
@@ -9582,8 +8158,6 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/legalhold/member/batch/
 
 Add or remove multiple team members from legal hold policies in batch for efficient compliance management 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -9591,33 +8165,26 @@ This document uses the Desktop folder for command example.
 tbx dropbox team legalhold member batch update -member /PATH/TO/MEMBER_LIST.csv -policy-id POLICY_ID
 ```
 
-
 ## Options:
 
+**-member**
+: Path to member list file
 
+**-peer**
+: Account alias. Default: default
 
-| Option       | Description              | Default |
-|--------------|--------------------------|---------|
-| `-member`    | Path to member list file |         |
-| `-peer`      | Account alias            | default |
-| `-policy-id` | Legal hold policy ID     |         |
-
-
-
+**-policy-id**
+: Legal hold policy ID
 
 # File formats
 
-
 ## Format: Member
-
 
 Member email address
 
 | Column | Description   | Example          |
 |--------|---------------|------------------|
 | email  | Email address | emma@example.com |
-
-
 
 The first line is a header line. The program will accept a file without the header.
 ```
@@ -9626,8 +8193,6 @@ emma@example.com
 ```
 
 # Results
-
-
 
 ## Report: policy
 
@@ -9654,11 +8219,7 @@ The command will generate a report in three different formats. `policy.csv`, `po
 | role             | The user's role in the team (team_admin, user_management_admin, support_admin, or member_only)                       |
 | tag              | Operation tag                                                                                                        |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `policy_0000.xlsx`, `policy_0001.xlsx`, `policy_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team legalhold revision list
@@ -9678,23 +8239,18 @@ This document uses the Desktop folder for command example.
 tbx dropbox team legalhold revision list -after DATE_TIME -policy-id POLICY_ID
 ```
 
-
 ## Options:
 
+**-after**
+: Get revisions after this specified date and time
 
+**-peer**
+: Account alias. Default: default
 
-| Option       | Description                                      | Default |
-|--------------|--------------------------------------------------|---------|
-| `-after`     | Get revisions after this specified date and time |         |
-| `-peer`      | Account alias                                    | default |
-| `-policy-id` | Legal hold policy ID.                            |         |
-
-
-
+**-policy-id**
+: Legal hold policy ID.
 
 # Results
-
-
 
 ## Report: revision
 
@@ -9704,11 +8260,7 @@ The command will generate a report in three different formats. `revision.csv`, `
 | Column | Description |
 |--------|-------------|
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `revision_0000.xlsx`, `revision_0001.xlsx`, `revision_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team legalhold update desc
@@ -9728,23 +8280,18 @@ This document uses the Desktop folder for command example.
 tbx dropbox team legalhold update desc -desc DESCRIPTION -policy-id POLICY_ID
 ```
 
-
 ## Options:
 
+**-desc**
+: New description
 
+**-peer**
+: Account alias. Default: default
 
-| Option       | Description          | Default |
-|--------------|----------------------|---------|
-| `-desc`      | New description      |         |
-| `-peer`      | Account alias        | default |
-| `-policy-id` | Legal hold policy ID |         |
-
-
-
+**-policy-id**
+: Legal hold policy ID
 
 # Results
-
-
 
 ## Report: policy
 
@@ -9762,11 +8309,7 @@ The command will generate a report in three different formats. `policy.csv`, `po
 | activation_time           | The time at which the legal hold was activated. |
 | permanently_deleted_users | Number of users permanently removed.            |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `policy_0000.xlsx`, `policy_0001.xlsx`, `policy_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team legalhold update name
@@ -9777,8 +8320,6 @@ URL: https://toolbox.watermint.org/commands/dropbox/team/legalhold/update/name.m
 
 Change the name of a legal hold policy for better identification and organization 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -9786,23 +8327,18 @@ This document uses the Desktop folder for command example.
 tbx dropbox team legalhold update name -name NEW_NAME -policy-id POLICY_ID
 ```
 
-
 ## Options:
 
+**-name**
+: New name
 
+**-peer**
+: Account alias. Default: default
 
-| Option       | Description          | Default |
-|--------------|----------------------|---------|
-| `-name`      | New name             |         |
-| `-peer`      | Account alias        | default |
-| `-policy-id` | Legal hold policy ID |         |
-
-
-
+**-policy-id**
+: Legal hold policy ID
 
 # Results
-
-
 
 ## Report: policy
 
@@ -9820,11 +8356,7 @@ The command will generate a report in three different formats. `policy.csv`, `po
 | activation_time           | The time at which the legal hold was activated. |
 | permanently_deleted_users | Number of users permanently removed.            |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `policy_0000.xlsx`, `policy_0001.xlsx`, `policy_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team linkedapp list
@@ -9844,21 +8376,12 @@ This document uses the Desktop folder for command example.
 tbx dropbox team linkedapp list 
 ```
 
-
 ## Options:
 
-
-
-| Option  | Description   | Default |
-|---------|---------------|---------|
-| `-peer` | Account alias | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: linked_app
 
@@ -9878,11 +8401,7 @@ The command will generate a report in three different formats. `linked_app.csv`,
 | publisher_url | The publisher's URL.                                                                 |
 | linked        | The time this application was linked                                                 |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `linked_app_0000.xlsx`, `linked_app_0001.xlsx`, `linked_app_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team member feature
@@ -9902,22 +8421,15 @@ This document uses the Desktop folder for command example.
 tbx dropbox team member feature 
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: features
 
@@ -9930,11 +8442,7 @@ The command will generate a report in three different formats. `features.csv`, `
 | paper_as_files | When this value is true, the user's Paper docs are accessible in Dropbox with the .paper extension and must be accessed via the /files endpoints. |
 | file_locking   | When this value is True, the user can lock files in shared folders.                                                                               |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `features_0000.xlsx`, `features_0001.xlsx`, `features_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team member list
@@ -9954,22 +8462,15 @@ This document uses the Desktop folder for command example.
 tbx dropbox team member list 
 ```
 
-
 ## Options:
 
+**-include-deleted**
+: Include deleted members.. Default: false
 
-
-| Option             | Description              | Default |
-|--------------------|--------------------------|---------|
-| `-include-deleted` | Include deleted members. | false   |
-| `-peer`            | Account alias            | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: member
 
@@ -9988,11 +8489,7 @@ The command will generate a report in three different formats. `member.csv`, `me
 | invited_on     | The date and time the user was invited to the team                                             |
 | role           | The user's role in the team (team_admin, user_management_admin, support_admin, or member_only) |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `member_0000.xlsx`, `member_0001.xlsx`, `member_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team member replication
@@ -10012,26 +8509,23 @@ This document uses the Desktop folder for command example.
 tbx dropbox team member replication -file /path/to/file.csv
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-dst**
+: Destination team; team file access. Default: dst
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-dst`       | Destination team; team file access                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | dst     |
-| `-file`      | Data file                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |         |
-| `-src`       | Source team; team file access                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | src     |
+**-file**
+: Data file
 
-
-
+**-src**
+: Source team; team file access. Default: src
 
 # File formats
 
-
 ## Format: File
-
 
 Data file for replicating member contents.
 
@@ -10040,8 +8534,6 @@ Data file for replicating member contents.
 | src_email | Source account's email address      | john@example.net       |
 | dst_email | Destination account's email address | john.smith@example.com |
 
-
-
 The first line is a header line. The program will accept a file without the header.
 ```
 src_email,dst_email
@@ -10049,8 +8541,6 @@ john@example.net,john.smith@example.com
 ```
 
 # Results
-
-
 
 ## Report: operation_log
 
@@ -10064,11 +8554,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | input.src_email | Source account's email address         |
 | input.dst_email | Destination account's email address    |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team member suspend
@@ -10088,21 +8574,16 @@ This document uses the Desktop folder for command example.
 tbx dropbox team member suspend -email EMAIL
 ```
 
-
 ## Options:
 
+**-email**
+: Member's email address
 
+**-keep-data**
+: Keep the user's data on their linked devices. Default: false
 
-| Option       | Description                                  | Default |
-|--------------|----------------------------------------------|---------|
-| `-email`     | Member's email address                       |         |
-| `-keep-data` | Keep the user's data on their linked devices | false   |
-| `-peer`      | Account alias                                | default |
-
-
-
-
-
+**-peer**
+: Account alias. Default: default
 
 ---
 Title: dropbox team member unsuspend
@@ -10122,20 +8603,13 @@ This document uses the Desktop folder for command example.
 tbx dropbox team member unsuspend -email EMAIL
 ```
 
-
 ## Options:
 
+**-email**
+: Member's email address
 
-
-| Option   | Description            | Default |
-|----------|------------------------|---------|
-| `-email` | Member's email address |         |
-| `-peer`  | Account alias          | default |
-
-
-
-
-
+**-peer**
+: Account alias. Default: default
 
 ---
 Title: dropbox team member batch delete
@@ -10155,35 +8629,32 @@ This document uses the Desktop folder for command example.
 tbx dropbox team member batch delete -file /PATH/TO/member_list.csv
 ```
 
-
 ## Options:
 
+**-file**
+: Data file
 
+**-peer**
+: Account alias. Default: default
 
-| Option                                  | Description                                                                          | Default |
-|-----------------------------------------|--------------------------------------------------------------------------------------|---------|
-| `-file`                                 | Data file                                                                            |         |
-| `-peer`                                 | Account alias                                                                        | default |
-| `-transfer-dest-member`                 | If provided, files from the deleted member account will be transferred to this user. |         |
-| `-transfer-notify-admin-email-on-error` | If provided, errors during the transfer process will be sent via email to this user. |         |
-| `-wipe-data`                            | If true, controls if the user's data will be deleted on their linked devices         | true    |
+**-transfer-dest-member**
+: If provided, files from the deleted member account will be transferred to this user.
 
+**-transfer-notify-admin-email-on-error**
+: If provided, errors during the transfer process will be sent via email to this user.
 
-
+**-wipe-data**
+: If true, controls if the user's data will be deleted on their linked devices. Default: true
 
 # File formats
 
-
 ## Format: File
-
 
 Data file for deleting team members.
 
 | Column | Description                  | Example          |
 |--------|------------------------------|------------------|
 | email  | Email address of the account | john@example.com |
-
-
 
 The first line is a header line. The program will accept a file without the header.
 ```
@@ -10192,8 +8663,6 @@ john@example.com
 ```
 
 # Results
-
-
 
 ## Report: operation_log
 
@@ -10206,11 +8675,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | reason      | Reason of failure or skipped operation |
 | input.email | Email address of the account           |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team member batch detach
@@ -10230,33 +8695,26 @@ This document uses the Desktop folder for command example.
 tbx dropbox team member batch detach -file /PATH/TO/member_list.csv
 ```
 
-
 ## Options:
 
+**-file**
+: Data file
 
+**-peer**
+: Account alias. Default: default
 
-| Option                | Description                                           | Default |
-|-----------------------|-------------------------------------------------------|---------|
-| `-file`               | Data file                                             |         |
-| `-peer`               | Account alias                                         | default |
-| `-revoke-team-shares` | True to revoke shared folder access owned by the team | false   |
-
-
-
+**-revoke-team-shares**
+: True to revoke shared folder access owned by the team. Default: false
 
 # File formats
 
-
 ## Format: File
-
 
 Data file for converting team members into Dropbox Basic account.
 
 | Column | Description                  | Example          |
 |--------|------------------------------|------------------|
 | email  | Email address of the account | john@example.com |
-
-
 
 The first line is a header line. The program will accept a file without the header.
 ```
@@ -10265,8 +8723,6 @@ john@example.com
 ```
 
 # Results
-
-
 
 ## Report: operation_log
 
@@ -10279,11 +8735,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | reason      | Reason of failure or skipped operation |
 | input.email | Email address of the account           |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team member batch invite
@@ -10303,25 +8755,20 @@ This document uses the Desktop folder for command example.
 tbx dropbox team member batch invite -file /PATH/TO/member_list.csv
 ```
 
-
 ## Options:
 
+**-file**
+: Data file
 
+**-peer**
+: Account alias. Default: default
 
-| Option           | Description                                                            | Default |
-|------------------|------------------------------------------------------------------------|---------|
-| `-file`          | Data file                                                              |         |
-| `-peer`          | Account alias                                                          | default |
-| `-silent-invite` | Do not send welcome email (requires SSO + domain verification instead) | false   |
-
-
-
+**-silent-invite**
+: Do not send welcome email (requires SSO + domain verification instead). Default: false
 
 # File formats
 
-
 ## Format: File
-
 
 Data file for inviting team members.
 
@@ -10331,8 +8778,6 @@ Data file for inviting team members.
 | given_name | Given name of the account    | John             |
 | surname    | Surname of the account       | Smith            |
 
-
-
 The first line is a header line. The program will accept a file without the header.
 ```
 email,given_name,surname
@@ -10340,8 +8785,6 @@ john@example.com,John,Smith
 ```
 
 # Results
-
-
 
 ## Report: operation_log
 
@@ -10366,11 +8809,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | result.role           | The user's role in the team (team_admin, user_management_admin, support_admin, or member_only) |
 | result.tag            | Operation tag                                                                                  |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team member batch reinvite
@@ -10390,22 +8829,15 @@ This document uses the Desktop folder for command example.
 tbx dropbox team member batch reinvite 
 ```
 
-
 ## Options:
 
+**-peer**
+: Account alias. Default: default
 
-
-| Option    | Description                              | Default |
-|-----------|------------------------------------------|---------|
-| `-peer`   | Account alias                            | default |
-| `-silent` | Do not send welcome email (SSO required) | false   |
-
-
-
+**-silent**
+: Do not send welcome email (SSO required). Default: false
 
 # Results
-
-
 
 ## Report: operation_log
 
@@ -10437,11 +8869,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | result.role           | The user's role in the team (team_admin, user_management_admin, support_admin, or member_only) |
 | result.tag            | Operation tag                                                                                  |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team member batch suspend
@@ -10461,33 +8889,26 @@ This document uses the Desktop folder for command example.
 tbx dropbox team member batch suspend -file /PATH/TO/member_list.csv
 ```
 
-
 ## Options:
 
+**-file**
+: Path to data file
 
+**-keep-data**
+: Keep the user's data on their linked devices. Default: false
 
-| Option       | Description                                  | Default |
-|--------------|----------------------------------------------|---------|
-| `-file`      | Path to data file                            |         |
-| `-keep-data` | Keep the user's data on their linked devices | false   |
-| `-peer`      | Account alias                                | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # File formats
 
-
 ## Format: File
-
 
 User selector data
 
 | Column | Description            | Example          |
 |--------|------------------------|------------------|
 | email  | Member's email address | john@example.com |
-
-
 
 The first line is a header line. The program will accept a file without the header.
 ```
@@ -10496,8 +8917,6 @@ john@example.com
 ```
 
 # Results
-
-
 
 ## Report: operation_log
 
@@ -10510,11 +8929,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | reason      | Reason of failure or skipped operation |
 | input.email | Member's email address                 |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team member batch unsuspend
@@ -10534,32 +8949,23 @@ This document uses the Desktop folder for command example.
 tbx dropbox team member batch unsuspend -file /PATH/TO/member_list.csv
 ```
 
-
 ## Options:
 
+**-file**
+: Path to data file
 
-
-| Option  | Description       | Default |
-|---------|-------------------|---------|
-| `-file` | Path to data file |         |
-| `-peer` | Account alias     | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # File formats
 
-
 ## Format: File
-
 
 User selector data
 
 | Column | Description            | Example          |
 |--------|------------------------|------------------|
 | email  | Member's email address | john@example.com |
-
-
 
 The first line is a header line. The program will accept a file without the header.
 ```
@@ -10568,8 +8974,6 @@ john@example.com
 ```
 
 # Results
-
-
 
 ## Report: operation_log
 
@@ -10582,11 +8986,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | reason      | Reason of failure or skipped operation |
 | input.email | Member's email address                 |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team member clear externalid
@@ -10606,32 +9006,23 @@ This document uses the Desktop folder for command example.
 tbx dropbox team member clear externalid -file /PATH/TO/member_list.csv
 ```
 
-
 ## Options:
 
+**-file**
+: Path to data file
 
-
-| Option  | Description       | Default |
-|---------|-------------------|---------|
-| `-file` | Path to data file |         |
-| `-peer` | Account alias     | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # File formats
 
-
 ## Format: File
-
 
 Email addresses of team members
 
 | Column | Description                 | Example          |
 |--------|-----------------------------|------------------|
 | email  | Email address of the member | john@example.com |
-
-
 
 The first line is a header line. The program will accept a file without the header.
 ```
@@ -10640,8 +9031,6 @@ john@example.com
 ```
 
 # Results
-
-
 
 ## Report: operation_log
 
@@ -10671,11 +9060,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | result.role             | The user's role in the team (team_admin, user_management_admin, support_admin, or member_only)                       |
 | result.tag              | Operation tag                                                                                                        |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team member file permdelete
@@ -10695,22 +9080,19 @@ This document uses the Desktop folder for command example.
 tbx dropbox team member file permdelete -member-email EMAIL -path /DROPBOX/PATH/TO/DELETE
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-member-email**
+: Team member email address
 
-| Option          | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|-----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`    | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-member-email` | Team member email address                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |         |
-| `-path`         | Path to delete                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |         |
-| `-peer`         | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
+**-path**
+: Path to delete
 
-
-
-
-
+**-peer**
+: Account alias. Default: default
 
 ---
 Title: dropbox team member file lock list
@@ -10730,24 +9112,21 @@ This document uses the Desktop folder for command example.
 tbx dropbox team member file lock list -member-email EMAIL -path /DROPBOX/PATH/TO/LIST_LOCK
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-member-email**
+: Member email address
 
-| Option          | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|-----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`    | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-member-email` | Member email address                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |         |
-| `-path`         | Path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |         |
-| `-peer`         | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
+**-path**
+: Path
 
-
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: lock
 
@@ -10766,11 +9145,7 @@ The command will generate a report in three different formats. `lock.csv`, `lock
 | lock_holder_name | The display name of the lock holder.                                                                   |
 | lock_created     | The timestamp when the lock was created.                                                               |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `lock_0000.xlsx`, `lock_0001.xlsx`, `lock_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team member file lock release
@@ -10790,24 +9165,21 @@ This document uses the Desktop folder for command example.
 tbx dropbox team member file lock release -member-email VALUE -path /DROPBOX/PATH/TO/RELEASE/LOCK
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-member-email**
+: Member email address
 
-| Option          | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|-----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`    | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-member-email` | Member email address                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |         |
-| `-path`         | Path to release lock                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |         |
-| `-peer`         | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
+**-path**
+: Path to release lock
 
-
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: operation_log
 
@@ -10827,11 +9199,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | result.lock_holder_name | The display name of the lock holder.                                                                   |
 | result.lock_created     | The timestamp when the lock was created.                                                               |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team member file lock all release
@@ -10851,25 +9219,24 @@ This document uses the Desktop folder for command example.
 tbx dropbox team member file lock all release -member-email VALUE -path /DROPBOX/PATH/TO/RELEASE/LOCK
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-batch-size**
+: Batch operation size. Default: 100
 
-| Option          | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|-----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`    | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-batch-size`   | Batch operation size                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | 100     |
-| `-member-email` | Member email address                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |         |
-| `-path`         | Path to release lock                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |         |
-| `-peer`         | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
+**-member-email**
+: Member email address
 
+**-path**
+: Path to release lock
 
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: operation_log
 
@@ -10889,11 +9256,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | result.lock_holder_name | The display name of the lock holder.                                                                   |
 | result.lock_created     | The timestamp when the lock was created.                                                               |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team member folder list
@@ -10913,27 +9276,30 @@ This document uses the Desktop folder for command example.
 tbx dropbox team member folder list 
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-folder-name**
+: Filter by folder name. Filter by exact match to the name.
 
-| Option                | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|-----------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`          | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-folder-name`        | Filter by folder name. Filter by exact match to the name.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |         |
-| `-folder-name-prefix` | Filter by folder name. Filter by name match to the prefix.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |         |
-| `-folder-name-suffix` | Filter by folder name. Filter by name match to the suffix.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |         |
-| `-member-email`       | Filter by member email address. Filter by email address.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |         |
-| `-peer`               | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-| `-scan-timeout`       | Scan timeout mode. If the scan timeouts, the path of a subfolder of the team folder will be replaced with a dummy path like `TEAMFOLDER_NAME/:ERROR-SCAN-TIMEOUT:/SUBFOLDER_NAME`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | short   |
+**-folder-name-prefix**
+: Filter by folder name. Filter by name match to the prefix.
 
+**-folder-name-suffix**
+: Filter by folder name. Filter by name match to the suffix.
 
+**-member-email**
+: Filter by member email address. Filter by email address.
 
+**-peer**
+: Account alias. Default: default
+
+**-scan-timeout**
+: Scan timeout mode. If the scan timeouts, the path of a subfolder of the team folder will be replaced with a dummy path like `TEAMFOLDER_NAME/:ERROR-SCAN-TIMEOUT:/SUBFOLDER_NAME`.. Options: short (scantimeout: short), long (scantimeout: long). Default: short
 
 # Results
-
-
 
 ## Report: member_to_folder
 
@@ -10950,10 +9316,7 @@ The command will generate a report in three different formats. `member_to_folder
 | folder_type     | Type of the folder. (`team_folder`: a team folder or in a team folder, `shared_folder`: a shared folder) |
 | owner_team_name | Team name of the team that owns the folder                                                               |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `member_to_folder_0000.xlsx`, `member_to_folder_0001.xlsx`, `member_to_folder_0002.xlsx`, ...
-
 
 ## Report: member_with_no_folder
 
@@ -10969,11 +9332,7 @@ The command will generate a report in three different formats. `member_with_no_f
 | display_name | A name that can be used directly to represent the name of a user's Dropbox account.  |
 | invited_on   | The date and time the user was invited to the team                                   |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `member_with_no_folder_0000.xlsx`, `member_with_no_folder_0001.xlsx`, `member_with_no_folder_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team member folder replication
@@ -10993,24 +9352,25 @@ This document uses the Desktop folder for command example.
 tbx dropbox team member folder replication -dst-path /DROPBOX/PATH/OF/DST -src-path /DROPBOX/PATH/OF/SRC -dst-member-email DST_MEMBER@email.address -src-member-email SRC_MEMBER@email.address
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-dst-member-email**
+: Destination team member email address
 
-| Option              | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|---------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`        | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-dst-member-email` | Destination team member email address                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |         |
-| `-dst-path`         | The path for the destination team member. Note the root (/) path is not allowed. You should choose any folder under the root.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |         |
-| `-peer`             | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-| `-src-member-email` | Source team member email address                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |         |
-| `-src-path`         | The path of the source team member                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |         |
+**-dst-path**
+: The path for the destination team member. Note the root (/) path is not allowed. You should choose any folder under the root.
 
+**-peer**
+: Account alias. Default: default
 
+**-src-member-email**
+: Source team member email address
 
-
-
+**-src-path**
+: The path of the source team member
 
 ---
 Title: dropbox team member quota list
@@ -11030,21 +9390,12 @@ This document uses the Desktop folder for command example.
 tbx dropbox team member quota list 
 ```
 
-
 ## Options:
 
-
-
-| Option  | Description   | Default |
-|---------|---------------|---------|
-| `-peer` | Account alias | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: member_quota
 
@@ -11056,11 +9407,7 @@ The command will generate a report in three different formats. `member_quota.csv
 | email  | Email address of user.                                                      |
 | quota  | Custom quota in GB (1 TB = 1024 GB). 0 if the user has no custom quota set. |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `member_quota_0000.xlsx`, `member_quota_0001.xlsx`, `member_quota_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team member quota usage
@@ -11080,22 +9427,15 @@ This document uses the Desktop folder for command example.
 tbx dropbox team member quota usage 
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: usage
 
@@ -11110,11 +9450,7 @@ The command will generate a report in three different formats. `usage.csv`, `usa
 | allocation | The user's space allocation (individual, or team)        |
 | allocated  | The total space allocated to the user's account (bytes). |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `usage_0000.xlsx`, `usage_0001.xlsx`, `usage_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team member quota batch update
@@ -11134,25 +9470,20 @@ This document uses the Desktop folder for command example.
 tbx dropbox team member quota batch update -file /path/to/file.csv
 ```
 
-
 ## Options:
 
+**-file**
+: Data file
 
+**-peer**
+: Account alias. Default: default
 
-| Option   | Description                                                               | Default |
-|----------|---------------------------------------------------------------------------|---------|
-| `-file`  | Data file                                                                 |         |
-| `-peer`  | Account alias                                                             | default |
-| `-quota` | Custom quota in GB (1TB = 1024GB). 0 if the user has no custom quota set. | 0       |
-
-
-
+**-quota**
+: Custom quota in GB (1TB = 1024GB). 0 if the user has no custom quota set.. Default: 0
 
 # File formats
 
-
 ## Format: File
-
 
 This report shows a list of custom quota settings for each team member.
 
@@ -11161,8 +9492,6 @@ This report shows a list of custom quota settings for each team member.
 | email  | Email address of user.                                                      | john@example.com |
 | quota  | Custom quota in GB (1 TB = 1024 GB). 0 if the user has no custom quota set. | 50               |
 
-
-
 The first line is a header line. The program will accept a file without the header.
 ```
 email,quota
@@ -11170,8 +9499,6 @@ john@example.com,50
 ```
 
 # Results
-
-
 
 ## Report: operation_log
 
@@ -11187,11 +9514,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | result.email | Email address of user.                                                      |
 | result.quota | Custom quota in GB (1 TB = 1024 GB). 0 if the user has no custom quota set. |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team member update batch email
@@ -11211,25 +9534,20 @@ This document uses the Desktop folder for command example.
 tbx dropbox team member update batch email -file /path/to/data/file.csv
 ```
 
-
 ## Options:
 
+**-file**
+: Data file
 
+**-peer**
+: Account alias. Default: default
 
-| Option               | Description                                                                                                                                               | Default |
-|----------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-file`              | Data file                                                                                                                                                 |         |
-| `-peer`              | Account alias                                                                                                                                             | default |
-| `-update-unverified` | Update an account which hasn't verified its email. If an account email is unverified, changing the email address may cause loss of invitation to folders. | false   |
-
-
-
+**-update-unverified**
+: Update an account which hasn't verified its email. If an account email is unverified, changing the email address may cause loss of invitation to folders.. Default: false
 
 # File formats
 
-
 ## Format: File
-
 
 Data file for updating team member email addresses.
 
@@ -11238,8 +9556,6 @@ Data file for updating team member email addresses.
 | from_email | Current Email address | john@example.com       |
 | to_email   | New Email address     | john.smith@example.net |
 
-
-
 The first line is a header line. The program will accept a file without the header.
 ```
 from_email,to_email
@@ -11247,8 +9563,6 @@ john@example.com,john.smith@example.net
 ```
 
 # Results
-
-
 
 ## Report: operation_log
 
@@ -11272,11 +9586,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | result.role           | The user's role in the team (team_admin, user_management_admin, support_admin, or member_only) |
 | result.tag            | Operation tag                                                                                  |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team member update batch externalid
@@ -11296,24 +9606,17 @@ This document uses the Desktop folder for command example.
 tbx dropbox team member update batch externalid -file /path/to/file.csv
 ```
 
-
 ## Options:
 
+**-file**
+: Data file
 
-
-| Option  | Description   | Default |
-|---------|---------------|---------|
-| `-file` | Data file     |         |
-| `-peer` | Account alias | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # File formats
 
-
 ## Format: File
-
 
 Data file for updating member external id.
 
@@ -11322,8 +9625,6 @@ Data file for updating member external id.
 | email       | Email address of team members | john@example.com |
 | external_id | External ID of team members   | 0123456789       |
 
-
-
 The first line is a header line. The program will accept a file without the header.
 ```
 email,external_id
@@ -11331,8 +9632,6 @@ john@example.com,0123456789
 ```
 
 # Results
-
-
 
 ## Report: operation_log
 
@@ -11356,11 +9655,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | result.role           | The user's role in the team (team_admin, user_management_admin, support_admin, or member_only) |
 | result.tag            | Operation tag                                                                                  |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team member update batch invisible
@@ -11380,32 +9675,23 @@ This document uses the Desktop folder for command example.
 tbx dropbox team member update batch invisible -file /PATH/TO/DATA_FILE.csv
 ```
 
-
 ## Options:
 
+**-file**
+: Path to data file
 
-
-| Option  | Description       | Default |
-|---------|-------------------|---------|
-| `-file` | Path to data file |         |
-| `-peer` | Account alias     | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # File formats
 
-
 ## Format: File
-
 
 Member list for changing visibility
 
 | Column | Description          | Example          |
 |--------|----------------------|------------------|
 | email  | Member email address | taro@example.com |
-
-
 
 The first line is a header line. The program will accept a file without the header.
 ```
@@ -11414,8 +9700,6 @@ taro@example.com
 ```
 
 # Results
-
-
 
 ## Report: operation_log
 
@@ -11445,11 +9729,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | result.role             | The user's role in the team (team_admin, user_management_admin, support_admin, or member_only)                       |
 | result.tag              | Operation tag                                                                                                        |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team member update batch profile
@@ -11469,24 +9749,17 @@ This document uses the Desktop folder for command example.
 tbx dropbox team member update batch profile -file /path/to/data/file.csv
 ```
 
-
 ## Options:
 
+**-file**
+: Data file
 
-
-| Option  | Description   | Default |
-|---------|---------------|---------|
-| `-file` | Data file     |         |
-| `-peer` | Account alias | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # File formats
 
-
 ## Format: File
-
 
 Data file for batch profile updates.
 
@@ -11496,8 +9769,6 @@ Data file for batch profile updates.
 | given_name | Given name of the account    | John             |
 | surname    | Surname of the account       | Smith            |
 
-
-
 The first line is a header line. The program will accept a file without the header.
 ```
 email,given_name,surname
@@ -11505,8 +9776,6 @@ john@example.com,John,Smith
 ```
 
 # Results
-
-
 
 ## Report: operation_log
 
@@ -11531,11 +9800,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | result.role           | The user's role in the team (team_admin, user_management_admin, support_admin, or member_only) |
 | result.tag            | Operation tag                                                                                  |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team member update batch visible
@@ -11555,32 +9820,23 @@ This document uses the Desktop folder for command example.
 tbx dropbox team member update batch visible -file /PATH/TO/DATA_FILE.csv
 ```
 
-
 ## Options:
 
+**-file**
+: Path to data file
 
-
-| Option  | Description       | Default |
-|---------|-------------------|---------|
-| `-file` | Path to data file |         |
-| `-peer` | Account alias     | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # File formats
 
-
 ## Format: File
-
 
 Member list for changing visibility
 
 | Column | Description          | Example          |
 |--------|----------------------|------------------|
 | email  | Member email address | taro@example.com |
-
-
 
 The first line is a header line. The program will accept a file without the header.
 ```
@@ -11589,8 +9845,6 @@ taro@example.com
 ```
 
 # Results
-
-
 
 ## Report: operation_log
 
@@ -11620,11 +9874,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | result.role             | The user's role in the team (team_admin, user_management_admin, support_admin, or member_only)                       |
 | result.tag              | Operation tag                                                                                                        |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team namespace list
@@ -11644,21 +9894,12 @@ This document uses the Desktop folder for command example.
 tbx dropbox team namespace list 
 ```
 
-
 ## Options:
 
-
-
-| Option  | Description   | Default |
-|---------|---------------|---------|
-| `-peer` | Account alias | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: namespace
 
@@ -11671,11 +9912,7 @@ The command will generate a report in three different formats. `namespace.csv`, 
 | namespace_type | The type of this namespace (app_folder, shared_folder, team_folder, or team_member_folder) |
 | team_member_id | If this is a team member or app folder, the ID of the owning team member.                  |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `namespace_0000.xlsx`, `namespace_0001.xlsx`, `namespace_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team namespace summary
@@ -11695,23 +9932,18 @@ This document uses the Desktop folder for command example.
 tbx dropbox team namespace summary 
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-peer**
+: Account alias. Default: default
 
-| Option                 | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`           | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-peer`                | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-| `-skip-member-summary` | Skip scanning member namespaces                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | false   |
-
-
-
+**-skip-member-summary**
+: Skip scanning member namespaces. Default: false
 
 # Results
-
-
 
 ## Report: folder_without_parent
 
@@ -11736,10 +9968,7 @@ The command will generate a report in three different formats. `folder_without_p
 | owner_team_name         | Team name of the team that owns the folder                                                                              |
 | access_inheritance      | Access inheritance type                                                                                                 |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `folder_without_parent_0000.xlsx`, `folder_without_parent_0001.xlsx`, `folder_without_parent_0002.xlsx`, ...
-
 
 ## Report: member
 
@@ -11757,10 +9986,7 @@ The command will generate a report in three different formats. `member.csv`, `me
 | external_folders    | Number of folders shared by a user outside the team          |
 | app_folders         | Number of app folders                                        |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `member_0000.xlsx`, `member_0001.xlsx`, `member_0002.xlsx`, ...
-
 
 ## Report: team
 
@@ -11772,10 +9998,7 @@ The command will generate a report in three different formats. `team.csv`, `team
 | namespace_type  | Type of namespace    |
 | namespace_count | Number of namespaces |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `team_0000.xlsx`, `team_0001.xlsx`, `team_0002.xlsx`, ...
-
 
 ## Report: team_folder
 
@@ -11787,11 +10010,7 @@ The command will generate a report in three different formats. `team_folder.csv`
 | name                  | Team folder name                             |
 | num_namespaces_inside | Number of namespaces inside this team folder |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `team_folder_0000.xlsx`, `team_folder_0001.xlsx`, `team_folder_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team namespace file list
@@ -11811,28 +10030,33 @@ This document uses the Desktop folder for command example.
 tbx dropbox team namespace file list 
 ```
 
-
 ## Options:
 
+**-folder-name**
+: List only for the folder matched to the name. Filter by exact match to the name.
 
+**-folder-name-prefix**
+: List only for the folder matched to the name. Filter by name match to the prefix.
 
-| Option                   | Description                                                                       | Default |
-|--------------------------|-----------------------------------------------------------------------------------|---------|
-| `-folder-name`           | List only for the folder matched to the name. Filter by exact match to the name.  |         |
-| `-folder-name-prefix`    | List only for the folder matched to the name. Filter by name match to the prefix. |         |
-| `-folder-name-suffix`    | List only for the folder matched to the name. Filter by name match to the suffix. |         |
-| `-include-deleted`       | If true, deleted file or folder will be returned                                  | false   |
-| `-include-member-folder` | If true, include team member folders                                              | false   |
-| `-include-shared-folder` | If true, include shared folders                                                   | true    |
-| `-include-team-folder`   | If true, include team folders                                                     | true    |
-| `-peer`                  | Account alias                                                                     | default |
+**-folder-name-suffix**
+: List only for the folder matched to the name. Filter by name match to the suffix.
 
+**-include-deleted**
+: If true, deleted file or folder will be returned. Default: false
 
+**-include-member-folder**
+: If true, include team member folders. Default: false
 
+**-include-shared-folder**
+: If true, include shared folders. Default: true
+
+**-include-team-folder**
+: If true, include team folders. Default: true
+
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: errors
 
@@ -11846,10 +10070,7 @@ The command will generate a report in three different formats. `errors.csv`, `er
 | input.namespace | Namespace                              |
 | input.path      | Path                                   |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `errors_0000.xlsx`, `errors_0001.xlsx`, `errors_0002.xlsx`, ...
-
 
 ## Report: namespace_file
 
@@ -11868,11 +10089,7 @@ The command will generate a report in three different formats. `namespace_file.c
 | server_modified        | The last time the file was modified on Dropbox.                                                        |
 | size                   | The file size in bytes.                                                                                |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `namespace_file_0000.xlsx`, `namespace_file_0001.xlsx`, `namespace_file_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team namespace file size
@@ -11892,29 +10109,36 @@ This document uses the Desktop folder for command example.
 tbx dropbox team namespace file size 
 ```
 
-
 ## Options:
 
+**-depth**
+: Report entry for all files and directories depth directories deep. Default: 3
 
+**-folder-name**
+: List only for the folder matched to the name. Filter by exact match to the name.
 
-| Option                   | Description                                                                       | Default |
-|--------------------------|-----------------------------------------------------------------------------------|---------|
-| `-depth`                 | Report entry for all files and directories depth directories deep                 | 3       |
-| `-folder-name`           | List only for the folder matched to the name. Filter by exact match to the name.  |         |
-| `-folder-name-prefix`    | List only for the folder matched to the name. Filter by name match to the prefix. |         |
-| `-folder-name-suffix`    | List only for the folder matched to the name. Filter by name match to the suffix. |         |
-| `-include-app-folder`    | If true, include app folders                                                      | false   |
-| `-include-member-folder` | If true, include team member folders                                              | false   |
-| `-include-shared-folder` | If true, include shared folders                                                   | true    |
-| `-include-team-folder`   | If true, include team folders                                                     | true    |
-| `-peer`                  | Account alias                                                                     | default |
+**-folder-name-prefix**
+: List only for the folder matched to the name. Filter by name match to the prefix.
 
+**-folder-name-suffix**
+: List only for the folder matched to the name. Filter by name match to the suffix.
 
+**-include-app-folder**
+: If true, include app folders. Default: false
 
+**-include-member-folder**
+: If true, include team member folders. Default: false
+
+**-include-shared-folder**
+: If true, include shared folders. Default: true
+
+**-include-team-folder**
+: If true, include team folders. Default: true
+
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: namespace_size
 
@@ -11937,11 +10161,7 @@ The command will generate a report in three different formats. `namespace_size.c
 | mod_time_latest      | Latest modification time in namespace                                                      |
 | api_complexity       | Folder complexity index for API operations                                                 |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `namespace_size_0000.xlsx`, `namespace_size_0001.xlsx`, `namespace_size_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team namespace member list
@@ -11961,22 +10181,15 @@ This document uses the Desktop folder for command example.
 tbx dropbox team namespace member list 
 ```
 
-
 ## Options:
 
+**-all-columns**
+: Show all columns. Default: false
 
-
-| Option         | Description      | Default |
-|----------------|------------------|---------|
-| `-all-columns` | Show all columns | false   |
-| `-peer`        | Account alias    | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: namespace_member
 
@@ -11994,11 +10207,7 @@ The command will generate a report in three different formats. `namespace_member
 | group_name         | Name of the group                                                                                         |
 | invitee_email      | Email address of invitee for this folder                                                                  |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `namespace_member_0000.xlsx`, `namespace_member_0001.xlsx`, `namespace_member_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team runas file list
@@ -12018,28 +10227,33 @@ This document uses the Desktop folder for command example.
 tbx dropbox team runas file list -member-email MEMBER@DOMAIN -path /DROPBOX/PATH/TO/LIST
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-include-deleted**
+: Include deleted files. Default: false
 
-| Option                             | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`                       | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-include-deleted`                 | Include deleted files                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | false   |
-| `-include-explicit-shared-members` | If true, the results will include a flag for each file indicating whether or not that file has any explicit members.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | false   |
-| `-include-mounted-folders`         | If true, the results will include entries under mounted folders which include app folder, shared folder and team folder.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | false   |
-| `-member-email`                    | Email address of the member                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |         |
-| `-path`                            | Path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |         |
-| `-peer`                            | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-| `-recursive`                       | List recursively                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        | false   |
+**-include-explicit-shared-members**
+: If true, the results will include a flag for each file indicating whether or not that file has any explicit members.. Default: false
 
+**-include-mounted-folders**
+: If true, the results will include entries under mounted folders which include app folder, shared folder and team folder.. Default: false
 
+**-member-email**
+: Email address of the member
 
+**-path**
+: Path
+
+**-peer**
+: Account alias. Default: default
+
+**-recursive**
+: List recursively. Default: false
 
 # Results
-
-
 
 ## Report: file_list
 
@@ -12056,11 +10270,7 @@ The command will generate a report in three different formats. `file_list.csv`, 
 | size                        | The file size in bytes.                                                                                              |
 | has_explicit_shared_members | If true, the results will include a flag for each file indicating whether or not that file has any explicit members. |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `file_list_0000.xlsx`, `file_list_0001.xlsx`, `file_list_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team runas file batch copy
@@ -12080,25 +10290,20 @@ This document uses the Desktop folder for command example.
 tbx dropbox team runas file batch copy -file /PATH/TO/DATA_FILE.csv
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-file**
+: Path to data file
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-file`      | Path to data file                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |         |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # File formats
 
-
 ## Format: File
-
 
 Mapping between source and destination paths
 
@@ -12108,8 +10313,6 @@ Mapping between source and destination paths
 | src_path     | Source path               | /report          |
 | dst_path     | Destination path          | /backup/report   |
 
-
-
 The first line is a header line. The program will accept a file without the header.
 ```
 member_email,src_path,dst_path
@@ -12117,8 +10320,6 @@ emma@example.com,/report,/backup/report
 ```
 
 # Results
-
-
 
 ## Report: operation_log
 
@@ -12133,11 +10334,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | input.src_path     | Source path                            |
 | input.dst_path     | Destination path                       |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team runas file sync batch up
@@ -12157,33 +10354,44 @@ This document uses the Desktop folder for command example.
 tbx dropbox team runas file sync batch up -file /PATH/TO/DATA_FILE.csv
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-batch-size**
+: Batch commit size. Default: 250
 
-| Option                 | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`           | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-batch-size`          | Batch commit size                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | 250     |
-| `-delete`              | Delete Dropbox file if a file is removed locally                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        | false   |
-| `-exit-on-failure`     | Exit the program on failure                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | false   |
-| `-file`                | Path to data file                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |         |
-| `-name-disable-ignore` | Name for the sync batch operation. Filter system file or ignore files.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |         |
-| `-name-name`           | Name for the sync batch operation. Filter by exact match to the name.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |         |
-| `-name-name-prefix`    | Name for the sync batch operation. Filter by name match to the prefix.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |         |
-| `-name-name-suffix`    | Name for the sync batch operation. Filter by name match to the suffix.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |         |
-| `-overwrite`           | Overwrite existing files if they exist.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | false   |
-| `-peer`                | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
+**-delete**
+: Delete Dropbox file if a file is removed locally. Default: false
 
+**-exit-on-failure**
+: Exit the program on failure. Default: false
 
+**-file**
+: Path to data file
 
+**-name-disable-ignore**
+: Name for the sync batch operation. Filter system file or ignore files.
+
+**-name-name**
+: Name for the sync batch operation. Filter by exact match to the name.
+
+**-name-name-prefix**
+: Name for the sync batch operation. Filter by name match to the prefix.
+
+**-name-name-suffix**
+: Name for the sync batch operation. Filter by name match to the suffix.
+
+**-overwrite**
+: Overwrite existing files if they exist.. Default: false
+
+**-peer**
+: Account alias. Default: default
 
 # File formats
 
-
 ## Format: File
-
 
 Mapping of local files to Dropbox paths for batch upload.
 
@@ -12193,8 +10401,6 @@ Mapping of local files to Dropbox paths for batch upload.
 | local_path   | Local file path to upload.                | /Users/alice/Documents/file.txt |
 | dropbox_path | Destination path in Dropbox.              | /Team Folder/Project/file.txt   |
 
-
-
 The first line is a header line. The program will accept a file without the header.
 ```
 member_email,local_path,dropbox_path
@@ -12202,8 +10408,6 @@ user@example.com,/Users/alice/Documents/file.txt,/Team Folder/Project/file.txt
 ```
 
 # Results
-
-
 
 ## Report: deleted
 
@@ -12217,10 +10421,7 @@ The command will generate a report in three different formats. `deleted.csv`, `d
 | entry_shard.shard_id         | Shard ID         |
 | entry_shard.attributes       | Shard attributes |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `deleted_0000.xlsx`, `deleted_0001.xlsx`, `deleted_0002.xlsx`, ...
-
 
 ## Report: operation_log
 
@@ -12235,10 +10436,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | input.local_path   | Local file path to upload.                |
 | input.dropbox_path | Destination path in Dropbox.              |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
-
 
 ## Report: skipped
 
@@ -12254,10 +10452,7 @@ The command will generate a report in three different formats. `skipped.csv`, `s
 | input.entry_shard.shard_id         | Shard ID                               |
 | input.entry_shard.attributes       | Shard attributes                       |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `skipped_0000.xlsx`, `skipped_0001.xlsx`, `skipped_0002.xlsx`, ...
-
 
 ## Report: summary
 
@@ -12276,10 +10471,7 @@ The command will generate a report in three different formats. `summary.csv`, `s
 | num_delete            | Number of deleted entries.                    |
 | num_api_call          | The number of estimated API calls for upload. |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `summary_0000.xlsx`, `summary_0001.xlsx`, `summary_0002.xlsx`, ...
-
 
 ## Report: uploaded
 
@@ -12299,11 +10491,7 @@ The command will generate a report in three different formats. `uploaded.csv`, `
 | result.content_hash                | A hash of the file content.                                                                                          |
 | result.has_explicit_shared_members | If true, the results will include a flag for each file indicating whether or not that file has any explicit members. |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `uploaded_0000.xlsx`, `uploaded_0001.xlsx`, `uploaded_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team runas sharedfolder isolate
@@ -12323,24 +10511,21 @@ This document uses the Desktop folder for command example.
 tbx dropbox team runas sharedfolder isolate -member-email EMAIL
 ```
 
-
 ## Options:
 
+**-base-path**
+: Base path of the shared folder to isolate.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-keep-copy**
+: Keep a copy after isolation.. Default: false
 
-| Option          | Description                                | Default |
-|-----------------|--------------------------------------------|---------|
-| `-base-path`    | Base path of the shared folder to isolate. | root    |
-| `-keep-copy`    | Keep a copy after isolation.               | false   |
-| `-member-email` | Email address of the member to isolate.    |         |
-| `-peer`         | Account alias                              | default |
+**-member-email**
+: Email address of the member to isolate.
 
-
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: isolated
 
@@ -12365,11 +10550,7 @@ The command will generate a report in three different formats. `isolated.csv`, `
 | input.owner_team_name       | Team name of the team that owns the folder                                                                |
 | input.access_inheritance    | Access inheritance type                                                                                   |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `isolated_0000.xlsx`, `isolated_0001.xlsx`, `isolated_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team runas sharedfolder list
@@ -12389,23 +10570,18 @@ This document uses the Desktop folder for command example.
 tbx dropbox team runas sharedfolder list -member-email EMAIL
 ```
 
-
 ## Options:
 
+**-base-path**
+: Base path of the shared folder to list.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-member-email**
+: Email address of the member to list.
 
-| Option          | Description                             | Default |
-|-----------------|-----------------------------------------|---------|
-| `-base-path`    | Base path of the shared folder to list. | root    |
-| `-member-email` | Email address of the member to list.    |         |
-| `-peer`         | Account alias                           | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: shared_folder
 
@@ -12428,11 +10604,7 @@ The command will generate a report in three different formats. `shared_folder.cs
 | owner_team_name       | Team name of the team that owns the folder                                                                |
 | access_inheritance    | Access inheritance type                                                                                   |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `shared_folder_0000.xlsx`, `shared_folder_0001.xlsx`, `shared_folder_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team runas sharedfolder batch leave
@@ -12452,26 +10624,23 @@ This document uses the Desktop folder for command example.
 tbx dropbox team runas sharedfolder batch leave -file /PATH/TO/DATA_FILE.csv
 ```
 
-
 ## Options:
 
+**-base-path**
+: Base path of the shared folder to leave.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-file**
+: Path to data file
 
-| Option       | Description                              | Default |
-|--------------|------------------------------------------|---------|
-| `-base-path` | Base path of the shared folder to leave. | root    |
-| `-file`      | Path to data file                        |         |
-| `-keep-copy` | Keep a copy of the folder after leaving. | false   |
-| `-peer`      | Account alias                            | default |
+**-keep-copy**
+: Keep a copy of the folder after leaving.. Default: false
 
-
-
+**-peer**
+: Account alias. Default: default
 
 # File formats
 
-
 ## Format: File
-
 
 List of member folders for batch operations.
 
@@ -12480,8 +10649,6 @@ List of member folders for batch operations.
 | member_email | Email address of the member. | member@example.com           |
 | path         | Path to the member's folder. | /Team Folder/Shared/file.txt |
 
-
-
 The first line is a header line. The program will accept a file without the header.
 ```
 member_email,path
@@ -12489,8 +10656,6 @@ member@example.com,/Team Folder/Shared/file.txt
 ```
 
 # Results
-
-
 
 ## Report: operation_log
 
@@ -12519,11 +10684,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | result.owner_team_name         | Team name of the team that owns the folder                                                                              |
 | result.access_inheritance      | Access inheritance type                                                                                                 |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team runas sharedfolder batch share
@@ -12543,28 +10704,29 @@ This document uses the Desktop folder for command example.
 tbx dropbox team runas sharedfolder batch share -file /PATH/TO/DATA_FILE.csv
 ```
 
-
 ## Options:
 
+**-acl-update-policy**
+: Access control update policy.. Options: owner (aclupdatepolicy: owner), editor (aclupdatepolicy: editor). Default: owner
 
+**-base-path**
+: Base path of the shared folder to share.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
-| Option                | Description                              | Default |
-|-----------------------|------------------------------------------|---------|
-| `-acl-update-policy`  | Access control update policy.            | owner   |
-| `-base-path`          | Base path of the shared folder to share. | root    |
-| `-file`               | Path to data file                        |         |
-| `-member-policy`      | Policy for shared folder members.        | anyone  |
-| `-peer`               | Account alias                            | default |
-| `-shared-link-policy` | Policy for shared links.                 | anyone  |
+**-file**
+: Path to data file
 
+**-member-policy**
+: Policy for shared folder members.. Options: team (memberpolicy: team), anyone (memberpolicy: anyone). Default: anyone
 
+**-peer**
+: Account alias. Default: default
 
+**-shared-link-policy**
+: Policy for shared links.. Options: anyone (sharedlinkpolicy: anyone), members (sharedlinkpolicy: members). Default: anyone
 
 # File formats
 
-
 ## Format: File
-
 
 List of member folders for batch operations.
 
@@ -12573,8 +10735,6 @@ List of member folders for batch operations.
 | member_email | Email address of the member. | member@example.com           |
 | path         | Path to the member's folder. | /Team Folder/Shared/file.txt |
 
-
-
 The first line is a header line. The program will accept a file without the header.
 ```
 member_email,path
@@ -12582,8 +10742,6 @@ member@example.com,/Team Folder/Shared/file.txt
 ```
 
 # Results
-
-
 
 ## Report: operation_log
 
@@ -12612,11 +10770,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | result.owner_team_name         | Team name of the team that owns the folder                                                                              |
 | result.access_inheritance      | Access inheritance type                                                                                                 |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team runas sharedfolder batch unshare
@@ -12636,26 +10790,23 @@ This document uses the Desktop folder for command example.
 tbx dropbox team runas sharedfolder batch unshare -file /PATH/TO/DATA_FILE.csv
 ```
 
-
 ## Options:
 
+**-base-path**
+: Base path of the shared folder to unshare.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-file**
+: Path to data file
 
-| Option        | Description                                | Default |
-|---------------|--------------------------------------------|---------|
-| `-base-path`  | Base path of the shared folder to unshare. | root    |
-| `-file`       | Path to data file                          |         |
-| `-leave-copy` | Leave a copy after unsharing.              | false   |
-| `-peer`       | Account alias                              | default |
+**-leave-copy**
+: Leave a copy after unsharing.. Default: false
 
-
-
+**-peer**
+: Account alias. Default: default
 
 # File formats
 
-
 ## Format: File
-
 
 List of member folders for batch operations.
 
@@ -12664,8 +10815,6 @@ List of member folders for batch operations.
 | member_email | Email address of the member. | member@example.com           |
 | path         | Path to the member's folder. | /Team Folder/Shared/file.txt |
 
-
-
 The first line is a header line. The program will accept a file without the header.
 ```
 member_email,path
@@ -12673,8 +10822,6 @@ member@example.com,/Team Folder/Shared/file.txt
 ```
 
 # Results
-
-
 
 ## Report: operation_log
 
@@ -12703,11 +10850,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | result.owner_team_name         | Team name of the team that owns the folder                                                                              |
 | result.access_inheritance      | Access inheritance type                                                                                                 |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team runas sharedfolder member batch add
@@ -12727,27 +10870,26 @@ This document uses the Desktop folder for command example.
 tbx dropbox team runas sharedfolder member batch add -file /PATH/TO/DATA_FILE.csv
 ```
 
-
 ## Options:
 
+**-base-path**
+: Base path of the shared folder to add members.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-file**
+: Path to data file
 
-| Option       | Description                                    | Default |
-|--------------|------------------------------------------------|---------|
-| `-base-path` | Base path of the shared folder to add members. | root    |
-| `-file`      | Path to data file                              |         |
-| `-message`   | Message to send to new members.                |         |
-| `-peer`      | Account alias                                  | default |
-| `-silent`    | Add members silently without notification.     | false   |
+**-message**
+: Message to send to new members.
 
+**-peer**
+: Account alias. Default: default
 
-
+**-silent**
+: Add members silently without notification.. Default: false
 
 # File formats
 
-
 ## Format: File
-
 
 Details of the member to add.
 
@@ -12758,8 +10900,6 @@ Details of the member to add.
 | access_level   | Access level to grant to the member. | editor                       |
 | group_or_email | Group name or email address to add.  | group@example.com            |
 
-
-
 The first line is a header line. The program will accept a file without the header.
 ```
 member_email,path,access_level,group_or_email
@@ -12767,8 +10907,6 @@ member@example.com,/Team Folder/Shared/file.txt,editor,group@example.com
 ```
 
 # Results
-
-
 
 ## Report: operation_log
 
@@ -12784,11 +10922,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | input.access_level   | Access level to grant to the member.   |
 | input.group_or_email | Group name or email address to add.    |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team runas sharedfolder member batch delete
@@ -12808,26 +10942,23 @@ This document uses the Desktop folder for command example.
 tbx dropbox team runas sharedfolder member batch delete -file /PATH/TO/DATA_FILE.csv
 ```
 
-
 ## Options:
 
+**-base-path**
+: Base path of the shared folder to remove members.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-file**
+: Path to data file
 
-| Option        | Description                                       | Default |
-|---------------|---------------------------------------------------|---------|
-| `-base-path`  | Base path of the shared folder to remove members. | root    |
-| `-file`       | Path to data file                                 |         |
-| `-leave-copy` | Leave a copy after removing member.               | false   |
-| `-peer`       | Account alias                                     | default |
+**-leave-copy**
+: Leave a copy after removing member.. Default: false
 
-
-
+**-peer**
+: Account alias. Default: default
 
 # File formats
 
-
 ## Format: File
-
 
 Details of the member to remove.
 
@@ -12837,8 +10968,6 @@ Details of the member to remove.
 | path           | Path to the shared folder.             | /Team Folder/Shared/file.txt |
 | group_or_email | Group name or email address to remove. | group@example.com            |
 
-
-
 The first line is a header line. The program will accept a file without the header.
 ```
 member_email,path,group_or_email
@@ -12846,8 +10975,6 @@ member@example.com,/Team Folder/Shared/file.txt,group@example.com
 ```
 
 # Results
-
-
 
 ## Report: operation_log
 
@@ -12862,11 +10989,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | input.path           | Path to the shared folder.             |
 | input.group_or_email | Group name or email address to remove. |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team runas sharedfolder mount add
@@ -12886,24 +11009,21 @@ This document uses the Desktop folder for command example.
 tbx dropbox team runas sharedfolder mount add -member-email EMAIL -shared-folder-id SHARED_FOLDER_ID
 ```
 
-
 ## Options:
 
+**-base-path**
+: Base path of the shared folder to mount.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-member-email**
+: Email address of the member
 
-| Option              | Description                              | Default |
-|---------------------|------------------------------------------|---------|
-| `-base-path`        | Base path of the shared folder to mount. | root    |
-| `-member-email`     | Email address of the member              |         |
-| `-peer`             | Account alias                            | default |
-| `-shared-folder-id` | Shared folder ID                         |         |
+**-peer**
+: Account alias. Default: default
 
-
-
+**-shared-folder-id**
+: Shared folder ID
 
 # Results
-
-
 
 ## Report: mount
 
@@ -12926,11 +11046,7 @@ The command will generate a report in three different formats. `mount.csv`, `mou
 | owner_team_name       | Team name of the team that owns the folder                                                                |
 | access_inheritance    | Access inheritance type                                                                                   |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `mount_0000.xlsx`, `mount_0001.xlsx`, `mount_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team runas sharedfolder mount delete
@@ -12950,24 +11066,21 @@ This document uses the Desktop folder for command example.
 tbx dropbox team runas sharedfolder mount delete -member-email EMAIL -shared-folder-id SHARED_FOLDER_ID
 ```
 
-
 ## Options:
 
+**-base-path**
+: Base path of the shared folder to unmount.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-member-email**
+: Email address of the member
 
-| Option              | Description                                | Default |
-|---------------------|--------------------------------------------|---------|
-| `-base-path`        | Base path of the shared folder to unmount. | root    |
-| `-member-email`     | Email address of the member                |         |
-| `-peer`             | Account alias                              | default |
-| `-shared-folder-id` | The ID for the shared folder.              |         |
+**-peer**
+: Account alias. Default: default
 
-
-
+**-shared-folder-id**
+: The ID for the shared folder.
 
 # Results
-
-
 
 ## Report: mount
 
@@ -12990,11 +11103,7 @@ The command will generate a report in three different formats. `mount.csv`, `mou
 | owner_team_name       | Team name of the team that owns the folder                                                                |
 | access_inheritance    | Access inheritance type                                                                                   |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `mount_0000.xlsx`, `mount_0001.xlsx`, `mount_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team runas sharedfolder mount list
@@ -13014,23 +11123,18 @@ This document uses the Desktop folder for command example.
 tbx dropbox team runas sharedfolder mount list -member-email EMAIL
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-member-email**
+: Member email address
 
-| Option          | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|-----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`    | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-member-email` | Member email address                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |         |
-| `-peer`         | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: mounts
 
@@ -13053,11 +11157,7 @@ The command will generate a report in three different formats. `mounts.csv`, `mo
 | owner_team_name       | Team name of the team that owns the folder                                                                |
 | access_inheritance    | Access inheritance type                                                                                   |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `mounts_0000.xlsx`, `mounts_0001.xlsx`, `mounts_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team runas sharedfolder mount mountable
@@ -13077,24 +11177,21 @@ This document uses the Desktop folder for command example.
 tbx dropbox team runas sharedfolder mount mountable -member-email EMAIL
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-include-mounted**
+: Include mounted folders.. Default: false
 
-| Option             | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|--------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`       | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-include-mounted` | Include mounted folders.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | false   |
-| `-member-email`    | Member email address                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |         |
-| `-peer`            | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
+**-member-email**
+: Member email address
 
-
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: mountables
 
@@ -13117,11 +11214,7 @@ The command will generate a report in three different formats. `mountables.csv`,
 | owner_team_name       | Team name of the team that owns the folder                                                                |
 | access_inheritance    | Access inheritance type                                                                                   |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `mountables_0000.xlsx`, `mountables_0001.xlsx`, `mountables_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team sharedlink list
@@ -13141,23 +11234,18 @@ This document uses the Desktop folder for command example.
 tbx dropbox team sharedlink list 
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-peer**
+: Account alias. Default: default
 
-| Option        | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|---------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`  | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-peer`       | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-| `-visibility` | Filter links by visibility (all/public/team_only/password)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | all     |
-
-
-
+**-visibility**
+: Filter links by visibility (all/public/team_only/password). Options:.   • all (Visibility option: all).   • public (Anyone with the link can access).   • team_only (Only team members can access).   • password (Password protected access).   • team_and_password (Team members only with password).   • shared_folder_only (Only shared folder members can access). Default: all
 
 # Results
-
-
 
 ## Report: shared_link
 
@@ -13177,11 +11265,7 @@ The command will generate a report in three different formats. `shared_link.csv`
 | surname    | Surname of the link owner                                                                                                                                                                                           |
 | given_name | Given name of the link owner                                                                                                                                                                                        |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `shared_link_0000.xlsx`, `shared_link_0001.xlsx`, `shared_link_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team sharedlink cap expiry
@@ -13201,33 +11285,26 @@ This document uses the Desktop folder for command example.
 tbx dropbox team sharedlink cap expiry -at "+72h" -file /PATH/TO/shared_link_list.csv
 ```
 
-
 ## Options:
 
+**-at**
+: New expiry date/time
 
+**-file**
+: Path to data file
 
-| Option  | Description          | Default |
-|---------|----------------------|---------|
-| `-at`   | New expiry date/time |         |
-| `-file` | Path to data file    |         |
-| `-peer` | Account alias        | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # File formats
 
-
 ## Format: File
-
 
 Target shared link
 
 | Column | Description     | Example                                  |
 |--------|-----------------|------------------------------------------|
 | url    | Shared link URL | https://www.dropbox.com/scl/fo/fir9vjelf |
-
-
 
 The first line is a header line. The program will accept a file without the header.
 ```
@@ -13236,8 +11313,6 @@ https://www.dropbox.com/scl/fo/fir9vjelf
 ```
 
 # Results
-
-
 
 ## Report: operation_log
 
@@ -13259,11 +11334,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | result.surname    | Surname of the link owner                                                                                                                                                                                           |
 | result.given_name | Given name of the link owner                                                                                                                                                                                        |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team sharedlink cap visibility
@@ -13283,33 +11354,26 @@ This document uses the Desktop folder for command example.
 tbx dropbox team sharedlink cap visibility -file /PATH/TO/DATA_FILE.csv
 ```
 
-
 ## Options:
 
+**-file**
+: Path to data file
 
+**-new-visibility**
+: New visibility setting. Options: team_only (newvisibility: team_only). Default: team_only
 
-| Option            | Description            | Default   |
-|-------------------|------------------------|-----------|
-| `-file`           | Path to data file      |           |
-| `-new-visibility` | New visibility setting | team_only |
-| `-peer`           | Account alias          | default   |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # File formats
 
-
 ## Format: File
-
 
 Target shared link
 
 | Column | Description     | Example                                  |
 |--------|-----------------|------------------------------------------|
 | url    | Shared link URL | https://www.dropbox.com/scl/fo/fir9vjelf |
-
-
 
 The first line is a header line. The program will accept a file without the header.
 ```
@@ -13318,8 +11382,6 @@ https://www.dropbox.com/scl/fo/fir9vjelf
 ```
 
 # Results
-
-
 
 ## Report: operation_log
 
@@ -13341,11 +11403,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | result.surname    | Surname of the link owner                                                                                                                                                                                           |
 | result.given_name | Given name of the link owner                                                                                                                                                                                        |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team sharedlink delete links
@@ -13365,33 +11423,26 @@ This document uses the Desktop folder for command example.
 tbx dropbox team sharedlink delete links -file /PATH/TO/DATA_FILE.csv
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-file**
+: Path to data file
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-file`      | Path to data file                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |         |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # File formats
 
-
 ## Format: File
-
 
 Target shared link
 
 | Column | Description     | Example                                  |
 |--------|-----------------|------------------------------------------|
 | url    | Shared link URL | https://www.dropbox.com/scl/fo/fir9vjelf |
-
-
 
 The first line is a header line. The program will accept a file without the header.
 ```
@@ -13400,8 +11451,6 @@ https://www.dropbox.com/scl/fo/fir9vjelf
 ```
 
 # Results
-
-
 
 ## Report: operation_log
 
@@ -13423,11 +11472,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | result.surname    | Surname of the link owner                                                                                                                                                                                           |
 | result.given_name | Given name of the link owner                                                                                                                                                                                        |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team sharedlink delete member
@@ -13447,23 +11492,18 @@ This document uses the Desktop folder for command example.
 tbx dropbox team sharedlink delete member -member-email EMAIL
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-member-email**
+: Member email address
 
-| Option          | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|-----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`    | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-member-email` | Member email address                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |         |
-| `-peer`         | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: operation_log
 
@@ -13485,11 +11525,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | result.surname    | Surname of the link owner                                                                                                                                                                                           |
 | result.given_name | Given name of the link owner                                                                                                                                                                                        |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team sharedlink update expiry
@@ -13509,33 +11545,26 @@ This document uses the Desktop folder for command example.
 tbx dropbox team sharedlink update expiry -file /PATH/TO/DATA_FILE.csv -at +720h
 ```
 
-
 ## Options:
 
+**-at**
+: New expiration date and time
 
+**-file**
+: Path to data file
 
-| Option  | Description                  | Default |
-|---------|------------------------------|---------|
-| `-at`   | New expiration date and time |         |
-| `-file` | Path to data file            |         |
-| `-peer` | Account alias                | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # File formats
 
-
 ## Format: File
-
 
 Target shared link
 
 | Column | Description     | Example                                  |
 |--------|-----------------|------------------------------------------|
 | url    | Shared link URL | https://www.dropbox.com/scl/fo/fir9vjelf |
-
-
 
 The first line is a header line. The program will accept a file without the header.
 ```
@@ -13544,8 +11573,6 @@ https://www.dropbox.com/scl/fo/fir9vjelf
 ```
 
 # Results
-
-
 
 ## Report: operation_log
 
@@ -13567,11 +11594,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | result.surname    | Surname of the link owner                                                                                                                                                                                           |
 | result.given_name | Given name of the link owner                                                                                                                                                                                        |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team sharedlink update password
@@ -13591,25 +11614,20 @@ This document uses the Desktop folder for command example.
 tbx dropbox team sharedlink update password -file /PATH/TO/DATA_FILE.csv
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-file**
+: Path to data file
 
-| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-file`      | Path to data file                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |         |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # File formats
 
-
 ## Format: File
-
 
 Shared link / password pair list
 
@@ -13618,8 +11636,6 @@ Shared link / password pair list
 | url      | Shared link URL      | https://www.dropbox.com/scl/fo/fir9vjelf |
 | password | Shared link password | STRONG_PASSWORD                          |
 
-
-
 The first line is a header line. The program will accept a file without the header.
 ```
 url,password
@@ -13627,8 +11643,6 @@ https://www.dropbox.com/scl/fo/fir9vjelf,STRONG_PASSWORD
 ```
 
 # Results
-
-
 
 ## Report: operation_log
 
@@ -13650,11 +11664,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | result.surname    | Surname of the link owner                                                                                                                                                                                           |
 | result.given_name | Given name of the link owner                                                                                                                                                                                        |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team sharedlink update visibility
@@ -13674,34 +11684,29 @@ This document uses the Desktop folder for command example.
 tbx dropbox team sharedlink update visibility -file /PATH/TO/DATA_FILE.csv
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-file**
+: Path to data file
 
-| Option            | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default   |
-|-------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------|
-| `-base-path`      | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root      |
-| `-file`           | Path to data file                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |           |
-| `-new-visibility` | New visibility setting                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | team_only |
-| `-peer`           | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default   |
+**-new-visibility**
+: New visibility setting. Options: public (newvisibility: public), team_only (newvisibility: team_only). Default: team_only
 
-
-
+**-peer**
+: Account alias. Default: default
 
 # File formats
 
-
 ## Format: File
-
 
 Target shared link
 
 | Column | Description     | Example                                  |
 |--------|-----------------|------------------------------------------|
 | url    | Shared link URL | https://www.dropbox.com/scl/fo/fir9vjelf |
-
-
 
 The first line is a header line. The program will accept a file without the header.
 ```
@@ -13710,8 +11715,6 @@ https://www.dropbox.com/scl/fo/fir9vjelf
 ```
 
 # Results
-
-
 
 ## Report: operation_log
 
@@ -13733,11 +11736,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | result.surname    | Surname of the link owner                                                                                                                                                                                           |
 | result.given_name | Given name of the link owner                                                                                                                                                                                        |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team teamfolder add
@@ -13757,23 +11756,18 @@ This document uses the Desktop folder for command example.
 tbx dropbox team teamfolder add -name NAME
 ```
 
-
 ## Options:
 
+**-name**
+: Team folder name
 
+**-peer**
+: Account alias. Default: default
 
-| Option          | Description                      | Default |
-|-----------------|----------------------------------|---------|
-| `-name`         | Team folder name                 |         |
-| `-peer`         | Account alias                    | default |
-| `-sync-setting` | Sync setting for the team folder | default |
-
-
-
+**-sync-setting**
+: Sync setting for the team folder. Options: default (syncsetting: default), not_synced (syncsetting: not_synced). Default: default
 
 # Results
-
-
 
 ## Report: added
 
@@ -13787,11 +11781,7 @@ The command will generate a report in three different formats. `added.csv`, `add
 | is_team_shared_dropbox | True if the team has team shared Dropbox                                                   |
 | sync_setting           | The sync setting applied to this team folder (default, not_synced, or not_synced_inactive) |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `added_0000.xlsx`, `added_0001.xlsx`, `added_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team teamfolder archive
@@ -13811,20 +11801,13 @@ This document uses the Desktop folder for command example.
 tbx dropbox team teamfolder archive -name TEAMFOLDER_NAME
 ```
 
-
 ## Options:
 
+**-name**
+: Team folder name
 
-
-| Option  | Description      | Default |
-|---------|------------------|---------|
-| `-name` | Team folder name |         |
-| `-peer` | Account alias    | default |
-
-
-
-
-
+**-peer**
+: Account alias. Default: default
 
 ---
 Title: dropbox team teamfolder list
@@ -13844,21 +11827,12 @@ This document uses the Desktop folder for command example.
 tbx dropbox team teamfolder list 
 ```
 
-
 ## Options:
 
-
-
-| Option  | Description   | Default |
-|---------|---------------|---------|
-| `-peer` | Account alias | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: team_folder
 
@@ -13872,11 +11846,7 @@ The command will generate a report in three different formats. `team_folder.csv`
 | is_team_shared_dropbox | True if the team has team shared Dropbox                                                   |
 | sync_setting           | The sync setting applied to this team folder (default, not_synced, or not_synced_inactive) |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `team_folder_0000.xlsx`, `team_folder_0001.xlsx`, `team_folder_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team teamfolder permdelete
@@ -13896,20 +11866,13 @@ This document uses the Desktop folder for command example.
 tbx dropbox team teamfolder permdelete -name TEAMFOLDER_NAME
 ```
 
-
 ## Options:
 
+**-name**
+: Team folder name
 
-
-| Option  | Description      | Default |
-|---------|------------------|---------|
-| `-name` | Team folder name |         |
-| `-peer` | Account alias    | default |
-
-
-
-
-
+**-peer**
+: Account alias. Default: default
 
 ---
 Title: dropbox team teamfolder replication
@@ -13929,23 +11892,18 @@ This document uses the Desktop folder for command example.
 tbx dropbox team teamfolder replication -name NAME
 ```
 
-
 ## Options:
 
+**-dst-peer-name**
+: Destination team account alias. Default: dst
 
+**-name**
+: Team folder name
 
-| Option           | Description                    | Default |
-|------------------|--------------------------------|---------|
-| `-dst-peer-name` | Destination team account alias | dst     |
-| `-name`          | Team folder name               |         |
-| `-src-peer-name` | Source team account alias      | src     |
-
-
-
+**-src-peer-name**
+: Source team account alias. Default: src
 
 # Results
-
-
 
 ## Report: verification
 
@@ -13964,11 +11922,7 @@ The command will generate a report in three different formats. `verification.csv
 | right_size | size of right file                                                                                                                                                                     |
 | right_hash | Content hash of right file                                                                                                                                                             |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `verification_0000.xlsx`, `verification_0001.xlsx`, `verification_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team teamfolder batch archive
@@ -13988,32 +11942,23 @@ This document uses the Desktop folder for command example.
 tbx dropbox team teamfolder batch archive -file /path/to/file.csv
 ```
 
-
 ## Options:
 
+**-file**
+: Data file for a list of team folder names
 
-
-| Option  | Description                               | Default |
-|---------|-------------------------------------------|---------|
-| `-file` | Data file for a list of team folder names |         |
-| `-peer` | Account alias                             | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # File formats
 
-
 ## Format: File
-
 
 Data file for batch creating team folders.
 
 | Column | Description         | Example |
 |--------|---------------------|---------|
 | name   | Name of team folder | Sales   |
-
-
 
 The first line is a header line. The program will accept a file without the header.
 ```
@@ -14022,8 +11967,6 @@ Sales
 ```
 
 # Results
-
-
 
 ## Report: operation_log
 
@@ -14040,11 +11983,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | result.is_team_shared_dropbox | True if the team has team shared Dropbox                                                   |
 | result.sync_setting           | The sync setting applied to this team folder (default, not_synced, or not_synced_inactive) |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team teamfolder batch permdelete
@@ -14064,32 +12003,23 @@ This document uses the Desktop folder for command example.
 tbx dropbox team teamfolder batch permdelete -file /path/to/file.csv
 ```
 
-
 ## Options:
 
+**-file**
+: Data file for a list of team folder names
 
-
-| Option  | Description                               | Default |
-|---------|-------------------------------------------|---------|
-| `-file` | Data file for a list of team folder names |         |
-| `-peer` | Account alias                             | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # File formats
 
-
 ## Format: File
-
 
 Data file for batch creating team folders.
 
 | Column | Description         | Example |
 |--------|---------------------|---------|
 | name   | Name of team folder | Sales   |
-
-
 
 The first line is a header line. The program will accept a file without the header.
 ```
@@ -14098,8 +12028,6 @@ Sales
 ```
 
 # Results
-
-
 
 ## Report: operation_log
 
@@ -14112,11 +12040,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | reason     | Reason of failure or skipped operation |
 | input.name | Name of team folder                    |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team teamfolder batch replication
@@ -14136,33 +12060,26 @@ This document uses the Desktop folder for command example.
 tbx dropbox team teamfolder batch replication -file TEAMFOLDER_NAME_LIST.csv
 ```
 
-
 ## Options:
 
+**-dst-peer-name**
+: Destination team account alias. Default: dst
 
+**-file**
+: Data file for a list of team folder names
 
-| Option           | Description                               | Default |
-|------------------|-------------------------------------------|---------|
-| `-dst-peer-name` | Destination team account alias            | dst     |
-| `-file`          | Data file for a list of team folder names |         |
-| `-src-peer-name` | Source team account alias                 | src     |
-
-
-
+**-src-peer-name**
+: Source team account alias. Default: src
 
 # File formats
 
-
 ## Format: File
-
 
 Data file for batch creating team folders.
 
 | Column | Description         | Example |
 |--------|---------------------|---------|
 | name   | Name of team folder | Sales   |
-
-
 
 The first line is a header line. The program will accept a file without the header.
 ```
@@ -14171,8 +12088,6 @@ Sales
 ```
 
 # Results
-
-
 
 ## Report: verification
 
@@ -14191,11 +12106,7 @@ The command will generate a report in three different formats. `verification.csv
 | right_size | size of right file                                                                                                                                                                     |
 | right_hash | Content hash of right file                                                                                                                                                             |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `verification_0000.xlsx`, `verification_0001.xlsx`, `verification_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team teamfolder file list
@@ -14215,24 +12126,21 @@ This document uses the Desktop folder for command example.
 tbx dropbox team teamfolder file list 
 ```
 
-
 ## Options:
 
+**-folder-name**
+: List only for the folder matched to the name. Filter by exact match to the name.
 
+**-folder-name-prefix**
+: List only for the folder matched to the name. Filter by name match to the prefix.
 
-| Option                | Description                                                                       | Default |
-|-----------------------|-----------------------------------------------------------------------------------|---------|
-| `-folder-name`        | List only for the folder matched to the name. Filter by exact match to the name.  |         |
-| `-folder-name-prefix` | List only for the folder matched to the name. Filter by name match to the prefix. |         |
-| `-folder-name-suffix` | List only for the folder matched to the name. Filter by name match to the suffix. |         |
-| `-peer`               | Account alias                                                                     | default |
+**-folder-name-suffix**
+: List only for the folder matched to the name. Filter by name match to the suffix.
 
-
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: errors
 
@@ -14246,10 +12154,7 @@ The command will generate a report in three different formats. `errors.csv`, `er
 | input.namespace | Namespace                              |
 | input.path      | Path                                   |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `errors_0000.xlsx`, `errors_0001.xlsx`, `errors_0002.xlsx`, ...
-
 
 ## Report: namespace_file
 
@@ -14268,11 +12173,7 @@ The command will generate a report in three different formats. `namespace_file.c
 | server_modified        | The last time the file was modified on Dropbox.                                                        |
 | size                   | The file size in bytes.                                                                                |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `namespace_file_0000.xlsx`, `namespace_file_0001.xlsx`, `namespace_file_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team teamfolder file size
@@ -14292,25 +12193,24 @@ This document uses the Desktop folder for command example.
 tbx dropbox team teamfolder file size 
 ```
 
-
 ## Options:
 
+**-depth**
+: Depth. Default: 3
 
+**-folder-name**
+: List only folders matching the name. Filter by exact match to the name.
 
-| Option                | Description                                                              | Default |
-|-----------------------|--------------------------------------------------------------------------|---------|
-| `-depth`              | Depth                                                                    | 3       |
-| `-folder-name`        | List only folders matching the name. Filter by exact match to the name.  |         |
-| `-folder-name-prefix` | List only folders matching the name. Filter by name match to the prefix. |         |
-| `-folder-name-suffix` | List only folders matching the name. Filter by name match to the suffix. |         |
-| `-peer`               | Account alias                                                            | default |
+**-folder-name-prefix**
+: List only folders matching the name. Filter by name match to the prefix.
 
+**-folder-name-suffix**
+: List only folders matching the name. Filter by name match to the suffix.
 
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: namespace_size
 
@@ -14333,11 +12233,7 @@ The command will generate a report in three different formats. `namespace_size.c
 | mod_time_latest      | Latest modification time in namespace                                                      |
 | api_complexity       | Folder complexity index for API operations                                                 |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `namespace_size_0000.xlsx`, `namespace_size_0001.xlsx`, `namespace_size_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team teamfolder file lock list
@@ -14357,23 +12253,18 @@ This document uses the Desktop folder for command example.
 tbx dropbox team teamfolder file lock list -path /DROPBOX/PATH/TO/LIST -team-folder NAME
 ```
 
-
 ## Options:
 
+**-path**
+: Path
 
+**-peer**
+: Account alias. Default: default
 
-| Option         | Description      | Default |
-|----------------|------------------|---------|
-| `-path`        | Path             |         |
-| `-peer`        | Account alias    | default |
-| `-team-folder` | Team folder name |         |
-
-
-
+**-team-folder**
+: Team folder name
 
 # Results
-
-
 
 ## Report: lock
 
@@ -14392,11 +12283,7 @@ The command will generate a report in three different formats. `lock.csv`, `lock
 | lock_holder_name | The display name of the lock holder.                                                                   |
 | lock_created     | The timestamp when the lock was created.                                                               |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `lock_0000.xlsx`, `lock_0001.xlsx`, `lock_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team teamfolder file lock release
@@ -14416,23 +12303,18 @@ This document uses the Desktop folder for command example.
 tbx dropbox team teamfolder file lock release -path /DROPBOX/PATH/TO/RELEASE -team-folder NAME
 ```
 
-
 ## Options:
 
+**-path**
+: Path to release lock
 
+**-peer**
+: Account alias. Default: default
 
-| Option         | Description          | Default |
-|----------------|----------------------|---------|
-| `-path`        | Path to release lock |         |
-| `-peer`        | Account alias        | default |
-| `-team-folder` | Team folder name     |         |
-
-
-
+**-team-folder**
+: Team folder name
 
 # Results
-
-
 
 ## Report: operation_log
 
@@ -14452,11 +12334,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | result.lock_holder_name | The display name of the lock holder.                                                                   |
 | result.lock_created     | The timestamp when the lock was created.                                                               |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team teamfolder file lock all release
@@ -14476,24 +12354,21 @@ This document uses the Desktop folder for command example.
 tbx dropbox team teamfolder file lock all release -path /DROPBOX/PATH/TO/RELEASE -team-folder NAME
 ```
 
-
 ## Options:
 
+**-batch-size**
+: Operation batch size. Default: 100
 
+**-path**
+: Path to release lock
 
-| Option         | Description          | Default |
-|----------------|----------------------|---------|
-| `-batch-size`  | Operation batch size | 100     |
-| `-path`        | Path to release lock |         |
-| `-peer`        | Account alias        | default |
-| `-team-folder` | Team folder name     |         |
+**-peer**
+: Account alias. Default: default
 
-
-
+**-team-folder**
+: Team folder name
 
 # Results
-
-
 
 ## Report: operation_log
 
@@ -14513,11 +12388,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | result.lock_holder_name | The display name of the lock holder.                                                                   |
 | result.lock_created     | The timestamp when the lock was created.                                                               |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team teamfolder member add
@@ -14537,25 +12408,20 @@ This document uses the Desktop folder for command example.
 tbx dropbox team teamfolder member add -file /PATH/TO/DATA_FILE.csv
 ```
 
-
 ## Options:
 
+**-admin-group-name**
+: Temporary group name for admin operation. Default: watermint-toolbox-admin
 
+**-file**
+: Path to data file
 
-| Option              | Description                              | Default                 |
-|---------------------|------------------------------------------|-------------------------|
-| `-admin-group-name` | Temporary group name for admin operation | watermint-toolbox-admin |
-| `-file`             | Path to data file                        |                         |
-| `-peer`             | Account alias                            | default                 |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # File formats
 
-
 ## Format: File
-
 
 Team folder and member list for adding access. Each row can have one member and the one folder. If you want to add two or more members to the folder, please create rows for those members. Similarly, if you want to add a member to two or more folders, please create rows for those folders.
 
@@ -14566,8 +12432,6 @@ Team folder and member list for adding access. Each row can have one member and 
 | access_type                | Access type (viewer/editor)                                                                                  | editor  |
 | group_name_or_member_email | Group name or member email address                                                                           | Sales   |
 
-
-
 The first line is a header line. The program will accept a file without the header.
 ```
 team_folder_name,path,access_type,group_name_or_member_email
@@ -14575,8 +12439,6 @@ Sales,Report,editor,Sales
 ```
 
 # Results
-
-
 
 ## Report: operation_log
 
@@ -14592,11 +12454,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | input.access_type                | Access type (viewer/editor)                                                                                  |
 | input.group_name_or_member_email | Group name or member email address                                                                           |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team teamfolder member delete
@@ -14616,25 +12474,20 @@ This document uses the Desktop folder for command example.
 tbx dropbox team teamfolder member delete -file /PATH/TO/DATA_FILE.csv
 ```
 
-
 ## Options:
 
+**-admin-group-name**
+: Temporary group name for admin operation. Default: watermint-toolbox-admin
 
+**-file**
+: Path to data file
 
-| Option              | Description                              | Default                 |
-|---------------------|------------------------------------------|-------------------------|
-| `-admin-group-name` | Temporary group name for admin operation | watermint-toolbox-admin |
-| `-file`             | Path to data file                        |                         |
-| `-peer`             | Account alias                            | default                 |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # File formats
 
-
 ## Format: File
-
 
 Team folder and member list for removing access. Each row can have one member and one folder. If you want to remove two or more members from the folder, please create rows for those members. Similarly, if you want to remove a member from two or more folders, please create rows for those folders.
 
@@ -14644,8 +12497,6 @@ Team folder and member list for removing access. Each row can have one member an
 | path                       | Relative path from the team folder root. Leave empty if you want to remove a member from the root of the team folder. | Report  |
 | group_name_or_member_email | Group name or member email address                                                                                    | Sales   |
 
-
-
 The first line is a header line. The program will accept a file without the header.
 ```
 team_folder_name,path,group_name_or_member_email
@@ -14653,8 +12504,6 @@ Sales,Report,Sales
 ```
 
 # Results
-
-
 
 ## Report: operation_log
 
@@ -14669,11 +12518,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | input.path                       | Relative path from the team folder root. Leave empty if you want to remove a member from the root of the team folder. |
 | input.group_name_or_member_email | Group name or member email address                                                                                    |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team teamfolder member list
@@ -14693,28 +12538,33 @@ This document uses the Desktop folder for command example.
 tbx dropbox team teamfolder member list 
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-folder-name**
+: Filter by folder name. Filter by exact match to the name.
 
-| Option                  | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|-------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`            | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-folder-name`          | Filter by folder name. Filter by exact match to the name.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |         |
-| `-folder-name-prefix`   | Filter by folder name. Filter by name match to the prefix.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |         |
-| `-folder-name-suffix`   | Filter by folder name. Filter by name match to the suffix.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |         |
-| `-member-type-external` | Filter folder members. Keep only members that are external (not in the same team). Note: Invited members are marked as external member.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |         |
-| `-member-type-internal` | Filter folder members. Keep only members that are internal (in the same team). Note: Invited members are marked as external member.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |         |
-| `-peer`                 | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-| `-scan-timeout`         | Scan timeout mode. If the scan timeouts, the path of a subfolder of the team folder will be replaced with a dummy path like `TEAMFOLDER_NAME/:ERROR-SCAN-TIMEOUT:/SUBFOLDER_NAME`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | short   |
+**-folder-name-prefix**
+: Filter by folder name. Filter by name match to the prefix.
 
+**-folder-name-suffix**
+: Filter by folder name. Filter by name match to the suffix.
 
+**-member-type-external**
+: Filter folder members. Keep only members that are external (not in the same team). Note: Invited members are marked as external member.
 
+**-member-type-internal**
+: Filter folder members. Keep only members that are internal (in the same team). Note: Invited members are marked as external member.
+
+**-peer**
+: Account alias. Default: default
+
+**-scan-timeout**
+: Scan timeout mode. If the scan timeouts, the path of a subfolder of the team folder will be replaced with a dummy path like `TEAMFOLDER_NAME/:ERROR-SCAN-TIMEOUT:/SUBFOLDER_NAME`.. Options: short (scantimeout: short), long (scantimeout: long). Default: short
 
 # Results
-
-
 
 ## Report: membership
 
@@ -14732,10 +12582,7 @@ The command will generate a report in three different formats. `membership.csv`,
 | member_email    | Email address of this member                                                                                                         |
 | same_team       | Whether the member is in the same team or not. Returns empty if the member is not able to determine whether in the same team or not. |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `membership_0000.xlsx`, `membership_0001.xlsx`, `membership_0002.xlsx`, ...
-
 
 ## Report: no_member
 
@@ -14748,11 +12595,7 @@ The command will generate a report in three different formats. `no_member.csv`, 
 | path            | Path                                                                                                     |
 | folder_type     | Type of the folder. (`team_folder`: a team folder or in a team folder, `shared_folder`: a shared folder) |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `no_member_0000.xlsx`, `no_member_0001.xlsx`, `no_member_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team teamfolder partial replication
@@ -14772,25 +12615,28 @@ This document uses the Desktop folder for command example.
 tbx dropbox team teamfolder partial replication -src-team-folder-name SRC_TEAMFOLDER_NAME -src-path /REL/PATH/SRC -dst-team-folder-name DST_TEAMFOLDER_NAME -dst-path /REL/PATH/DST
 ```
 
-
 ## Options:
 
+**-base-path**
+: Base path for partial replication. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-dst**
+: Destination account alias. Default: dst
 
-| Option                  | Description                                                                      | Default |
-|-------------------------|----------------------------------------------------------------------------------|---------|
-| `-base-path`            | Base path for partial replication                                                | root    |
-| `-dst`                  | Destination account alias                                                        | dst     |
-| `-dst-path`             | Destination path                                                                 |         |
-| `-dst-team-folder-name` | Destination team folder name                                                     |         |
-| `-src`                  | Peer name for the src team                                                       | src     |
-| `-src-path`             | Relative path from the team folder (please specify '/' for the team folder root) |         |
-| `-src-team-folder-name` | Source team folder name                                                          |         |
+**-dst-path**
+: Destination path
 
+**-dst-team-folder-name**
+: Destination team folder name
 
+**-src**
+: Peer name for the src team. Default: src
 
+**-src-path**
+: Relative path from the team folder (please specify '/' for the team folder root)
 
-
+**-src-team-folder-name**
+: Source team folder name
 
 ---
 Title: dropbox team teamfolder policy list
@@ -14810,26 +12656,27 @@ This document uses the Desktop folder for command example.
 tbx dropbox team teamfolder policy list 
 ```
 
-
 ## Options:
 
+**-base-path**
+: Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder.. Options: root (Full access to all folders with permissions), home (Access limited to personal home folder). Default: root
 
+**-folder-name**
+: Filter by folder name. Filter by exact match to the name.
 
-| Option                | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default |
-|-----------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-base-path`          | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root    |
-| `-folder-name`        | Filter by folder name. Filter by exact match to the name.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |         |
-| `-folder-name-prefix` | Filter by folder name. Filter by name match to the prefix.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |         |
-| `-folder-name-suffix` | Filter by folder name. Filter by name match to the suffix.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |         |
-| `-peer`               | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default |
-| `-scan-timeout`       | Scan timeout mode. If the scan timeouts, the path of a subfolder of the team folder will be replaced with a dummy path like `TEAMFOLDER_NAME/:ERROR-SCAN-TIMEOUT:/SUBFOLDER_NAME`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | short   |
+**-folder-name-prefix**
+: Filter by folder name. Filter by name match to the prefix.
 
+**-folder-name-suffix**
+: Filter by folder name. Filter by name match to the suffix.
 
+**-peer**
+: Account alias. Default: default
 
+**-scan-timeout**
+: Scan timeout mode. If the scan timeouts, the path of a subfolder of the team folder will be replaced with a dummy path like `TEAMFOLDER_NAME/:ERROR-SCAN-TIMEOUT:/SUBFOLDER_NAME`.. Options: short (scantimeout: short), long (scantimeout: long). Default: short
 
 # Results
-
-
 
 ## Report: policy
 
@@ -14846,11 +12693,7 @@ The command will generate a report in three different formats. `policy.csv`, `po
 | policy_member        | Who can be a member of this shared folder, taking into account both the folder and the team-wide policy. |
 | policy_viewer_info   | Who can enable/disable viewer info for this shared folder.                                               |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `policy_0000.xlsx`, `policy_0001.xlsx`, `policy_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team teamfolder sync setting list
@@ -14870,23 +12713,18 @@ This document uses the Desktop folder for command example.
 tbx dropbox team teamfolder sync setting list 
 ```
 
-
 ## Options:
 
+**-peer**
+: Account alias. Default: default
 
+**-scan-all**
+: Perform a scan for all depths (can take considerable time depending on folder structure). Default: false
 
-| Option      | Description                                                                              | Default |
-|-------------|------------------------------------------------------------------------------------------|---------|
-| `-peer`     | Account alias                                                                            | default |
-| `-scan-all` | Perform a scan for all depths (can take considerable time depending on folder structure) | false   |
-| `-show-all` | Show all scanned folders                                                                 | false   |
-
-
-
+**-show-all**
+: Show all scanned folders. Default: false
 
 # Results
-
-
 
 ## Report: folders
 
@@ -14909,10 +12747,7 @@ The command will generate a report in three different formats. `folders.csv`, `f
 | shared_folder_id            | If this folder is a shared folder mount point, the ID of the shared folder mounted at this location.                 |
 | parent_shared_folder_id     | ID of shared folder that holds this file.                                                                            |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `folders_0000.xlsx`, `folders_0001.xlsx`, `folders_0002.xlsx`, ...
-
 
 ## Report: settings
 
@@ -14925,11 +12760,7 @@ The command will generate a report in three different formats. `settings.csv`, `
 | path         | Path (Relative to the team folder. Blank for first level) |
 | sync_setting | Sync setting                                              |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `settings_0000.xlsx`, `settings_0001.xlsx`, `settings_0002.xlsx`, ...
-
-
 
 ---
 Title: dropbox team teamfolder sync setting update
@@ -14949,24 +12780,17 @@ This document uses the Desktop folder for command example.
 tbx dropbox team teamfolder sync setting update -file /PATH/TO/DATA_FILE.csv
 ```
 
-
 ## Options:
 
+**-file**
+: Path to data file
 
-
-| Option  | Description       | Default |
-|---------|-------------------|---------|
-| `-file` | Path to data file |         |
-| `-peer` | Account alias     | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # File formats
 
-
 ## Format: File
-
 
 Sync settings for team folders
 
@@ -14975,8 +12799,6 @@ Sync settings for team folders
 | path         | Path to the target folder         | /Sales/Forecast |
 | sync_setting | Sync setting (default/not_synced) | not_synced      |
 
-
-
 The first line is a header line. The program will accept a file without the header.
 ```
 path,sync_setting
@@ -14984,8 +12806,6 @@ path,sync_setting
 ```
 
 # Results
-
-
 
 ## Report: updated
 
@@ -15002,11 +12822,7 @@ The command will generate a report in three different formats. `updated.csv`, `u
 | result.name           | The name of the team folder.                                             |
 | result.status         | The status of the team folder (active, archived, or archive_in_progress) |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `updated_0000.xlsx`, `updated_0001.xlsx`, `updated_0002.xlsx`, ...
-
-
 
 ---
 Title: figma account info
@@ -15017,8 +12833,6 @@ URL: https://toolbox.watermint.org/commands/figma/account/info.md
 
 Retrieve current user information 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -15026,21 +12840,12 @@ This document uses the Desktop folder for command example.
 tbx figma account info 
 ```
 
-
 ## Options:
 
-
-
-| Option  | Description   | Default |
-|---------|---------------|---------|
-| `-peer` | Account alias | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: user
 
@@ -15054,11 +12859,7 @@ The command will generate a report in three different formats. `user.csv`, `user
 | img_url | URL link to the user's profile image     |
 | email   | Email associated with the user's account |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `user_0000.xlsx`, `user_0001.xlsx`, `user_0002.xlsx`, ...
-
-
 
 ---
 Title: figma file info
@@ -15069,8 +12870,6 @@ URL: https://toolbox.watermint.org/commands/figma/file/info.md
 
 Show information of the Figma file 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -15078,23 +12877,18 @@ This document uses the Desktop folder for command example.
 tbx figma file info -key FILE_KEY
 ```
 
-
 ## Options:
 
+**-all-nodes**
+: Include all node information. Default: false
 
+**-key**
+: File key
 
-| Option       | Description                  | Default |
-|--------------|------------------------------|---------|
-| `-all-nodes` | Include all node information | false   |
-| `-key`       | File key                     |         |
-| `-peer`      | Account alias                | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: document
 
@@ -15109,10 +12903,7 @@ The command will generate a report in three different formats. `document.csv`, `
 | editorType   | Figma editor type (figma/figjam) |
 | version      | Version of the document          |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `document_0000.xlsx`, `document_0001.xlsx`, `document_0002.xlsx`, ...
-
 
 ## Report: node
 
@@ -15126,11 +12917,7 @@ The command will generate a report in three different formats. `node.csv`, `node
 | name                | Name of the node                                       |
 | absoluteBoundingBox | Bounding box of the node in absolute space coordinates |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `node_0000.xlsx`, `node_0001.xlsx`, `node_0002.xlsx`, ...
-
-
 
 ---
 Title: figma file list
@@ -15141,8 +12928,6 @@ URL: https://toolbox.watermint.org/commands/figma/file/list.md
 
 List files in the Figma Project 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -15150,22 +12935,15 @@ This document uses the Desktop folder for command example.
 tbx figma file list -project-id PROJECT_ID. Use `services figma project list` command to retrieve PROJECT_IDs on your team.
 ```
 
-
 ## Options:
 
+**-peer**
+: Account alias. Default: default
 
-
-| Option        | Description   | Default |
-|---------------|---------------|---------|
-| `-peer`       | Account alias | default |
-| `-project-id` | Project ID    |         |
-
-
-
+**-project-id**
+: Project ID
 
 # Results
-
-
 
 ## Report: files
 
@@ -15179,11 +12957,7 @@ The command will generate a report in three different formats. `files.csv`, `fil
 | thumbnailUrl | Thumbnail URL           |
 | lastModified | Last modified timestamp |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `files_0000.xlsx`, `files_0001.xlsx`, `files_0002.xlsx`, ...
-
-
 
 ---
 Title: figma file export frame
@@ -15194,8 +12968,6 @@ URL: https://toolbox.watermint.org/commands/figma/file/export/frame.md
 
 Export all frames of the Figma file 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -15203,23 +12975,22 @@ This document uses the Desktop folder for command example.
 tbx figma file export frame -key FILE_KEY -path /LOCAL/PATH/TO/EXPORT
 ```
 
-
 ## Options:
 
+**-format**
+: Export format (png/jpg/svg/pdf). Options:.   • jpg (Format: jpg).   • png (Format: png).   • svg (Format: svg).   • pdf (PDF document format). Default: pdf
 
+**-key**
+: File key
 
-| Option    | Description                                               | Default |
-|-----------|-----------------------------------------------------------|---------|
-| `-format` | Export format (png/jpg/svg/pdf)                           | pdf     |
-| `-key`    | File key                                                  |         |
-| `-path`   | Output folder path                                        |         |
-| `-peer`   | Account alias                                             | default |
-| `-scale`  | Export scale in percent range from 1 to 400 (default 100) | 100     |
+**-path**
+: Output folder path
 
+**-peer**
+: Account alias. Default: default
 
-
-
-
+**-scale**
+: Export scale in percent range from 1 to 400 (default 100). Default: 100
 
 ---
 Title: figma file export node
@@ -15230,8 +13001,6 @@ URL: https://toolbox.watermint.org/commands/figma/file/export/node.md
 
 Export Figma document Node 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -15239,24 +13008,25 @@ This document uses the Desktop folder for command example.
 tbx figma file export node -key FILE_KEY -id NODE_ID -path /LOCAL/PATH/TO/EXPORT
 ```
 
-
 ## Options:
 
+**-format**
+: Export format (png/jpg/svg/pdf). Options:.   • jpg (Format: jpg).   • png (Format: png).   • svg (Format: svg).   • pdf (PDF document format). Default: pdf
 
+**-id**
+: Node ID
 
-| Option    | Description                                               | Default |
-|-----------|-----------------------------------------------------------|---------|
-| `-format` | Export format (png/jpg/svg/pdf)                           | pdf     |
-| `-id`     | Node ID                                                   |         |
-| `-key`    | File Key                                                  |         |
-| `-path`   | Output folder path                                        |         |
-| `-peer`   | Account alias                                             | default |
-| `-scale`  | Export scale in percent range from 1 to 400 (default 100) | 100     |
+**-key**
+: File Key
 
+**-path**
+: Output folder path
 
+**-peer**
+: Account alias. Default: default
 
-
-
+**-scale**
+: Export scale in percent range from 1 to 400 (default 100). Default: 100
 
 ---
 Title: figma file export page
@@ -15267,8 +13037,6 @@ URL: https://toolbox.watermint.org/commands/figma/file/export/page.md
 
 Export all pages of the Figma file 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -15276,23 +13044,22 @@ This document uses the Desktop folder for command example.
 tbx figma file export page -key FILE_KEY -path /LOCAL/PATH/TO/EXPORT
 ```
 
-
 ## Options:
 
+**-format**
+: Export format (png/jpg/svg/pdf). Options:.   • jpg (Format: jpg).   • png (Format: png).   • svg (Format: svg).   • pdf (PDF document format). Default: pdf
 
+**-key**
+: File key
 
-| Option    | Description                                               | Default |
-|-----------|-----------------------------------------------------------|---------|
-| `-format` | Export format (png/jpg/svg/pdf)                           | pdf     |
-| `-key`    | File key                                                  |         |
-| `-path`   | Output folder path                                        |         |
-| `-peer`   | Account alias                                             | default |
-| `-scale`  | Export scale in percent range from 1 to 400 (default 100) | 100     |
+**-path**
+: Output folder path
 
+**-peer**
+: Account alias. Default: default
 
-
-
-
+**-scale**
+: Export scale in percent range from 1 to 400 (default 100). Default: 100
 
 ---
 Title: figma file export all page
@@ -15312,23 +13079,22 @@ This document uses the Desktop folder for command example.
 tbx figma file export all page -path /LOCAL/PATH/TO/EXPORT -team-id TEAM_ID
 ```
 
-
 ## Options:
 
+**-format**
+: Export format (png/jpg/svg/pdf). Options:.   • jpg (Format: jpg).   • png (Format: png).   • svg (Format: svg).   • pdf (PDF document format). Default: pdf
 
+**-path**
+: Output folder path
 
-| Option     | Description                                                                                                                                                              | Default |
-|------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-format`  | Export format (png/jpg/svg/pdf)                                                                                                                                          | pdf     |
-| `-path`    | Output folder path                                                                                                                                                       |         |
-| `-peer`    | Account alias                                                                                                                                                            | default |
-| `-scale`   | Export scale in percent range from 1 to 400 (default 100)                                                                                                                | 100     |
-| `-team-id` | Team ID. To obtain a team id, navigate to a team page of a team you are a part of. The team id will be present in the URL after the word team and before your team name. |         |
+**-peer**
+: Account alias. Default: default
 
+**-scale**
+: Export scale in percent range from 1 to 400 (default 100). Default: 100
 
-
-
-
+**-team-id**
+: Team ID. To obtain a team id, navigate to a team page of a team you are a part of. The team id will be present in the URL after the word team and before your team name.
 
 ---
 Title: figma project list
@@ -15339,8 +13105,6 @@ URL: https://toolbox.watermint.org/commands/figma/project/list.md
 
 List projects of the team 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -15348,22 +13112,15 @@ This document uses the Desktop folder for command example.
 tbx figma project list -team-id TEAM_ID. To obtain a team id, navigate to a team page of a team you are a part of. The team id will be present in the URL after the word team and before your team name.
 ```
 
-
 ## Options:
 
+**-peer**
+: Account alias. Default: default
 
-
-| Option     | Description                                                                                                                                                              | Default |
-|------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-peer`    | Account alias                                                                                                                                                            | default |
-| `-team-id` | Team ID. To obtain a team id, navigate to a team page of a team you are a part of. The team id will be present in the URL after the word team and before your team name. |         |
-
-
-
+**-team-id**
+: Team ID. To obtain a team id, navigate to a team page of a team you are a part of. The team id will be present in the URL after the word team and before your team name.
 
 # Results
-
-
 
 ## Report: projects
 
@@ -15375,11 +13132,7 @@ The command will generate a report in three different formats. `projects.csv`, `
 | id     | Figma Project ID    |
 | name   | Name of the project |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `projects_0000.xlsx`, `projects_0001.xlsx`, `projects_0002.xlsx`, ...
-
-
 
 ---
 Title: github profile
@@ -15390,8 +13143,6 @@ URL: https://toolbox.watermint.org/commands/github/profile.md
 
 Get the authenticated user (Experimental)
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -15399,21 +13150,12 @@ This document uses the Desktop folder for command example.
 tbx github profile 
 ```
 
-
 ## Options:
 
-
-
-| Option  | Description   | Default |
-|---------|---------------|---------|
-| `-peer` | Account alias | default |
-
-
-
+**-peer**
+: Account alias. Default: default
 
 # Results
-
-
 
 ## Report: user
 
@@ -15426,11 +13168,7 @@ The command will generate a report in three different formats. `user.csv`, `user
 | name   | Name of the user |
 | url    | URL of the user  |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `user_0000.xlsx`, `user_0001.xlsx`, `user_0002.xlsx`, ...
-
-
 
 ---
 Title: github content get
@@ -15441,8 +13179,6 @@ URL: https://toolbox.watermint.org/commands/github/content/get.md
 
 Get content metadata of the repository 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -15450,25 +13186,24 @@ This document uses the Desktop folder for command example.
 tbx github content get -owner OWNER -repository REPOSITORY -path PATH
 ```
 
-
 ## Options:
 
+**-owner**
+: Owner of the repository
 
+**-path**
+: Path to the content
 
-| Option        | Description             | Default |
-|---------------|-------------------------|---------|
-| `-owner`      | Owner of the repository |         |
-| `-path`       | Path to the content     |         |
-| `-peer`       | Account alias           | default |
-| `-ref`        | Name of reference       |         |
-| `-repository` | Name of the repository  |         |
+**-peer**
+: Account alias. Default: default
 
+**-ref**
+: Name of reference
 
-
+**-repository**
+: Name of the repository
 
 # Results
-
-
 
 ## Report: content
 
@@ -15484,11 +13219,7 @@ The command will generate a report in three different formats. `content.csv`, `c
 | size   | Size            |
 | target | Symlink target  |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `content_0000.xlsx`, `content_0001.xlsx`, `content_0002.xlsx`, ...
-
-
 
 ---
 Title: github content put
@@ -15499,8 +13230,6 @@ URL: https://toolbox.watermint.org/commands/github/content/put.md
 
 Put small text content into the repository 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -15508,27 +13237,30 @@ This document uses the Desktop folder for command example.
 tbx github content put  -owner OWNER -repository REPO -path PATH -content /LOCAL/PATH/TO/content -message MSG
 ```
 
-
 ## Options:
 
+**-branch**
+: Name of the branch
 
+**-content**
+: Path to a content file
 
-| Option        | Description             | Default |
-|---------------|-------------------------|---------|
-| `-branch`     | Name of the branch      |         |
-| `-content`    | Path to a content file  |         |
-| `-message`    | Commit message          |         |
-| `-owner`      | Owner of the repository |         |
-| `-path`       | Path to the content     |         |
-| `-peer`       | Account alias           | default |
-| `-repository` | Name of the repository  |         |
+**-message**
+: Commit message
 
+**-owner**
+: Owner of the repository
 
+**-path**
+: Path to the content
 
+**-peer**
+: Account alias. Default: default
+
+**-repository**
+: Name of the repository
 
 # Results
-
-
 
 ## Report: commit
 
@@ -15540,11 +13272,7 @@ The command will generate a report in three different formats. `commit.csv`, `co
 | sha    | SHA1 of the commit |
 | url    | URL of the commit  |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `commit_0000.xlsx`, `commit_0001.xlsx`, `commit_0002.xlsx`, ...
-
-
 
 ---
 Title: github issue list
@@ -15555,8 +13283,6 @@ URL: https://toolbox.watermint.org/commands/github/issue/list.md
 
 List issues of the public/private GitHub repository (Experimental)
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -15564,27 +13290,30 @@ This document uses the Desktop folder for command example.
 tbx github issue list -owner OWNER -repository REPO
 ```
 
-
 ## Options:
 
+**-filter**
+: Indicates which sorts of issues to return.. Options:.   • assigned (filter: assigned).   • created (filter: created).   • mentioned (filter: mentioned).   • subscribed (filter: subscribed).   • repos (filter: repos).   • all (filter: all). Default: assigned
 
+**-labels**
+: A list of comma separated label names.
 
-| Option        | Description                                           | Default  |
-|---------------|-------------------------------------------------------|----------|
-| `-filter`     | Indicates which sorts of issues to return.            | assigned |
-| `-labels`     | A list of comma separated label names.                |          |
-| `-owner`      | Owner of the repository                               |          |
-| `-peer`       | Account alias                                         | default  |
-| `-repository` | Repository name                                       |          |
-| `-since`      | Only show notifications updated after the given time. |          |
-| `-state`      | Indicates the state of the issues to return.          | open     |
+**-owner**
+: Owner of the repository
 
+**-peer**
+: Account alias. Default: default
 
+**-repository**
+: Repository name
 
+**-since**
+: Only show notifications updated after the given time.
+
+**-state**
+: Indicates the state of the issues to return.. Options:.   • open (Open issues only).   • closed (Closed issues only).   • all (All issues). Default: open
 
 # Results
-
-
 
 ## Report: issues
 
@@ -15598,11 +13327,7 @@ The command will generate a report in three different formats. `issues.csv`, `is
 | title  | Title            |
 | state  | Issue state      |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `issues_0000.xlsx`, `issues_0001.xlsx`, `issues_0002.xlsx`, ...
-
-
 
 ---
 Title: github release draft
@@ -15613,8 +13338,6 @@ URL: https://toolbox.watermint.org/commands/github/release/draft.md
 
 Create release draft (Experimental, and Irreversible operation)
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -15622,27 +13345,30 @@ This document uses the Desktop folder for command example.
 tbx github release draft -owner OWNER -repository REPO -body-file /LOCAL/PATH/TO/BODY.txt -branch BRANCH -name NAME -tag TAG
 ```
 
-
 ## Options:
 
+**-body-file**
+: File path to body text. The file must be encoded in UTF-8 without BOM.
 
+**-branch**
+: Name of the target branch
 
-| Option        | Description                                                            | Default |
-|---------------|------------------------------------------------------------------------|---------|
-| `-body-file`  | File path to body text. The file must be encoded in UTF-8 without BOM. |         |
-| `-branch`     | Name of the target branch                                              |         |
-| `-name`       | Name of the release                                                    |         |
-| `-owner`      | Owner of the repository                                                |         |
-| `-peer`       | Account alias                                                          | default |
-| `-repository` | Name of the repository                                                 |         |
-| `-tag`        | Name of the tag                                                        |         |
+**-name**
+: Name of the release
 
+**-owner**
+: Owner of the repository
 
+**-peer**
+: Account alias. Default: default
 
+**-repository**
+: Name of the repository
+
+**-tag**
+: Name of the tag
 
 # Results
-
-
 
 ## Report: release
 
@@ -15657,11 +13383,7 @@ The command will generate a report in three different formats. `release.csv`, `r
 | draft    | Release is a draft |
 | url      | URL of the release |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `release_0000.xlsx`, `release_0001.xlsx`, `release_0002.xlsx`, ...
-
-
 
 ---
 Title: github release list
@@ -15672,8 +13394,6 @@ URL: https://toolbox.watermint.org/commands/github/release/list.md
 
 List releases (Experimental)
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -15681,23 +13401,18 @@ This document uses the Desktop folder for command example.
 tbx github release list -owner OWNER -repository REPO
 ```
 
-
 ## Options:
 
+**-owner**
+: Repository owner
 
+**-peer**
+: Account alias. Default: default
 
-| Option        | Description      | Default |
-|---------------|------------------|---------|
-| `-owner`      | Repository owner |         |
-| `-peer`       | Account alias    | default |
-| `-repository` | Repository name  |         |
-
-
-
+**-repository**
+: Repository name
 
 # Results
-
-
 
 ## Report: releases
 
@@ -15711,11 +13426,7 @@ The command will generate a report in three different formats. `releases.csv`, `
 | draft    | Release is a draft |
 | url      | URL of the release |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `releases_0000.xlsx`, `releases_0001.xlsx`, `releases_0002.xlsx`, ...
-
-
 
 ---
 Title: github release asset download
@@ -15726,8 +13437,6 @@ URL: https://toolbox.watermint.org/commands/github/release/asset/download.md
 
 Download assets (Experimental)
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -15735,25 +13444,24 @@ This document uses the Desktop folder for command example.
 tbx github release asset download -owner OWNER -repository REPO -path /LOCAL/PATH/TO/DOWNLOAD -release RELEASE
 ```
 
-
 ## Options:
 
+**-owner**
+: Owner of the repository
 
+**-path**
+: Path to download
 
-| Option        | Description             | Default |
-|---------------|-------------------------|---------|
-| `-owner`      | Owner of the repository |         |
-| `-path`       | Path to download        |         |
-| `-peer`       | Account alias           | default |
-| `-release`    | Release tag name        |         |
-| `-repository` | Name of the repository  |         |
+**-peer**
+: Account alias. Default: default
 
+**-release**
+: Release tag name
 
-
+**-repository**
+: Name of the repository
 
 # Results
-
-
 
 ## Report: downloads
 
@@ -15766,11 +13474,7 @@ The command will generate a report in three different formats. `downloads.csv`, 
 | reason     | Reason of failure or skipped operation |
 | input.file | File path                              |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `downloads_0000.xlsx`, `downloads_0001.xlsx`, `downloads_0002.xlsx`, ...
-
-
 
 ---
 Title: github release asset list
@@ -15781,8 +13485,6 @@ URL: https://toolbox.watermint.org/commands/github/release/asset/list.md
 
 List assets of GitHub Release (Experimental)
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -15790,24 +13492,21 @@ This document uses the Desktop folder for command example.
 tbx github release asset list -owner OWNER -repository REPO -release RELEASE
 ```
 
-
 ## Options:
 
+**-owner**
+: Owner of the repository
 
+**-peer**
+: Account alias. Default: default
 
-| Option        | Description             | Default |
-|---------------|-------------------------|---------|
-| `-owner`      | Owner of the repository |         |
-| `-peer`       | Account alias           | default |
-| `-release`    | Release tag name        |         |
-| `-repository` | Name of the repository  |         |
+**-release**
+: Release tag name
 
-
-
+**-repository**
+: Name of the repository
 
 # Results
-
-
 
 ## Report: assets
 
@@ -15822,11 +13521,7 @@ The command will generate a report in three different formats. `assets.csv`, `as
 | download_count | Number of downloads |
 | download_url   | Download URL        |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `assets_0000.xlsx`, `assets_0001.xlsx`, `assets_0002.xlsx`, ...
-
-
 
 ---
 Title: github release asset upload
@@ -15837,8 +13532,6 @@ URL: https://toolbox.watermint.org/commands/github/release/asset/upload.md
 
 Upload assets file into the GitHub Release (Experimental, and Irreversible operation)
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -15846,25 +13539,24 @@ This document uses the Desktop folder for command example.
 tbx github release asset upload -owner OWNER -repository REPO -release RELEASE -asset /LOCAL/PATH/TO/assets
 ```
 
-
 ## Options:
 
+**-asset**
+: Path to assets
 
+**-owner**
+: Owner of the repository
 
-| Option        | Description             | Default |
-|---------------|-------------------------|---------|
-| `-asset`      | Path to assets          |         |
-| `-owner`      | Owner of the repository |         |
-| `-peer`       | Account alias           | default |
-| `-release`    | Release tag name        |         |
-| `-repository` | Name of the repository  |         |
+**-peer**
+: Account alias. Default: default
 
+**-release**
+: Release tag name
 
-
+**-repository**
+: Name of the repository
 
 # Results
-
-
 
 ## Report: uploads
 
@@ -15882,11 +13574,7 @@ The command will generate a report in three different formats. `uploads.csv`, `u
 | result.download_count | Number of downloads                    |
 | result.download_url   | Download URL                           |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `uploads_0000.xlsx`, `uploads_0001.xlsx`, `uploads_0002.xlsx`, ...
-
-
 
 ---
 Title: github tag create
@@ -15897,8 +13585,6 @@ URL: https://toolbox.watermint.org/commands/github/tag/create.md
 
 Create a tag on the repository (Experimental, and Irreversible operation)
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -15906,25 +13592,24 @@ This document uses the Desktop folder for command example.
 tbx github tag create -owner OWNER -repository REPO -sha1 SHA -tag TAG
 ```
 
-
 ## Options:
 
+**-owner**
+: Owner of the repository
 
+**-peer**
+: Account alias. Default: default
 
-| Option        | Description             | Default |
-|---------------|-------------------------|---------|
-| `-owner`      | Owner of the repository |         |
-| `-peer`       | Account alias           | default |
-| `-repository` | Name of the repository  |         |
-| `-sha1`       | SHA1 hash of the commit |         |
-| `-tag`        | Tag name                |         |
+**-repository**
+: Name of the repository
 
+**-sha1**
+: SHA1 hash of the commit
 
-
+**-tag**
+: Tag name
 
 # Results
-
-
 
 ## Report: created
 
@@ -15944,11 +13629,7 @@ The command will generate a report in three different formats. `created.csv`, `c
 | result.message   | Message of the commit                  |
 | result.url       | URL of the tag                         |
 
-
-
 In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `created_0000.xlsx`, `created_0001.xlsx`, `created_0002.xlsx`, ...
-
-
 
 ---
 Title: local file template apply
@@ -15959,8 +13640,6 @@ URL: https://toolbox.watermint.org/commands/local/file/template/apply.md
 
 Apply file/folder structure template to the local path 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -15968,20 +13647,13 @@ This document uses the Desktop folder for command example.
 tbx local file template apply -path /LOCAL/PATH/TO/APPLY -template /LOCAL/PATH/TO/template.json
 ```
 
-
 ## Options:
 
+**-path**
+: Path to apply template
 
-
-| Option      | Description            | Default |
-|-------------|------------------------|---------|
-| `-path`     | Path to apply template |         |
-| `-template` | Path to template file  |         |
-
-
-
-
-
+**-template**
+: Path to template file
 
 ---
 Title: local file template capture
@@ -15992,8 +13664,6 @@ URL: https://toolbox.watermint.org/commands/local/file/template/capture.md
 
 Capture file/folder structure as template from local path 
 
-
-
 # Usage
 
 This document uses the Desktop folder for command example.
@@ -16001,20 +13671,13 @@ This document uses the Desktop folder for command example.
 tbx local file template capture -out /LOCAL/PATH/template.json -path /LOCAL/PATH/TO/CAPTURE
 ```
 
-
 ## Options:
 
+**-out**
+: Template output path
 
-
-| Option  | Description          | Default |
-|---------|----------------------|---------|
-| `-out`  | Template output path |         |
-| `-path` | Capture target path  |         |
-
-
-
-
-
+**-path**
+: Capture target path
 
 ## Additional documents
 
@@ -16046,8 +13709,6 @@ Path variables are predefined variables which will be replaced on runtime. For e
 | {{.Time}}                      | Current local time with format HH-MM-SS.                                                       |
 | {{.DateUTC}}                   | Current UTC date with format yyyy-mm-dd.                                                       |
 | {{.TimeUTC}}                   | Current UTC time with format HH-MM-SS.                                                         |
-
-
 
 - [Experimental features](https://toolbox.watermint.org/guides/experimental-features.md)
 ---
@@ -16091,8 +13752,6 @@ The experimental feature switch is for testing or accessing early access feature
 | report_all_columns                       | Show all columns defined as data structure.                                                                                                                                                             |
 | suppress_progress                        | Suppress progress indicators                                                                                                                                                                            |
 | validate_network_connection_on_bootstrap | Validate network connection on bootstrap                                                                                                                                                                |
-
-
 
 - [Troubleshooting](https://toolbox.watermint.org/guides/troubleshooting.md)
 ---
@@ -16202,8 +13861,6 @@ tbx job log last -quiet | jq -r 'select(.msg == "Heap stats") | [.time, .HeapInu
 ## API transaction logs
 
 The tool will record API requests and responses into capture logs that have a prefix "capture". This capture logs do not contain requests and responses of OAuth. Additionally, API token strings are replaced with `<secret>`.
-
-
 
 - [Commands of Dropbox for teams](https://toolbox.watermint.org/guides/dropbox-business.md)
 ---
@@ -16598,8 +14255,6 @@ With legal holds, admins can place a legal hold on members of their team and vie
 
 Dropbox Business footnote information
 
-
-
 - [Specification changes](https://toolbox.watermint.org/guides/spec-change.md)
 ---
 Title: Specification changes
@@ -16619,10 +14274,13 @@ Details about path changes in the spec
 
 Details about prune changes in the spec
 
-| CLI path for prune | Description of prune | Prune after build date |
-|--------------------|----------------------|------------------------|
-
-
+| CLI path for prune                                                                     | Description of prune                 | Prune after build date |
+|----------------------------------------------------------------------------------------|--------------------------------------|------------------------|
+| [util text nlp english entity](https://github.com/watermint/toolbox/discussions/905)   | Split English text into entities     | 2025-07-30T15:00:00Z   |
+| [util text nlp english sentence](https://github.com/watermint/toolbox/discussions/905) | Split English text into sentences    | 2025-07-30T15:00:00Z   |
+| [util text nlp english token](https://github.com/watermint/toolbox/discussions/905)    | Split English text into tokens       | 2025-07-30T15:00:00Z   |
+| [util text nlp japanese token](https://github.com/watermint/toolbox/discussions/905)   | Tokenize Japanese text               | 2025-07-30T15:00:00Z   |
+| [util text nlp japanese wakati](https://github.com/watermint/toolbox/discussions/905)  | Wakachigaki (tokenize Japanese text) | 2025-07-30T15:00:00Z   |
 
 - [Reporting options](https://toolbox.watermint.org/guides/reporting-options.md)
 ---
@@ -16713,6 +14371,3 @@ $ ./tbx dropbox team member list -output json --output-filter "[.profile.email, 
 ```
 
 In case you want to test the output filter, you can run the command first without the output filter option.\nThe command will generate the raw JSON output.\nThen, you can test the query with the command [util json query](https://toolbox.watermint.org/commands/util-json-query.html) to test the query.\n
-
-
-

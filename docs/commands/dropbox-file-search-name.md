@@ -8,6 +8,8 @@ lang: en
 
 Search file name 
 
+Searches for files and folders by name pattern across the Dropbox account.
+
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:

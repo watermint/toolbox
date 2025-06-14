@@ -8,6 +8,8 @@ lang: en
 
 List shared folders 
 
+Lists all shared folders you have access to with their sharing details.
+
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:

@@ -8,6 +8,8 @@ lang: en
 
 Show statistics of the API log of the job specified by the job name 
 
+Analyze and display API call statistics for jobs identified by command name rather than job ID. This allows you to aggregate statistics across multiple executions of the same command, helping identify patterns and performance trends over time.
+
 # Installation
 
 Please download the pre-compiled binary from [Latest Release](https://github.com/watermint/toolbox/releases/latest). If you are using Windows, please download the zip file like `tbx-xx.x.xxx-win.zip`. Then, extract the archive and place `tbx.exe` on the Desktop folder. 

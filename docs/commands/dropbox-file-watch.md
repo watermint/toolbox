@@ -8,6 +8,8 @@ lang: en
 
 Watch file activities 
 
+Monitors a path for changes and outputs file/folder modifications in real-time.
+
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:

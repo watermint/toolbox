@@ -8,6 +8,8 @@ lang: en
 
 Add the shared folder to the current user's Dropbox 
 
+Mounts a shared folder to your Dropbox, making it appear in your file structure.
+
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:

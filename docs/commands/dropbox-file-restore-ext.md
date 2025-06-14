@@ -8,6 +8,8 @@ lang: en
 
 Restore files with a specific extension (Experimental, and Irreversible operation)
 
+Restores deleted files matching specific file extensions within a path.
+
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:

@@ -8,6 +8,8 @@ lang: en
 
 Storage usage 
 
+Calculates and reports the size of folders and their contents at specified depth levels.
+
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:

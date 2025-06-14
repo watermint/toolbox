@@ -8,6 +8,8 @@ lang: en
 
 Merge paths (Irreversible operation)
 
+Merges contents from one folder into another, with options for dry-run and empty folder handling.
+
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:

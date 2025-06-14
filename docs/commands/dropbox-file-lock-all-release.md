@@ -8,6 +8,8 @@ lang: en
 
 Release all locks under the specified path 
 
+Releases all file locks held by the current user across the account.
+
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:

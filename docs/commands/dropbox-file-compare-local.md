@@ -8,6 +8,8 @@ lang: en
 
 Compare local folders and Dropbox folders 
 
+Compares local files and folders with their Dropbox counterparts to identify differences.
+
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:

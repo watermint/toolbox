@@ -8,6 +8,8 @@ lang: en
 
 Lock multiple files 
 
+Acquires locks on multiple files in a single batch operation.
+
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:

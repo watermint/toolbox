@@ -8,6 +8,8 @@ lang: en
 
 Capture file/folder structure as template from Dropbox path 
 
+Captures the file/folder structure from a Dropbox path and saves it as a reusable template.
+
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:

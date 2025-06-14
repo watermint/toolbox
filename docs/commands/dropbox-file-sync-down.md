@@ -8,6 +8,8 @@ lang: en
 
 Downstream sync with Dropbox 
 
+Downloads files from Dropbox to local filesystem with filtering and overwrite options.
+
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:

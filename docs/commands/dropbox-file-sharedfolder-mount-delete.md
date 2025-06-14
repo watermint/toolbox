@@ -8,7 +8,7 @@ lang: en
 
 Unmount the shared folder 
 
-Upon success, the current user cannot access the folder unless adding the folder again. Please use `dropbox file sharedfolder mount list` command to find the shared_folder_id of the folder you want to delete.
+Unmounts a shared folder from your Dropbox without leaving the folder.
 
 # Security
 

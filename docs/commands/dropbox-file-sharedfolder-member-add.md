@@ -8,6 +8,8 @@ lang: en
 
 Add a member to the shared folder 
 
+Adds new members to a shared folder with specified access permissions.
+
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:

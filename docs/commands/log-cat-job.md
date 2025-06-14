@@ -8,6 +8,8 @@ lang: en
 
 Retrieve logs of specified Job ID 
 
+Extract and display log files for a specific job execution identified by its Job ID. This includes debug logs, API capture logs, error messages, and system information. Essential for troubleshooting failed executions and analyzing job performance.
+
 # Installation
 
 Please download the pre-compiled binary from [Latest Release](https://github.com/watermint/toolbox/releases/latest). If you are using Windows, please download the zip file like `tbx-xx.x.xxx-win.zip`. Then, extract the archive and place `tbx.exe` on the Desktop folder. 

@@ -8,6 +8,8 @@ lang: en
 
 Retrieve sharing information of the file 
 
+Retrieves sharing information and permissions for a specific file or folder.
+
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:

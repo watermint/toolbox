@@ -8,6 +8,8 @@ lang: en
 
 Upstream sync with Dropbox (Irreversible operation)
 
+Uploads files from local filesystem to Dropbox with filtering and overwrite options.
+
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:

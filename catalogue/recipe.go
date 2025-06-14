@@ -87,6 +87,7 @@ func AutoDetectedRecipesClassic() []infra_recipe_rc_recipe.Recipe {
 		&recipedevciauth.Export{},
 		&recipedevdiag.Endpoint{},
 		&recipedevdiag.Throughput{},
+		&recipedevdoc.Knowledge{},
 		&recipedevdoc.Markdown{},
 		&recipedevdocmsg.Add{},
 		&recipedevdocmsg.CatalogueOptions{},

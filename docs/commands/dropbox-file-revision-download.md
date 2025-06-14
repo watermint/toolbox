@@ -8,6 +8,8 @@ lang: en
 
 Download the file revision 
 
+Downloads a specific revision/version of a file from its revision history.
+
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:
