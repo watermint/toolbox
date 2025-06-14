@@ -16,5 +16,6 @@ func Docs(media dc_index.MediaType) []dc_section.Document {
 		&AuthenticationGuide{},
 		&ErrorHandlingGuide{},
 		&BestPracticesGuide{},
+		&ReportingGuide{},
 	}
 }

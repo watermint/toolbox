@@ -35,24 +35,24 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 17 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{
-  			Name:     "Id",
-  			Desc:     "Job ID",
-  			Default:  "",
-- 			TypeName: "string",
-+ 			TypeName: "essentials.model.mo_string.opt_string",
-  			TypeAttr: nil,
-  		},
-  		&{Name: "Kind", Desc: "Kind of log", Default: "toolbox", TypeName: "essentials.model.mo_string.select_string_internal", ...},
-  		&{Name: "Path", Desc: "Path to the workspace", TypeName: "essentials.model.mo_string.opt_string"},
-  	},
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-  	... // 2 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 17 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{
+  			Name:     "Id",
+  			Desc:     "Job ID",
+  			Default:  "",
+- 			TypeName: "string",
++ 			TypeName: "essentials.model.mo_string.opt_string",
+  			TypeAttr: nil,
+  		},
+  		&{Name: "Kind", Desc: "Kind of log", Default: "toolbox", TypeName: "essentials.model.mo_string.select_string_internal", ...},
+  		&{Name: "Path", Desc: "Path to the workspace", TypeName: "essentials.model.mo_string.opt_string"},
+  	},
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+  	... // 2 identical fields
+  }
 ```

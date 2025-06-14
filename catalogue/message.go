@@ -106,6 +106,7 @@ func AutoDetectedMessageObjects() []interface{} {
 		&infradocdc_supplemental.MsgErrorHandlingGuide{},
 		&infradocdc_supplemental.MsgExperimentalFeature{},
 		&infradocdc_supplemental.MsgPathVariable{},
+		&infradocdc_supplemental.MsgReportingGuide{},
 		&infradocdc_supplemental.MsgReportingOptions{},
 		&infradocdc_supplemental.MsgSpecChange{},
 		&infradocdc_supplemental.MsgTroubleshooting{},
