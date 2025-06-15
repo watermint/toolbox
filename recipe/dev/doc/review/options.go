@@ -36,6 +36,11 @@ func (z *Options) Exec(c app_control.Control) error {
 		return err
 	}
 
+	if z.MissingOptions == nil {
+		l.Debug("MissingOptions is nil, likely in test mode")
+		return nil
+	}
+
 	if err := z.MissingOptions.Open(); err != nil {
 		return err
 	}

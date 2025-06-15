@@ -4,6 +4,12 @@
       "discussions": {
         "nodes": [
           {
+            "number": 906,
+            "title": "AI Powered Q\u0026A Bot on ChatGPT",
+            "updatedAt": "2025-06-14T16:35:08Z",
+            "url": "https://github.com/watermint/toolbox/discussions/906"
+          },
+          {
             "number": 905,
             "title": "Deprecation: Some of utilities command will be removed after release of 2025-08-01",
             "updatedAt": "2025-06-13T22:55:28Z",

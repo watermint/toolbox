@@ -205,6 +205,7 @@ func (m *mockUI) IsConsole() bool                                               
 func (m *mockUI) IsWeb() bool                                                      { return false }
 func (m *mockUI) Messages() app_msg_container.Container                            { return nil }
 func (m *mockUI) WithContainerSyntax(mc app_msg_container.Container) app_ui.Syntax { return m }
+func (m *mockUI) DefinitionList(definitions []app_ui.Definition)                   {}
 
 func TestJsonSpec_NameDescDoc(t *testing.T) {
 	type dummy struct{}
