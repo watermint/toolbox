@@ -7,6 +7,7 @@ import (
 	"path/filepath"
 	"sort"
 	"testing"
+	"time"
 
 	"github.com/watermint/toolbox/quality/infra/qt_file"
 )
@@ -129,6 +130,9 @@ func TestRotateOpts_PurgeTargets_ByQuota(t *testing.T) {
 			}
 			expectedFiles = append(expectedFiles, fp)
 		}
+
+		// Sleep to ensure different modification times
+		time.Sleep(10 * time.Millisecond)
 
 		// new logs
 		preserveFiles := make([]string, 0)

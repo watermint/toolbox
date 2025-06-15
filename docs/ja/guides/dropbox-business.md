@@ -10,14 +10,14 @@ lang: ja
 
 以下のコマンドは、チームメンバーの情報を取得するためのものです.
 
-| コマンド                                                                                               | 説明                                     |
-|--------------------------------------------------------------------------------------------------------|------------------------------------------|
-| [dropbox team member list]({{ site.baseurl }}/ja/commands/dropbox-team-member-list.html)               | チームメンバーの一覧                     |
-| [dropbox team member feature]({{ site.baseurl }}/ja/commands/dropbox-team-member-feature.html)         | メンバーの機能設定一覧                   |
-| [dropbox team member folder list]({{ site.baseurl }}/ja/commands/dropbox-team-member-folder-list.html) | 各メンバーのフォルダーを一覧表示         |
-| [dropbox team member quota list]({{ site.baseurl }}/ja/commands/dropbox-team-member-quota-list.html)   | メンバーの容量制限情報を一覧します       |
-| [dropbox team member quota usage]({{ site.baseurl }}/ja/commands/dropbox-team-member-quota-usage.html) | チームメンバーのストレージ利用状況を取得 |
-| [dropbox team activity user]({{ site.baseurl }}/ja/commands/dropbox-team-activity-user.html)           | ユーザーごとのアクティビティ             |
+| コマンド                                                                                               | 説明                                                                                           |
+|--------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------|
+| [dropbox team member list]({{ site.baseurl }}/ja/commands/dropbox-team-member-list.html)               | ステータス、ロール、アカウント詳細を含む全チームメンバーの包括的リストを表示                   |
+| [dropbox team member feature]({{ site.baseurl }}/ja/commands/dropbox-team-member-feature.html)         | メンバーの機能設定一覧                                                                         |
+| [dropbox team member folder list]({{ site.baseurl }}/ja/commands/dropbox-team-member-folder-list.html) | 各メンバーのフォルダーを一覧表示                                                               |
+| [dropbox team member quota list]({{ site.baseurl }}/ja/commands/dropbox-team-member-quota-list.html)   | メンバーの容量制限情報を一覧します                                                             |
+| [dropbox team member quota usage]({{ site.baseurl }}/ja/commands/dropbox-team-member-quota-usage.html) | チームメンバーのストレージ利用状況を取得                                                       |
+| [dropbox team activity user]({{ site.baseurl }}/ja/commands/dropbox-team-activity-user.html)           | 特定チームメンバーのアクティビティログを取得、ファイル操作、ログイン、共有アクティビティを表示 |
 
 ## 基本管理コマンド
 
@@ -82,15 +82,15 @@ lang: ja
 
 以下のコマンドはグループを管理するためのものです.
 
-| コマンド                                                                                               | 説明                     |
-|--------------------------------------------------------------------------------------------------------|--------------------------|
-| [dropbox team group add]({{ site.baseurl }}/ja/commands/dropbox-team-group-add.html)                   | グループを作成します     |
-| [dropbox team group batch add]({{ site.baseurl }}/ja/commands/dropbox-team-group-batch-add.html)       | グループの一括追加       |
-| [dropbox team group batch delete]({{ site.baseurl }}/ja/commands/dropbox-team-group-batch-delete.html) | グループの削除           |
-| [dropbox team group delete]({{ site.baseurl }}/ja/commands/dropbox-team-group-delete.html)             | グループを削除します     |
-| [dropbox team group list]({{ site.baseurl }}/ja/commands/dropbox-team-group-list.html)                 | グループを一覧           |
-| [dropbox team group rename]({{ site.baseurl }}/ja/commands/dropbox-team-group-rename.html)             | グループの改名           |
-| [dropbox team group update type]({{ site.baseurl }}/ja/commands/dropbox-team-group-update-type.html)   | グループ管理タイプの更新 |
+| コマンド                                                                                               | 説明                                                           |
+|--------------------------------------------------------------------------------------------------------|----------------------------------------------------------------|
+| [dropbox team group add]({{ site.baseurl }}/ja/commands/dropbox-team-group-add.html)                   | グループを作成します                                           |
+| [dropbox team group batch add]({{ site.baseurl }}/ja/commands/dropbox-team-group-batch-add.html)       | グループの一括追加                                             |
+| [dropbox team group batch delete]({{ site.baseurl }}/ja/commands/dropbox-team-group-batch-delete.html) | グループの削除                                                 |
+| [dropbox team group delete]({{ site.baseurl }}/ja/commands/dropbox-team-group-delete.html)             | グループを削除します                                           |
+| [dropbox team group list]({{ site.baseurl }}/ja/commands/dropbox-team-group-list.html)                 | メンバー数とグループ管理タイプを含むチーム内の全グループを表示 |
+| [dropbox team group rename]({{ site.baseurl }}/ja/commands/dropbox-team-group-rename.html)             | グループの改名                                                 |
+| [dropbox team group update type]({{ site.baseurl }}/ja/commands/dropbox-team-group-update-type.html)   | グループ管理タイプの更新                                       |
 
 ## グループメンバー管理コマンド
 
@@ -111,11 +111,11 @@ lang: ja
 どのフォルダが各グループを使用しているかを確認したい場合は、`dropbox team group folder list`コマンドを使用します。`dropbox team group folder list`はグループとフォルダのマッピングを報告します。`group_with_no_folders`というレポートでは、フォルダがないグループが表示されます.
 グループの削除は、メンバー数とフォルダ数の両方を確認すれば、安全に行うことができます. 確認後、`dropbox team group batch delete`コマンドを使ってグループを一括削除することができます。
 
-| コマンド                                                                                               | 説明                             |
-|--------------------------------------------------------------------------------------------------------|----------------------------------|
-| [dropbox team group list]({{ site.baseurl }}/ja/commands/dropbox-team-group-list.html)                 | グループを一覧                   |
-| [dropbox team group folder list]({{ site.baseurl }}/ja/commands/dropbox-team-group-folder-list.html)   | 各グループのフォルダーを一覧表示 |
-| [dropbox team group batch delete]({{ site.baseurl }}/ja/commands/dropbox-team-group-batch-delete.html) | グループの削除                   |
+| コマンド                                                                                               | 説明                                                           |
+|--------------------------------------------------------------------------------------------------------|----------------------------------------------------------------|
+| [dropbox team group list]({{ site.baseurl }}/ja/commands/dropbox-team-group-list.html)                 | メンバー数とグループ管理タイプを含むチーム内の全グループを表示 |
+| [dropbox team group folder list]({{ site.baseurl }}/ja/commands/dropbox-team-group-folder-list.html)   | 各グループのフォルダーを一覧表示                               |
+| [dropbox team group batch delete]({{ site.baseurl }}/ja/commands/dropbox-team-group-batch-delete.html) | グループの削除                                                 |
 
 # チームコンテンツのコマンド
 
@@ -127,19 +127,19 @@ lang: ja
 
 以下のコマンドを使って、チームフォルダーの作成、アーカイブ、完全に削除ができます. 複数のチームフォルダを処理する必要がある場合は、`dropbox team teamfolder batch`コマンドの使用を検討してください。
 
-| コマンド                                                                                                                       | 説明                                   |
-|--------------------------------------------------------------------------------------------------------------------------------|----------------------------------------|
-| [dropbox team teamfolder add]({{ site.baseurl }}/ja/commands/dropbox-team-teamfolder-add.html)                                 | チームフォルダを追加します             |
-| [dropbox team teamfolder archive]({{ site.baseurl }}/ja/commands/dropbox-team-teamfolder-archive.html)                         | チームフォルダのアーカイブ             |
-| [dropbox team teamfolder batch archive]({{ site.baseurl }}/ja/commands/dropbox-team-teamfolder-batch-archive.html)             | 複数のチームフォルダをアーカイブします |
-| [dropbox team teamfolder batch permdelete]({{ site.baseurl }}/ja/commands/dropbox-team-teamfolder-batch-permdelete.html)       | 複数のチームフォルダを完全に削除します |
-| [dropbox team teamfolder batch replication]({{ site.baseurl }}/ja/commands/dropbox-team-teamfolder-batch-replication.html)     | チームフォルダの一括レプリケーション   |
-| [dropbox team teamfolder file size]({{ site.baseurl }}/ja/commands/dropbox-team-teamfolder-file-size.html)                     | チームフォルダのサイズを計算           |
-| [dropbox team teamfolder list]({{ site.baseurl }}/ja/commands/dropbox-team-teamfolder-list.html)                               | チームフォルダの一覧                   |
-| [dropbox team teamfolder permdelete]({{ site.baseurl }}/ja/commands/dropbox-team-teamfolder-permdelete.html)                   | チームフォルダを完全に削除します       |
-| [dropbox team teamfolder policy list]({{ site.baseurl }}/ja/commands/dropbox-team-teamfolder-policy-list.html)                 | チームフォルダのポリシー一覧           |
-| [dropbox team teamfolder sync setting list]({{ site.baseurl }}/ja/commands/dropbox-team-teamfolder-sync-setting-list.html)     | チームフォルダーの同期設定を一覧表示   |
-| [dropbox team teamfolder sync setting update]({{ site.baseurl }}/ja/commands/dropbox-team-teamfolder-sync-setting-update.html) | チームフォルダ同期設定の一括更新       |
+| コマンド                                                                                                                       | 説明                                                                                 |
+|--------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------|
+| [dropbox team teamfolder add]({{ site.baseurl }}/ja/commands/dropbox-team-teamfolder-add.html)                                 | 集約されたチームコンテンツストレージとコラボレーション用の新しいチームフォルダを作成 |
+| [dropbox team teamfolder archive]({{ site.baseurl }}/ja/commands/dropbox-team-teamfolder-archive.html)                         | チームフォルダのアーカイブ                                                           |
+| [dropbox team teamfolder batch archive]({{ site.baseurl }}/ja/commands/dropbox-team-teamfolder-batch-archive.html)             | 複数のチームフォルダをアーカイブします                                               |
+| [dropbox team teamfolder batch permdelete]({{ site.baseurl }}/ja/commands/dropbox-team-teamfolder-batch-permdelete.html)       | 複数のチームフォルダを完全に削除します                                               |
+| [dropbox team teamfolder batch replication]({{ site.baseurl }}/ja/commands/dropbox-team-teamfolder-batch-replication.html)     | チームフォルダの一括レプリケーション                                                 |
+| [dropbox team teamfolder file size]({{ site.baseurl }}/ja/commands/dropbox-team-teamfolder-file-size.html)                     | チームフォルダのサイズを計算                                                         |
+| [dropbox team teamfolder list]({{ site.baseurl }}/ja/commands/dropbox-team-teamfolder-list.html)                               | ステータス、同期設定、メンバーアクセス情報を含む全チームフォルダを表示               |
+| [dropbox team teamfolder permdelete]({{ site.baseurl }}/ja/commands/dropbox-team-teamfolder-permdelete.html)                   | チームフォルダを完全に削除します                                                     |
+| [dropbox team teamfolder policy list]({{ site.baseurl }}/ja/commands/dropbox-team-teamfolder-policy-list.html)                 | チームフォルダのポリシー一覧                                                         |
+| [dropbox team teamfolder sync setting list]({{ site.baseurl }}/ja/commands/dropbox-team-teamfolder-sync-setting-list.html)     | チームフォルダーの同期設定を一覧表示                                                 |
+| [dropbox team teamfolder sync setting update]({{ site.baseurl }}/ja/commands/dropbox-team-teamfolder-sync-setting-update.html) | チームフォルダ同期設定の一括更新                                                     |
 
 ## チームフォルダの権限コマンド
 
@@ -279,23 +279,23 @@ tbx team sharedlink list -visibility public -output json | tbx team sharedlink d
 
 チーム活動ログのコマンドでは、特定のフィルターや視点で活動ログをエクスポートすることができます.
 
-| コマンド                                                                                                   | 説明                                         |
-|------------------------------------------------------------------------------------------------------------|----------------------------------------------|
-| [dropbox team activity batch user]({{ site.baseurl }}/ja/commands/dropbox-team-activity-batch-user.html)   | 複数ユーザーのアクティビティを一括取得します |
-| [dropbox team activity daily event]({{ site.baseurl }}/ja/commands/dropbox-team-activity-daily-event.html) | アクティビティーを1日ごとに取得します        |
-| [dropbox team activity event]({{ site.baseurl }}/ja/commands/dropbox-team-activity-event.html)             | イベントログ                                 |
-| [dropbox team activity user]({{ site.baseurl }}/ja/commands/dropbox-team-activity-user.html)               | ユーザーごとのアクティビティ                 |
+| コマンド                                                                                                   | 説明                                                                                                                     |
+|------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------|
+| [dropbox team activity batch user]({{ site.baseurl }}/ja/commands/dropbox-team-activity-batch-user.html)   | 複数チームメンバーのアクティビティログをバッチ取得し、コンプライアンス監査やユーザー行動分析に活用                       |
+| [dropbox team activity daily event]({{ site.baseurl }}/ja/commands/dropbox-team-activity-daily-event.html) | 日別アクティビティレポートを生成し、チーム利用パターンとセキュリティ監視に活用                                           |
+| [dropbox team activity event]({{ site.baseurl }}/ja/commands/dropbox-team-activity-event.html)             | 詳細なチームアクティビティイベントログをフィルタリングオプション付きで取得、セキュリティ監査とコンプライアンス監視に必須 |
+| [dropbox team activity user]({{ site.baseurl }}/ja/commands/dropbox-team-activity-user.html)               | 特定チームメンバーのアクティビティログを取得、ファイル操作、ログイン、共有アクティビティを表示                           |
 
 # 接続されたアプリケーションとデバイスのコマンド.
 
 以下のコマンドは、チーム内で接続されているデバイスやアプリケーションの情報を取得することができます.
 
-| コマンド                                                                                                   | 説明                                                                  |
-|------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------|
-| [dropbox team device list]({{ site.baseurl }}/ja/commands/dropbox-team-device-list.html)                   | チーム内全てのデバイス/セッションを一覧します                         |
-| [dropbox team device unlink]({{ site.baseurl }}/ja/commands/dropbox-team-device-unlink.html)               | デバイスのセッションを解除します                                      |
-| [dropbox team linkedapp list]({{ site.baseurl }}/ja/commands/dropbox-team-linkedapp-list.html)             | リンク済みアプリを一覧                                                |
-| [dropbox team backup device status]({{ site.baseurl }}/ja/commands/dropbox-team-backup-device-status.html) | Dropbox バックアップ デバイスのステータスが指定期間内に変更された場合 |
+| コマンド                                                                                                   | 説明                                                                                                                             |
+|------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|
+| [dropbox team device list]({{ site.baseurl }}/ja/commands/dropbox-team-device-list.html)                   | デバイス詳細と最終アクティビティタイムスタンプ付きで、チームメンバーアカウントに接続された全デバイスとアクティブセッションを表示 |
+| [dropbox team device unlink]({{ site.baseurl }}/ja/commands/dropbox-team-device-unlink.html)               | 紛失・盗難デバイスの保護やアクセス取り消しに必須、チームメンバーアカウントからデバイスをリモート切断                             |
+| [dropbox team linkedapp list]({{ site.baseurl }}/ja/commands/dropbox-team-linkedapp-list.html)             | リンク済みアプリを一覧                                                                                                           |
+| [dropbox team backup device status]({{ site.baseurl }}/ja/commands/dropbox-team-backup-device-status.html) | Dropbox バックアップ デバイスのステータスが指定期間内に変更された場合                                                            |
 
 # その他の使用例
 
@@ -309,13 +309,13 @@ External IDのクリアを省略すると、Dropbox AD Connectorが新しいツ�
 tbx member list -experiment report_all_columns
 ```
 
-| コマンド                                                                                                                       | 説明                                     |
-|--------------------------------------------------------------------------------------------------------------------------------|------------------------------------------|
-| [dropbox team member list]({{ site.baseurl }}/ja/commands/dropbox-team-member-list.html)                                       | チームメンバーの一覧                     |
-| [dropbox team member clear externalid]({{ site.baseurl }}/ja/commands/dropbox-team-member-clear-externalid.html)               | メンバーのexternal_idを初期化します      |
-| [dropbox team member update batch externalid]({{ site.baseurl }}/ja/commands/dropbox-team-member-update-batch-externalid.html) | チームメンバーのExternal IDを更新します. |
-| [dropbox team group list]({{ site.baseurl }}/ja/commands/dropbox-team-group-list.html)                                         | グループを一覧                           |
-| [dropbox team group clear externalid]({{ site.baseurl }}/ja/commands/dropbox-team-group-clear-externalid.html)                 | グループの外部IDをクリアする             |
+| コマンド                                                                                                                       | 説明                                                                         |
+|--------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------|
+| [dropbox team member list]({{ site.baseurl }}/ja/commands/dropbox-team-member-list.html)                                       | ステータス、ロール、アカウント詳細を含む全チームメンバーの包括的リストを表示 |
+| [dropbox team member clear externalid]({{ site.baseurl }}/ja/commands/dropbox-team-member-clear-externalid.html)               | メンバーのexternal_idを初期化します                                          |
+| [dropbox team member update batch externalid]({{ site.baseurl }}/ja/commands/dropbox-team-member-update-batch-externalid.html) | チームメンバーのExternal IDを更新します.                                     |
+| [dropbox team group list]({{ site.baseurl }}/ja/commands/dropbox-team-group-list.html)                                         | メンバー数とグループ管理タイプを含むチーム内の全グループを表示               |
+| [dropbox team group clear externalid]({{ site.baseurl }}/ja/commands/dropbox-team-group-clear-externalid.html)                 | グループの外部IDをクリアする                                                 |
 
 ## データ移行補助コマンド
 
@@ -330,11 +330,11 @@ tbx member list -experiment report_all_columns
 
 ## チーム情報コマンド
 
-| コマンド                                                                               | 説明                                           |
-|----------------------------------------------------------------------------------------|------------------------------------------------|
-| [dropbox team feature]({{ site.baseurl }}/ja/commands/dropbox-team-feature.html)       | チームの機能を出力します                       |
-| [dropbox team filesystem]({{ site.baseurl }}/ja/commands/dropbox-team-filesystem.html) | チームのファイルシステムのバージョンを特定する |
-| [dropbox team info]({{ site.baseurl }}/ja/commands/dropbox-team-info.html)             | チームの情報                                   |
+| コマンド                                                                               | 説明                                                                                 |
+|----------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------|
+| [dropbox team feature]({{ site.baseurl }}/ja/commands/dropbox-team-feature.html)       | APIリミットや特殊機能を含む、Dropboxチームアカウントで有効なすべての機能と性能を表示 |
+| [dropbox team filesystem]({{ site.baseurl }}/ja/commands/dropbox-team-filesystem.html) | チームのファイルシステムのバージョンを特定する                                       |
+| [dropbox team info]({{ site.baseurl }}/ja/commands/dropbox-team-info.html)             | チームIDと基本チーム設定を含む必須チームアカウント情報を表示                         |
 
 # Paperコマンド
 
@@ -352,15 +352,15 @@ tbx member list -experiment report_all_columns
 
 以下のコマンドは、チーム管理者を管理するためのものです.
 
-| コマンド                                                                                                         | 説明                                                             |
-|------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------|
-| [dropbox team admin list]({{ site.baseurl }}/ja/commands/dropbox-team-admin-list.html)                           | メンバーの管理者権限一覧                                         |
-| [dropbox team admin role add]({{ site.baseurl }}/ja/commands/dropbox-team-admin-role-add.html)                   | メンバーに新しいロールを追加する                                 |
-| [dropbox team admin role clear]({{ site.baseurl }}/ja/commands/dropbox-team-admin-role-clear.html)               | メンバーからすべての管理者ロールを削除する                       |
-| [dropbox team admin role delete]({{ site.baseurl }}/ja/commands/dropbox-team-admin-role-delete.html)             | メンバーからロールを削除する                                     |
-| [dropbox team admin role list]({{ site.baseurl }}/ja/commands/dropbox-team-admin-role-list.html)                 | チームの管理者の役割を列挙                                       |
-| [dropbox team admin group role add]({{ site.baseurl }}/ja/commands/dropbox-team-admin-group-role-add.html)       | グループのメンバーにロールを追加する                             |
-| [dropbox team admin group role delete]({{ site.baseurl }}/ja/commands/dropbox-team-admin-group-role-delete.html) | 例外グループのメンバーを除くすべてのメンバーからロールを削除する |
+| コマンド                                                                                                         | 説明                                                                                                         |
+|------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|
+| [dropbox team admin list]({{ site.baseurl }}/ja/commands/dropbox-team-admin-list.html)                           | 割り当てられた管理者ロールを持つ全チームメンバーを表示、管理アクセスと権限の監査に有用                       |
+| [dropbox team admin role add]({{ site.baseurl }}/ja/commands/dropbox-team-admin-role-add.html)                   | 個々のチームメンバーに特定の管理者ロールを付与、きめ細かな権限管理を実現                                     |
+| [dropbox team admin role clear]({{ site.baseurl }}/ja/commands/dropbox-team-admin-role-clear.html)               | チームメンバーから全管理者権限を取り消し、ロール移行やセキュリティ目的に有用                                 |
+| [dropbox team admin role delete]({{ site.baseurl }}/ja/commands/dropbox-team-admin-role-delete.html)             | 他のロールを保持したままチームメンバーから特定の管理者ロールを削除、正確な権限調整が可能                     |
+| [dropbox team admin role list]({{ site.baseurl }}/ja/commands/dropbox-team-admin-role-list.html)                 | チームで利用可能なすべての管理者ロールとその説明・権限を表示                                                 |
+| [dropbox team admin group role add]({{ site.baseurl }}/ja/commands/dropbox-team-admin-group-role-add.html)       | 指定グループの全メンバーに管理者ロールを割り当て、大規模チームのロール管理を効率化                           |
+| [dropbox team admin group role delete]({{ site.baseurl }}/ja/commands/dropbox-team-admin-group-role-delete.html) | 指定した例外グループを除く全チームメンバーから管理者ロールを削除、ロールのクリーンアップとアクセス制御に便利 |
 
 # チームメンバーとして実行するコマンド
 

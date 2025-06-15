@@ -27,16 +27,12 @@ jobs:
             ${{ runner.os }}-go-
 
       - name: test
-        run: ./test/test.sh
+        run: go test -v -short -covermode=atomic -coverprofile=coverage.txt ./...
         env:
           RUN_NUMBER: '${{ github.run_number }}'
-          TOOLBOX_DEPLOY_DB: '${{ secrets.TOOLBOX_DEPLOY_DB }}'
-          TOOLBOX_DEPLOY_TOKEN: '${{ secrets.TOOLBOX_DEPLOY_TOKEN }}'
-          TOOLBOX_REPLAY_URL: '${{ secrets.TOOLBOX_REPLAY_URL }}'
           TOOLBOX_SKIPENDTOENDTEST: true
 
       - name: upload coverage
         uses: codecov/codecov-action@v3
         env:
           CODECOV_TOKEN: '${{ secrets.CODECOV_TOKEN }}'
-

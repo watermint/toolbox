@@ -15,6 +15,8 @@ import (
 	recipedevciauth "github.com/watermint/toolbox/recipe/dev/ci/auth"
 	recipedevdiag "github.com/watermint/toolbox/recipe/dev/diag"
 	recipedevdoc "github.com/watermint/toolbox/recipe/dev/doc"
+	recipedevdocmsg "github.com/watermint/toolbox/recipe/dev/doc/msg"
+	recipedevdocreview "github.com/watermint/toolbox/recipe/dev/doc/review"
 	recipedevkvs "github.com/watermint/toolbox/recipe/dev/kvs"
 	recipedevlicense "github.com/watermint/toolbox/recipe/dev/license"
 	recipedevlifecycle "github.com/watermint/toolbox/recipe/dev/lifecycle"
@@ -85,7 +87,20 @@ func AutoDetectedRecipesClassic() []infra_recipe_rc_recipe.Recipe {
 		&recipedevciauth.Export{},
 		&recipedevdiag.Endpoint{},
 		&recipedevdiag.Throughput{},
+		&recipedevdoc.Knowledge{},
 		&recipedevdoc.Markdown{},
+		&recipedevdocmsg.Add{},
+		&recipedevdocmsg.CatalogueOptions{},
+		&recipedevdocmsg.Delete{},
+		&recipedevdocmsg.List{},
+		&recipedevdocmsg.Options{},
+		&recipedevdocmsg.Translate{},
+		&recipedevdocmsg.Update{},
+		&recipedevdocmsg.Verify{},
+		&recipedevdocreview.Approve{},
+		&recipedevdocreview.Batch{},
+		&recipedevdocreview.List{},
+		&recipedevdocreview.Options{},
 		&recipedevkvs.Concurrency{},
 		&recipedevkvs.Dump{},
 		&recipedevlicense.Issue{},

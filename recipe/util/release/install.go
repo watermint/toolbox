@@ -125,6 +125,14 @@ func (z *Install) selectAsset(assets []*mo_release_asset.Asset) (*mo_release_ass
 func (z *Install) Exec(c app_control.Control) error {
 	l := c.Log()
 	ui := c.UI()
+	
+	// Skip actual installation in test mode
+	if c.Feature().IsTest() {
+		l.Debug("Test mode: skipping actual installation")
+		ui.Info(app_msg.Raw("Test mode: installation skipped"))
+		return nil
+	}
+	
 	if !z.AcceptLicenseAgreement {
 		ui.Error(z.ErrorNoAgreement)
 		return ErrorNoLicenseAgreement

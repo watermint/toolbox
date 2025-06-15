@@ -38,32 +38,66 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明                                 | デフォルト |
-|------------|--------------------------------------|------------|
-| `-text`    | エコーするテキストインポート先のパス |            |
+**-text**
+: エコーするテキストインポート先のパス
 
 ## 共通のオプション:
 
-| オプション         | 説明                                                                                                                                                       | デフォルト     |
-|--------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------|
-| `-auth-database`   | 認証データベースへのカスタムパス (デフォルト: $HOME/.toolbox/secrets/secrets.db)                                                                           |                |
-| `-auto-open`       | 成果物フォルダまたはURLを自動で開く                                                                                                                        | false          |
-| `-bandwidth-kb`    | コンテンツをアップロードまたはダウンロードする際の帯域幅制限(Kバイト毎秒). 0の場合、制限を行わない                                                         | 0              |
-| `-budget-memory`   | メモリの割り当て目標 (メモリ使用量を減らすために幾つかの機能が制限されます)                                                                                | normal         |
-| `-budget-storage`  | ストレージの利用目標 (ストレージ利用を減らすためログ、機能を限定します)                                                                                    | normal         |
-| `-concurrency`     | 指定した並列度で並列処理を行います                                                                                                                         | プロセッサー数 |
-| `-debug`           | デバッグモードを有効にする                                                                                                                                 | false          |
-| `-experiment`      | 実験的機能を有効化する                                                                                                                                     |                |
-| `-extra`           | 追加パラメータファイルのパス                                                                                                                               |                |
-| `-lang`            | 表示言語                                                                                                                                                   | auto           |
-| `-output`          | 出力書式 (none/text/markdown/json)                                                                                                                         | text           |
-| `-output-filter`   | 出力フィルタ・クエリ（jq構文）。レポートの出力はjq構文を使ってフィルタリングされる。このオプションは、レポートがJSONとして出力される場合にのみ適用される。 |                |
-| `-proxy`           | HTTP/HTTPS プロクシ (hostname:port). プロキシの設定を省略したい場合は`DIRECT`を指定してください                                                            |                |
-| `-quiet`           | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                                                                                        | false          |
-| `-retain-job-data` | ジョブデータ保持ポリシー                                                                                                                                   | default        |
-| `-secure`          | トークンをファイルに保存しません                                                                                                                           | false          |
-| `-skip-logging`    | ローカルストレージへのログ保存をスキップ                                                                                                                   | false          |
-| `-verbose`         | 現在の操作を詳細に表示します.                                                                                                                              | false          |
-| `-workspace`       | ワークスペースへのパス                                                                                                                                     |                |
+**-auth-database**
+: 認証データベースへのカスタムパス (デフォルト: $HOME/.toolbox/secrets/secrets.db)
+
+**-auto-open**
+: 成果物フォルダまたはURLを自動で開く. Default: false
+
+**-bandwidth-kb**
+: コンテンツをアップロードまたはダウンロードする際の帯域幅制限(Kバイト毎秒). 0の場合、制限を行わない. Default: 0
+
+**-budget-memory**
+: メモリの割り当て目標 (メモリ使用量を減らすために幾つかの機能が制限されます). Options: low, normal. Default: normal
+
+**-budget-storage**
+: ストレージの利用目標 (ストレージ利用を減らすためログ、機能を限定します). Options: low, normal, unlimited. Default: normal
+
+**-concurrency**
+: 指定した並列度で並列処理を行います. Default: プロセッサー数
+
+**-debug**
+: デバッグモードを有効にする. Default: false
+
+**-experiment**
+: 実験的機能を有効化する
+
+**-extra**
+: 追加パラメータファイルのパス
+
+**-lang**
+: 表示言語. Options: auto, en, ja. Default: auto
+
+**-output**
+: 出力書式 (none/text/markdown/json). Options: text, markdown, json, none. Default: text
+
+**-output-filter**
+: 出力フィルタ・クエリ（jq構文）。レポートの出力はjq構文を使ってフィルタリングされる。このオプションは、レポートがJSONとして出力される場合にのみ適用される。
+
+**-proxy**
+: HTTP/HTTPS プロクシ (hostname:port). プロキシの設定を省略したい場合は`DIRECT`を指定してください
+
+**-quiet**
+: エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します. Default: false
+
+**-retain-job-data**
+: ジョブデータ保持ポリシー. Options: default, on_error, none. Default: default
+
+**-secure**
+: トークンをファイルに保存しません. Default: false
+
+**-skip-logging**
+: ローカルストレージへのログ保存をスキップ. Default: false
+
+**-verbose**
+: 現在の操作を詳細に表示します.. Default: false
+
+**-workspace**
+: ワークスペースへのパス
 
 

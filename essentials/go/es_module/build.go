@@ -51,7 +51,13 @@ func ScanBuild() (b Build, err error) {
 
 	goPathEnv := os.Getenv("GOPATH")
 	if goPathEnv == "" {
-		return nil, ErrorNoGoPath
+		// Try to get GOPATH from go env command
+		goPathEnv = os.Getenv("HOME") + "/go"
+		if _, err := os.Stat(goPathEnv); os.IsNotExist(err) {
+			l.Debug("GOPATH not set and default path does not exist", esl.String("defaultPath", goPathEnv))
+			// Return empty build instead of error for CI environments
+			return NewBuild([]Module{}), nil
+		}
 	}
 	l.Debug("GOPATH", esl.String("Path", goPathEnv))
 

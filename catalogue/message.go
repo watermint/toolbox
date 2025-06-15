@@ -53,6 +53,7 @@ import (
 	infrauiapp_ui "github.com/watermint/toolbox/infra/ui/app_ui"
 	ingredientig_dropboxig_file "github.com/watermint/toolbox/ingredient/ig_dropbox/ig_file"
 	recipedevdiag "github.com/watermint/toolbox/recipe/dev/diag"
+	recipedevdoc "github.com/watermint/toolbox/recipe/dev/doc"
 	recipeutiltidymove "github.com/watermint/toolbox/recipe/util/tidy/move"
 )
 
@@ -99,9 +100,13 @@ func AutoDetectedMessageObjects() []interface{} {
 		&infradocdc_knowledge.MsgKnowledge{},
 		&infradocdc_license.MsgLicense{},
 		&infradocdc_options.MsgDoc{},
+		&infradocdc_supplemental.MsgAuthenticationGuide{},
+		&infradocdc_supplemental.MsgBestPracticesGuide{},
 		&infradocdc_supplemental.MsgDropboxBusiness{},
+		&infradocdc_supplemental.MsgErrorHandlingGuide{},
 		&infradocdc_supplemental.MsgExperimentalFeature{},
 		&infradocdc_supplemental.MsgPathVariable{},
+		&infradocdc_supplemental.MsgReportingGuide{},
 		&infradocdc_supplemental.MsgReportingOptions{},
 		&infradocdc_supplemental.MsgSpecChange{},
 		&infradocdc_supplemental.MsgTroubleshooting{},
@@ -121,6 +126,7 @@ func AutoDetectedMessageObjects() []interface{} {
 		&infrauiapp_ui.MsgProgress{},
 		&ingredientig_dropboxig_file.MsgUpload{},
 		&recipedevdiag.MsgLoader{},
+		&recipedevdoc.MsgKnowledge{},
 		&recipeutiltidymove.MsgLocal{},
 	}
 }

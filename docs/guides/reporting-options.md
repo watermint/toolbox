@@ -1,93 +1,184 @@
 ---
 layout: page
-title: Reporting options
+title: Guide to advanced reporting features including hidden columns, output filtering, and JSON processing
 lang: en
 ---
 
-# Reporting options
+# Reporting Guide
 
-The watermint toolbox creates reports from data obtained from services via the API. The reports differ depending on the command.
+# Advanced Reporting Features
 
-* Commands that output data from the API as reports.
-* Commands that output data from the API as reports after processing.
+Many commands in watermint toolbox generate reports with tabular data. There are three powerful features that can extend and modify command output for advanced reporting needs:
 
-The command output format is designed for core use cases. To avoid confusion, the command omits irrelevant/low priority fields.
-You can output the abbreviated data using the method shown below, or create a report with your preferred format by using output filter.
+## 1. Show All Columns with -experimental report_all_columns
 
-# Hidden columns
+By default, commands display only the most commonly used columns to keep output readable. However, many commands have additional hidden columns that can be revealed using the experimental flag.
 
-In the CSV and xlsx reports produced by the command, some columns may be omitted. This includes, for example, internally used IDs and data of little relevance.
-
-```
-$ ./tbx dropbox file account info
-
-watermint toolbox xxx.x.xxx
-===========================
-
-© 2016-2024 Takayuki Okazaki
-Licensed under open source licenses. Use the `license` command for more detail.
-
-| email                 | email_verified | given_name | surname | display_name |
-|-----------------------|----------------|------------|---------|--------------|
-| xxx@xxxxxxxxxxxxx.xxx | true           | xxxx       | xxxx    | xxxxxxxx     |
+### Usage
+```bash
+go run . [command] -experimental report_all_columns
 ```
 
-If you want to output this type of data, you can add the `-experiment report_all_columns' option to output all defined columns.
+### Example: Dropbox Team Member List
 
+**Standard output (limited columns):**
+```bash
+go run . dropbox team member list
 ```
-$ ./tbx dropbox file account info -experiment report_all_columns
+Shows: Email, Status, Role, etc.
 
-watermint toolbox xxx.x.xxx
-===========================
-
-© 2016-2024 Takayuki Okazaki
-Licensed under open source licenses. Use the `license` command for more detail.
-
-| team_member_id                            | email                 | email_verified | status | given_name | surname | familiar_name | display_name | abbreviated_name | member_folder_id | external_id | account_id                               | persistent_id | joined_on | invited_on | role | tag |
-|-------------------------------------------|-----------------------|----------------|--------|------------|---------|---------------|--------------|------------------|------------------|-------------|------------------------------------------|---------------|-----------|------------|------|-----|
-| dbmid:xxxx-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx | xxx@xxxxxxxxxxxxx.xxx | true           |        | xxxx       | xxxx    | xxxxxxxx      | xxxxxxx     | xxxx             |                  |             | dbid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx |               |           |            |      |     |
+**Extended output (all columns):**
+```bash
+go run . dropbox team member list -experimental report_all_columns
 ```
+Shows: Email, Status, Role, Team Member ID, Account ID, External ID, Profile, Date Joined, Groups, etc.
 
-Even if you use this option, some information may not be output. If you need more detailed information, try the following output filters.
+This reveals internal IDs and metadata that are often needed for automation and integration scenarios.
 
-# Output filter option
+## 2. Filter Output with -output-filter
 
-This feature allows you to filter the output of the command.
-This is useful if you want to process the output in a specific format.
+The output filter option allows you to run queries on command results using a SQL-like syntax. This requires `-output json` to be specified.
 
-> NOTE: This filter is applied to all output reports. It will not work as intended for commands that output multiple report formats.
-> When processing multiple report formats, please use the `util json query` command to process each of the output JSON files.
-> 
-
-In addition, in some cases, data in JSON format contains more data.
-If you want to retrieve such hidden data, this option will help you to extract it as a report.
-
-For example, the command [dropbox team member list](https://toolbox.watermint.org/commands/dropbox-team-member-list.html) returns a list of team members.
-JSON report contains raw data from the Dropbox API.
-If you want to extract only the email address and the verification status of the team members, you can use the output filter option.
-
-```
-$ ./tbx dropbox team member list -output json --output-filter "[.profile.email, .profile.email_verified]"
-["sugito@example.com", true]
-["kajiwara@example.com", true]
-["takimoto@example.com", false]
-["ueno@example.com", true]
-["tomioka@example.com", false]
+### Usage
+```bash
+go run . [command] -output json -output-filter "query expression"
 ```
 
-Then, if you want to format this data as a CSV, you can use the `@csv` filter like this (adding `| @csv` at the end):
+### Query Syntax
+- `select`: Choose columns to display
+- `where`: Filter rows based on conditions
+- `order by`: Sort results
+- `limit`: Limit number of results
 
-```
-$ ./tbx dropbox team member list -output json --output-filter "[.profile.email, .profile.email_verified] | @csv"
-"sugito@example.com",true
-"kajiwara@example.com",true
-"takimoto@example.com",false
-"ueno@example.com",true
-"tomioka@example.com",false
+### Examples
+
+**Filter active team members:**
+```bash
+go run . dropbox team member list -output json -output-filter "select email, status where status = 'active'"
 ```
 
-In case you want to test the output filter, you can run the command first without the output filter option.
-The command will generate the raw JSON output.
-Then, you can test the query the command [util json query](https://toolbox.watermint.org/commands/util-json-query.html) to test the query.
+**Find members by domain:**
+```bash
+go run . dropbox team member list -output json -output-filter "select email, team_member_id where email like '%@company.com'"
+```
+
+**Get top 10 largest files:**
+```bash
+go run . dropbox file list -output json -output-filter "select name, size order by size desc limit 10"
+```
+
+## 3. Post-Process with util json query
+
+The `util json query` command provides jq-like functionality for processing JSON output from other commands. It's particularly useful for complex data transformations.
+
+### Usage
+```bash
+go run . [command] -output json | go run . util json query -query "jq expression"
+```
+
+### Common Patterns
+
+**Extract specific fields:**
+```bash
+go run . dropbox team member list -output json | go run . util json query -query ".[] | {email, team_member_id}"
+```
+
+**Group and count:**
+```bash
+go run . dropbox team member list -output json | go run . util json query -query "group_by(.status) | map({status: .[0].status, count: length})"
+```
+
+**Filter and transform:**
+```bash
+go run . dropbox file list -output json | go run . util json query -query ".[] | select(.size > 1000000) | .name"
+```
+
+## Complete Example: Team Member ID and Email Report
+
+A common administrative task is to generate a report of all team member IDs with email addresses. Here's how to accomplish this using the three features:
+
+### Step 1: Get all columns including team_member_id
+```bash
+go run . dropbox team member list -experimental report_all_columns -output json
+```
+
+### Step 2: Filter to get only team_member_id and email
+```bash
+go run . dropbox team member list -experimental report_all_columns -output json -output-filter "select team_member_id, email"
+```
+
+### Step 3: Alternative using util json query
+```bash
+go run . dropbox team member list -experimental report_all_columns -output json | go run . util json query -query ".[] | {team_member_id, email}"
+```
+
+### Step 4: Export to CSV for spreadsheet use
+```bash
+go run . dropbox team member list -experimental report_all_columns -output csv -output-filter "select team_member_id, email" > team_members.csv
+```
+
+## Best Practices
+
+### 1. Discover Available Columns
+Always start with `-experimental report_all_columns` to see what data is available:
+```bash
+go run . [command] -experimental report_all_columns | head -5
+```
+
+### 2. Use Output Filter for Simple Queries
+For straightforward filtering and column selection, `-output-filter` is more efficient:
+```bash
+# Good for simple cases
+go run . dropbox team member list -output json -output-filter "select email where status = 'active'"
+```
+
+### 3. Use util json query for Complex Processing
+For complex transformations, aggregations, or when you need jq's full power:
+```bash
+# Good for complex cases
+go run . dropbox team member list -output json | go run . util json query -query "group_by(.role) | map({role: .[0].role, members: map(.email)})"
+```
+
+### 4. Combine with Standard Tools
+These features integrate well with standard Unix tools:
+```bash
+# Count active members
+go run . dropbox team member list -output json -output-filter "select email where status = 'active'" | jq length
+
+# Sort and save
+go run . dropbox team member list -output csv -output-filter "select email, team_member_id order by email" > sorted_members.csv
+```
+
+## Performance Considerations
+
+- `-experimental report_all_columns` may return more data and take slightly longer
+- `-output-filter` is processed server-side and is generally faster for large datasets
+- `util json query` processes data client-side and is better for complex transformations
+- For very large datasets, consider using `-output-filter` to reduce data transfer
+
+## Troubleshooting
+
+### Common Issues
+
+**Column not found in output-filter:**
+```bash
+# First check available columns
+go run . [command] -experimental report_all_columns | head -1
+```
+
+**JSON parsing errors:**
+```bash
+# Ensure -output json is specified
+go run . [command] -output json -output-filter "..."
+```
+
+**Complex jq expressions:**
+```bash
+# Test expressions incrementally
+go run . [command] -output json | go run . util json query -query ".[0]"  # First record
+go run . [command] -output json | go run . util json query -query ".[] | keys"  # Available fields
+```
+
+These advanced reporting features provide powerful ways to extract, filter, and transform data from watermint toolbox commands, enabling sophisticated reporting and automation workflows.
 
 

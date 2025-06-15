@@ -29,11 +29,13 @@ func (z rootNamespaceResolver) ResolveIndividual() (namespaceId string, err erro
 	rj := res.Success().Json()
 	rootInfo := &dbx_filesystem.RootInfo{}
 	if rj.Model(rootInfo) != nil {
-		l.Debug("Unable to find root info")
-		return "", errors.New("unable to find root info")
+		if rootNamespaceId, found := rj.FindString("root_info.root_namespace_id"); found {
+			l.Debug("Root namespace ID found", esl.String("rootNamespaceId", rootNamespaceId))
+			return rootNamespaceId, nil
+		}
 	}
 
-	return rootInfo.HomeNamespaceId, nil
+	return rootInfo.RootNamespaceId, nil
 }
 
 func (z rootNamespaceResolver) ResolveTeamMember(teamMemberId string) (namespaceId string, err error) {

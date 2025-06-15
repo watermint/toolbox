@@ -38,43 +38,89 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option                  | Description                                             | Default                 |
-|-------------------------|---------------------------------------------------------|-------------------------|
-| `-bucket`               | Bucket size in milliseconds                             | 1000                    |
-| `-endpoint-name`        | Filter by endpoint. Filter by exact match to the name.  |                         |
-| `-endpoint-name-prefix` | Filter by endpoint. Filter by name match to the prefix. |                         |
-| `-endpoint-name-suffix` | Filter by endpoint. Filter by name match to the suffix. |                         |
-| `-job-id`               | Specify Job ID                                          |                         |
-| `-path`                 | Path to workspace                                       |                         |
-| `-time-format`          | Time format in go's time format                         | 2006-01-02 15:04:05.999 |
+**-bucket**
+: Bucket size in milliseconds. Default: 1000
+
+**-endpoint-name**
+: Filter by endpoint. Filter by exact match to the name.
+
+**-endpoint-name-prefix**
+: Filter by endpoint. Filter by name match to the prefix.
+
+**-endpoint-name-suffix**
+: Filter by endpoint. Filter by name match to the suffix.
+
+**-job-id**
+: Specify Job ID
+
+**-path**
+: Path to workspace
+
+**-time-format**
+: Time format in Go time format. Default: 2006-01-02 15:04:05.999
 
 ## Common options:
 
-| Option             | Description                                                                                                                                           | Default              |
-|--------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------|
-| `-auth-database`   | Custom path to auth database (default: $HOME/.toolbox/secrets/secrets.db)                                                                             |                      |
-| `-auto-open`       | Auto open URL or artifact folder                                                                                                                      | false                |
-| `-bandwidth-kb`    | Bandwidth limit in K bytes per sec for upload/download content. 0 for unlimited                                                                       | 0                    |
-| `-budget-memory`   | Memory budget (limits some feature to reduce memory footprint)                                                                                        | normal               |
-| `-budget-storage`  | Storage budget (limits logs or some feature to reduce storage usage)                                                                                  | normal               |
-| `-concurrency`     | Maximum concurrency for running operation                                                                                                             | Number of processors |
-| `-debug`           | Enable debug mode                                                                                                                                     | false                |
-| `-experiment`      | Enable experimental feature(s).                                                                                                                       |                      |
-| `-extra`           | Extra parameter file path                                                                                                                             |                      |
-| `-lang`            | Display language                                                                                                                                      | auto                 |
-| `-output`          | Output format (none/text/markdown/json)                                                                                                               | text                 |
-| `-output-filter`   | Output filter query (jq syntax). The output of the report is filtered using jq syntax. This option is only applied when the report is output as JSON. |                      |
-| `-proxy`           | HTTP/HTTPS proxy (hostname:port). Please specify `DIRECT` if you want skip setting proxy.                                                             |                      |
-| `-quiet`           | Suppress non-error messages, and make output readable by a machine (JSON format)                                                                      | false                |
-| `-retain-job-data` | Job data retain policy                                                                                                                                | default              |
-| `-secure`          | Do not store tokens into a file                                                                                                                       | false                |
-| `-skip-logging`    | Skip logging in the local storage                                                                                                                     | false                |
-| `-verbose`         | Show current operations for more detail.                                                                                                              | false                |
-| `-workspace`       | Workspace path                                                                                                                                        |                      |
+**-auth-database**
+: Custom path to auth database (default: $HOME/.toolbox/secrets/secrets.db)
+
+**-auto-open**
+: Auto open URL or artifact folder. Default: false
+
+**-bandwidth-kb**
+: Bandwidth limit in K bytes per sec for upload/download content. 0 for unlimited. Default: 0
+
+**-budget-memory**
+: Memory budget (limits some feature to reduce memory footprint). Options: low, normal. Default: normal
+
+**-budget-storage**
+: Storage budget (limits logs or some feature to reduce storage usage). Options: low, normal, unlimited. Default: normal
+
+**-concurrency**
+: Maximum concurrency for running operation. Default: Number of processors
+
+**-debug**
+: Enable debug mode. Default: false
+
+**-experiment**
+: Enable experimental feature(s).
+
+**-extra**
+: Extra parameter file path
+
+**-lang**
+: Display language. Options: auto, en, ja. Default: auto
+
+**-output**
+: Output format (none/text/markdown/json). Options: text, markdown, json, none. Default: text
+
+**-output-filter**
+: Output filter query (jq syntax). The output of the report is filtered using jq syntax. This option is only applied when the report is output as JSON.
+
+**-proxy**
+: HTTP/HTTPS proxy (hostname:port). Please specify `DIRECT` if you want to skip setting proxy.
+
+**-quiet**
+: Suppress non-error messages, and make output readable by a machine (JSON format). Default: false
+
+**-retain-job-data**
+: Job data retain policy. Options: default, on_error, none. Default: default
+
+**-secure**
+: Do not store tokens into a file. Default: false
+
+**-skip-logging**
+: Skip logging in the local storage. Default: false
+
+**-verbose**
+: Show current operations for more detail.. Default: false
+
+**-workspace**
+: Workspace path
 
 # Results
 
-Report file path will be displayed last line of the command line output. If you missed command line output, please see path below. [job-id] will be the date/time of the run. Please see the latest job-id.
+Report file path will be displayed last line of the command line output. If you missed the command line output, please see path below. [job-id] will be the date/time of the run. Please see the latest job-id.
 
 | OS      | Path pattern                                | Example                                                |
 |---------|---------------------------------------------|--------------------------------------------------------|
@@ -87,19 +133,19 @@ Report file path will be displayed last line of the command line output. If you 
 Throughput
 The command will generate a report in three different formats. `report.csv`, `report.json`, and `report.xlsx`.
 
-| Column              | Description                                                      |
-|---------------------|------------------------------------------------------------------|
-| time                | Timestamp                                                        |
-| concurrency         | Concurrency.                                                     |
-| success_concurrency | Number of concurrent requests of success                         |
-| success_sent        | Sum of sent bytes of success requests in the bucket in bytes     |
-| success_received    | Sum of received bytes of success requests in the bucket in bytes |
-| failure_concurrency | Number of concurrent requests of failure                         |
-| failure_sent        | Sum of sent bytes of failed requests in the bucket in bytes      |
-| failure_received    | Sum of received bytes of failed requests in the bucket in bytes  |
+| Column              | Description                                                         |
+|---------------------|---------------------------------------------------------------------|
+| time                | Timestamp                                                           |
+| concurrency         | Concurrency.                                                        |
+| success_concurrency | Number of concurrent requests of successful operations              |
+| success_sent        | Sum of sent bytes of successful requests in the bucket in bytes     |
+| success_received    | Sum of received bytes of successful requests in the bucket in bytes |
+| failure_concurrency | Number of concurrent requests of failure                            |
+| failure_sent        | Sum of sent bytes of failed requests in the bucket in bytes         |
+| failure_received    | Sum of received bytes of failed requests in the bucket in bytes     |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `report_0000.xlsx`, `report_0001.xlsx`, `report_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `report_0000.xlsx`, `report_0001.xlsx`, `report_0002.xlsx`, ...
 
 
