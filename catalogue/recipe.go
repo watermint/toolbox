@@ -26,6 +26,7 @@ import (
 	recipedevreplay "github.com/watermint/toolbox/recipe/dev/replay"
 	recipedevspec "github.com/watermint/toolbox/recipe/dev/spec"
 	recipedevtest "github.com/watermint/toolbox/recipe/dev/test"
+	recipedevtestcoverage "github.com/watermint/toolbox/recipe/dev/test/coverage"
 	recipedevutil "github.com/watermint/toolbox/recipe/dev/util"
 	recipedevutilimage "github.com/watermint/toolbox/recipe/dev/util/image"
 	recipelogapi "github.com/watermint/toolbox/recipe/log/api"
@@ -128,6 +129,10 @@ func AutoDetectedRecipesClassic() []infra_recipe_rc_recipe.Recipe {
 		&recipedevtest.Panic{},
 		&recipedevtest.Recipe{},
 		&recipedevtest.Resources{},
+		&recipedevtestcoverage.List{},
+		&recipedevtestcoverage.Missing{},
+		&recipedevtestcoverage.Pkg{},
+		&recipedevtestcoverage.Summary{},
 		&recipedevutil.Anonymise{},
 		&recipedevutil.Wait{},
 		&recipedevutilimage.Jpeg{},
