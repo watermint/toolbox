@@ -1,11 +1,16 @@
 package rc_spec
 
 import (
-	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"github.com/watermint/toolbox/quality/infra/qt_control"
+	"flag"
 	"strings"
 	"testing"
+
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
+	"github.com/watermint/toolbox/essentials/go/es_lang"
+	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/doc/dc_index"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
+	"github.com/watermint/toolbox/quality/infra/qt_control"
 )
 
 // Mock recipe for testing
@@ -34,6 +39,7 @@ func (m *mockAnnotatedRecipe) IsTransient() bool       { return false }
 func (m *mockAnnotatedRecipe) IsSecret() bool          { return false }
 func (m *mockAnnotatedRecipe) IsConsole() bool         { return false }
 func (m *mockAnnotatedRecipe) IsLicenseRequired() bool { return false }
+func (m *mockAnnotatedRecipe) IsDeprecated() bool      { return false }
 
 func TestNew(t *testing.T) {
 	recipe := &mockRecipe{}
@@ -249,4 +255,430 @@ func TestSpecValueSelfContained_Value(t *testing.T) {
 	if nonExistingValue != nil {
 		t.Error("Expected nil value for non-existing field")
 	}
+}
+
+func TestSpecValueSelfContained_Title(t *testing.T) {
+	recipe := &mockRecipe{}
+	spec := newSelfContained(recipe).(*specValueSelfContained)
+
+	title := spec.Title()
+	if title == nil {
+		t.Error("Expected non-nil title")
+	}
+}
+
+func TestSpecValueSelfContained_Desc(t *testing.T) {
+	recipe := &mockRecipe{}
+	spec := newSelfContained(recipe).(*specValueSelfContained)
+
+	desc := spec.Desc()
+	if desc == nil {
+		t.Error("Expected non-nil description")
+	}
+}
+
+func TestSpecValueSelfContained_Name(t *testing.T) {
+	recipe := &mockRecipe{}
+	spec := newSelfContained(recipe).(*specValueSelfContained)
+
+	name := spec.Name()
+	if name == "" {
+		t.Error("Expected non-empty name")
+	}
+}
+
+func TestSpecValueSelfContained_CliPath(t *testing.T) {
+	recipe := &mockRecipe{}
+	spec := newSelfContained(recipe).(*specValueSelfContained)
+
+	cliPath := spec.CliPath()
+	if cliPath == "" {
+		t.Error("Expected non-empty CLI path")
+	}
+}
+
+func TestSpecValueSelfContained_CliArgs(t *testing.T) {
+	recipe := &mockRecipe{}
+	spec := newSelfContained(recipe).(*specValueSelfContained)
+
+	cliArgs := spec.CliArgs()
+	if cliArgs == nil {
+		t.Error("Expected non-nil CLI args")
+	}
+}
+
+func TestSpecValueSelfContained_CliNote(t *testing.T) {
+	recipe := &mockRecipe{}
+	spec := newSelfContained(recipe).(*specValueSelfContained)
+
+	cliNote := spec.CliNote()
+	if cliNote == nil {
+		t.Error("Expected non-nil CLI note")
+	}
+}
+
+func TestSpecValueSelfContained_Reports(t *testing.T) {
+	recipe := &mockRecipe{}
+	spec := newSelfContained(recipe).(*specValueSelfContained)
+
+	reports := spec.Reports()
+	if reports == nil {
+		t.Error("Expected non-nil reports")
+	}
+}
+
+func TestSpecValueSelfContained_Feeds(t *testing.T) {
+	recipe := &mockRecipe{}
+	spec := newSelfContained(recipe).(*specValueSelfContained)
+
+	feeds := spec.Feeds()
+	if feeds == nil {
+		t.Error("Expected non-nil feeds")
+	}
+}
+
+func TestSpecValueSelfContained_GridDataInput(t *testing.T) {
+	recipe := &mockRecipe{}
+	spec := newSelfContained(recipe).(*specValueSelfContained)
+
+	gridData := spec.GridDataInput()
+	if gridData == nil {
+		t.Error("Expected non-nil grid data input")
+	}
+}
+
+func TestSpecValueSelfContained_GridDataOutput(t *testing.T) {
+	recipe := &mockRecipe{}
+	spec := newSelfContained(recipe).(*specValueSelfContained)
+
+	gridData := spec.GridDataOutput()
+	if gridData == nil {
+		t.Error("Expected non-nil grid data output")
+	}
+}
+
+func TestSpecValueSelfContained_TextInput(t *testing.T) {
+	recipe := &mockRecipe{}
+	spec := newSelfContained(recipe).(*specValueSelfContained)
+
+	textInput := spec.TextInput()
+	if textInput == nil {
+		t.Error("Expected non-nil text input")
+	}
+}
+
+func TestSpecValueSelfContained_JsonInput(t *testing.T) {
+	recipe := &mockRecipe{}
+	spec := newSelfContained(recipe).(*specValueSelfContained)
+
+	jsonInput := spec.JsonInput()
+	if jsonInput == nil {
+		t.Error("Expected non-nil json input")
+	}
+}
+
+func TestSpecValueSelfContained_ValueNames(t *testing.T) {
+	recipe := &mockRecipe{}
+	spec := newSelfContained(recipe).(*specValueSelfContained)
+
+	valueNames := spec.ValueNames()
+	if valueNames == nil {
+		t.Error("Expected non-nil value names")
+	}
+}
+
+func TestSpecValueSelfContained_ValueDesc(t *testing.T) {
+	recipe := &mockRecipe{}
+	spec := newSelfContained(recipe).(*specValueSelfContained)
+
+	valueDesc := spec.ValueDesc("Value")
+	if valueDesc == nil {
+		t.Error("Expected non-nil value description")
+	}
+}
+
+func TestSpecValueSelfContained_ValueDefault(t *testing.T) {
+	recipe := &mockRecipe{}
+	spec := newSelfContained(recipe).(*specValueSelfContained)
+
+	valueDefault := spec.ValueDefault("Value")
+	if valueDefault == nil {
+		t.Error("Expected non-nil value default")
+	}
+}
+
+func TestSpecValueSelfContained_ValueCustomDefault(t *testing.T) {
+	recipe := &mockRecipe{}
+	spec := newSelfContained(recipe).(*specValueSelfContained)
+
+	customDefault := spec.ValueCustomDefault("Value")
+	if customDefault == nil {
+		t.Error("Expected non-nil custom default")
+	}
+}
+
+func TestSpecValueSelfContained_Messages(t *testing.T) {
+	recipe := &mockRecipe{}
+	spec := newSelfContained(recipe).(*specValueSelfContained)
+
+	messages := spec.Messages()
+	if messages == nil {
+		t.Error("Expected non-nil messages")
+	}
+}
+
+func TestSpecValueSelfContained_ConnScopeMap(t *testing.T) {
+	recipe := &mockRecipe{}
+	spec := newSelfContained(recipe).(*specValueSelfContained)
+
+	scopeMap := spec.ConnScopeMap()
+	if scopeMap == nil {
+		t.Error("Expected non-nil connection scope map")
+	}
+}
+
+func TestSpecValueSelfContained_SpinDown(t *testing.T) {
+	err := qt_control.WithControl(func(c app_control.Control) error {
+		recipe := &mockRecipe{}
+		spec := newSelfContained(recipe).(*specValueSelfContained)
+
+		err := spec.SpinDown(c)
+		if err != nil {
+			return err
+		}
+		return nil
+	})
+	if err != nil {
+		t.Error("SpinDown should not error", err)
+	}
+}
+
+func TestSpecValueSelfContained_ScopeLabels(t *testing.T) {
+	recipe := &mockRecipe{}
+	spec := newSelfContained(recipe).(*specValueSelfContained)
+
+	labels := spec.ScopeLabels()
+	if labels == nil {
+		t.Error("Expected non-nil scope labels")
+	}
+}
+
+// Test annotated recipe methods
+type mockFullAnnotatedRecipe struct {
+	mockRecipe
+}
+
+func (m *mockFullAnnotatedRecipe) Seed() rc_recipe.Recipe {
+	return &m.mockRecipe
+}
+
+func (m *mockFullAnnotatedRecipe) IsExperimental() bool    { return true }
+func (m *mockFullAnnotatedRecipe) IsIrreversible() bool    { return true }
+func (m *mockFullAnnotatedRecipe) IsTransient() bool       { return true }
+func (m *mockFullAnnotatedRecipe) IsSecret() bool          { return true }
+func (m *mockFullAnnotatedRecipe) IsConsole() bool         { return true }
+func (m *mockFullAnnotatedRecipe) IsLicenseRequired() bool { return true }
+func (m *mockFullAnnotatedRecipe) IsDeprecated() bool      { return false }
+
+func TestSpecValueSelfContained_AnnotatedFlags(t *testing.T) {
+	recipe := &mockFullAnnotatedRecipe{}
+	spec := newSelfContained(recipe).(*specValueSelfContained)
+
+	if !spec.IsExperimental() {
+		t.Error("Expected experimental flag to be true")
+	}
+
+	if !spec.IsIrreversible() {
+		t.Error("Expected irreversible flag to be true")
+	}
+
+	if !spec.IsTransient() {
+		t.Error("Expected transient flag to be true")
+	}
+
+	if !spec.IsSecret() {
+		t.Error("Expected secret flag to be true")
+	}
+
+	if !spec.IsConsole() {
+		t.Error("Expected console flag to be true")
+	}
+
+	if !spec.IsLicenseRequired() {
+		t.Error("Expected license required flag to be true")
+	}
+}
+
+func TestSpecValueSelfContained_Remarks(t *testing.T) {
+	t.Run("experimental and irreversible", func(t *testing.T) {
+		recipe := &mockFullAnnotatedRecipe{}
+		spec := newSelfContained(recipe).(*specValueSelfContained)
+
+		remarks := spec.Remarks()
+		if remarks == nil {
+			t.Error("Expected non-nil remarks for experimental and irreversible")
+		}
+	})
+
+	t.Run("irreversible only", func(t *testing.T) {
+		recipe := &mockAnnotatedRecipe{}
+		recipe.mockRecipe = mockRecipe{}
+		spec := newSelfContained(recipe).(*specValueSelfContained)
+		spec.annotation = &mockPartialAnnotatedRecipe{irreversible: true}
+
+		remarks := spec.Remarks()
+		if remarks == nil {
+			t.Error("Expected non-nil remarks for irreversible")
+		}
+	})
+
+	t.Run("experimental only", func(t *testing.T) {
+		recipe := &mockAnnotatedRecipe{}
+		recipe.mockRecipe = mockRecipe{}
+		spec := newSelfContained(recipe).(*specValueSelfContained)
+		spec.annotation = &mockPartialAnnotatedRecipe{experimental: true}
+
+		remarks := spec.Remarks()
+		if remarks == nil {
+			t.Error("Expected non-nil remarks for experimental")
+		}
+	})
+
+	t.Run("no special flags", func(t *testing.T) {
+		recipe := &mockRecipe{}
+		spec := newSelfContained(recipe).(*specValueSelfContained)
+
+		remarks := spec.Remarks()
+		if remarks == nil {
+			t.Error("Expected non-nil remarks")
+		}
+	})
+}
+
+// Helper for partial annotation testing
+type mockPartialAnnotatedRecipe struct {
+	mockRecipe
+	experimental bool
+	irreversible bool
+}
+
+func (m *mockPartialAnnotatedRecipe) Seed() rc_recipe.Recipe      { return &m.mockRecipe }
+func (m *mockPartialAnnotatedRecipe) IsExperimental() bool        { return m.experimental }
+func (m *mockPartialAnnotatedRecipe) IsIrreversible() bool        { return m.irreversible }
+func (m *mockPartialAnnotatedRecipe) IsTransient() bool           { return false }
+func (m *mockPartialAnnotatedRecipe) IsSecret() bool              { return false }
+func (m *mockPartialAnnotatedRecipe) IsConsole() bool             { return false }
+func (m *mockPartialAnnotatedRecipe) IsLicenseRequired() bool     { return false }
+func (m *mockPartialAnnotatedRecipe) IsDeprecated() bool          { return false }
+
+func TestSpecValueSelfContained_Doc(t *testing.T) {
+	recipe := &mockRecipe{}
+	spec := newSelfContained(recipe).(*specValueSelfContained)
+
+	err := qt_control.WithControl(func(c app_control.Control) error {
+		doc := spec.Doc(c.UI())
+		if doc == nil {
+			t.Error("Expected non-nil doc")
+		}
+		if doc.Name != spec.Name() {
+			t.Error("Expected doc name to match spec name")
+		}
+		if doc.Path != spec.CliPath() {
+			t.Error("Expected doc path to match CLI path")
+		}
+		return nil
+	})
+	if err != nil {
+		t.Error(err)
+	}
+}
+
+func TestSpecValueSelfContained_PrintUsage(t *testing.T) {
+	recipe := &mockRecipe{}
+	spec := newSelfContained(recipe).(*specValueSelfContained)
+
+	err := qt_control.WithControl(func(c app_control.Control) error {
+		// Should not panic
+		spec.PrintUsage(c.UI())
+		return nil
+	})
+	if err != nil {
+		t.Error(err)
+	}
+}
+
+func TestSpecValueSelfContained_CliNameRef(t *testing.T) {
+	recipe := &mockRecipe{}
+	spec := newSelfContained(recipe).(*specValueSelfContained)
+
+	// Test different media types
+	err := qt_control.WithControl(func(c app_control.Control) error {
+		// Test MediaRepository
+		refRepo := spec.CliNameRef(dc_index.MediaRepository, es_lang.English, "docs")
+		if refRepo == nil {
+			t.Error("Expected non-nil reference for MediaRepository")
+		}
+
+		// Test MediaWeb
+		refWeb := spec.CliNameRef(dc_index.MediaWeb, es_lang.English, "")
+		if refWeb == nil {
+			t.Error("Expected non-nil reference for MediaWeb")
+		}
+
+		// Test MediaKnowledge
+		refKnowledge := spec.CliNameRef(dc_index.MediaKnowledge, es_lang.English, "knowledge")
+		if refKnowledge == nil {
+			t.Error("Expected non-nil reference for MediaKnowledge")
+		}
+
+		return nil
+	})
+	if err != nil {
+		t.Error(err)
+	}
+}
+
+func TestSpecValueSelfContained_Restore(t *testing.T) {
+	recipe := &mockRecipe{}
+	spec := newSelfContained(recipe).(*specValueSelfContained)
+
+	err := qt_control.WithControl(func(c app_control.Control) error {
+		// Create a simple JSON for restoration
+		jsonData := es_json.MustParseString(`{"Value": "restored_value"}`)
+		
+		restoredRecipe, err := spec.Restore(jsonData, c)
+		if err != nil {
+			t.Error("Restore should not error", err)
+			return err
+		}
+		if restoredRecipe == nil {
+			t.Error("Expected non-nil restored recipe")
+		}
+		return nil
+	})
+	if err != nil {
+		t.Error(err)
+	}
+}
+
+func TestSpecValueSelfContained_SetFlags(t *testing.T) {
+	recipe := &mockRecipe{}
+	spec := newSelfContained(recipe).(*specValueSelfContained)
+
+	err := qt_control.WithControl(func(c app_control.Control) error {
+		flags := flag.NewFlagSet("test", flag.ContinueOnError)
+		// Should not panic
+		spec.SetFlags(flags, c.UI())
+		return nil
+	})
+	if err != nil {
+		t.Error(err)
+	}
+}
+
+// Add necessary imports at the top of the file
+func init() {
+	// Make sure we import necessary packages
+	_ = dc_index.MediaRepository
+	_ = es_lang.English
 }
