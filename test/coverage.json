@@ -1,10 +1,10 @@
 {
-  "last_update": "2025-06-15T12:58:41+09:00",
+  "last_update": "2025-06-15T13:22:30+09:00",
   "total_packages": 613,
   "tested_packages": 538,
-  "total_statements": 34065,
-  "covered_statements": 13080,
-  "overall_coverage": 38.39718185821224,
+  "total_statements": 32447,
+  "covered_statements": 12359,
+  "overall_coverage": 38.08980799457577,
   "packages": {
     "github.com/watermint/toolbox": {
       "package": "github.com/watermint/toolbox",
@@ -1377,11 +1377,11 @@
     "github.com/watermint/toolbox/domain/dropbox/filesystem/dbx_fs_copier_batch": {
       "package": "github.com/watermint/toolbox/domain/dropbox/filesystem/dbx_fs_copier_batch",
       "coverage": 0,
-      "statements": 260,
+      "statements": 100,
       "covered_statements": 0,
       "no_test": false,
-      "last_update": "2025-06-15T12:24:41+09:00",
-      "test_duration": "2m12.7953665s"
+      "last_update": "2025-06-15T13:06:12+09:00",
+      "test_duration": "774.2145ms"
     },
     "github.com/watermint/toolbox/domain/dropbox/filesystem/dbx_fs_copier_dbx_to_dbx": {
       "package": "github.com/watermint/toolbox/domain/dropbox/filesystem/dbx_fs_copier_dbx_to_dbx",
@@ -4139,12 +4139,12 @@
     },
     "github.com/watermint/toolbox/infra/control/app_bootstrap": {
       "package": "github.com/watermint/toolbox/infra/control/app_bootstrap",
-      "coverage": 0,
-      "statements": 214,
-      "covered_statements": 0,
+      "coverage": 3.7,
+      "statements": 100,
+      "covered_statements": 3,
       "no_test": false,
-      "last_update": "2025-06-15T12:24:41+09:00",
-      "test_duration": "2m12.7953665s"
+      "last_update": "2025-06-15T13:22:30+09:00",
+      "test_duration": "1.675907708s"
     },
     "github.com/watermint/toolbox/infra/control/app_budget": {
       "package": "github.com/watermint/toolbox/infra/control/app_budget",
@@ -4395,8 +4395,9 @@
       "statements": 71,
       "covered_statements": 0,
       "no_test": false,
-      "last_update": "2025-06-15T12:24:41+09:00",
-      "test_duration": "2m12.7953665s"
+      "last_update": "2025-06-15T13:11:21+09:00",
+      "test_duration": "209.634417ms",
+      "error": "exit status 1"
     },
     "github.com/watermint/toolbox/infra/doc/dc_knowledge": {
       "package": "github.com/watermint/toolbox/infra/doc/dc_knowledge",
@@ -4571,21 +4572,21 @@
     },
     "github.com/watermint/toolbox/infra/recipe/rc_spec": {
       "package": "github.com/watermint/toolbox/infra/recipe/rc_spec",
-      "coverage": 6.7,
+      "coverage": 18.8,
       "statements": 100,
-      "covered_statements": 6,
+      "covered_statements": 18,
       "no_test": false,
-      "last_update": "2025-06-15T12:57:00+09:00",
-      "test_duration": "1.484504167s"
+      "last_update": "2025-06-15T13:17:39+09:00",
+      "test_duration": "1.55553725s"
     },
     "github.com/watermint/toolbox/infra/recipe/rc_value": {
       "package": "github.com/watermint/toolbox/infra/recipe/rc_value",
-      "coverage": 65.53497942386831,
-      "statements": 972,
-      "covered_statements": 636,
+      "coverage": 72.7,
+      "statements": 100,
+      "covered_statements": 72,
       "no_test": false,
-      "last_update": "2025-06-15T12:24:41+09:00",
-      "test_duration": "2m12.7953665s"
+      "last_update": "2025-06-15T13:15:07+09:00",
+      "test_duration": "1.949404917s"
     },
     "github.com/watermint/toolbox/infra/report/rp_artifact": {
       "package": "github.com/watermint/toolbox/infra/report/rp_artifact",
@@ -5067,12 +5068,12 @@
     },
     "github.com/watermint/toolbox/recipe/dev/build": {
       "package": "github.com/watermint/toolbox/recipe/dev/build",
-      "coverage": 36.53846153846153,
-      "statements": 572,
-      "covered_statements": 208,
+      "coverage": 36.5,
+      "statements": 100,
+      "covered_statements": 36,
       "no_test": false,
-      "last_update": "2025-06-15T12:24:41+09:00",
-      "test_duration": "2m12.7953665s"
+      "last_update": "2025-06-15T13:05:08+09:00",
+      "test_duration": "20.017369208s"
     },
     "github.com/watermint/toolbox/recipe/dev/ci/artifact": {
       "package": "github.com/watermint/toolbox/recipe/dev/ci/artifact",
