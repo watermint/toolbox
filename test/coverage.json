@@ -1,10 +1,10 @@
 {
-  "last_update": "2025-06-15T12:45:55+09:00",
+  "last_update": "2025-06-15T12:58:41+09:00",
   "total_packages": 613,
   "tested_packages": 538,
-  "total_statements": 35055,
-  "covered_statements": 13135,
-  "overall_coverage": 37.469690486378546,
+  "total_statements": 34065,
+  "covered_statements": 13080,
+  "overall_coverage": 38.39718185821224,
   "packages": {
     "github.com/watermint/toolbox": {
       "package": "github.com/watermint/toolbox",
@@ -1143,11 +1143,11 @@
     "github.com/watermint/toolbox/domain/core/dc_log": {
       "package": "github.com/watermint/toolbox/domain/core/dc_log",
       "coverage": 0,
-      "statements": 193,
+      "statements": 100,
       "covered_statements": 0,
       "no_test": false,
-      "last_update": "2025-06-15T12:24:41+09:00",
-      "test_duration": "2m12.7953665s"
+      "last_update": "2025-06-15T12:58:41+09:00",
+      "test_duration": "1.42324775s"
     },
     "github.com/watermint/toolbox/domain/core/dc_version": {
       "package": "github.com/watermint/toolbox/domain/core/dc_version",
@@ -4454,12 +4454,12 @@
     },
     "github.com/watermint/toolbox/infra/doc/dc_supplemental": {
       "package": "github.com/watermint/toolbox/infra/doc/dc_supplemental",
-      "coverage": 0,
-      "statements": 310,
-      "covered_statements": 0,
+      "coverage": 1.3,
+      "statements": 100,
+      "covered_statements": 1,
       "no_test": false,
-      "last_update": "2025-06-15T12:24:41+09:00",
-      "test_duration": "2m12.7953665s"
+      "last_update": "2025-06-15T12:56:16+09:00",
+      "test_duration": "1.657600917s"
     },
     "github.com/watermint/toolbox/infra/doc/dc_web": {
       "package": "github.com/watermint/toolbox/infra/doc/dc_web",
@@ -4562,21 +4562,21 @@
     },
     "github.com/watermint/toolbox/infra/recipe/rc_replay": {
       "package": "github.com/watermint/toolbox/infra/recipe/rc_replay",
-      "coverage": 0,
-      "statements": 216,
-      "covered_statements": 0,
+      "coverage": 4.6,
+      "statements": 100,
+      "covered_statements": 4,
       "no_test": false,
-      "last_update": "2025-06-15T12:24:41+09:00",
-      "test_duration": "2m12.7953665s"
+      "last_update": "2025-06-15T12:57:38+09:00",
+      "test_duration": "1.505222709s"
     },
     "github.com/watermint/toolbox/infra/recipe/rc_spec": {
       "package": "github.com/watermint/toolbox/infra/recipe/rc_spec",
-      "coverage": 0,
-      "statements": 239,
-      "covered_statements": 0,
+      "coverage": 6.7,
+      "statements": 100,
+      "covered_statements": 6,
       "no_test": false,
-      "last_update": "2025-06-15T12:24:41+09:00",
-      "test_duration": "2m12.7953665s"
+      "last_update": "2025-06-15T12:57:00+09:00",
+      "test_duration": "1.484504167s"
     },
     "github.com/watermint/toolbox/infra/recipe/rc_value": {
       "package": "github.com/watermint/toolbox/infra/recipe/rc_value",
@@ -5112,12 +5112,12 @@
     },
     "github.com/watermint/toolbox/recipe/dev/doc/msg": {
       "package": "github.com/watermint/toolbox/recipe/dev/doc/msg",
-      "coverage": 15.225563909774436,
-      "statements": 532,
-      "covered_statements": 81,
+      "coverage": 15.2,
+      "statements": 100,
+      "covered_statements": 15,
       "no_test": false,
-      "last_update": "2025-06-15T12:24:41+09:00",
-      "test_duration": "2m12.7953665s"
+      "last_update": "2025-06-15T12:55:19+09:00",
+      "test_duration": "1.67032575s"
     },
     "github.com/watermint/toolbox/recipe/dev/doc/review": {
       "package": "github.com/watermint/toolbox/recipe/dev/doc/review",

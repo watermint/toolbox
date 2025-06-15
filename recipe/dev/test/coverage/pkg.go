@@ -19,12 +19,12 @@ import (
 type Pkg struct {
 	rc_recipe.RemarkSecret
 	rc_recipe.RemarkTransient
-	Package                mo_string.OptionalString
-	MsgRunningTests        app_msg.Message
-	MsgTestSuccess         app_msg.Message
-	MsgTestFailure         app_msg.Message
-	MsgCoverageUpdated     app_msg.Message
-	MsgNoPackageSpecified  app_msg.Message
+	Package               mo_string.OptionalString
+	MsgRunningTests       app_msg.Message
+	MsgTestSuccess        app_msg.Message
+	MsgTestFailure        app_msg.Message
+	MsgCoverageUpdated    app_msg.Message
+	MsgNoPackageSpecified app_msg.Message
 }
 
 func (z *Pkg) Exec(c app_control.Control) error {
@@ -50,7 +50,7 @@ func (z *Pkg) Exec(c app_control.Control) error {
 
 	// Get project root for coverage file
 	projectRoot := getProjectRoot(c.Workspace())
-	coverageFile := filepath.Join(projectRoot, "pkg_coverage.out")
+	coverageFile := filepath.Join(projectRoot, "build", "pkg_coverage.out")
 
 	// Run tests for the specific package
 	ui.Info(z.MsgRunningTests.With("Package", packagePath))
