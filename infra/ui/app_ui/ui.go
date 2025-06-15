@@ -55,6 +55,10 @@ type Syntax interface {
 	// Quote
 	Quote(m app_msg.Message)
 
+	// Definition list (similar to HTML <dl>, <dt>, <dd>)
+	// The key is the term (dt) and the value is the description (dd)
+	DefinitionList(definitions []Definition)
+
 	// Link to artifact
 	Link(artifact rp_artifact.Artifact)
 
@@ -99,6 +103,11 @@ type Table interface {
 	Row(m ...app_msg.Message)
 	RowRaw(m ...string)
 	Flush()
+}
+
+type Definition struct {
+	Term        app_msg.Message
+	Description app_msg.Message
 }
 
 var (

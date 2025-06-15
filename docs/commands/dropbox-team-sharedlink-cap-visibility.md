@@ -6,7 +6,9 @@ lang: en
 
 # dropbox team sharedlink cap visibility
 
-Set visibility cap to shared links in the team (Irreversible operation)
+Enforce visibility restrictions on team shared links, controlling public access levels (Irreversible operation)
+
+Modifies shared link visibility settings to enforce team security policies. Can restrict public links to team-only or password-protected access. Critical for preventing data leaks and ensuring links comply with organizational security requirements.
 
 # Security
 
@@ -36,7 +38,7 @@ Please see below help article for more detail:
 # Authorization
 
 For the first run, `tbx` will ask you an authentication with your Dropbox account.
-Please copy the link and paste it into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code. Please copy that code and paste it to the `tbx`.
+Please copy the link and paste it into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code. Please copy that code and paste it to the application.
 ```
 
 watermint toolbox xx.x.xxx
@@ -45,13 +47,8 @@ watermint toolbox xx.x.xxx
 © 2016-2025 Takayuki Okazaki
 Licensed under open source licenses. Use the `license` command for more detail.
 
-1. Visit the URL for the auth dialogue:
-
-https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type=code&state=xxxxxxxx
-
-2. Click 'Allow' (you might have to login first):
-3. Copy the authorisation code:
-Enter the authorisation code
+1. Visit the URL for the auth dialogue:\n\nhttps://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type=code&state=xxxxxxxx\n\n2. Click 'Allow' (you might have to login first):\n3. Copy the authorization code:
+Enter the authorization code
 ```
 
 # Installation
@@ -84,35 +81,73 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option            | Description            | Default   |
-|-------------------|------------------------|-----------|
-| `-file`           | Path to data file      |           |
-| `-new-visibility` | New visibility setting | team_only |
-| `-peer`           | Account alias          | default   |
+**-file**
+: Path to data file
+
+**-new-visibility**
+: New visibility setting. Options: team_only (newvisibility: team_only). Default: team_only
+
+**-peer**
+: Account alias. Default: default
 
 ## Common options:
 
-| Option             | Description                                                                                                                                           | Default              |
-|--------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------|
-| `-auth-database`   | Custom path to auth database (default: $HOME/.toolbox/secrets/secrets.db)                                                                             |                      |
-| `-auto-open`       | Auto open URL or artifact folder                                                                                                                      | false                |
-| `-bandwidth-kb`    | Bandwidth limit in K bytes per sec for upload/download content. 0 for unlimited                                                                       | 0                    |
-| `-budget-memory`   | Memory budget (limits some feature to reduce memory footprint)                                                                                        | normal               |
-| `-budget-storage`  | Storage budget (limits logs or some feature to reduce storage usage)                                                                                  | normal               |
-| `-concurrency`     | Maximum concurrency for running operation                                                                                                             | Number of processors |
-| `-debug`           | Enable debug mode                                                                                                                                     | false                |
-| `-experiment`      | Enable experimental feature(s).                                                                                                                       |                      |
-| `-extra`           | Extra parameter file path                                                                                                                             |                      |
-| `-lang`            | Display language                                                                                                                                      | auto                 |
-| `-output`          | Output format (none/text/markdown/json)                                                                                                               | text                 |
-| `-output-filter`   | Output filter query (jq syntax). The output of the report is filtered using jq syntax. This option is only applied when the report is output as JSON. |                      |
-| `-proxy`           | HTTP/HTTPS proxy (hostname:port). Please specify `DIRECT` if you want skip setting proxy.                                                             |                      |
-| `-quiet`           | Suppress non-error messages, and make output readable by a machine (JSON format)                                                                      | false                |
-| `-retain-job-data` | Job data retain policy                                                                                                                                | default              |
-| `-secure`          | Do not store tokens into a file                                                                                                                       | false                |
-| `-skip-logging`    | Skip logging in the local storage                                                                                                                     | false                |
-| `-verbose`         | Show current operations for more detail.                                                                                                              | false                |
-| `-workspace`       | Workspace path                                                                                                                                        |                      |
+**-auth-database**
+: Custom path to auth database (default: $HOME/.toolbox/secrets/secrets.db)
+
+**-auto-open**
+: Auto open URL or artifact folder. Default: false
+
+**-bandwidth-kb**
+: Bandwidth limit in K bytes per sec for upload/download content. 0 for unlimited. Default: 0
+
+**-budget-memory**
+: Memory budget (limits some feature to reduce memory footprint). Options: low, normal. Default: normal
+
+**-budget-storage**
+: Storage budget (limits logs or some feature to reduce storage usage). Options: low, normal, unlimited. Default: normal
+
+**-concurrency**
+: Maximum concurrency for running operation. Default: Number of processors
+
+**-debug**
+: Enable debug mode. Default: false
+
+**-experiment**
+: Enable experimental feature(s).
+
+**-extra**
+: Extra parameter file path
+
+**-lang**
+: Display language. Options: auto, en, ja. Default: auto
+
+**-output**
+: Output format (none/text/markdown/json). Options: text, markdown, json, none. Default: text
+
+**-output-filter**
+: Output filter query (jq syntax). The output of the report is filtered using jq syntax. This option is only applied when the report is output as JSON.
+
+**-proxy**
+: HTTP/HTTPS proxy (hostname:port). Please specify `DIRECT` if you want to skip setting proxy.
+
+**-quiet**
+: Suppress non-error messages, and make output readable by a machine (JSON format). Default: false
+
+**-retain-job-data**
+: Job data retain policy. Options: default, on_error, none. Default: default
+
+**-secure**
+: Do not store tokens into a file. Default: false
+
+**-skip-logging**
+: Skip logging in the local storage. Default: false
+
+**-verbose**
+: Show current operations for more detail.. Default: false
+
+**-workspace**
+: Workspace path
 
 # File formats
 
@@ -132,7 +167,7 @@ https://www.dropbox.com/scl/fo/fir9vjelf
 
 # Results
 
-Report file path will be displayed last line of the command line output. If you missed command line output, please see path below. [job-id] will be the date/time of the run. Please see the latest job-id.
+Report file path will be displayed last line of the command line output. If you missed the command line output, please see path below. [job-id] will be the date/time of the run. Please see the latest job-id.
 
 | OS      | Path pattern                                | Example                                                |
 |---------|---------------------------------------------|--------------------------------------------------------|
@@ -145,23 +180,23 @@ Report file path will be displayed last line of the command line output. If you 
 This report shows the transaction result.
 The command will generate a report in three different formats. `operation_log.csv`, `operation_log.json`, and `operation_log.xlsx`.
 
-| Column            | Description                                                                                                                                                                                                             |
-|-------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| status            | Status of the operation                                                                                                                                                                                                 |
-| reason            | Reason of failure or skipped operation                                                                                                                                                                                  |
-| input.url         | Shared link URL                                                                                                                                                                                                         |
-| result.tag        | Entry type (file, or folder)                                                                                                                                                                                            |
-| result.url        | URL of the shared link.                                                                                                                                                                                                 |
-| result.name       | The linked file name (including extension).                                                                                                                                                                             |
-| result.expires    | Expiration time, if set.                                                                                                                                                                                                |
-| result.path_lower | The lowercased full path in the user's Dropbox.                                                                                                                                                                         |
-| result.visibility | The current visibility of the link after considering the shared links policies of the the team (in case the link's owner is part of a team) and the shared folder (in case the linked file is part of a shared folder). |
-| result.email      | Email address of user.                                                                                                                                                                                                  |
-| result.surname    | Surname of the link owner                                                                                                                                                                                               |
-| result.given_name | Given name of the link owner                                                                                                                                                                                            |
+| Column            | Description                                                                                                                                                                                                         |
+|-------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| status            | Status of the operation                                                                                                                                                                                             |
+| reason            | Reason of failure or skipped operation                                                                                                                                                                              |
+| input.url         | Shared link URL                                                                                                                                                                                                     |
+| result.tag        | Entry type (file, or folder)                                                                                                                                                                                        |
+| result.url        | URL of the shared link.                                                                                                                                                                                             |
+| result.name       | The linked file name (including extension).                                                                                                                                                                         |
+| result.expires    | Expiration time, if set.                                                                                                                                                                                            |
+| result.path_lower | The lowercased full path in the user's Dropbox.                                                                                                                                                                     |
+| result.visibility | The current visibility of the link after considering the shared links policies of the team (in case the link's owner is part of a team) and the shared folder (in case the linked file is part of a shared folder). |
+| result.email      | Email address of user.                                                                                                                                                                                              |
+| result.surname    | Surname of the link owner                                                                                                                                                                                           |
+| result.given_name | Given name of the link owner                                                                                                                                                                                        |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 

@@ -95,6 +95,19 @@ func (z conImpl) Quote(m app_msg.Message) {
 	es_color.Colorfln(z.wr, es_color.ColorGreen, false, "%s", z.mc.Compile(m))
 }
 
+func (z conImpl) DefinitionList(definitions []Definition) {
+	for _, def := range definitions {
+		term := z.mc.Compile(def.Term)
+		desc := z.mc.Compile(def.Description)
+		
+		// Display term in bold white
+		es_color.Boldfln(z.wr, "%s", term)
+		// Display description indented
+		es_color.Colorfln(z.wr, es_color.ColorWhite, false, "  %s", desc)
+		z.Break()
+	}
+}
+
 func (z conImpl) Break() {
 	_, _ = fmt.Fprintln(z.wr)
 }

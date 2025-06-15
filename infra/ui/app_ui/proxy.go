@@ -97,6 +97,15 @@ func (z proxyImpl) Quote(m app_msg.Message) {
 	})
 }
 
+func (z proxyImpl) DefinitionList(definitions []Definition) {
+	z.lg.Debug("definitionList", esl.Int("count", len(definitions)))
+	for _, def := range definitions {
+		z.verifyKey(def.Term)
+		z.verifyKey(def.Description)
+	}
+	z.sy.DefinitionList(definitions)
+}
+
 func (z proxyImpl) Break() {
 	z.sy.Break()
 }

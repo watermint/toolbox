@@ -3,6 +3,7 @@ package dc_knowledge
 import (
 	"bytes"
 	"fmt"
+	"regexp"
 	"strings"
 
 	"github.com/watermint/toolbox/essentials/go/es_lang"
@@ -68,6 +69,21 @@ func (z *KnowledgeDoc) DocDesc() app_msg.Message {
 // buildURL builds a full URL from the base URL and path
 func (z *KnowledgeDoc) buildURL(path string) string {
 	return fmt.Sprintf("%s/%s", BaseURL, strings.TrimPrefix(path, "docs/"))
+}
+
+// cleanupEmptyLines removes redundant empty lines from the generated text
+func (z *KnowledgeDoc) cleanupEmptyLines(text string) string {
+	// Replace 3 or more consecutive newlines with exactly 2 newlines
+	re := regexp.MustCompile(`\n{3,}`)
+	cleaned := re.ReplaceAllString(text, "\n\n")
+	
+	// Remove trailing empty lines at the end
+	cleaned = strings.TrimRight(cleaned, "\n")
+	
+	// Ensure the document ends with exactly one newline
+	cleaned += "\n"
+	
+	return cleaned
 }
 
 // writeMultiMarkdownHeader writes the multi-markdown header with metadata
@@ -218,5 +234,10 @@ func (z *KnowledgeDoc) GenerateKnowledge(specs []rc_recipe.Spec, additionalDocs 
 	l.Debug("Completed generating additional documentation")
 
 	l.Debug("Completed generating knowledge base documentation")
-	return knowledgeText.String()
+	
+	// Clean up redundant empty lines before returning
+	result := z.cleanupEmptyLines(knowledgeText.String())
+	l.Debug("Cleaned up redundant empty lines in knowledge base")
+	
+	return result
 }

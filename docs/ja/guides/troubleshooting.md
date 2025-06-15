@@ -1,110 +1,343 @@
 ---
 layout: page
-title: トラブルシューティング
+title: ベストプラクティスガイド
 lang: ja
 ---
 
-# ファイアウォールまたはプロキシサーバーの設定
+# 一般的なベストプラクティス
 
-ツールは、システムからプロキシの設定を自動的に検出します. しかし、それが失敗したり、設定ミスの原因になったりすることがあります. このような場合は、`-proxy` オプションを使って `-proxy 192.168.1.1.1:8080` のようにプロキシサーバのホスト名とポート番号を指定してください (プロキシサーバ 192.168.1.1.1 、ポート番号は8080の場合). 
+General Best Practices
 
-注意：このツールは、Basic認証やNTLMなどの認証を持つプロキシサーバには対応していません.
+Follow these general guidelines for effective toolbox usage:
 
-# パフォーマンスの問題
+1. Command Preparation:
+   - Always read command documentation before use
+   - Test commands with sample data first
+   - Use --help flag to understand available options
+   - Verify required permissions and prerequisites
 
-コマンドが遅く感じたり、停止したりした場合は、オプション `-verbose` を指定して再実行してみてください. そうすることで、より詳細な進捗状況がわかります. しかし、ほとんどの場合、原因は単純にあなたが処理するためのより大きなデータを持っているだけです. そうでなければ、APIサーバーからのレート制限にすでにヒットしていることになります. レート制限の状態を見たい場合は、キャプチャログやデバッグを参照してください. 
+2. Data Backup:
+   - Create backups before major operations
+   - Test restore procedures regularly
+   - Use version control for important files
+   - Document backup and recovery procedures
 
-このツールは、APIサーバーからの追加制限を回避するために、並行性を自動的に調整します. 現在の並行性を確認したい場合は、以下のようなコマンドを実行してください. これは、エンドポイントごとの現在のウィンドウサイズ（最大同時実行数）を表示します. デバッグメッセージ"WaiterStatus"は、現在の同時実行とウィンドウサイズを報告します. マップ"runners"は、現在APIサーバーからの結果待ちの操作のためのものですマップ "window "は、各エンドポイントのウィンドウサイズのためのものです. マップ "concurrency" は、エンドポイントごとの現在の同時実行数です. 次の例はエンドポイント "https://api.dropboxapi.com/2/file_requests/create" のために、ツールは1より大きい同時実行のそのエンドポイントを呼ぶことを許可しないことを示します. つまり、一つ一つの操作が必要であり、操作を高速化するための簡単な回避策はありません.
-```
-tbx job log last -quiet | jq 'select(.msg == "WaiterStatus")' 
-{
-  "level": "DEBUG",
-  "time": "2020-11-10T14:55:57.501+0900",
-  "name": "z951.z960.z112064",
-  "caller": "nw_congestion/congestion.go:310",
-  "msg": "WaiterStatus",
-  "goroutine": "gr:284877",
-  "runners": {
-    "gr:1": {
-      "key": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-https://api.dropboxapi.com/2/file_requests/create",
-      "go_routine_id": "gr:1",
-      "running_since": "2020-11-10T14:55:56.124899+09:00"
-    }
-  },
-  "numRunners": 1,
-  "waiters": [],
-  "numWaiters": 0,
-  "window": {
-    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-https://api.dropboxapi.com/2/team/token/get_authenticated_admin": 5,
-    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-https://api.dropboxapi.com/2/team/token/get_authenticated_admin": 5,
-    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-https://api.dropboxapi.com/2/team/token/get_authenticated_admin": 5,
-    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-https://api.dropboxapi.com/2/team/token/get_authenticated_admin": 5,
-    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-https://api.dropboxapi.com/2/file_requests/create": 1,
-    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-https://api.dropboxapi.com/2/files/list_folder": 5,
-    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-https://api.dropboxapi.com/2/files/save_url": 5,
-    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-https://api.dropboxapi.com/2/files/save_url/check_job_status": 5,
-    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-https://api.dropboxapi.com/2/files/search/continue_v2": 5,
-    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-https://api.dropboxapi.com/2/files/search_v2": 5,
-    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-https://api.dropboxapi.com/2/users/get_current_account": 5,
-    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-https://api.dropboxapi.com/2/files/copy_reference/get": 4,
-    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-https://api.dropboxapi.com/2/files/copy_v2": 5,
-    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-https://api.dropboxapi.com/2/files/delete_v2": 5,
-    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-https://api.dropboxapi.com/2/files/get_metadata": 5,
-    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-https://api.dropboxapi.com/2/files/list_folder": 4,
-    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-https://api.dropboxapi.com/2/sharing/list_mountable_folders": 4,
-    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-https://content.dropboxapi.com/2/files/download": 5,
-    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-https://content.dropboxapi.com/2/files/export": 4
-  },
-  "concurrency": {
-    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-https://api.dropboxapi.com/2/file_requests/create": 1
-  }
-}
-```
+3. Error Handling:
+   - Enable debug logging for troubleshooting (-debug flag)
+   - Keep logs of important operations
+   - Implement proper error checking in scripts
+   - Have rollback procedures for critical operations
 
-# 文字化けした出力
+4. Resource Management:
+   - Monitor disk space before large operations
+   - Use appropriate concurrency settings (-concurrency flag)
+   - Manage memory usage with -budget-memory flag
+   - Clean up temporary files and logs regularly
 
-ツールの出力が文字化けしてしまう場合は、Ctrl+Cでツールを停止してください. この問題は、通常、コンソールに表示するフォントがない場合に発生します. そして、言語に対応したフォントに変更してみてください. あるいは、ツールの言語設定を英語に上書きするオプション `-lang en` を試してみてください.
+5. Documentation:
+   - Document custom workflows and procedures
+   - Keep track of configuration changes
+   - Maintain inventory of automated scripts
+   - Document troubleshooting steps for common issues
 
-PowerShellでは、(1)タイトルバーを右クリックし、(2)プロパティをクリックし、(3)フォントタブを選択し、(4)フォントを "MSゴシック "のような適切なフォントに変更することで、フォントを変更することができます.
+6. Testing:
+   - Test commands in development environment first
+   - Use small datasets for initial testing
+   - Validate results before processing large batches
+   - Implement automated testing for critical workflows
 
-# ログファイル
+# パフォーマンス最適化
 
-既定では、ログファイルは、Windows上のパス "%USERPROFILE%\.toolbox\jobs" (例えば、`C:\Users\USERNAME\.toolbox\jobs`)、またはLinuxまたはmacOS上の "$HOME/.toolbox/jobs" (例えば、`/Users/USERNAME/.toolbox/jobs`)の下に格納されています. ログファイルには、(1)OSの種類/バージョン/環境変数などのランタイム情報、(2)ツールへのランタイムオプション（入力データファイルのコピーを含む）、(3)Dropboxなどのサービスのアカウント情報、(4)APIサーバへのリクエスト/レスポンスデータ、(5)ファイル名、メタデータ、ID、URLなどのサービス内のデータなどの情報が含まれています。コマンドに依存します）.
+Performance Optimization
 
-これらのログには、パスワード、クレデンシャル、または API トークンが含まれていません. しかし、APIトークンは、Windows上のパス "%USERPROFILE%\.toolbox\secrets" (例えば、`C:\ Users\USERNAME\.toolbox\secrets`)や、LinuxやmacOS上のパス "$HOME/.toolbox/secrets" (例えば、`/Users/USERNAME/.toolbox/secrets`)の下に格納されています. これらの秘密のフォルダファイルは難読化されていますが、Dropboxのサポートなどのサービスプロバイダのサポートを含む誰にも共有しないようにしてください.
+Optimize toolbox performance with these techniques:
 
-## ログ書式
+1. Concurrency Management:
+   - Adjust -concurrency flag based on system resources
+   - Higher concurrency for I/O intensive operations
+   - Lower concurrency for CPU intensive operations
+   - Monitor system resources during operations
 
-`jobs` フォルダの下には、いくつかのフォルダとファイルが保存されています. まず、"yyyyMMdd-HHmmSS.xxx"という形式の名前（内部的にはJob Idと呼ばれています）で、実行するたびにジョブフォルダが作成されます. 最初の "yyyyMMdd-HHmmSS "は、コマンド開始のローカル日時です. 2番目の部分".xxx"は、同時実行との競合を避けるために、シーケンシャルまたはランダムな3文字のIDです.
+2. Bandwidth Optimization:
+   - Use -bandwidth-kb flag to limit network usage
+   - Schedule large transfers during off-peak hours
+   - Consider network conditions and limitations
+   - Monitor transfer speeds and adjust accordingly
 
-ジョブフォルダの下にはサブフォルダがあり、(1) `logs`: リクエスト/レスポンスデータやパラメータ、デバッグ情報を含む実行時のログ、(2) `reports`: 生成されたレポートを管理するためのレポートフォルダ、(3) `kvs` : KVSフォルダは実行時のデータベースフォルダです. 
+3. Memory Management:
+   - Use -budget-memory=low for memory-constrained environments
+   - Process data in smaller chunks for large datasets
+   - Monitor memory usage during operations
+   - Clear caches and temporary data regularly
 
-トラブルシューティングでは、`logs`以下のファイルは実行時に何が起こったかを理解するために必要不可欠です. このツールは、いくつかの種類のログを生成します. これらのログは、JSON Lines形式です. 注：JSON Linesは、データを行区切り文字で区切るフォーマットです. 仕様の詳細は [JSON Lines](https://jsonlines.org/) をご覧ください.
+4. Storage Optimization:
+   - Use -budget-storage=low to reduce storage usage
+   - Clean up logs and temporary files regularly
+   - Use appropriate output formats (avoid verbose formats when not needed)
+   - Compress data when possible
 
-一部のログはgzip形式で圧縮されています. ログが圧縮されている場合は、ファイルの接尾辞が '.gz' になります. さらに、captureログやtoolboxログなどのログは、一定の大きさに分割されています. ログを解析したい場合は、`job log` コマンドの利用を検討してください. 例えば、`job log last -quiet` は最新のジョブのtoolboxログを解凍したうえで、連結して出力します.
+5. Batch Operations:
+   - Group similar operations together
+   - Use batch commands when available
+   - Minimize API calls with efficient operations
+   - Process multiple items in single commands
 
-## デバッグログ
+6. Caching Strategies:
+   - Leverage local caching for frequently accessed data
+   - Avoid redundant API calls
+   - Use incremental operations when possible
+   - Cache authentication tokens properly
 
-このツールは、すべてのデバッグ情報を"toolbox"という接頭辞を持つデバッグログに記録します. すべてのレコードには、操作時のソースコードファイル名と行が記載されています. 怪しいエラーを見つけたら、ソースコードを見てデバッグしましょう. トラブルシューティングの中には、パフォーマンスチューニングやメモリ切れなどの統計解析を必要とするものがあります. `grep` や [jq](https://stedolan.github.io/jq/) のようなツールを使って作業するのが良いでしょう. 
+7. Network Optimization:
+   - Use stable, high-speed network connections
+   - Avoid wireless connections for large transfers
+   - Consider geographic proximity to servers
+   - Implement retry logic with exponential backoff
 
-時系列でヒープサイズのデータを見たい場合は、以下のようなコマンドを実行してください. そうすると、時間＋ヒープサイズがCSV形式で表示されます.
-```
-tbx job log last -quiet | jq -r 'select(.msg == "Heap stats") | [.time, .HeapInuse] | @csv'
-"2020-11-10T14:55:45.725+0900",18604032
-"2020-11-10T14:55:50.725+0900",15130624
-"2020-11-10T14:55:55.725+0900",17408000
-"2020-11-10T14:56:00.725+0900",17014784
-"2020-11-10T14:56:05.726+0900",19193856
-"2020-11-10T14:56:10.725+0900",19136512
-"2020-11-10T14:56:15.726+0900",16637952
-"2020-11-10T14:56:20.725+0900",16678912
-"2020-11-10T14:56:25.727+0900",16678912
-"2020-11-10T14:56:30.730+0900",16678912
-"2020-11-10T14:56:35.726+0900",16678912
-```
+# セキュリティのベストプラクティス
 
-## APIトランザクションのログ
+Security Best Practices
 
-トールはAPIリクエストとレスポンスを、接頭辞"capture"を持つキャプチャログに記録しますこのキャプチャログにはOAuthのリクエストとレスポンスは含まれていません. さらに、APIトークンの文字列は `<secret>` に置き換えられます.
+Maintain security while using the toolbox:
+
+1. Authentication Security:
+   - Use strong, unique passwords for accounts
+   - Enable two-factor authentication when available
+   - Regularly review and rotate credentials
+   - Use dedicated service accounts for automation
+
+2. Token Management:
+   - Protect authentication database files
+   - Use appropriate file permissions (600 or 700)
+   - Avoid sharing authentication databases
+   - Regularly audit configured accounts
+
+3. Data Protection:
+   - Encrypt sensitive data at rest and in transit
+   - Use secure protocols (HTTPS, SSH) for all communications
+   - Implement proper access controls
+   - Regular security audits of data access
+
+4. Environment Security:
+   - Use secure workstations for operations
+   - Keep systems updated with security patches
+   - Use anti-virus and anti-malware protection
+   - Secure physical access to systems
+
+5. Network Security:
+   - Use VPN for remote access
+   - Avoid public WiFi for sensitive operations
+   - Implement network segmentation where appropriate
+   - Monitor network traffic for anomalies
+
+6. Audit and Monitoring:
+   - Log all significant operations
+   - Monitor account activity regularly
+   - Set up alerts for unusual activity
+   - Maintain audit trails for compliance
+
+7. Incident Response:
+   - Have incident response procedures
+   - Know how to revoke access quickly
+   - Maintain contact information for security teams
+   - Practice incident response scenarios
+
+# 自動化のベストプラクティス
+
+Automation Best Practices
+
+Best practices for automating toolbox operations:
+
+1. Script Development:
+   - Use version control for all scripts
+   - Implement proper error handling and logging
+   - Add comments and documentation
+   - Use configuration files for parameters
+
+2. Scheduling and Execution:
+   - Use cron jobs or task schedulers appropriately
+   - Implement proper locking to prevent concurrent runs
+   - Set up monitoring and alerting for failures
+   - Use appropriate user accounts for automation
+
+3. Parameter Management:
+   - Use configuration files instead of hardcoded values
+   - Implement parameter validation
+   - Use environment variables for sensitive data
+   - Provide default values where appropriate
+
+4. Error Handling:
+   - Implement comprehensive error checking
+   - Use appropriate exit codes
+   - Log errors with sufficient detail
+   - Implement retry logic with backoff
+
+5. Testing:
+   - Test scripts in development environment
+   - Use test data for validation
+   - Implement automated testing where possible
+   - Validate results automatically
+
+6. Monitoring:
+   - Log all significant operations
+   - Monitor script execution times
+   - Set up alerts for failures
+   - Track resource usage
+
+7. Maintenance:
+   - Regular review and updates of scripts
+   - Monitor for deprecated features
+   - Keep dependencies updated
+   - Document maintenance procedures
+
+# データ管理のベストプラクティス
+
+Data Management Best Practices
+
+Effective data management strategies:
+
+1. Data Organization:
+   - Use consistent naming conventions
+   - Organize data in logical folder structures
+   - Implement proper file and folder hierarchy
+   - Use metadata and tags effectively
+
+2. Data Validation:
+   - Verify data integrity before and after operations
+   - Use checksums for critical data
+   - Implement data validation rules
+   - Test with sample data before processing
+
+3. Backup Strategies:
+   - Implement regular automated backups
+   - Test backup restoration procedures
+   - Use multiple backup locations (3-2-1 rule)
+   - Document backup and recovery procedures
+
+4. Data Lifecycle Management:
+   - Define data retention policies
+   - Implement automated archiving
+   - Clean up old and unnecessary data
+   - Monitor storage usage trends
+
+5. Data Synchronization:
+   - Use incremental sync when possible
+   - Verify sync operations regularly
+   - Handle conflicts appropriately
+   - Monitor sync performance and errors
+
+6. Data Quality:
+   - Implement data quality checks
+   - Clean and normalize data regularly
+   - Remove duplicates and inconsistencies
+   - Validate data formats and standards
+
+7. Compliance and Governance:
+   - Follow data governance policies
+   - Ensure compliance with regulations
+   - Implement proper access controls
+   - Maintain audit trails for data operations
+
+# チーム連携のベストプラクティス
+
+Team Collaboration Best Practices
+
+Effective team collaboration with toolbox:
+
+1. Account Management:
+   - Use dedicated service accounts for shared operations
+   - Implement proper access controls and permissions
+   - Regular review of account access and privileges
+   - Document account usage and responsibilities
+
+2. Configuration Management:
+   - Use centralized configuration management
+   - Version control for shared configurations
+   - Implement configuration validation
+   - Document configuration changes
+
+3. Workflow Coordination:
+   - Define clear workflows and procedures
+   - Implement proper change management
+   - Use communication channels for coordination
+   - Schedule operations to avoid conflicts
+
+4. Knowledge Sharing:
+   - Document procedures and best practices
+   - Conduct regular training sessions
+   - Share troubleshooting experiences
+   - Maintain knowledge base and FAQ
+
+5. Quality Assurance:
+   - Implement peer review processes
+   - Use testing and validation procedures
+   - Define quality standards and metrics
+   - Regular audits of processes and results
+
+6. Communication:
+   - Establish clear communication protocols
+   - Use collaboration tools effectively
+   - Document decisions and changes
+   - Regular team meetings and updates
+
+7. Incident Management:
+   - Define incident response procedures
+   - Establish escalation paths
+   - Maintain contact information
+   - Conduct post-incident reviews
+
+# メンテナンスとアップデート
+
+Maintenance and Updates
+
+Keep your toolbox installation and workflows updated:
+
+1. Software Updates:
+   - Regularly check for toolbox updates
+   - Test updates in development environment first
+   - Keep dependencies updated
+   - Monitor for security updates
+
+2. Configuration Maintenance:
+   - Regular review of configurations
+   - Update deprecated settings
+   - Optimize performance settings
+   - Clean up unused configurations
+
+3. Data Maintenance:
+   - Regular cleanup of logs and temporary files
+   - Archive old data appropriately
+   - Optimize storage usage
+   - Validate data integrity periodically
+
+4. Documentation Updates:
+   - Keep documentation current with changes
+   - Update procedures and workflows
+   - Review and update troubleshooting guides
+   - Maintain version history
+
+5. Performance Monitoring:
+   - Monitor system performance regularly
+   - Track operation times and success rates
+   - Identify and address bottlenecks
+   - Optimize based on usage patterns
+
+6. Security Maintenance:
+   - Regular security audits
+   - Update security configurations
+   - Review access permissions
+   - Monitor for security vulnerabilities
+
+7. Backup and Recovery:
+   - Test backup and recovery procedures
+   - Update recovery documentation
+   - Verify backup integrity
+   - Practice disaster recovery scenarios
+
+8. Training and Skills:
+   - Keep team skills current
+   - Provide training on new features
+   - Share knowledge and best practices
+   - Encourage continuous learning
 
 

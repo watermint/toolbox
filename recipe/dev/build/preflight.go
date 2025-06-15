@@ -14,6 +14,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_catalogue"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_feature"
+	"github.com/watermint/toolbox/quality/recipe/qtr_options"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_spec"
@@ -86,6 +87,31 @@ func (z *Preflight) sortMessages(c app_control.Control, filename string) error {
 		l.Warn("Unable to update message", esl.Error(err))
 		return err
 	}
+	return nil
+}
+
+func (z *Preflight) verifySelectStringOptions(c app_control.Control) error {
+	l := c.Log()
+	ui := c.UI()
+	
+	l.Info("Verifying SelectString option descriptions")
+	
+	missingOptions, err := qtr_options.VerifySelectStringOptions(c)
+	if err != nil {
+		return err
+	}
+	
+	if len(missingOptions) > 0 {
+		l.Warn("Missing SelectString option descriptions", esl.Int("count", len(missingOptions)))
+		ui.Error(app_msg.Raw(fmt.Sprintf("\nMissing %d SelectString option descriptions:", len(missingOptions))))
+		for _, opt := range missingOptions {
+			ui.Error(app_msg.Raw(fmt.Sprintf("  - %s (option: %s)", opt.Key, opt.Option)))
+		}
+		ui.Info(app_msg.Raw("\nTo generate these, run: dev doc msg options --target-path ."))
+		return fmt.Errorf("missing %d SelectString option descriptions", len(missingOptions))
+	}
+	
+	l.Info("All SelectString options have descriptions")
 	return nil
 }
 
@@ -168,6 +194,7 @@ func (z *Preflight) Exec(c app_control.Control) error {
 				qt_msgusage.Record().Touch(m.Key())
 				l.Debug("message", esl.String("key", m.Key()), esl.String("text", c.UI().Text(m)))
 			}
+			
 		}
 
 		l.Info("Verify ingredients")
@@ -198,6 +225,16 @@ func (z *Preflight) Exec(c app_control.Control) error {
 			ll.Debug("feature agreement", esl.String("msg", c.UI().Text(app_feature.OptInAgreement(f))))
 			ll.Debug("feature desc", esl.String("msg", c.UI().Text(app_feature.OptInDescription(f))))
 		}
+		
+		// Touch all SelectString option messages to mark them as used
+		qtr_options.TouchSelectStringOptions(c, func(key string) {
+			qt_msgusage.Record().Touch(key)
+		})
+	}
+
+	l.Info("Verify SelectString option descriptions")
+	if err := z.verifySelectStringOptions(c); err != nil {
+		return err
 	}
 
 	l.Info("Verify message resources")

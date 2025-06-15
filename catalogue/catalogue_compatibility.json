@@ -5857,6 +5857,71 @@
       }
     },
     {
+      "announcement": "https://github.com/watermint/toolbox/discussions/905",
+      "prune_after_build_date": "2025-07-30T15:00:00Z",
+      "current": {
+        "path": [
+          "util",
+          "text",
+          "nlp",
+          "english"
+        ],
+        "name": "entity"
+      }
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/905",
+      "prune_after_build_date": "2025-07-30T15:00:00Z",
+      "current": {
+        "path": [
+          "util",
+          "text",
+          "nlp",
+          "english"
+        ],
+        "name": "sentence"
+      }
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/905",
+      "prune_after_build_date": "2025-07-30T15:00:00Z",
+      "current": {
+        "path": [
+          "util",
+          "text",
+          "nlp",
+          "english"
+        ],
+        "name": "token"
+      }
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/905",
+      "prune_after_build_date": "2025-07-30T15:00:00Z",
+      "current": {
+        "path": [
+          "util",
+          "text",
+          "nlp",
+          "japanese"
+        ],
+        "name": "token"
+      }
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/905",
+      "prune_after_build_date": "2025-07-30T15:00:00Z",
+      "current": {
+        "path": [
+          "util",
+          "text",
+          "nlp",
+          "japanese"
+        ],
+        "name": "wakati"
+      }
+    },
+    {
       "announcement": "https://github.com/watermint/toolbox/discussions/870",
       "prune_after_build_date": "2024-09-29T15:00:00Z",
       "current": {

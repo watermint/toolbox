@@ -78,6 +78,17 @@ func (z mdImpl) Quote(m app_msg.Message) {
 	}
 }
 
+func (z mdImpl) DefinitionList(definitions []Definition) {
+	for _, def := range definitions {
+		term := z.mc.Compile(def.Term)
+		desc := z.mc.Compile(def.Description)
+		
+		// Use markdown-style definition list format
+		_, _ = fmt.Fprintf(z.wr, "**%s**\n", term)
+		_, _ = fmt.Fprintf(z.wr, ": %s\n\n", desc)
+	}
+}
+
 func (z mdImpl) Break() {
 	_, _ = fmt.Fprintf(z.wr, "\n")
 }
