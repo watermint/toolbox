@@ -1,10 +1,10 @@
 {
-  "last_update": "2025-06-15T13:22:30+09:00",
+  "last_update": "2025-06-15T14:26:21+09:00",
   "total_packages": 613,
   "tested_packages": 538,
-  "total_statements": 32447,
-  "covered_statements": 12359,
-  "overall_coverage": 38.08980799457577,
+  "total_statements": 32237,
+  "covered_statements": 12279,
+  "overall_coverage": 38.08977262152185,
   "packages": {
     "github.com/watermint/toolbox": {
       "package": "github.com/watermint/toolbox",
@@ -3158,12 +3158,12 @@
     },
     "github.com/watermint/toolbox/essentials/file/es_sync": {
       "package": "github.com/watermint/toolbox/essentials/file/es_sync",
-      "coverage": 57.74193548387097,
-      "statements": 310,
-      "covered_statements": 179,
+      "coverage": 58.7,
+      "statements": 100,
+      "covered_statements": 58,
       "no_test": false,
-      "last_update": "2025-06-15T12:24:41+09:00",
-      "test_duration": "2m12.7953665s"
+      "last_update": "2025-06-15T14:26:13+09:00",
+      "test_duration": "19.154212s"
     },
     "github.com/watermint/toolbox/essentials/file/es_template": {
       "package": "github.com/watermint/toolbox/essentials/file/es_template",
@@ -4455,12 +4455,12 @@
     },
     "github.com/watermint/toolbox/infra/doc/dc_supplemental": {
       "package": "github.com/watermint/toolbox/infra/doc/dc_supplemental",
-      "coverage": 1.3,
+      "coverage": 38.7,
       "statements": 100,
-      "covered_statements": 1,
+      "covered_statements": 38,
       "no_test": false,
-      "last_update": "2025-06-15T12:56:16+09:00",
-      "test_duration": "1.657600917s"
+      "last_update": "2025-06-15T14:25:47+09:00",
+      "test_duration": "1.694775042s"
     },
     "github.com/watermint/toolbox/infra/doc/dc_web": {
       "package": "github.com/watermint/toolbox/infra/doc/dc_web",
@@ -4563,12 +4563,12 @@
     },
     "github.com/watermint/toolbox/infra/recipe/rc_replay": {
       "package": "github.com/watermint/toolbox/infra/recipe/rc_replay",
-      "coverage": 4.6,
+      "coverage": 8.3,
       "statements": 100,
-      "covered_statements": 4,
+      "covered_statements": 8,
       "no_test": false,
-      "last_update": "2025-06-15T12:57:38+09:00",
-      "test_duration": "1.505222709s"
+      "last_update": "2025-06-15T14:26:21+09:00",
+      "test_duration": "1.396266542s"
     },
     "github.com/watermint/toolbox/infra/recipe/rc_spec": {
       "package": "github.com/watermint/toolbox/infra/recipe/rc_spec",

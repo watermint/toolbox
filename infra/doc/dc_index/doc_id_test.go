@@ -8,7 +8,7 @@ import (
 
 func TestGeneratedPath(t *testing.T) {
 	// Test with default language
-	lang := es_lang.Default()
+	lang := es_lang.Default
 	result := GeneratedPath(lang, "test-doc")
 	
 	if !strings.Contains(result, "test-doc") {
@@ -16,7 +16,7 @@ func TestGeneratedPath(t *testing.T) {
 	}
 	
 	// Test with Japanese language
-	jaLang := es_lang.NewLang("ja")
+	jaLang := es_lang.Japanese
 	result = GeneratedPath(jaLang, "test-doc")
 	
 	if !strings.Contains(result, "test-doc") {
@@ -91,7 +91,7 @@ func TestRefPath(t *testing.T) {
 }
 
 func TestWebDocPath(t *testing.T) {
-	lang := es_lang.Default()
+	lang := es_lang.Default
 	
 	// Test WebCategoryHome without refPath
 	result := WebDocPath(false, WebCategoryHome, "index", lang)
@@ -143,7 +143,7 @@ func TestWebDocPath(t *testing.T) {
 	}
 	
 	// Test with Japanese language
-	jaLang := es_lang.NewLang("ja")
+	jaLang := es_lang.Japanese
 	result = WebDocPath(false, WebCategoryHome, "test", jaLang)
 	if !strings.Contains(result, jaLang.String()+"/") {
 		t.Errorf("Expected result to contain language path, got %s", result)
@@ -151,7 +151,7 @@ func TestWebDocPath(t *testing.T) {
 }
 
 func TestWebDocPath_InvalidCategory(t *testing.T) {
-	lang := es_lang.Default()
+	lang := es_lang.Default
 	
 	// Test with invalid category - should panic
 	defer func() {
@@ -164,7 +164,7 @@ func TestWebDocPath_InvalidCategory(t *testing.T) {
 }
 
 func TestDocName_Repository(t *testing.T) {
-	lang := es_lang.Default()
+	lang := es_lang.Default
 	
 	// Test DocRootReadme
 	result := DocName(MediaRepository, DocRootReadme, lang)
@@ -201,7 +201,7 @@ func TestDocName_Repository(t *testing.T) {
 }
 
 func TestDocName_WithLanguageSuffix(t *testing.T) {
-	jaLang := es_lang.NewLang("ja")
+	jaLang := es_lang.Japanese
 	
 	result := DocName(MediaRepository, DocRootReadme, jaLang)
 	if !strings.Contains(result, jaLang.Suffix()) {
@@ -210,7 +210,7 @@ func TestDocName_WithLanguageSuffix(t *testing.T) {
 }
 
 func TestDocName_WithOptions(t *testing.T) {
-	lang := es_lang.Default()
+	lang := es_lang.Default
 	
 	// Test with CommandName option
 	result := DocName(MediaRepository, DocRootReadme, lang, CommandName("test-command"))
