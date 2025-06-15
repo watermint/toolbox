@@ -1,10 +1,10 @@
 {
-  "last_update": "2025-06-15T16:15:42+09:00",
+  "last_update": "2025-06-15T18:24:06+09:00",
   "total_packages": 614,
   "tested_packages": 538,
-  "total_statements": 36125,
-  "covered_statements": 13499,
-  "overall_coverage": 37.36747404844291,
+  "total_statements": 35007,
+  "covered_statements": 13431,
+  "overall_coverage": 38.36661239180735,
   "packages": {
     "github.com/watermint/toolbox": {
       "package": "github.com/watermint/toolbox",
@@ -1376,12 +1376,12 @@
     },
     "github.com/watermint/toolbox/domain/dropbox/filesystem/dbx_fs_copier_batch": {
       "package": "github.com/watermint/toolbox/domain/dropbox/filesystem/dbx_fs_copier_batch",
-      "coverage": 0,
-      "statements": 260,
-      "covered_statements": 0,
+      "coverage": 3.1,
+      "statements": 100,
+      "covered_statements": 3,
       "no_test": false,
-      "last_update": "2025-06-15T15:32:41+09:00",
-      "test_duration": "2m27.934718292s"
+      "last_update": "2025-06-15T18:24:06+09:00",
+      "test_duration": "1.284757584s"
     },
     "github.com/watermint/toolbox/domain/dropbox/filesystem/dbx_fs_copier_dbx_to_dbx": {
       "package": "github.com/watermint/toolbox/domain/dropbox/filesystem/dbx_fs_copier_dbx_to_dbx",
@@ -3473,12 +3473,12 @@
     },
     "github.com/watermint/toolbox/essentials/kvs/kv_kvs_impl": {
       "package": "github.com/watermint/toolbox/essentials/kvs/kv_kvs_impl",
-      "coverage": 3.9145907473309607,
-      "statements": 281,
-      "covered_statements": 11,
+      "coverage": 12.8,
+      "statements": 100,
+      "covered_statements": 12,
       "no_test": false,
-      "last_update": "2025-06-15T15:32:41+09:00",
-      "test_duration": "2m27.934718292s"
+      "last_update": "2025-06-15T18:22:41+09:00",
+      "test_duration": "871.9175ms"
     },
     "github.com/watermint/toolbox/essentials/kvs/kv_storage": {
       "package": "github.com/watermint/toolbox/essentials/kvs/kv_storage",
@@ -5111,12 +5111,12 @@
     },
     "github.com/watermint/toolbox/recipe/dev/doc/msg": {
       "package": "github.com/watermint/toolbox/recipe/dev/doc/msg",
-      "coverage": 15.225563909774436,
-      "statements": 532,
-      "covered_statements": 81,
+      "coverage": 15.2,
+      "statements": 100,
+      "covered_statements": 15,
       "no_test": false,
-      "last_update": "2025-06-15T15:32:41+09:00",
-      "test_duration": "2m27.934718292s"
+      "last_update": "2025-06-15T18:19:39+09:00",
+      "test_duration": "1.647654208s"
     },
     "github.com/watermint/toolbox/recipe/dev/doc/review": {
       "package": "github.com/watermint/toolbox/recipe/dev/doc/review",
@@ -5210,12 +5210,12 @@
     },
     "github.com/watermint/toolbox/recipe/dev/test/coverage": {
       "package": "github.com/watermint/toolbox/recipe/dev/test/coverage",
-      "coverage": 5.617977528089887,
-      "statements": 445,
-      "covered_statements": 25,
+      "coverage": 19.3,
+      "statements": 100,
+      "covered_statements": 19,
       "no_test": false,
-      "last_update": "2025-06-15T15:32:41+09:00",
-      "test_duration": "2m27.934718292s"
+      "last_update": "2025-06-15T18:18:38+09:00",
+      "test_duration": "1.512015042s"
     },
     "github.com/watermint/toolbox/recipe/dev/util": {
       "package": "github.com/watermint/toolbox/recipe/dev/util",
