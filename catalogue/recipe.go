@@ -130,6 +130,7 @@ func AutoDetectedRecipesClassic() []infra_recipe_rc_recipe.Recipe {
 		&recipedevtest.Recipe{},
 		&recipedevtest.Resources{},
 		&recipedevtestcoverage.List{},
+		&recipedevtestcoverage.Missing{},
 		&recipedevtestcoverage.Pkg{},
 		&recipedevtestcoverage.Summary{},
 		&recipedevutil.Anonymise{},
