@@ -1,0 +1,35 @@
+{
+  "last_update": "2025-06-15T12:19:34+09:00",
+  "total_packages": 3,
+  "tested_packages": 2,
+  "total_statements": 180,
+  "covered_statements": 27,
+  "overall_coverage": 15,
+  "packages": {
+    "github.com/watermint/toolbox/essentials/api/api_auth": {
+      "package": "github.com/watermint/toolbox/essentials/api/api_auth",
+      "coverage": 0,
+      "statements": 200,
+      "covered_statements": 0,
+      "no_test": true,
+      "last_update": "2025-06-15T12:10:00Z"
+    },
+    "github.com/watermint/toolbox/essentials/api/api_callback": {
+      "package": "github.com/watermint/toolbox/essentials/api/api_callback",
+      "coverage": 25,
+      "statements": 80,
+      "covered_statements": 20,
+      "no_test": false,
+      "last_update": "2025-06-15T12:10:00Z"
+    },
+    "github.com/watermint/toolbox/recipe/dev/test/coverage": {
+      "package": "github.com/watermint/toolbox/recipe/dev/test/coverage",
+      "coverage": 7.1,
+      "statements": 100,
+      "covered_statements": 7,
+      "no_test": false,
+      "last_update": "2025-06-15T12:19:34+09:00",
+      "test_duration": "1.4633975s"
+    }
+  }
+}

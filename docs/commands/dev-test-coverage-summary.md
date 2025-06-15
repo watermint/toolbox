@@ -1,14 +1,14 @@
 ---
 layout: command
-title: Command `dev test coverage list`
+title: Command `dev test coverage summary`
 lang: en
 ---
 
-# dev test coverage list
+# dev test coverage summary
 
-Test Coverage List 
+Test Coverage Summary 
 
-Analyze and list packages with test coverage below threshold
+Display project coverage summary and suggest packages to improve
 
 # Installation
 
@@ -24,12 +24,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe dev test coverage list 
+.\tbx.exe dev test coverage summary 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx dev test coverage list 
+$HOME/Desktop/tbx dev test coverage summary 
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -40,14 +40,8 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-**-max-package**
-: Maximum packages to display. Default: 30
-
-**-min-package**
-: Minimum packages to display. Default: 10
-
-**-threshold**
-: Coverage threshold percentage. Default: 50
+**-suggest-count**
+: Number of packages to suggest for improvement. Default: 10
 
 ## Common options:
 
@@ -118,36 +112,22 @@ Report file path will be displayed last line of the command line output. If you 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## Report: coverage_report
+## Report: recommendation_report
 
-Package coverage report
-The command will generate a report in three different formats. `coverage_report.csv`, `coverage_report.json`, and `coverage_report.xlsx`.
+Package improvement recommendations
+The command will generate a report in three different formats. `recommendation_report.csv`, `recommendation_report.json`, and `recommendation_report.xlsx`.
 
-| Column     | Description         |
-|------------|---------------------|
-| package    | Package name        |
-| coverage   | Coverage percentage |
-| statements | Total statements    |
-| no_test    | Has no tests        |
-
-If you run with `-budget-memory low` option, the command will generate only JSON format report.
-
-In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `coverage_report_0000.xlsx`, `coverage_report_0001.xlsx`, `coverage_report_0002.xlsx`, ...
-
-## Report: summary_report
-
-Package coverage report
-The command will generate a report in three different formats. `summary_report.csv`, `summary_report.json`, and `summary_report.xlsx`.
-
-| Column     | Description         |
-|------------|---------------------|
-| package    | Package name        |
-| coverage   | Coverage percentage |
-| statements | Total statements    |
-| no_test    | Has no tests        |
+| Column     | Description      |
+|------------|------------------|
+| priority   | Priority         |
+| package    | Package name     |
+| coverage   | Current coverage |
+| statements | Total statements |
+| impact     | Potential impact |
+| no_test    | No tests         |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
-In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `summary_report_0000.xlsx`, `summary_report_0001.xlsx`, `summary_report_0002.xlsx`, ...
+In case of a report becomes large, a report in `.xlsx` format will be split into several chunks like follows; `recommendation_report_0000.xlsx`, `recommendation_report_0001.xlsx`, `recommendation_report_0002.xlsx`, ...
 
 
