@@ -101,7 +101,7 @@ func (z CaptureAggregatorOpts) Apply(opts []CaptureAggregatorOpt) CaptureAggrega
 	case 1:
 		return opts[0](z)
 	default:
-		return z.Apply(opts[1:])
+		return opts[0](z).Apply(opts[1:])
 	}
 }
 

@@ -1,10 +1,10 @@
 {
-  "last_update": "2025-06-15T23:45:31+09:00",
+  "last_update": "2025-06-16T01:14:09+09:00",
   "total_packages": 614,
   "tested_packages": 538,
-  "total_statements": 34933,
-  "covered_statements": 13420,
-  "overall_coverage": 38.41639710302579,
+  "total_statements": 33566,
+  "covered_statements": 13056,
+  "overall_coverage": 38.89650241315617,
   "packages": {
     "github.com/watermint/toolbox": {
       "package": "github.com/watermint/toolbox",
@@ -1142,12 +1142,12 @@
     },
     "github.com/watermint/toolbox/domain/core/dc_log": {
       "package": "github.com/watermint/toolbox/domain/core/dc_log",
-      "coverage": 0,
-      "statements": 193,
-      "covered_statements": 0,
+      "coverage": 56,
+      "statements": 100,
+      "covered_statements": 56,
       "no_test": false,
-      "last_update": "2025-06-15T15:32:41+09:00",
-      "test_duration": "2m27.934718292s"
+      "last_update": "2025-06-16T01:01:41+09:00",
+      "test_duration": "1.683304708s"
     },
     "github.com/watermint/toolbox/domain/core/dc_version": {
       "package": "github.com/watermint/toolbox/domain/core/dc_version",
@@ -2100,8 +2100,9 @@
       "statements": 1114,
       "covered_statements": 66,
       "no_test": false,
-      "last_update": "2025-06-15T15:32:41+09:00",
-      "test_duration": "2m27.934718292s"
+      "last_update": "2025-06-16T01:02:12+09:00",
+      "test_duration": "5.880895375s",
+      "error": "exit status 1"
     },
     "github.com/watermint/toolbox/domain/dropbox/usecase/uc_insight_file": {
       "package": "github.com/watermint/toolbox/domain/dropbox/usecase/uc_insight_file",
@@ -2177,12 +2178,12 @@
     },
     "github.com/watermint/toolbox/domain/dropbox/usecase/uc_teamfolder_scanner": {
       "package": "github.com/watermint/toolbox/domain/dropbox/usecase/uc_teamfolder_scanner",
-      "coverage": 1.9178082191780823,
-      "statements": 365,
-      "covered_statements": 7,
+      "coverage": 1.9,
+      "statements": 100,
+      "covered_statements": 1,
       "no_test": false,
-      "last_update": "2025-06-15T15:32:41+09:00",
-      "test_duration": "2m27.934718292s"
+      "last_update": "2025-06-16T00:54:34+09:00",
+      "test_duration": "1.613272458s"
     },
     "github.com/watermint/toolbox/domain/dropboxsign/api/hs_client": {
       "package": "github.com/watermint/toolbox/domain/dropboxsign/api/hs_client",
@@ -5066,12 +5067,12 @@
     },
     "github.com/watermint/toolbox/recipe/dev/build": {
       "package": "github.com/watermint/toolbox/recipe/dev/build",
-      "coverage": 35.13986013986014,
-      "statements": 572,
-      "covered_statements": 201,
+      "coverage": 47.9,
+      "statements": 100,
+      "covered_statements": 47,
       "no_test": false,
-      "last_update": "2025-06-15T15:32:41+09:00",
-      "test_duration": "2m27.934718292s"
+      "last_update": "2025-06-16T01:09:31+09:00",
+      "test_duration": "21.299521792s"
     },
     "github.com/watermint/toolbox/recipe/dev/ci/artifact": {
       "package": "github.com/watermint/toolbox/recipe/dev/ci/artifact",
@@ -5174,12 +5175,12 @@
     },
     "github.com/watermint/toolbox/recipe/dev/release": {
       "package": "github.com/watermint/toolbox/recipe/dev/release",
-      "coverage": 48.822605965463104,
-      "statements": 637,
-      "covered_statements": 310,
+      "coverage": 50.4,
+      "statements": 100,
+      "covered_statements": 50,
       "no_test": false,
-      "last_update": "2025-06-15T15:32:41+09:00",
-      "test_duration": "2m27.934718292s"
+      "last_update": "2025-06-16T01:14:09+09:00",
+      "test_duration": "2.871066708s"
     },
     "github.com/watermint/toolbox/recipe/dev/replay": {
       "package": "github.com/watermint/toolbox/recipe/dev/replay",
