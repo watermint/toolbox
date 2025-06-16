@@ -1,11 +1,147 @@
 {
-  "last_update": "2025-06-16T01:14:09+09:00",
-  "total_packages": 614,
-  "tested_packages": 538,
-  "total_statements": 33566,
-  "covered_statements": 13056,
-  "overall_coverage": 38.89650241315617,
+  "last_update": "2025-06-17T06:58:35+09:00",
+  "total_packages": 630,
+  "tested_packages": 552,
+  "total_statements": 32218,
+  "covered_statements": 13684,
+  "overall_coverage": 42.47315165435471,
   "packages": {
+    "./domain/dropbox/usecase/uc_teamfolder": {
+      "package": "./domain/dropbox/usecase/uc_teamfolder",
+      "coverage": 0,
+      "statements": 100,
+      "covered_statements": 0,
+      "no_test": false,
+      "last_update": "2025-06-16T17:31:22+09:00",
+      "test_duration": "943.5665ms"
+    },
+    "./essentials/api/api_callback": {
+      "package": "./essentials/api/api_callback",
+      "coverage": 27.3,
+      "statements": 100,
+      "covered_statements": 27,
+      "no_test": false,
+      "last_update": "2025-06-16T17:29:29+09:00",
+      "test_duration": "1.59819775s"
+    },
+    "./essentials/go/es_resource": {
+      "package": "./essentials/go/es_resource",
+      "coverage": 78.5,
+      "statements": 100,
+      "covered_statements": 78,
+      "no_test": false,
+      "last_update": "2025-06-17T06:56:03+09:00",
+      "test_duration": "821.815583ms"
+    },
+    "./essentials/model/em_file_random": {
+      "package": "./essentials/model/em_file_random",
+      "coverage": 75.8,
+      "statements": 100,
+      "covered_statements": 75,
+      "no_test": false,
+      "last_update": "2025-06-17T06:48:30+09:00",
+      "test_duration": "648.563084ms"
+    },
+    "./essentials/model/mo_filter": {
+      "package": "./essentials/model/mo_filter",
+      "coverage": 50.5,
+      "statements": 100,
+      "covered_statements": 50,
+      "no_test": false,
+      "last_update": "2025-06-17T06:47:52+09:00",
+      "test_duration": "1.19288375s"
+    },
+    "./essentials/model/mo_int": {
+      "package": "./essentials/model/mo_int",
+      "coverage": 100,
+      "statements": 100,
+      "covered_statements": 100,
+      "no_test": false,
+      "last_update": "2025-06-16T22:24:09+09:00",
+      "test_duration": "513.614042ms"
+    },
+    "./essentials/model/mo_path": {
+      "package": "./essentials/model/mo_path",
+      "coverage": 81.8,
+      "statements": 100,
+      "covered_statements": 81,
+      "no_test": false,
+      "last_update": "2025-06-17T06:48:20+09:00",
+      "test_duration": "597.547792ms"
+    },
+    "./essentials/queue/eq_queue": {
+      "package": "./essentials/queue/eq_queue",
+      "coverage": 73.1,
+      "statements": 100,
+      "covered_statements": 73,
+      "no_test": false,
+      "last_update": "2025-06-17T06:56:56+09:00",
+      "test_duration": "1.993082833s"
+    },
+    "./essentials/strings/es_hex": {
+      "package": "./essentials/strings/es_hex",
+      "coverage": 100,
+      "statements": 100,
+      "covered_statements": 100,
+      "no_test": false,
+      "last_update": "2025-06-17T06:53:57+09:00",
+      "test_duration": "625.685333ms"
+    },
+    "./essentials/time/ut_compare": {
+      "package": "./essentials/time/ut_compare",
+      "coverage": 100,
+      "statements": 100,
+      "covered_statements": 100,
+      "no_test": false,
+      "last_update": "2025-06-16T22:20:47+09:00",
+      "test_duration": "607.4395ms"
+    },
+    "./infra/data/da_griddata": {
+      "package": "./infra/data/da_griddata",
+      "coverage": 45.7,
+      "statements": 100,
+      "covered_statements": 45,
+      "no_test": false,
+      "last_update": "2025-06-16T17:40:33+09:00",
+      "test_duration": "1.264672667s"
+    },
+    "./infra/doc/dc_readme": {
+      "package": "./infra/doc/dc_readme",
+      "coverage": 0,
+      "statements": 0,
+      "covered_statements": 0,
+      "no_test": false,
+      "last_update": "2025-06-16T17:35:41+09:00",
+      "test_duration": "416.002541ms",
+      "error": "exit status 1"
+    },
+    "./infra/report/rp_model_impl": {
+      "package": "./infra/report/rp_model_impl",
+      "coverage": 43.5,
+      "statements": 100,
+      "covered_statements": 43,
+      "no_test": false,
+      "last_update": "2025-06-16T16:18:23+09:00",
+      "test_duration": "771.409334ms"
+    },
+    "./recipe/dev/replay": {
+      "package": "./recipe/dev/replay",
+      "coverage": 12.6,
+      "statements": 100,
+      "covered_statements": 12,
+      "no_test": false,
+      "last_update": "2025-06-16T17:24:38+09:00",
+      "test_duration": "9.994552834s"
+    },
+    "./recipe/dev/util": {
+      "package": "./recipe/dev/util",
+      "coverage": 18,
+      "statements": 100,
+      "covered_statements": 18,
+      "no_test": false,
+      "last_update": "2025-06-17T06:58:35+09:00",
+      "test_duration": "13.414348083s"
+    },
     "github.com/watermint/toolbox": {
       "package": "github.com/watermint/toolbox",
       "coverage": 84.61538461538461,
@@ -674,12 +810,13 @@
     },
     "github.com/watermint/toolbox/citron/dropbox/team/namespace": {
       "package": "github.com/watermint/toolbox/citron/dropbox/team/namespace",
-      "coverage": 10.95890410958904,
-      "statements": 219,
-      "covered_statements": 24,
+      "coverage": 11,
+      "statements": 100,
+      "covered_statements": 11,
       "no_test": false,
-      "last_update": "2025-06-15T15:32:41+09:00",
-      "test_duration": "2m27.934718292s"
+      "last_update": "2025-06-16T15:30:55+09:00",
+      "test_duration": "421.069667ms",
+      "error": "exit status 1"
     },
     "github.com/watermint/toolbox/citron/dropbox/team/namespace/file": {
       "package": "github.com/watermint/toolbox/citron/dropbox/team/namespace/file",
@@ -1367,12 +1504,12 @@
     },
     "github.com/watermint/toolbox/domain/dropbox/filesystem/dbx_fs": {
       "package": "github.com/watermint/toolbox/domain/dropbox/filesystem/dbx_fs",
-      "coverage": 15.355805243445692,
-      "statements": 267,
-      "covered_statements": 41,
+      "coverage": 24.3,
+      "statements": 100,
+      "covered_statements": 24,
       "no_test": false,
-      "last_update": "2025-06-15T15:32:41+09:00",
-      "test_duration": "2m27.934718292s"
+      "last_update": "2025-06-16T08:04:37+09:00",
+      "test_duration": "1.650208125s"
     },
     "github.com/watermint/toolbox/domain/dropbox/filesystem/dbx_fs_copier_batch": {
       "package": "github.com/watermint/toolbox/domain/dropbox/filesystem/dbx_fs_copier_batch",
@@ -2042,12 +2179,12 @@
     },
     "github.com/watermint/toolbox/domain/dropbox/usecase/uc_file_merge": {
       "package": "github.com/watermint/toolbox/domain/dropbox/usecase/uc_file_merge",
-      "coverage": 9.950248756218906,
-      "statements": 201,
-      "covered_statements": 20,
+      "coverage": 10,
+      "statements": 100,
+      "covered_statements": 10,
       "no_test": false,
-      "last_update": "2025-06-15T15:32:41+09:00",
-      "test_duration": "2m27.934718292s"
+      "last_update": "2025-06-16T15:54:41+09:00",
+      "test_duration": "1.65268575s"
     },
     "github.com/watermint/toolbox/domain/dropbox/usecase/uc_file_mirror": {
       "package": "github.com/watermint/toolbox/domain/dropbox/usecase/uc_file_mirror",
@@ -2096,13 +2233,12 @@
     },
     "github.com/watermint/toolbox/domain/dropbox/usecase/uc_insight": {
       "package": "github.com/watermint/toolbox/domain/dropbox/usecase/uc_insight",
-      "coverage": 5.9245960502693,
-      "statements": 1114,
-      "covered_statements": 66,
+      "coverage": 28.7,
+      "statements": 100,
+      "covered_statements": 28,
       "no_test": false,
-      "last_update": "2025-06-16T01:02:12+09:00",
-      "test_duration": "5.880895375s",
-      "error": "exit status 1"
+      "last_update": "2025-06-16T08:45:29+09:00",
+      "test_duration": "6.1751415s"
     },
     "github.com/watermint/toolbox/domain/dropbox/usecase/uc_insight_file": {
       "package": "github.com/watermint/toolbox/domain/dropbox/usecase/uc_insight_file",
@@ -3726,12 +3862,12 @@
     },
     "github.com/watermint/toolbox/essentials/network/nw_congestion": {
       "package": "github.com/watermint/toolbox/essentials/network/nw_congestion",
-      "coverage": 1.1560693641618496,
-      "statements": 173,
-      "covered_statements": 1,
+      "coverage": 84.4,
+      "statements": 100,
+      "covered_statements": 84,
       "no_test": false,
-      "last_update": "2025-06-15T15:32:41+09:00",
-      "test_duration": "2m27.934718292s"
+      "last_update": "2025-06-16T16:06:52+09:00",
+      "test_duration": "865.817208ms"
     },
     "github.com/watermint/toolbox/essentials/network/nw_diag": {
       "package": "github.com/watermint/toolbox/essentials/network/nw_diag",
@@ -4140,12 +4276,12 @@
     },
     "github.com/watermint/toolbox/infra/control/app_bootstrap": {
       "package": "github.com/watermint/toolbox/infra/control/app_bootstrap",
-      "coverage": 3.7383177570093453,
-      "statements": 214,
-      "covered_statements": 7,
+      "coverage": 3.7,
+      "statements": 100,
+      "covered_statements": 3,
       "no_test": false,
-      "last_update": "2025-06-15T15:32:41+09:00",
-      "test_duration": "2m27.934718292s"
+      "last_update": "2025-06-16T08:09:57+09:00",
+      "test_duration": "1.521711375s"
     },
     "github.com/watermint/toolbox/infra/control/app_budget": {
       "package": "github.com/watermint/toolbox/infra/control/app_budget",
@@ -4257,12 +4393,12 @@
     },
     "github.com/watermint/toolbox/infra/control/app_license": {
       "package": "github.com/watermint/toolbox/infra/control/app_license",
-      "coverage": 32.45283018867924,
-      "statements": 265,
-      "covered_statements": 86,
+      "coverage": 53.6,
+      "statements": 100,
+      "covered_statements": 53,
       "no_test": false,
-      "last_update": "2025-06-15T15:32:41+09:00",
-      "test_duration": "2m27.934718292s"
+      "last_update": "2025-06-16T16:02:07+09:00",
+      "test_duration": "605.9135ms"
     },
     "github.com/watermint/toolbox/infra/control/app_license_key": {
       "package": "github.com/watermint/toolbox/infra/control/app_license_key",
@@ -4374,12 +4510,12 @@
     },
     "github.com/watermint/toolbox/infra/doc/dc_command": {
       "package": "github.com/watermint/toolbox/infra/doc/dc_command",
-      "coverage": 1.0714285714285714,
-      "statements": 280,
-      "covered_statements": 3,
+      "coverage": 1.4,
+      "statements": 100,
+      "covered_statements": 1,
       "no_test": false,
-      "last_update": "2025-06-15T15:32:41+09:00",
-      "test_duration": "2m27.934718292s"
+      "last_update": "2025-06-16T07:59:47+09:00",
+      "test_duration": "2.216488791s"
     },
     "github.com/watermint/toolbox/infra/doc/dc_contributor": {
       "package": "github.com/watermint/toolbox/infra/doc/dc_contributor",
@@ -4455,12 +4591,12 @@
     },
     "github.com/watermint/toolbox/infra/doc/dc_supplemental": {
       "package": "github.com/watermint/toolbox/infra/doc/dc_supplemental",
-      "coverage": 38.70967741935484,
-      "statements": 310,
-      "covered_statements": 120,
+      "coverage": 51,
+      "statements": 100,
+      "covered_statements": 51,
       "no_test": false,
-      "last_update": "2025-06-15T15:32:41+09:00",
-      "test_duration": "2m27.934718292s"
+      "last_update": "2025-06-16T15:42:24+09:00",
+      "test_duration": "1.758953958s"
     },
     "github.com/watermint/toolbox/infra/doc/dc_web": {
       "package": "github.com/watermint/toolbox/infra/doc/dc_web",
@@ -4563,12 +4699,12 @@
     },
     "github.com/watermint/toolbox/infra/recipe/rc_replay": {
       "package": "github.com/watermint/toolbox/infra/recipe/rc_replay",
-      "coverage": 8.333333333333332,
-      "statements": 216,
-      "covered_statements": 17,
+      "coverage": 8.3,
+      "statements": 100,
+      "covered_statements": 8,
       "no_test": false,
-      "last_update": "2025-06-15T15:32:41+09:00",
-      "test_duration": "2m27.934718292s"
+      "last_update": "2025-06-16T08:13:26+09:00",
+      "test_duration": "1.616511042s"
     },
     "github.com/watermint/toolbox/infra/recipe/rc_spec": {
       "package": "github.com/watermint/toolbox/infra/recipe/rc_spec",
@@ -4636,11 +4772,11 @@
     "github.com/watermint/toolbox/infra/report/rp_model_impl": {
       "package": "github.com/watermint/toolbox/infra/report/rp_model_impl",
       "coverage": 0,
-      "statements": 138,
+      "statements": 100,
       "covered_statements": 0,
       "no_test": false,
-      "last_update": "2025-06-15T15:32:41+09:00",
-      "test_duration": "2m27.934718292s"
+      "last_update": "2025-06-16T16:08:33+09:00",
+      "test_duration": "304.144625ms"
     },
     "github.com/watermint/toolbox/infra/report/rp_test": {
       "package": "github.com/watermint/toolbox/infra/report/rp_test",
@@ -4842,12 +4978,12 @@
     },
     "github.com/watermint/toolbox/ingredient/ig_dropbox/ig_teamfolder": {
       "package": "github.com/watermint/toolbox/ingredient/ig_dropbox/ig_teamfolder",
-      "coverage": 10.9375,
-      "statements": 320,
-      "covered_statements": 35,
+      "coverage": 13.4,
+      "statements": 100,
+      "covered_statements": 13,
       "no_test": false,
-      "last_update": "2025-06-15T15:32:41+09:00",
-      "test_duration": "2m27.934718292s"
+      "last_update": "2025-06-16T07:43:09+09:00",
+      "test_duration": "2.01740825s"
     },
     "github.com/watermint/toolbox/ingredient/ig_dropbox/ig_teamspace": {
       "package": "github.com/watermint/toolbox/ingredient/ig_dropbox/ig_teamspace",
@@ -5121,12 +5257,12 @@
     },
     "github.com/watermint/toolbox/recipe/dev/doc/review": {
       "package": "github.com/watermint/toolbox/recipe/dev/doc/review",
-      "coverage": 18.867924528301888,
-      "statements": 212,
-      "covered_statements": 40,
+      "coverage": 18.9,
+      "statements": 100,
+      "covered_statements": 18,
       "no_test": false,
-      "last_update": "2025-06-15T15:32:41+09:00",
-      "test_duration": "2m27.934718292s"
+      "last_update": "2025-06-16T16:07:38+09:00",
+      "test_duration": "1.697351708s"
     },
     "github.com/watermint/toolbox/recipe/dev/kvs": {
       "package": "github.com/watermint/toolbox/recipe/dev/kvs",
@@ -5193,12 +5329,12 @@
     },
     "github.com/watermint/toolbox/recipe/dev/spec": {
       "package": "github.com/watermint/toolbox/recipe/dev/spec",
-      "coverage": 15.52511415525114,
-      "statements": 219,
-      "covered_statements": 33,
+      "coverage": 15.5,
+      "statements": 100,
+      "covered_statements": 15,
       "no_test": false,
-      "last_update": "2025-06-15T15:32:41+09:00",
-      "test_duration": "2m27.934718292s"
+      "last_update": "2025-06-16T15:47:44+09:00",
+      "test_duration": "1.574412041s"
     },
     "github.com/watermint/toolbox/recipe/dev/test": {
       "package": "github.com/watermint/toolbox/recipe/dev/test",
@@ -5532,6 +5668,16 @@
       "no_test": false,
       "last_update": "2025-06-15T15:48:39+09:00",
       "test_duration": "37.512209ms",
+      "error": "exit status 1"
+    },
+    "infra/report/rp_model_impl": {
+      "package": "infra/report/rp_model_impl",
+      "coverage": 0,
+      "statements": 0,
+      "covered_statements": 0,
+      "no_test": false,
+      "last_update": "2025-06-16T16:18:16+09:00",
+      "test_duration": "45.830375ms",
       "error": "exit status 1"
     }
   }
