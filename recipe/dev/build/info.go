@@ -58,12 +58,15 @@ func (z *Info) Exec(c app_control.Control) error {
 	}
 
 	headName := string(head.Name())
-	if !strings.HasPrefix(headName, "refs/heads") {
-		l.Warn("Unexpected ref format", esl.String("head", headName))
-		return errors.New("unexpected git refs")
+	var branch string
+	
+	if strings.HasPrefix(headName, "refs/heads/") {
+		branch = strings.ReplaceAll(headName, "refs/heads/", "")
+	} else {
+		// Handle detached HEAD or other ref formats (common in CI)
+		l.Debug("Non-standard ref format detected, using hash-based branch name", esl.String("head", headName))
+		branch = "detached-" + hash.String()[:8]
 	}
-
-	branch := strings.ReplaceAll(headName, "refs/heads/", "")
 
 	xap, found := os.LookupEnv(app_definitions.EnvNameToolboxBuilderKey)
 	if !found || len(xap) < 10 {

@@ -80,7 +80,15 @@ func Resources() (ui app_ui.UI) {
 
 func MustCreateControl() (ctl app_control.Control, jl app_job.Launcher) {
 	ui := Resources()
-	wb, err := app_workspace.NewBundle("", app_budget.BudgetUnlimited, esl.ConsoleDefaultLevel(), false, false)
+	
+	// Create a unique temporary directory for this test instance to avoid conflicts
+	tempDir, err := os.MkdirTemp("", "toolbox-test-*")
+	if err != nil {
+		panic(err)
+	}
+	
+	// Use the temporary directory as the workspace home
+	wb, err := app_workspace.NewBundle(tempDir, app_budget.BudgetUnlimited, esl.ConsoleDefaultLevel(), false, false)
 	if err != nil {
 		panic(err)
 	}
@@ -116,19 +124,33 @@ func TestWithReplayDbxContext(t *testing.T, name string, twc func(ctx dbx_client
 func BenchmarkWithControl(b *testing.B, twc func(ctl app_control.Control)) {
 	nw_ratelimit.SetTestMode(true)
 	ctl, jl := MustCreateControl()
+	
+	// Register cleanup to remove temporary directory
+	b.Cleanup(func() {
+		jl.Down(nil, ctl)
+		// Clean up the temporary directory
+		if ws := ctl.Workspace(); ws != nil {
+			os.RemoveAll(ws.Home())
+		}
+	})
 
 	twc(ctl.WithFeature(ctl.Feature().AsTest(false)))
-
-	jl.Down(nil, ctl)
 }
 
 func TestWithControl(t *testing.T, twc func(ctl app_control.Control)) {
 	nw_ratelimit.SetTestMode(true)
 	ctl, jl := MustCreateControl()
+	
+	// Register cleanup to remove temporary directory
+	t.Cleanup(func() {
+		jl.Down(nil, ctl)
+		// Clean up the temporary directory
+		if ws := ctl.Workspace(); ws != nil {
+			os.RemoveAll(ws.Home())
+		}
+	})
 
 	twc(ctl.WithFeature(ctl.Feature().AsTest(false)))
-
-	jl.Down(nil, ctl)
 }
 
 func ForkWithName(t *testing.T, name string, c app_control.Control, f func(c app_control.Control) error) {
