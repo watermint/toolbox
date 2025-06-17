@@ -21,6 +21,9 @@ type MsgApiAuth struct {
 	ProgressAuthSuccess app_msg.Message
 	OauthSeq1           app_msg.Message
 	OauthSeq2           app_msg.Message
+	OauthStep1Visit     app_msg.Message
+	OauthStep2Allow     app_msg.Message
+	OauthStep3Copy      app_msg.Message
 }
 
 var (
@@ -133,7 +136,13 @@ func (z *sessionCodeAuthImpl) oauthAskCode(session api_auth.OAuthSessionData, st
 	})
 	url := z.oauthUrl(session, cfg, state, challenge)
 
-	ui.Info(MApiAuth.OauthSeq1.With("Url", url))
+	ui.Info(MApiAuth.OauthStep1Visit)
+	ui.Break()
+	ui.Code(url)
+	ui.Break()
+	ui.Info(MApiAuth.OauthStep2Allow)
+	ui.Break()
+	ui.Info(MApiAuth.OauthStep3Copy)
 
 	code := z.oauthCode()
 	if code == "" {
