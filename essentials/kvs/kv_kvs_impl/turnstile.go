@@ -33,47 +33,47 @@ func (z *turnstileImpl) PutJson(key string, j json.RawMessage) error {
 func (z *turnstileImpl) PutJsonModel(key string, v interface{}) error {
 	z.m.Lock()
 	defer z.m.Unlock()
-	return z.PutJsonModel(key, v)
+	return z.kvs.PutJsonModel(key, v)
 }
 
 func (z *turnstileImpl) GetString(key string) (value string, err error) {
 	z.m.Lock()
 	defer z.m.Unlock()
-	return z.GetString(key)
+	return z.kvs.GetString(key)
 }
 
 func (z *turnstileImpl) GetJson(key string) (j json.RawMessage, err error) {
 	z.m.Lock()
 	defer z.m.Unlock()
-	return z.GetJson(key)
+	return z.kvs.GetJson(key)
 }
 
 func (z *turnstileImpl) GetJsonModel(key string, v interface{}) (err error) {
 	z.m.Lock()
 	defer z.m.Unlock()
-	return z.GetJsonModel(key, v)
+	return z.kvs.GetJsonModel(key, v)
 }
 
 func (z *turnstileImpl) Delete(key string) error {
 	z.m.Lock()
 	defer z.m.Unlock()
-	return z.Delete(key)
+	return z.kvs.Delete(key)
 }
 
 func (z *turnstileImpl) ForEach(f func(key string, value []byte) error) error {
 	z.m.Lock()
 	defer z.m.Unlock()
-	return z.ForEach(f)
+	return z.kvs.ForEach(f)
 }
 
 func (z *turnstileImpl) ForEachRaw(f func(key []byte, value []byte) error) error {
 	z.m.Lock()
 	defer z.m.Unlock()
-	return z.ForEachRaw(f)
+	return z.kvs.ForEachRaw(f)
 }
 
 func (z *turnstileImpl) ForEachModel(model interface{}, f func(key string, m interface{}) error) error {
 	z.m.Lock()
 	defer z.m.Unlock()
-	return z.ForEachModel(model, f)
+	return z.kvs.ForEachModel(model, f)
 }
