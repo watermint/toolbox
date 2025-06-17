@@ -1,10 +1,10 @@
 {
-  "last_update": "2025-06-17T06:58:35+09:00",
-  "total_packages": 630,
-  "tested_packages": 552,
-  "total_statements": 32218,
-  "covered_statements": 13684,
-  "overall_coverage": 42.47315165435471,
+  "last_update": "2025-06-17T09:44:54+09:00",
+  "total_packages": 639,
+  "tested_packages": 557,
+  "total_statements": 32873,
+  "covered_statements": 14496,
+  "overall_coverage": 44.09697928391081,
   "packages": {
     "./domain/dropbox/usecase/uc_teamfolder": {
       "package": "./domain/dropbox/usecase/uc_teamfolder",
@@ -24,6 +24,33 @@
       "last_update": "2025-06-16T17:29:29+09:00",
       "test_duration": "1.59819775s"
     },
+    "./essentials/encoding/es_json": {
+      "package": "./essentials/encoding/es_json",
+      "coverage": 50.9,
+      "statements": 100,
+      "covered_statements": 50,
+      "no_test": false,
+      "last_update": "2025-06-17T09:35:26+09:00",
+      "test_duration": "518.047791ms"
+    },
+    "./essentials/file/es_filepath": {
+      "package": "./essentials/file/es_filepath",
+      "coverage": 68.5,
+      "statements": 100,
+      "covered_statements": 68,
+      "no_test": false,
+      "last_update": "2025-06-17T09:35:18+09:00",
+      "test_duration": "589.776667ms"
+    },
+    "./essentials/file/es_size": {
+      "package": "./essentials/file/es_size",
+      "coverage": 79.9,
+      "statements": 100,
+      "covered_statements": 79,
+      "no_test": false,
+      "last_update": "2025-06-17T09:34:58+09:00",
+      "test_duration": "2.495739083s"
+    },
     "./essentials/go/es_resource": {
       "package": "./essentials/go/es_resource",
       "coverage": 78.5,
@@ -32,6 +59,15 @@
       "no_test": false,
       "last_update": "2025-06-17T06:56:03+09:00",
       "test_duration": "821.815583ms"
+    },
+    "./essentials/log/esl": {
+      "package": "./essentials/log/esl",
+      "coverage": 81.2,
+      "statements": 100,
+      "covered_statements": 81,
+      "no_test": false,
+      "last_update": "2025-06-17T09:34:47+09:00",
+      "test_duration": "591.644875ms"
     },
     "./essentials/model/em_file_random": {
       "package": "./essentials/model/em_file_random",
@@ -69,6 +105,15 @@
       "last_update": "2025-06-17T06:48:20+09:00",
       "test_duration": "597.547792ms"
     },
+    "./essentials/network/nw_bandwidth": {
+      "package": "./essentials/network/nw_bandwidth",
+      "coverage": 100,
+      "statements": 100,
+      "covered_statements": 100,
+      "no_test": false,
+      "last_update": "2025-06-17T09:39:19+09:00",
+      "test_duration": "8.0135155s"
+    },
     "./essentials/queue/eq_queue": {
       "package": "./essentials/queue/eq_queue",
       "coverage": 73.1,
@@ -102,8 +147,8 @@
       "statements": 100,
       "covered_statements": 45,
       "no_test": false,
-      "last_update": "2025-06-16T17:40:33+09:00",
-      "test_duration": "1.264672667s"
+      "last_update": "2025-06-17T09:32:12+09:00",
+      "test_duration": "1.261797s"
     },
     "./infra/doc/dc_readme": {
       "package": "./infra/doc/dc_readme",
@@ -2881,12 +2926,12 @@
     },
     "github.com/watermint/toolbox/essentials/ambient/ea_notification": {
       "package": "github.com/watermint/toolbox/essentials/ambient/ea_notification",
-      "coverage": 85.71428571428571,
-      "statements": 7,
-      "covered_statements": 6,
+      "coverage": 85.7,
+      "statements": 100,
+      "covered_statements": 85,
       "no_test": false,
-      "last_update": "2025-06-15T15:32:41+09:00",
-      "test_duration": "2m27.934718292s"
+      "last_update": "2025-06-17T09:43:42+09:00",
+      "test_duration": "370.773375ms"
     },
     "github.com/watermint/toolbox/essentials/api/api_auth": {
       "package": "github.com/watermint/toolbox/essentials/api/api_auth",
@@ -2926,12 +2971,12 @@
     },
     "github.com/watermint/toolbox/essentials/api/api_auth_oauth": {
       "package": "github.com/watermint/toolbox/essentials/api/api_auth_oauth",
-      "coverage": 21.428571428571427,
-      "statements": 154,
-      "covered_statements": 32,
+      "coverage": 21.4,
+      "statements": 100,
+      "covered_statements": 21,
       "no_test": false,
-      "last_update": "2025-06-15T15:32:41+09:00",
-      "test_duration": "2m27.934718292s"
+      "last_update": "2025-06-17T09:43:14+09:00",
+      "test_duration": "976.739916ms"
     },
     "github.com/watermint/toolbox/essentials/api/api_auth_oauth_test": {
       "package": "github.com/watermint/toolbox/essentials/api/api_auth_oauth_test",
@@ -2953,12 +2998,12 @@
     },
     "github.com/watermint/toolbox/essentials/api/api_callback": {
       "package": "github.com/watermint/toolbox/essentials/api/api_callback",
-      "coverage": 14.754098360655737,
-      "statements": 183,
+      "coverage": 27.3,
+      "statements": 100,
       "covered_statements": 27,
       "no_test": false,
-      "last_update": "2025-06-15T15:32:41+09:00",
-      "test_duration": "2m27.934718292s"
+      "last_update": "2025-06-17T09:41:45+09:00",
+      "test_duration": "1.580154958s"
     },
     "github.com/watermint/toolbox/essentials/api/api_callback_test": {
       "package": "github.com/watermint/toolbox/essentials/api/api_callback_test",
@@ -3041,6 +3086,16 @@
       "last_update": "2025-06-15T15:32:41+09:00",
       "test_duration": "2m27.934718292s"
     },
+    "github.com/watermint/toolbox/essentials/collections/es_array": {
+      "package": "github.com/watermint/toolbox/essentials/collections/es_array",
+      "coverage": 0,
+      "statements": 0,
+      "covered_statements": 0,
+      "no_test": false,
+      "last_update": "2025-06-17T09:43:29+09:00",
+      "test_duration": "52.536ms",
+      "error": "exit status 1"
+    },
     "github.com/watermint/toolbox/essentials/concurrency/es_mutex": {
       "package": "github.com/watermint/toolbox/essentials/concurrency/es_mutex",
       "coverage": 100,
@@ -3062,11 +3117,11 @@
     "github.com/watermint/toolbox/essentials/concurrency/es_timeout": {
       "package": "github.com/watermint/toolbox/essentials/concurrency/es_timeout",
       "coverage": 100,
-      "statements": 9,
-      "covered_statements": 9,
+      "statements": 100,
+      "covered_statements": 100,
       "no_test": false,
-      "last_update": "2025-06-15T15:32:41+09:00",
-      "test_duration": "2m27.934718292s"
+      "last_update": "2025-06-17T09:44:44+09:00",
+      "test_duration": "431.62925ms"
     },
     "github.com/watermint/toolbox/essentials/database/es_orm": {
       "package": "github.com/watermint/toolbox/essentials/database/es_orm",
@@ -3104,6 +3159,16 @@
       "last_update": "2025-06-15T15:32:41+09:00",
       "test_duration": "2m27.934718292s"
     },
+    "github.com/watermint/toolbox/essentials/encoding/es_hash": {
+      "package": "github.com/watermint/toolbox/essentials/encoding/es_hash",
+      "coverage": 0,
+      "statements": 0,
+      "covered_statements": 0,
+      "no_test": false,
+      "last_update": "2025-06-17T09:42:58+09:00",
+      "test_duration": "33.972ms",
+      "error": "exit status 1"
+    },
     "github.com/watermint/toolbox/essentials/encoding/es_json": {
       "package": "github.com/watermint/toolbox/essentials/encoding/es_json",
       "coverage": 50.90909090909091,
@@ -3124,12 +3189,12 @@
     },
     "github.com/watermint/toolbox/essentials/encoding/es_unicode": {
       "package": "github.com/watermint/toolbox/essentials/encoding/es_unicode",
-      "coverage": 51.85185185185185,
-      "statements": 27,
-      "covered_statements": 14,
+      "coverage": 51.9,
+      "statements": 100,
+      "covered_statements": 51,
       "no_test": false,
-      "last_update": "2025-06-15T15:32:41+09:00",
-      "test_duration": "2m27.934718292s"
+      "last_update": "2025-06-17T09:42:44+09:00",
+      "test_duration": "413.40725ms"
     },
     "github.com/watermint/toolbox/essentials/file/efs_base": {
       "package": "github.com/watermint/toolbox/essentials/file/efs_base",
@@ -3193,6 +3258,16 @@
       "no_test": true,
       "last_update": "2025-06-15T15:32:41+09:00",
       "test_duration": "2m27.934718292s"
+    },
+    "github.com/watermint/toolbox/essentials/file/es_file": {
+      "package": "github.com/watermint/toolbox/essentials/file/es_file",
+      "coverage": 0,
+      "statements": 0,
+      "covered_statements": 0,
+      "no_test": false,
+      "last_update": "2025-06-17T09:42:51+09:00",
+      "test_duration": "34.753458ms",
+      "error": "exit status 1"
     },
     "github.com/watermint/toolbox/essentials/file/es_filecompare": {
       "package": "github.com/watermint/toolbox/essentials/file/es_filecompare",
@@ -3725,6 +3800,16 @@
       "last_update": "2025-06-15T15:32:41+09:00",
       "test_duration": "2m27.934718292s"
     },
+    "github.com/watermint/toolbox/essentials/model/em_data": {
+      "package": "github.com/watermint/toolbox/essentials/model/em_data",
+      "coverage": 0,
+      "statements": 0,
+      "covered_statements": 0,
+      "no_test": false,
+      "last_update": "2025-06-17T09:42:36+09:00",
+      "test_duration": "45.392375ms",
+      "error": "exit status 1"
+    },
     "github.com/watermint/toolbox/essentials/model/em_file": {
       "package": "github.com/watermint/toolbox/essentials/model/em_file",
       "coverage": 73,
@@ -3772,12 +3857,12 @@
     },
     "github.com/watermint/toolbox/essentials/model/mo_int": {
       "package": "github.com/watermint/toolbox/essentials/model/mo_int",
-      "coverage": 88.88888888888889,
-      "statements": 9,
-      "covered_statements": 8,
+      "coverage": 100,
+      "statements": 100,
+      "covered_statements": 100,
       "no_test": false,
-      "last_update": "2025-06-15T15:32:41+09:00",
-      "test_duration": "2m27.934718292s"
+      "last_update": "2025-06-17T09:44:04+09:00",
+      "test_duration": "353.47ms"
     },
     "github.com/watermint/toolbox/essentials/model/mo_multi": {
       "package": "github.com/watermint/toolbox/essentials/model/mo_multi",
@@ -3871,12 +3956,12 @@
     },
     "github.com/watermint/toolbox/essentials/network/nw_diag": {
       "package": "github.com/watermint/toolbox/essentials/network/nw_diag",
-      "coverage": 82.85714285714286,
-      "statements": 35,
-      "covered_statements": 29,
+      "coverage": 82.9,
+      "statements": 100,
+      "covered_statements": 82,
       "no_test": false,
-      "last_update": "2025-06-15T15:32:41+09:00",
-      "test_duration": "2m27.934718292s"
+      "last_update": "2025-06-17T09:44:54+09:00",
+      "test_duration": "1.9403015s"
     },
     "github.com/watermint/toolbox/essentials/network/nw_http": {
       "package": "github.com/watermint/toolbox/essentials/network/nw_http",
@@ -4204,21 +4289,21 @@
     },
     "github.com/watermint/toolbox/essentials/terminal/es_dialogue": {
       "package": "github.com/watermint/toolbox/essentials/terminal/es_dialogue",
-      "coverage": 57.89473684210527,
-      "statements": 57,
-      "covered_statements": 33,
+      "coverage": 57.9,
+      "statements": 100,
+      "covered_statements": 57,
       "no_test": false,
-      "last_update": "2025-06-15T15:32:41+09:00",
-      "test_duration": "2m27.934718292s"
+      "last_update": "2025-06-17T09:43:50+09:00",
+      "test_duration": "564.944542ms"
     },
     "github.com/watermint/toolbox/essentials/terminal/es_terminfo": {
       "package": "github.com/watermint/toolbox/essentials/terminal/es_terminfo",
       "coverage": 80,
-      "statements": 5,
-      "covered_statements": 4,
+      "statements": 100,
+      "covered_statements": 80,
       "no_test": false,
-      "last_update": "2025-06-15T15:32:41+09:00",
-      "test_duration": "2m27.934718292s"
+      "last_update": "2025-06-17T09:43:57+09:00",
+      "test_duration": "397.191708ms"
     },
     "github.com/watermint/toolbox/essentials/text/es_encoding": {
       "package": "github.com/watermint/toolbox/essentials/text/es_encoding",
@@ -4456,21 +4541,21 @@
     },
     "github.com/watermint/toolbox/infra/control/app_workspace": {
       "package": "github.com/watermint/toolbox/infra/control/app_workspace",
-      "coverage": 24.444444444444443,
-      "statements": 180,
-      "covered_statements": 44,
+      "coverage": 24.4,
+      "statements": 100,
+      "covered_statements": 24,
       "no_test": false,
-      "last_update": "2025-06-15T15:32:41+09:00",
-      "test_duration": "2m27.934718292s"
+      "last_update": "2025-06-17T09:43:22+09:00",
+      "test_duration": "619.235791ms"
     },
     "github.com/watermint/toolbox/infra/data/da_griddata": {
       "package": "github.com/watermint/toolbox/infra/data/da_griddata",
-      "coverage": 22.285714285714285,
-      "statements": 175,
-      "covered_statements": 39,
+      "coverage": 45.7,
+      "statements": 100,
+      "covered_statements": 45,
       "no_test": false,
-      "last_update": "2025-06-15T15:32:41+09:00",
-      "test_duration": "2m27.934718292s"
+      "last_update": "2025-06-17T09:41:26+09:00",
+      "test_duration": "1.170700416s"
     },
     "github.com/watermint/toolbox/infra/data/da_json": {
       "package": "github.com/watermint/toolbox/infra/data/da_json",
@@ -4564,12 +4649,12 @@
     },
     "github.com/watermint/toolbox/infra/doc/dc_readme": {
       "package": "github.com/watermint/toolbox/infra/doc/dc_readme",
-      "coverage": 0,
-      "statements": 137,
-      "covered_statements": 0,
+      "coverage": 19,
+      "statements": 100,
+      "covered_statements": 19,
       "no_test": false,
-      "last_update": "2025-06-15T15:32:41+09:00",
-      "test_duration": "2m27.934718292s"
+      "last_update": "2025-06-17T09:41:35+09:00",
+      "test_duration": "1.492906666s"
     },
     "github.com/watermint/toolbox/infra/doc/dc_recipe": {
       "package": "github.com/watermint/toolbox/infra/doc/dc_recipe",
@@ -5356,12 +5441,12 @@
     },
     "github.com/watermint/toolbox/recipe/dev/util": {
       "package": "github.com/watermint/toolbox/recipe/dev/util",
-      "coverage": 17.964071856287426,
-      "statements": 167,
-      "covered_statements": 30,
+      "coverage": 18,
+      "statements": 100,
+      "covered_statements": 18,
       "no_test": false,
-      "last_update": "2025-06-15T15:32:41+09:00",
-      "test_duration": "2m27.934718292s"
+      "last_update": "2025-06-17T09:42:21+09:00",
+      "test_duration": "13.703681458s"
     },
     "github.com/watermint/toolbox/recipe/dev/util/image": {
       "package": "github.com/watermint/toolbox/recipe/dev/util/image",
