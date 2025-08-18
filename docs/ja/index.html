@@ -15,6 +15,13 @@ lang: ja
         {% capture home_content %}{{ home_content | markdownify }}{% endcapture %}
         {% include anchor_headings.html html=home_content beforeHeading=true anchorBody='<i class="bi bi-bookmark anchor-heading"></i>' %}
     </div>
+
+    <div class="container content">
+        {% include anchor_headings.html html='<h1>Q&A チャットボット</h1>' beforeHeading=true anchorBody='<i class="bi bi-bookmark anchor-heading"></i>' %}
+        <p>watermint toolboxのコマンドやオプションについてお困りですか？すべてのコマンドとオプションの知識に基づいて質問に答えることができるAI搭載のQ&Aチャットボットをお試しください。</p>
+        <p><i class="bi bi-chat-dots"></i> <a href="https://chatgpt.com/g/g-684d63aea8708191be1423f3a5379d92-watermint-toolbox" target="_blank">watermint toolbox Q&Aチャットボットに質問する</a></p>
+    </div>
+
     <div class="container content">
         {% include anchor_headings.html html='<h1>Recent releases</h1>' beforeHeading=true anchorBody='<i class="bi bi-bookmark anchor-heading"></i>' %}
         <table>
