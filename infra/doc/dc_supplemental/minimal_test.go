@@ -13,43 +13,43 @@ func TestDocuments(t *testing.T) {
 	pv.DocId()
 	pv.DocDesc()
 	pv.Sections()
-	
+
 	// Test ExperimentalFeature
 	ef := &ExperimentalFeature{}
 	ef.DocId()
 	ef.DocDesc()
 	ef.Sections()
-	
+
 	// Test Troubleshooting
 	ts := &Troubleshooting{}
 	ts.DocId()
 	ts.DocDesc()
 	ts.Sections()
-	
+
 	// Test ReportingOptions
 	ro := &ReportingOptions{}
 	ro.DocId()
 	ro.DocDesc()
 	ro.Sections()
-	
+
 	// Test AuthenticationGuide
 	ag := &AuthenticationGuide{}
 	ag.DocId()
 	ag.DocDesc()
 	ag.Sections()
-	
+
 	// Test ErrorHandlingGuide
 	eg := &ErrorHandlingGuide{}
 	eg.DocId()
 	eg.DocDesc()
 	eg.Sections()
-	
+
 	// Test BestPracticesGuide
 	bg := &BestPracticesGuide{}
 	bg.DocId()
 	bg.DocDesc()
 	bg.Sections()
-	
+
 	// Test ReportingGuide
 	rg := &ReportingGuide{}
 	rg.DocId()
@@ -61,7 +61,7 @@ func TestDocuments(t *testing.T) {
 func TestFactories(t *testing.T) {
 	// Test NewDocSpecChange
 	NewDocSpecChange()
-	
+
 	// Test NewDropboxBusiness
 	NewDropboxBusiness(dc_index.MediaRepository)
 	NewDropboxBusiness(dc_index.MediaWeb)
@@ -80,46 +80,46 @@ func TestSections(t *testing.T) {
 	// Test PathVariableDefinitions
 	pvd := &PathVariableDefinitions{}
 	pvd.Title()
-	
+
 	// Test ExperimentalFeatureDefinitions
 	efd := &ExperimentalFeatureDefinitions{}
 	efd.Title()
-	
+
 	// Test some auth sections
 	aos := &AuthOverviewSection{}
 	aos.Title()
-	
+
 	das := &DropboxAuthSection{}
 	das.Title()
-	
+
 	tms := &TokenManagementSection{}
 	tms.Title()
-	
+
 	ats := &AuthTroubleshootingSection{}
 	ats.Title()
-	
+
 	sts := &SecurityTipsSection{}
 	sts.Title()
-	
+
 	// Test some error sections
 	ces := &CommonErrorsSection{}
 	ces.Title()
-	
+
 	nes := &NetworkErrorsSection{}
 	nes.Title()
-	
+
 	aes := &AuthenticationErrorsSection{}
 	aes.Title()
-	
+
 	fes := &FileSystemErrorsSection{}
 	fes.Title()
-	
+
 	rle := &RateLimitErrorsSection{}
 	rle.Title()
-	
+
 	apis := &APIErrorsSection{}
 	apis.Title()
-	
+
 	dts := &DebugTechniquesSection{}
 	dts.Title()
 }

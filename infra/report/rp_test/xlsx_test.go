@@ -1,14 +1,15 @@
 package rp_test
 
 import (
-	"fmt"
-	"github.com/tealeg/xlsx"
-	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/report/rp_writer_impl"
-	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
-	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
-	"path/filepath"
-	"testing"
+    "fmt"
+    "path/filepath"
+    "testing"
+
+    "github.com/tealeg/xlsx"
+    "github.com/watermint/toolbox/infra/control/app_control"
+    "github.com/watermint/toolbox/infra/report/rp_writer_impl"
+    "github.com/watermint/toolbox/quality/infra/qt_endtoend"
+    "github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 )
 
 func TestXlsx_Rotate(t *testing.T) {

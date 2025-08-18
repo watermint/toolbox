@@ -185,7 +185,7 @@ func TestTaskCopyFile(t *testing.T) {
 	// Create a dummy file entry for testing
 	tree := em_file.DemoTree()
 	fs := es_filesystem_model.NewFileSystem(tree)
-	
+
 	// Get an actual file entry
 	sourcePath := es_filesystem_model.NewPath("/a/x")
 	sourceEntry, err := fs.Info(sourcePath)
@@ -214,7 +214,7 @@ func TestTaskReplaceFolderByFile(t *testing.T) {
 }
 
 func TestTaskReplaceFileByFolder(t *testing.T) {
-	// Test that the task struct exists and can be created  
+	// Test that the task struct exists and can be created
 	task := &TaskReplaceFileByFolder{}
 	if task == nil {
 		t.Error("Expected task to be created")
@@ -421,7 +421,7 @@ func TestSyncImpl_Copy(t *testing.T) {
 	sourcePath := es_filesystem_model.NewPath("/source.txt")
 	targetPath := es_filesystem_model.NewPath("/target.txt")
 	sourceEntry, _ := fs1.Info(sourcePath)
-	
+
 	// The copy method is asynchronous via the connector
 	// Just verify it doesn't error
 	err := syncImpl.copy(sourceEntry, targetPath)
@@ -513,10 +513,10 @@ func TestSyncImpl_TaskReplaceFolderByFile(t *testing.T) {
 		em_file.NewFile("source", 100, time.Now(), 1),
 	})
 	fs := es_filesystem_model.NewFileSystem(tree)
-	
+
 	sourcePath := es_filesystem_model.NewPath("/source")
 	sourceEntry, _ := fs.Info(sourcePath)
-	
+
 	task := &TaskReplaceFolderByFile{
 		Source: sourceEntry.AsData(),
 		Target: es_filesystem_model.NewPath("/target").AsData(),
@@ -533,10 +533,10 @@ func TestSyncImpl_TaskReplaceFileByFolder(t *testing.T) {
 		em_file.NewFolder("source", []em_file.Node{}),
 	})
 	fs := es_filesystem_model.NewFileSystem(tree)
-	
+
 	sourcePath := es_filesystem_model.NewPath("/source")
 	sourceEntry, _ := fs.Info(sourcePath)
-	
+
 	task := &TaskReplaceFileByFolder{
 		Source: sourceEntry.AsData(),
 		Target: es_filesystem_model.NewPath("/target").AsData(),
@@ -615,7 +615,6 @@ func TestSyncImpl_TaskSyncFolder_WithDelete(t *testing.T) {
 	}
 }
 
-
 func TestNewWithAllOptions(t *testing.T) {
 	ea_indicator.SuppressIndicatorForce()
 
@@ -666,7 +665,7 @@ func TestNewWithAllOptions(t *testing.T) {
 	}
 
 	syncImpl := syncer.(*syncImpl)
-	
+
 	// Verify all options were applied
 	if !syncImpl.opts.syncDelete {
 		t.Error("Expected syncDelete to be true")
@@ -725,7 +724,7 @@ func TestSyncImpl_CreateFolder_AlreadyExists(t *testing.T) {
 	// Try to create a folder that already exists
 	target := es_filesystem_model.NewPath("/existing")
 	err := syncImpl.createFolder(target)
-	
+
 	// Should not error when folder already exists
 	if err != nil {
 		t.Error("Expected no error when creating folder that already exists")
@@ -759,7 +758,7 @@ func TestSyncImpl_Delete_NotFound(t *testing.T) {
 	// Try to delete a non-existent path
 	target := es_filesystem_model.NewPath("/non_existent")
 	err := syncImpl.delete(target)
-	
+
 	// Should return error when deleting non-existent path
 	if err == nil {
 		t.Error("Expected error when deleting non-existent path")
@@ -799,7 +798,7 @@ func TestSyncImpl_Copy_WithOverwrite(t *testing.T) {
 	sourcePath := es_filesystem_model.NewPath("/source.txt")
 	targetPath := es_filesystem_model.NewPath("/target.txt")
 	sourceEntry, _ := fs1.Info(sourcePath)
-	
+
 	err := syncImpl.copy(sourceEntry, targetPath)
 	if err != nil {
 		t.Error("Expected no error when copying with overwrite")
@@ -810,7 +809,7 @@ func TestSyncImpl_Copy_WithOverwrite(t *testing.T) {
 	if err != nil {
 		t.Error("Expected target file to exist")
 	}
-	
+
 	// Note: In a real filesystem, we'd check the content changed
 	// For model filesystem, we just verify the operation succeeded
 }

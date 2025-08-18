@@ -14,13 +14,13 @@ import (
 type Summary struct {
 	rc_recipe.RemarkSecret
 	rc_recipe.RemarkTransient
-	SuggestCount           int
-	RecommendationReport   rp_model.RowReport
-	MsgOverallCoverage     app_msg.Message
-	MsgPackageStats        app_msg.Message
-	MsgRecommendations     app_msg.Message
-	MsgNoCoverageData      app_msg.Message
-	MsgTargetCoverage      app_msg.Message
+	SuggestCount         int
+	RecommendationReport rp_model.RowReport
+	MsgOverallCoverage   app_msg.Message
+	MsgPackageStats      app_msg.Message
+	MsgRecommendations   app_msg.Message
+	MsgNoCoverageData    app_msg.Message
+	MsgTargetCoverage    app_msg.Message
 }
 
 type RecommendationReport struct {
@@ -151,7 +151,7 @@ func (z *Summary) calculateRecommendations(packages []*PackageData, statementsNe
 
 	// Sort by impact (highest first) for packages with low coverage
 	recommendations := make([]*PackageData, 0)
-	
+
 	// First, add packages with no tests
 	for _, pkg := range packages {
 		if pkg.NoTest && pkg.Statements > 0 {
@@ -185,14 +185,14 @@ func (z *Summary) truncatePackageName(name string, maxLen int) string {
 	if len(name) <= maxLen {
 		return name
 	}
-	
+
 	// Try to intelligently truncate
 	parts := strings.Split(name, "/")
 	if len(parts) > 3 {
 		// Keep first part and last 2 parts
 		return parts[0] + "/.../" + parts[len(parts)-2] + "/" + parts[len(parts)-1]
 	}
-	
+
 	// Simple truncate
 	return name[:maxLen-3] + "..."
 }

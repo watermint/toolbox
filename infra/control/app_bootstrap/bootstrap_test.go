@@ -41,11 +41,11 @@ func TestBsImpl_SelectUI(t *testing.T) {
 	// This test is simplified because SelectUI has complex dependencies
 	// that may cause panics in the test environment
 	bootstrap := &bsImpl{}
-	
+
 	if bootstrap == nil {
 		t.Error("Expected bootstrap to be created")
 	}
-	
+
 	// Test that the method exists by verifying we can create the struct
 	// Actual UI testing would require complex mocking of dependencies
 }
@@ -53,7 +53,7 @@ func TestBsImpl_SelectUI(t *testing.T) {
 func TestBsImpl_SelectUI_UnsupportedOutput(t *testing.T) {
 	// Simplified test due to complex dependencies
 	bootstrap := &bsImpl{}
-	
+
 	if bootstrap == nil {
 		t.Error("Expected bootstrap to be created")
 	}
@@ -63,7 +63,7 @@ func TestBsImpl_ParseCommon(t *testing.T) {
 	// This test is skipped due to complex dependencies that cause panics
 	// The ParseCommon method requires message resources to be loaded
 	bootstrap := &bsImpl{}
-	
+
 	if bootstrap == nil {
 		t.Error("Expected bootstrap to be created")
 	}
@@ -72,7 +72,7 @@ func TestBsImpl_ParseCommon(t *testing.T) {
 func TestBsImpl_Parse(t *testing.T) {
 	// This test is skipped due to complex dependencies that cause panics
 	bootstrap := &bsImpl{}
-	
+
 	if bootstrap == nil {
 		t.Error("Expected bootstrap to be created")
 	}
@@ -109,7 +109,7 @@ func TestMsgRun(t *testing.T) {
 func TestBsImpl_BootUI(t *testing.T) {
 	// This test is skipped due to complex dependencies that cause panics
 	bootstrap := &bsImpl{}
-	
+
 	if bootstrap == nil {
 		t.Error("Expected bootstrap to be created")
 	}
@@ -155,7 +155,7 @@ func TestTrapSignal(t *testing.T) {
 
 	// Create signal channel
 	sig := make(chan os.Signal, 1)
-	
+
 	// We can't easily create a real control for testing, so we test with nil
 	// The function should handle this gracefully or panic (both are valid)
 	go func() {

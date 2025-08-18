@@ -19,7 +19,7 @@ func TestAsset_Fields(t *testing.T) {
 		Text:    "test content",
 		Message: "test commit message",
 	}
-	
+
 	// Verify fields are set correctly
 	if asset.Branch != "main" {
 		t.Errorf("Expected Branch 'main', got '%s'", asset.Branch)
@@ -72,23 +72,23 @@ func TestAsset_SHA256Calculation(t *testing.T) {
 			text: "!@#$%^&*()_+-=[]{}|;':\",./<>?",
 		},
 	}
-	
+
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
 			asset := &Asset{
 				Text: tc.text,
 			}
-			
+
 			// We can't execute the full Exec method without GitHub connection,
 			// but we've tested the SHA calculation logic exists in the code
-			
+
 			// For now, just verify the Text field is set correctly
 			if asset.Text != tc.text {
 				t.Errorf("Expected Text '%s', got '%s'", tc.text, asset.Text)
 			}
 		})
 	}
-	
+
 	// Verify we had multiple test cases
 	if len(testCases) < 2 {
 		t.Error("Need at least 2 test cases to verify SHA uniqueness")
@@ -138,7 +138,7 @@ func TestAsset_EmptyFieldValidation(t *testing.T) {
 			hasErr: false,
 		},
 	}
-	
+
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
 			// We can't test the actual validation without running Exec,
@@ -155,7 +155,7 @@ func TestAsset_EmptyFieldValidation(t *testing.T) {
 
 func TestAsset_DefaultValues(t *testing.T) {
 	asset := &Asset{}
-	
+
 	// Test default values (should be empty strings)
 	if asset.Branch != "" {
 		t.Errorf("Expected empty Branch, got '%s'", asset.Branch)

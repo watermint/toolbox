@@ -1,19 +1,20 @@
 package rc_exec
 
 import (
-	"encoding/json"
-	"errors"
-	"github.com/watermint/toolbox/essentials/ambient/ea_indicator"
-	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/essentials/network/nw_auth"
-	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/control/app_definitions"
-	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"github.com/watermint/toolbox/infra/recipe/rc_spec"
-	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/quality/infra/qt_errors"
-	"github.com/watermint/toolbox/quality/infra/qt_replay"
-	"runtime"
+    "encoding/json"
+    "errors"
+    "runtime"
+
+    "github.com/watermint/toolbox/essentials/ambient/ea_indicator"
+    "github.com/watermint/toolbox/essentials/log/esl"
+    "github.com/watermint/toolbox/essentials/network/nw_auth"
+    "github.com/watermint/toolbox/infra/control/app_control"
+    "github.com/watermint/toolbox/infra/control/app_definitions"
+    "github.com/watermint/toolbox/infra/recipe/rc_recipe"
+    "github.com/watermint/toolbox/infra/recipe/rc_spec"
+    "github.com/watermint/toolbox/infra/ui/app_msg"
+    "github.com/watermint/toolbox/quality/infra/qt_errors"
+    "github.com/watermint/toolbox/quality/infra/qt_replay"
 )
 
 var (

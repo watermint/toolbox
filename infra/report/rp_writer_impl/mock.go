@@ -1,11 +1,12 @@
 package rp_writer_impl
 
 import (
-	"errors"
-	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/report/rp_model"
-	"sync"
+    "errors"
+    "sync"
+
+    "github.com/watermint/toolbox/essentials/log/esl"
+    "github.com/watermint/toolbox/infra/control/app_control"
+    "github.com/watermint/toolbox/infra/report/rp_model"
 )
 
 var (

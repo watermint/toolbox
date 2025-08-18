@@ -1,12 +1,13 @@
 package rc_value
 
 import (
-	"flag"
-	"github.com/watermint/toolbox/essentials/model/mo_string"
-	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/quality/infra/qt_control"
-	"reflect"
-	"testing"
+    "flag"
+    "reflect"
+    "testing"
+
+    "github.com/watermint/toolbox/essentials/model/mo_string"
+    "github.com/watermint/toolbox/infra/control/app_control"
+    "github.com/watermint/toolbox/quality/infra/qt_control"
 )
 
 type TestRecipe struct {
@@ -203,7 +204,7 @@ func TestRepositoryImpl_ApplyCustom(t *testing.T) {
 func TestValueOfType(t *testing.T) {
 	recipe := &TestRecipe{}
 	stringType := reflect.TypeOf("")
-	
+
 	// Test with valid type
 	value := valueOfType(recipe, stringType, recipe, "test")
 	if value == nil {
@@ -326,7 +327,7 @@ func TestRepositoryImpl_PresetCalled(t *testing.T) {
 	recipe := &PresetRecipe{}
 	repo := NewRepository(recipe)
 	repoImpl := repo.(*RepositoryImpl)
-	
+
 	current := repoImpl.Current().(*PresetRecipe)
 	if current.Value != "preset_value" {
 		t.Errorf("Expected Preset() to be called, value should be 'preset_value', got %s", current.Value)

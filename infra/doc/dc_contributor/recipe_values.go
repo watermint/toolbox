@@ -1,15 +1,16 @@
 package dc_contributor
 
 import (
-	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/doc/dc_index"
-	"github.com/watermint/toolbox/infra/doc/dc_section"
-	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"github.com/watermint/toolbox/infra/recipe/rc_value"
-	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/infra/ui/app_ui"
-	"reflect"
-	"strconv"
+    "reflect"
+    "strconv"
+
+    "github.com/watermint/toolbox/essentials/log/esl"
+    "github.com/watermint/toolbox/infra/doc/dc_index"
+    "github.com/watermint/toolbox/infra/doc/dc_section"
+    "github.com/watermint/toolbox/infra/recipe/rc_recipe"
+    "github.com/watermint/toolbox/infra/recipe/rc_value"
+    "github.com/watermint/toolbox/infra/ui/app_msg"
+    "github.com/watermint/toolbox/infra/ui/app_ui"
 )
 
 type RecipeValues struct {

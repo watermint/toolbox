@@ -40,7 +40,7 @@ func TestNewFileSystemPath(t *testing.T) {
 			if fsp == nil {
 				t.Fatal("Expected non-nil FileSystemPath")
 			}
-			
+
 			// Check Path() method
 			if got := fsp.Path(); got != tt.wantPath {
 				// The path might be processed by FormatPathWithPredefinedVariables
@@ -49,7 +49,7 @@ func TestNewFileSystemPath(t *testing.T) {
 					t.Errorf("Path() = %v, want %v", got, tt.wantPath)
 				}
 			}
-			
+
 			// The implementation returns the same type for both functions,
 			// so we can't distinguish them by interface. Just verify it implements FileSystemPath
 			if _, ok := fsp.(FileSystemPath); !ok {
@@ -83,7 +83,7 @@ func TestNewExistingFileSystemPath(t *testing.T) {
 			if efsp == nil {
 				t.Fatal("Expected non-nil ExistingFileSystemPath")
 			}
-			
+
 			// Check Path() method
 			got := efsp.Path()
 			if got != tt.wantPath {
@@ -93,7 +93,7 @@ func TestNewExistingFileSystemPath(t *testing.T) {
 					t.Errorf("Path() = %v, want %v", got, tt.wantPath)
 				}
 			}
-			
+
 			// Check ShouldExist() method
 			if !efsp.ShouldExist() {
 				t.Error("ShouldExist() should return true for ExistingFileSystemPath")
@@ -200,7 +200,7 @@ func TestPathWithPredefinedVariables(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			fsp := NewFileSystemPath(tt.input)
 			path := fsp.Path()
-			
+
 			// If the input contains variables and they couldn't be processed,
 			// the path should remain unchanged or be processed
 			if strings.Contains(tt.input, "{{") {

@@ -1,10 +1,11 @@
 package da_griddata
 
 import (
-	"bytes"
-	"strings"
-	"testing"
-	"github.com/watermint/toolbox/essentials/log/esl"
+    "bytes"
+    "strings"
+    "testing"
+
+    "github.com/watermint/toolbox/essentials/log/esl"
 )
 
 func TestNewCsvWriter(t *testing.T) {
@@ -12,7 +13,7 @@ func TestNewCsvWriter(t *testing.T) {
 	if w == nil {
 		t.Error("Expected non-nil CSV writer")
 	}
-	
+
 	cw, ok := w.(*csvWriter)
 	if !ok {
 		t.Error("Expected csvWriter type")
@@ -24,7 +25,7 @@ func TestNewCsvWriter(t *testing.T) {
 
 func TestCsvWriter_FileSuffix(t *testing.T) {
 	w := &csvWriter{}
-	
+
 	suffix := w.FileSuffix()
 	if suffix != ".csv" {
 		t.Errorf("Expected file suffix '.csv', got '%s'", suffix)
@@ -35,7 +36,7 @@ func TestCsvWriter_WriteRow(t *testing.T) {
 	w := &csvWriter{}
 	l := esl.Default()
 	formatter := &PlainGridDataFormatter{}
-	
+
 	tests := []struct {
 		name     string
 		row      int
@@ -103,7 +104,7 @@ func TestCsvWriter_WriteRow(t *testing.T) {
 			expected: "1.500000,2.500000",
 		},
 	}
-	
+
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			buf := &bytes.Buffer{}
@@ -111,7 +112,7 @@ func TestCsvWriter_WriteRow(t *testing.T) {
 			if err != nil {
 				t.Errorf("Unexpected error: %v", err)
 			}
-			
+
 			result := strings.TrimSpace(buf.String())
 			if result != tt.expected {
 				t.Errorf("Expected '%s', got '%s'", tt.expected, result)
@@ -124,7 +125,7 @@ func TestCsvWriter_WriteRow_Error(t *testing.T) {
 	w := &csvWriter{}
 	l := esl.Default()
 	formatter := &PlainGridDataFormatter{}
-	
+
 	// Test with writer that always fails
 	errWriter := &errorWriter{}
 	err := w.WriteRow(l, errWriter, formatter, 0, []interface{}{"test"})

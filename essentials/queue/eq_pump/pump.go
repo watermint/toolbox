@@ -1,7 +1,7 @@
 package eq_pump
 
 import (
-	"github.com/watermint/toolbox/essentials/go/es_goroutine"
+	"github.com/watermint/toolbox/essentials/es_go/es_goroutine"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/queue/eq_bundle"
 	"sync"

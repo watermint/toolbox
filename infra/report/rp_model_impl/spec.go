@@ -1,7 +1,7 @@
 package rp_model_impl
 
 import (
-	"github.com/watermint/toolbox/essentials/go/es_reflect"
+	"github.com/watermint/toolbox/essentials/es_go/es_reflect"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/doc/dc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_column_impl"

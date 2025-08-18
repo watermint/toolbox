@@ -6,7 +6,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/watermint/toolbox/essentials/go/es_lang"
+	"github.com/watermint/toolbox/essentials/es_go/es_lang"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/terminal/es_dialogue"
 	"github.com/watermint/toolbox/infra/control/app_definitions"
@@ -76,13 +76,13 @@ func (z *KnowledgeDoc) cleanupEmptyLines(text string) string {
 	// Replace 3 or more consecutive newlines with exactly 2 newlines
 	re := regexp.MustCompile(`\n{3,}`)
 	cleaned := re.ReplaceAllString(text, "\n\n")
-	
+
 	// Remove trailing empty lines at the end
 	cleaned = strings.TrimRight(cleaned, "\n")
-	
+
 	// Ensure the document ends with exactly one newline
 	cleaned += "\n"
-	
+
 	return cleaned
 }
 
@@ -234,10 +234,10 @@ func (z *KnowledgeDoc) GenerateKnowledge(specs []rc_recipe.Spec, additionalDocs 
 	l.Debug("Completed generating additional documentation")
 
 	l.Debug("Completed generating knowledge base documentation")
-	
+
 	// Clean up redundant empty lines before returning
 	result := z.cleanupEmptyLines(knowledgeText.String())
 	l.Debug("Cleaned up redundant empty lines in knowledge base")
-	
+
 	return result
 }

@@ -2,7 +2,7 @@ package dc_command
 
 import (
 	"github.com/watermint/toolbox/essentials/api/api_doc"
-	"github.com/watermint/toolbox/essentials/go/es_reflect"
+	"github.com/watermint/toolbox/essentials/es_go/es_reflect"
 	"github.com/watermint/toolbox/infra/doc/dc_section"
 	"github.com/watermint/toolbox/infra/recipe/rc_group"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"

@@ -15,15 +15,15 @@ import (
 
 type Translate struct {
 	rc_recipe.RemarkSecret
-	Key                mo_string.OptionalString
-	ProcessingMessage  app_msg.Message
-	AddedTranslation   app_msg.Message
-	CompletedMessage   app_msg.Message
-	NoMissingFound     app_msg.Message
-	ErrorLoadingFiles  app_msg.Message
-	SingleKeyNotFound  app_msg.Message
-	CurrentValue       app_msg.Message
-	PromptTranslation  app_msg.Message
+	Key               mo_string.OptionalString
+	ProcessingMessage app_msg.Message
+	AddedTranslation  app_msg.Message
+	CompletedMessage  app_msg.Message
+	NoMissingFound    app_msg.Message
+	ErrorLoadingFiles app_msg.Message
+	SingleKeyNotFound app_msg.Message
+	CurrentValue      app_msg.Message
+	PromptTranslation app_msg.Message
 }
 
 func (z *Translate) Preset() {
@@ -82,7 +82,7 @@ func (z *Translate) Exec(c app_control.Control) error {
 
 		// Show translation prompt
 		ui.Info(z.PromptTranslation.With("Key", key))
-		
+
 		// For now, we'll return here since we need interactive input
 		// In the future, this could be enhanced with interactive prompts
 		return nil
@@ -105,7 +105,7 @@ func (z *Translate) Exec(c app_control.Control) error {
 
 	// Show first 10 missing keys
 	ui.Progress(z.ProcessingMessage.With("Count", len(missingKeys)))
-	
+
 	limit := 10
 	if len(missingKeys) < limit {
 		limit = len(missingKeys)
@@ -125,7 +125,6 @@ func (z *Translate) Exec(c app_control.Control) error {
 
 	return nil
 }
-
 
 func (z *Translate) Test(c app_control.Control) error {
 	return rc_exec.Exec(c, z, rc_recipe.NoCustomValues)

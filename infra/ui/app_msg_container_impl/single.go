@@ -1,17 +1,18 @@
 package app_msg_container_impl
 
 import (
-	"bytes"
-	"encoding/json"
-	"fmt"
-	"github.com/watermint/toolbox/essentials/go/es_lang"
-	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/control/app_resource"
-	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/infra/ui/app_msg_container"
-	"github.com/watermint/toolbox/quality/infra/qt_msgusage"
-	"strings"
-	"text/template"
+    "bytes"
+    "encoding/json"
+    "fmt"
+    "strings"
+    "text/template"
+
+    "github.com/watermint/toolbox/essentials/es_go/es_lang"
+    "github.com/watermint/toolbox/essentials/log/esl"
+    "github.com/watermint/toolbox/infra/control/app_resource"
+    "github.com/watermint/toolbox/infra/ui/app_msg"
+    "github.com/watermint/toolbox/infra/ui/app_msg_container"
+    "github.com/watermint/toolbox/quality/infra/qt_msgusage"
 )
 
 // Load single language container

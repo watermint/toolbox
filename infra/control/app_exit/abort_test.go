@@ -3,28 +3,28 @@ package app_exit
 import "testing"
 
 func TestAbort(t *testing.T) {
-	SetTestMode(true)
-	expectedCode := FatalGeneral
-	defer func() {
-		err := recover()
-		if err != expectedCode {
-			t.Error(err)
-		}
-	}()
+    SetTestMode(true)
+    expectedCode := FatalGeneral
+    defer func() {
+        err := recover()
+        if err != expectedCode {
+            t.Error(err)
+        }
+    }()
 
-	Abort(expectedCode)
+    Abort(expectedCode)
 }
 
 func TestExitSuccess(t *testing.T) {
-	SetTestMode(true)
+    SetTestMode(true)
 
-	expectedCode := Success
-	defer func() {
-		err := recover()
-		if err != expectedCode {
-			t.Error(err)
-		}
-	}()
+    expectedCode := Success
+    defer func() {
+        err := recover()
+        if err != expectedCode {
+            t.Error(err)
+        }
+    }()
 
-	ExitSuccess()
+    ExitSuccess()
 }

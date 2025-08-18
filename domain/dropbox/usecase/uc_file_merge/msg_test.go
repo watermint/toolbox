@@ -10,7 +10,7 @@ func TestMsgMerge(t *testing.T) {
 	if MMerge == nil {
 		t.Error("Expected MMerge to be initialized")
 	}
-	
+
 	// Test that messages are accessible
 	_ = MMerge.RemoveEmptyFolder
 	_ = MMerge.RemoveDuplicatedFile

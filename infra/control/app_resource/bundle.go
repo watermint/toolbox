@@ -1,6 +1,6 @@
 package app_resource
 
-import "github.com/watermint/toolbox/essentials/go/es_resource"
+import "github.com/watermint/toolbox/essentials/es_go/es_resource"
 
 var (
 	bundle = es_resource.EmptyBundle()

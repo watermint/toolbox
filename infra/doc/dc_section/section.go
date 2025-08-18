@@ -1,13 +1,14 @@
 package dc_section
 
 import (
-	"bytes"
-	"github.com/watermint/toolbox/infra/doc/dc_index"
-	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/infra/ui/app_msg_container"
-	"github.com/watermint/toolbox/infra/ui/app_ui"
-	"strings"
-	"text/template"
+    "bytes"
+    "strings"
+    "text/template"
+
+    "github.com/watermint/toolbox/infra/doc/dc_index"
+    "github.com/watermint/toolbox/infra/ui/app_msg"
+    "github.com/watermint/toolbox/infra/ui/app_msg_container"
+    "github.com/watermint/toolbox/infra/ui/app_ui"
 )
 
 type Section interface {

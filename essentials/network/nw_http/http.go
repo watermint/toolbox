@@ -1,7 +1,7 @@
 package nw_http
 
 import (
-	"github.com/watermint/toolbox/essentials/go/es_goroutine"
+	"github.com/watermint/toolbox/essentials/es_go/es_goroutine"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/network/nw_client"
 	"github.com/watermint/toolbox/essentials/network/nw_throttle"

@@ -15,7 +15,7 @@ import (
 	"github.com/itchyny/gojq"
 	"github.com/pkg/profile"
 	"github.com/watermint/toolbox/essentials/ambient/ea_indicator"
-	"github.com/watermint/toolbox/essentials/go/es_lang"
+	"github.com/watermint/toolbox/essentials/es_go/es_lang"
 	"github.com/watermint/toolbox/essentials/io/es_stdout"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/network/nw_bandwidth"

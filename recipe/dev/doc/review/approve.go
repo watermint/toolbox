@@ -34,7 +34,7 @@ func (z *Approve) Exec(c app_control.Control) error {
 
 	// Determine which keys to process
 	var keysToApprove []string
-	
+
 	if z.Keys.IsExists() {
 		// Parse JSON array of keys
 		var parsedKeys []string
@@ -83,7 +83,7 @@ func (z *Approve) Exec(c app_control.Control) error {
 	// Load existing review.json
 	reviewPath := filepath.Join("resources", "messages", z.MsgLang.Value(), "review.json")
 	reviewed := make(map[string]bool)
-	
+
 	if reviewData, err := os.ReadFile(reviewPath); err == nil {
 		if err := json.Unmarshal(reviewData, &reviewed); err != nil {
 			l.Warn("Unable to parse review file", esl.Error(err))

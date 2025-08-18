@@ -1,7 +1,7 @@
 package fd_file_impl
 
 import (
-	"github.com/watermint/toolbox/essentials/go/es_reflect"
+	"github.com/watermint/toolbox/essentials/es_go/es_reflect"
 	"github.com/watermint/toolbox/infra/doc/dc_recipe"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/ui/app_msg"

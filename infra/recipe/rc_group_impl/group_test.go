@@ -1,11 +1,12 @@
 package rc_group_impl
 
 import (
-	"github.com/watermint/toolbox/infra/control/app_definitions"
-	"github.com/watermint/toolbox/infra/ui/app_msg_container_impl"
-	"github.com/watermint/toolbox/infra/ui/app_ui"
-	"strings"
-	"testing"
+    "strings"
+    "testing"
+
+    "github.com/watermint/toolbox/infra/control/app_definitions"
+    "github.com/watermint/toolbox/infra/ui/app_msg_container_impl"
+    "github.com/watermint/toolbox/infra/ui/app_ui"
 )
 
 func TestGroupImpl_AddNoRecipeGroup(t *testing.T) {

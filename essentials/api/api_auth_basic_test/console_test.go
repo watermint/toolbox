@@ -1,12 +1,13 @@
-package api_auth_basic_test
+package api_auth_basic
 
 import (
+	"testing"
+
 	"github.com/watermint/toolbox/essentials/api/api_auth"
 	"github.com/watermint/toolbox/essentials/api/api_auth_basic"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
-	"testing"
 )
 
 func TestConsole(t *testing.T) {

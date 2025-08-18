@@ -2,7 +2,7 @@ package nw_congestion
 
 import (
 	"container/list"
-	"github.com/watermint/toolbox/essentials/go/es_goroutine"
+	"github.com/watermint/toolbox/essentials/es_go/es_goroutine"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"runtime"

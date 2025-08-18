@@ -1,11 +1,12 @@
 package rp_column_impl
 
 import (
-	"encoding/json"
-	"errors"
-	"github.com/tidwall/gjson"
-	"github.com/watermint/toolbox/essentials/log/esl"
-	"reflect"
+    "encoding/json"
+    "errors"
+    "reflect"
+
+    "github.com/tidwall/gjson"
+    "github.com/watermint/toolbox/essentials/log/esl"
 )
 
 var (

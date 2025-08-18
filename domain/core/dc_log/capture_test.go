@@ -9,11 +9,11 @@ func TestErrorJobNotFound(t *testing.T) {
 	if ErrorJobNotFound == nil {
 		t.Error("ErrorJobNotFound should not be nil")
 	}
-	
+
 	if ErrorJobNotFound.Error() == "" {
 		t.Error("ErrorJobNotFound should have a message")
 	}
-	
+
 	expectedMessage := "job not found"
 	if ErrorJobNotFound.Error() != expectedMessage {
 		t.Errorf("Expected error message '%s', got '%s'", expectedMessage, ErrorJobNotFound.Error())
@@ -33,7 +33,7 @@ func TestConstants(t *testing.T) {
 	if DefaultTimeIntervalSeconds <= 0 {
 		t.Error("DefaultTimeIntervalSeconds should be positive")
 	}
-	
+
 	// 3600 seconds = 1 hour, which is a reasonable default
 	if DefaultTimeIntervalSeconds != 3600 {
 		t.Errorf("Expected DefaultTimeIntervalSeconds to be 3600, got %d", DefaultTimeIntervalSeconds)

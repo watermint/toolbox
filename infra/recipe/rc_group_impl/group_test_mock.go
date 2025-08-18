@@ -1,22 +1,23 @@
 package rc_group_impl
 
 import (
-	"flag"
-	"github.com/watermint/toolbox/essentials/encoding/es_json"
-	"github.com/watermint/toolbox/essentials/go/es_lang"
-	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/data/da_griddata"
-	"github.com/watermint/toolbox/infra/data/da_json"
-	"github.com/watermint/toolbox/infra/data/da_text"
-	"github.com/watermint/toolbox/infra/doc/dc_index"
-	"github.com/watermint/toolbox/infra/doc/dc_recipe"
-	"github.com/watermint/toolbox/infra/feed/fd_file"
-	"github.com/watermint/toolbox/infra/recipe/rc_compatibility"
-	"github.com/watermint/toolbox/infra/recipe/rc_error_handler"
-	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/infra/ui/app_ui"
+    "flag"
+
+    "github.com/watermint/toolbox/essentials/encoding/es_json"
+    "github.com/watermint/toolbox/essentials/es_go/es_lang"
+    "github.com/watermint/toolbox/infra/control/app_control"
+    "github.com/watermint/toolbox/infra/data/da_griddata"
+    "github.com/watermint/toolbox/infra/data/da_json"
+    "github.com/watermint/toolbox/infra/data/da_text"
+    "github.com/watermint/toolbox/infra/doc/dc_index"
+    "github.com/watermint/toolbox/infra/doc/dc_recipe"
+    "github.com/watermint/toolbox/infra/feed/fd_file"
+    "github.com/watermint/toolbox/infra/recipe/rc_compatibility"
+    "github.com/watermint/toolbox/infra/recipe/rc_error_handler"
+    "github.com/watermint/toolbox/infra/recipe/rc_recipe"
+    "github.com/watermint/toolbox/infra/report/rp_model"
+    "github.com/watermint/toolbox/infra/ui/app_msg"
+    "github.com/watermint/toolbox/infra/ui/app_ui"
 )
 
 type MockSpec struct {

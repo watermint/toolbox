@@ -5,7 +5,7 @@ import (
 	"strconv"
 
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
-	"github.com/watermint/toolbox/essentials/go/es_reflect"
+	"github.com/watermint/toolbox/essentials/es_go/es_reflect"
 	"github.com/watermint/toolbox/essentials/model/mo_int"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"

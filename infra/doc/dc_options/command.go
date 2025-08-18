@@ -3,7 +3,7 @@ package dc_options
 import (
 	"fmt"
 	"strings"
-	
+
 	"github.com/watermint/toolbox/essentials/strings/es_case"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
@@ -82,13 +82,13 @@ func PrintOptionsTable(ui app_ui.UI, spec rc_recipe.SpecValue) {
 									optionDescs = append(optionDescs, option)
 								}
 							}
-							
+
 							// Format the options differently based on whether we have descriptions
 							if hasDescriptions && len(optionsList) > 2 {
 								// Use bullet list format for better readability when we have descriptions
 								descParts = append(descParts, "Options:")
 								for _, desc := range optionDescs {
-									descParts = append(descParts, "  • " + desc)
+									descParts = append(descParts, "  • "+desc)
 								}
 							} else {
 								// Use inline format for simple options

@@ -10,8 +10,8 @@ import (
 	"strings"
 
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
-	"github.com/watermint/toolbox/essentials/go/es_lang"
-	"github.com/watermint/toolbox/essentials/go/es_reflect"
+	"github.com/watermint/toolbox/essentials/es_go/es_lang"
+	"github.com/watermint/toolbox/essentials/es_go/es_reflect"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_definitions"

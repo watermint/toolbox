@@ -1,14 +1,15 @@
 package rc_value
 
 import (
-	"github.com/watermint/toolbox/essentials/encoding/es_json"
-	"github.com/watermint/toolbox/essentials/go/es_reflect"
-	"github.com/watermint/toolbox/essentials/model/mo_string"
-	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"reflect"
-	"strconv"
-	"strings"
+    "reflect"
+    "strconv"
+    "strings"
+
+    "github.com/watermint/toolbox/essentials/encoding/es_json"
+    "github.com/watermint/toolbox/essentials/es_go/es_reflect"
+    "github.com/watermint/toolbox/essentials/model/mo_string"
+    "github.com/watermint/toolbox/infra/control/app_control"
+    "github.com/watermint/toolbox/infra/recipe/rc_recipe"
 )
 
 func newValueSelectString() rc_recipe.Value {

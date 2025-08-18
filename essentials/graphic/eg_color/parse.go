@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/watermint/toolbox/essentials/go/es_errors"
+	"github.com/watermint/toolbox/essentials/es_go/es_errors"
 	"github.com/watermint/toolbox/essentials/strings/es_hex"
 )
 

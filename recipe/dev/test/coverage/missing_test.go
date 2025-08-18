@@ -18,7 +18,7 @@ import (
 func TestMissing_Preset(t *testing.T) {
 	m := &Missing{}
 	m.Preset()
-	
+
 	if !m.OnlyMissing {
 		t.Error("Expected OnlyMissing to be true after Preset()")
 	}
@@ -35,7 +35,7 @@ func TestMissingFile_Struct(t *testing.T) {
 		Complexity:   15,
 		Priority:     "high",
 	}
-	
+
 	if mf.Package != "test/package" {
 		t.Error("Package field not set correctly")
 	}
@@ -51,7 +51,7 @@ func TestMissing_findFilesWithoutTests(t *testing.T) {
 	err := qt_control.WithControl(func(c app_control.Control) error {
 		// Create a temporary directory structure for testing
 		tmpDir := t.TempDir()
-		
+
 		// Create test Go files
 		testFiles := map[string]string{
 			"main.go": `package main
@@ -101,7 +101,7 @@ func (s *Service) SetName(name string) {
 	s.name = name
 }`,
 		}
-		
+
 		// Write test files
 		for filename, content := range testFiles {
 			fullPath := filepath.Join(tmpDir, filename)
@@ -113,13 +113,13 @@ func (s *Service) SetName(name string) {
 				return err
 			}
 		}
-		
+
 		m := &Missing{}
 		files, err := m.findFilesWithoutTests(c, tmpDir, "")
 		if err != nil {
 			return err
 		}
-		
+
 		// Should find 3 files total: main.go (has test), untested.go (no test), pkg/service.go (no test)
 		if len(files) != 3 {
 			t.Errorf("Expected 3 files total, got %d", len(files))
@@ -127,7 +127,7 @@ func (s *Service) SetName(name string) {
 				t.Logf("Found file: %s (HasTest: %v)", f.RelativePath, f.HasTest)
 			}
 		}
-		
+
 		// Check that untested.go is found
 		foundUntested := false
 		foundService := false
@@ -148,17 +148,17 @@ func (s *Service) SetName(name string) {
 				}
 			}
 		}
-		
+
 		if !foundUntested {
 			t.Error("Expected to find untested.go")
 		}
 		if !foundService {
 			t.Error("Expected to find pkg/service.go")
 		}
-		
+
 		return nil
 	})
-	
+
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -167,7 +167,7 @@ func (s *Service) SetName(name string) {
 func TestMissing_findFilesWithoutTests_WithPackageFilter(t *testing.T) {
 	err := qt_control.WithControl(func(c app_control.Control) error {
 		tmpDir := t.TempDir()
-		
+
 		// Create files in different packages
 		testFiles := map[string]string{
 			"main.go": `package main
@@ -177,7 +177,7 @@ func Service() {}`,
 			"pkg2/handler.go": `package pkg2
 func Handler() {}`,
 		}
-		
+
 		for filename, content := range testFiles {
 			fullPath := filepath.Join(tmpDir, filename)
 			dir := filepath.Dir(fullPath)
@@ -188,26 +188,26 @@ func Handler() {}`,
 				return err
 			}
 		}
-		
+
 		m := &Missing{}
-		
+
 		// Filter by pkg1
 		files, err := m.findFilesWithoutTests(c, tmpDir, "pkg1")
 		if err != nil {
 			return err
 		}
-		
+
 		if len(files) != 1 {
 			t.Errorf("Expected 1 file in pkg1, got %d", len(files))
 		}
-		
+
 		if len(files) > 0 && files[0].RelativePath != filepath.Join("pkg1", "service.go") {
 			t.Errorf("Expected pkg1/service.go, got %s", files[0].RelativePath)
 		}
-		
+
 		return nil
 	})
-	
+
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -216,7 +216,7 @@ func Handler() {}`,
 func TestMissing_Exec_OnlyMissingFilter(t *testing.T) {
 	err := qt_control.WithControl(func(c app_control.Control) error {
 		tmpDir := t.TempDir()
-		
+
 		// Create test files - one with test, one without
 		testFiles := map[string]string{
 			"tested.go": `package main
@@ -227,29 +227,29 @@ func TestTestedFunc(t *testing.T) {}`,
 			"untested.go": `package main
 func UntestedFunc() {}`,
 		}
-		
+
 		for filename, content := range testFiles {
 			fullPath := filepath.Join(tmpDir, filename)
 			if err := os.WriteFile(fullPath, []byte(content), 0644); err != nil {
 				return err
 			}
 		}
-		
+
 		// Mock the getProjectRoot function by directly calling findFilesWithoutTests
 		m := &Missing{
 			OnlyMissing: true,
 		}
-		
+
 		files, err := m.findFilesWithoutTests(c, tmpDir, "")
 		if err != nil {
 			return err
 		}
-		
+
 		// Should find both files: tested.go and untested.go
 		if len(files) != 2 {
 			t.Errorf("Expected 2 files total, got %d", len(files))
 		}
-		
+
 		// When OnlyMissing is applied in the real Exec, it should filter to only untested.go
 		// but findFilesWithoutTests returns all files with their HasTest status
 		foundTested := false
@@ -262,17 +262,17 @@ func UntestedFunc() {}`,
 				foundUntested = true
 			}
 		}
-		
+
 		if !foundTested {
 			t.Error("Expected to find tested.go with HasTest=true")
 		}
 		if !foundUntested {
 			t.Error("Expected to find untested.go with HasTest=false")
 		}
-		
+
 		return nil
 	})
-	
+
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -303,7 +303,7 @@ func withIf(x int) {
 			expected: 2,
 		},
 	}
-	
+
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			fset := token.NewFileSet()
@@ -311,9 +311,9 @@ func withIf(x int) {
 			if err != nil {
 				t.Fatal(err)
 			}
-			
+
 			m := &Missing{}
-			
+
 			// Find the function declaration in the AST
 			for _, decl := range file.Decls {
 				if fn, ok := decl.(*ast.FuncDecl); ok {
@@ -330,19 +330,19 @@ func withIf(x int) {
 
 func TestGetProjectRoot(t *testing.T) {
 	// This test verifies getProjectRoot finds the actual project root
-	// Since getProjectRoot uses os.Getwd() and looks for go.mod, 
+	// Since getProjectRoot uses os.Getwd() and looks for go.mod,
 	// it will find the real project root, not our mock
-	
+
 	mockWS := &mockWorkspace{basePath: "/some/path"}
-	
+
 	root := getProjectRoot(mockWS)
-	
+
 	// Should find a directory that contains go.mod
 	goModPath := filepath.Join(root, "go.mod")
 	if _, err := os.Stat(goModPath); os.IsNotExist(err) {
 		t.Errorf("Expected go.mod to exist at project root %s", root)
 	}
-	
+
 	// Should be a valid directory path
 	if info, err := os.Stat(root); err != nil || !info.IsDir() {
 		t.Errorf("Expected project root %s to be a valid directory", root)
@@ -361,8 +361,8 @@ func TestCountLines(t *testing.T) {
 			expected: 1, // strings.Split("", "\n") returns [""]
 		},
 		{
-			name: "single line",
-			code: "package main",
+			name:     "single line",
+			code:     "package main",
 			expected: 1,
 		},
 		{
@@ -377,7 +377,7 @@ func main() {
 			expected: 7,
 		},
 	}
-	
+
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			count := len(strings.Split(tt.code, "\n"))
@@ -415,7 +415,7 @@ func (t T) Method() {}`,
 			expected: 3,
 		},
 	}
-	
+
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			fset := token.NewFileSet()
@@ -423,7 +423,7 @@ func (t T) Method() {}`,
 			if err != nil {
 				t.Fatal(err)
 			}
-			
+
 			// Count functions in the file
 			count := 0
 			for _, decl := range file.Decls {
@@ -443,19 +443,19 @@ func TestMissing_Exec_EmptyPackageFilter(t *testing.T) {
 		m := &Missing{
 			Package: mo_string.NewOptional(""),
 		}
-		
+
 		// Test that empty package filter doesn't cause issues
 		m.Preset()
-		
+
 		// We can't easily test the full Exec without mocking the workspace
 		// but we can test that the Package field works correctly
 		if m.Package.IsExists() && m.Package.Value() == "" {
 			// This is valid - empty string means no filter
 		}
-		
+
 		return nil
 	})
-	
+
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -466,19 +466,19 @@ type mockWorkspace struct {
 	basePath string
 }
 
-func (m *mockWorkspace) Home() string          { return m.basePath }
-func (m *mockWorkspace) Cache() string         { return filepath.Join(m.basePath, "cache") }
-func (m *mockWorkspace) Secrets() string       { return filepath.Join(m.basePath, "secrets") }
-func (m *mockWorkspace) Job() string           { return filepath.Join(m.basePath, "job") }
-func (m *mockWorkspace) Test() string          { return filepath.Join(m.basePath, "test") }
-func (m *mockWorkspace) Report() string        { return filepath.Join(m.basePath, "report") }
-func (m *mockWorkspace) Log() string           { return filepath.Join(m.basePath, "log") }
+func (m *mockWorkspace) Home() string            { return m.basePath }
+func (m *mockWorkspace) Cache() string           { return filepath.Join(m.basePath, "cache") }
+func (m *mockWorkspace) Secrets() string         { return filepath.Join(m.basePath, "secrets") }
+func (m *mockWorkspace) Job() string             { return filepath.Join(m.basePath, "job") }
+func (m *mockWorkspace) Test() string            { return filepath.Join(m.basePath, "test") }
+func (m *mockWorkspace) Report() string          { return filepath.Join(m.basePath, "report") }
+func (m *mockWorkspace) Log() string             { return filepath.Join(m.basePath, "log") }
 func (m *mockWorkspace) JobStartTime() time.Time { return time.Now() }
-func (m *mockWorkspace) JobId() string         { return "test-job-id" }
-func (m *mockWorkspace) KVS() string           { return filepath.Join(m.basePath, "kvs") }
-func (m *mockWorkspace) Database() string      { return filepath.Join(m.basePath, "database") }
-func (m *mockWorkspace) Descendant(name string) (string, error) { 
-	return filepath.Join(m.basePath, name), nil 
+func (m *mockWorkspace) JobId() string           { return "test-job-id" }
+func (m *mockWorkspace) KVS() string             { return filepath.Join(m.basePath, "kvs") }
+func (m *mockWorkspace) Database() string        { return filepath.Join(m.basePath, "database") }
+func (m *mockWorkspace) Descendant(name string) (string, error) {
+	return filepath.Join(m.basePath, name), nil
 }
 
 func TestMissing_FileSortingByPriority(t *testing.T) {
@@ -487,20 +487,20 @@ func TestMissing_FileSortingByPriority(t *testing.T) {
 		{RelativePath: "high.go", Lines: 100, Complexity: 10, Priority: "high"},
 		{RelativePath: "medium.go", Lines: 50, Complexity: 5, Priority: "medium"},
 	}
-	
+
 	// Simulate the sorting logic from the Exec method
 	// Sort by priority (complexity * lines)
-	
+
 	// Calculate scores
 	scores := make(map[string]int)
 	for _, f := range files {
 		scores[f.RelativePath] = f.Complexity * f.Lines
 	}
-	
+
 	// high.go should have highest score: 100 * 10 = 1000
 	// medium.go should have middle score: 50 * 5 = 250
 	// low.go should have lowest score: 10 * 2 = 20
-	
+
 	if scores["high.go"] != 1000 {
 		t.Errorf("Expected high.go score 1000, got %d", scores["high.go"])
 	}
@@ -515,14 +515,14 @@ func TestMissing_FileSortingByPriority(t *testing.T) {
 func TestMissing_SkipVendorAndBuildDirs(t *testing.T) {
 	err := qt_control.WithControl(func(c app_control.Control) error {
 		tmpDir := t.TempDir()
-		
+
 		// Create files in vendor and build directories (should be skipped)
 		testFiles := map[string]string{
 			"main.go":              `package main`,
 			"vendor/pkg/file.go":   `package pkg`,
 			"build/output/file.go": `package output`,
 		}
-		
+
 		for filename, content := range testFiles {
 			fullPath := filepath.Join(tmpDir, filename)
 			dir := filepath.Dir(fullPath)
@@ -533,13 +533,13 @@ func TestMissing_SkipVendorAndBuildDirs(t *testing.T) {
 				return err
 			}
 		}
-		
+
 		m := &Missing{}
 		files, err := m.findFilesWithoutTests(c, tmpDir, "")
 		if err != nil {
 			return err
 		}
-		
+
 		// Should only find main.go, vendor and build files should be skipped
 		if len(files) != 1 {
 			t.Errorf("Expected 1 file, got %d", len(files))
@@ -547,14 +547,14 @@ func TestMissing_SkipVendorAndBuildDirs(t *testing.T) {
 				t.Logf("Found: %s", f.RelativePath)
 			}
 		}
-		
+
 		if len(files) > 0 && files[0].RelativePath != "main.go" {
 			t.Errorf("Expected main.go, got %s", files[0].RelativePath)
 		}
-		
+
 		return nil
 	})
-	
+
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -563,7 +563,7 @@ func TestMissing_SkipVendorAndBuildDirs(t *testing.T) {
 func TestMissing_EdgeCases(t *testing.T) {
 	err := qt_control.WithControl(func(c app_control.Control) error {
 		tmpDir := t.TempDir()
-		
+
 		// Test edge cases
 		testFiles := map[string]string{
 			// File with no functions
@@ -589,24 +589,24 @@ func outer() {
 	}
 }`,
 		}
-		
+
 		for filename, content := range testFiles {
 			fullPath := filepath.Join(tmpDir, filename)
 			if err := os.WriteFile(fullPath, []byte(content), 0644); err != nil {
 				return err
 			}
 		}
-		
+
 		m := &Missing{}
 		files, err := m.findFilesWithoutTests(c, tmpDir, "")
 		if err != nil {
 			return err
 		}
-		
+
 		if len(files) != 2 {
 			t.Errorf("Expected 2 files, got %d", len(files))
 		}
-		
+
 		// Verify complexity calculation worked for complex file
 		for _, f := range files {
 			if f.RelativePath == "complex.go" {
@@ -620,10 +620,10 @@ func outer() {
 				}
 			}
 		}
-		
+
 		return nil
 	})
-	
+
 	if err != nil {
 		t.Fatal(err)
 	}

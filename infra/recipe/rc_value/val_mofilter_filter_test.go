@@ -1,13 +1,14 @@
 package rc_value
 
 import (
-	"encoding/json"
-	"flag"
-	"github.com/watermint/toolbox/essentials/encoding/es_json"
-	"github.com/watermint/toolbox/essentials/model/mo_filter"
-	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/quality/infra/qt_control"
-	"testing"
+    "encoding/json"
+    "flag"
+    "testing"
+
+    "github.com/watermint/toolbox/essentials/encoding/es_json"
+    "github.com/watermint/toolbox/essentials/model/mo_filter"
+    "github.com/watermint/toolbox/infra/control/app_control"
+    "github.com/watermint/toolbox/quality/infra/qt_control"
 )
 
 type ValueMoFilterFilterRecipe struct {

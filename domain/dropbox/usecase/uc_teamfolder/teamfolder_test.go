@@ -1,9 +1,9 @@
 package uc_teamfolder
 
 import (
-	"testing"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder"
+	"testing"
 )
 
 func TestAccessTypes(t *testing.T) {
@@ -103,7 +103,7 @@ func TestTeamContentImplFields(t *testing.T) {
 		adminGroupName: "test-admin-group",
 		admin:          nil, // Would need mock profile
 	}
-	
+
 	if impl.adminGroupName != "test-admin-group" {
 		t.Error("Expected adminGroupName to be set correctly")
 	}
@@ -117,7 +117,7 @@ func TestIsValidAccessType(t *testing.T) {
 		AccessTypeViewer,
 		AccessTypeViewerNoComment,
 	}
-	
+
 	for _, at := range validTypes {
 		// Just verify they are non-empty strings
 		if string(at) == "" {

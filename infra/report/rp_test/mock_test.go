@@ -1,10 +1,11 @@
-package rp
+package rp_test
 
 import (
+	"testing"
+
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/report/rp_writer_impl"
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
-	"testing"
 )
 
 func TestMock(t *testing.T) {

@@ -1,12 +1,13 @@
 package rc_value
 
 import (
-	"flag"
-	"github.com/watermint/toolbox/essentials/kvs/kv_kvs"
-	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
-	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/quality/infra/qt_control"
-	"testing"
+    "flag"
+    "testing"
+
+    "github.com/watermint/toolbox/essentials/kvs/kv_kvs"
+    "github.com/watermint/toolbox/essentials/kvs/kv_storage"
+    "github.com/watermint/toolbox/infra/control/app_control"
+    "github.com/watermint/toolbox/quality/infra/qt_control"
 )
 
 type ValueKvStorageStorageRecipe struct {

@@ -17,7 +17,7 @@ func TestMirrorGroupNamePrefix(t *testing.T) {
 func TestArchiveOnSuccess(t *testing.T) {
 	opts := &mirrorOpts{}
 	result := ArchiveOnSuccess()(opts)
-	
+
 	if !result.archiveOnSuccess {
 		t.Error("Expected archiveOnSuccess to be true after applying ArchiveOnSuccess option")
 	}
@@ -26,7 +26,7 @@ func TestArchiveOnSuccess(t *testing.T) {
 func TestSkipVerify(t *testing.T) {
 	opts := &mirrorOpts{}
 	result := SkipVerify()(opts)
-	
+
 	if !result.skipVerify {
 		t.Error("Expected skipVerify to be true after applying SkipVerify option")
 	}
@@ -42,12 +42,12 @@ func TestMirrorPair(t *testing.T) {
 		TeamFolderId: "tf_456",
 		Name:         "Test Folder Copy",
 	}
-	
+
 	pair := &MirrorPair{
 		Src: src,
 		Dst: dst,
 	}
-	
+
 	if pair.Src.TeamFolderId != "tf_123" {
 		t.Errorf("Expected Src TeamFolderId 'tf_123', got '%s'", pair.Src.TeamFolderId)
 	}
@@ -65,12 +65,12 @@ func TestNewScope(t *testing.T) {
 		},
 		Dst: nil,
 	}
-	
+
 	scope := NewScope(pair)
 	if scope == nil {
 		t.Fatal("Expected non-nil scope")
 	}
-	
+
 	// Test Pair() method
 	returnedPair := scope.Pair()
 	if returnedPair != pair {
@@ -98,11 +98,11 @@ func TestMarshalUnmarshalContext(t *testing.T) {
 func TestReplication_PartialScope_Matching(t *testing.T) {
 	// Test the matching logic for partial scope
 	// This tests the internal matching function behavior
-	
+
 	names := []string{"Marketing", "Sales", "Engineering"}
-	
+
 	testCases := []struct {
-		folderName string
+		folderName  string
 		shouldMatch bool
 	}{
 		{"marketing", true},
@@ -116,7 +116,7 @@ func TestReplication_PartialScope_Matching(t *testing.T) {
 		{"HR", false},
 		{"", false},
 	}
-	
+
 	// Test the matching logic
 	for _, tc := range testCases {
 		t.Run(tc.folderName, func(t *testing.T) {
@@ -128,7 +128,7 @@ func TestReplication_PartialScope_Matching(t *testing.T) {
 					break
 				}
 			}
-			
+
 			if matches != tc.shouldMatch {
 				t.Errorf("Folder '%s' match result: expected %v, got %v", tc.folderName, tc.shouldMatch, matches)
 			}
@@ -140,7 +140,6 @@ func TestReplication_BasePath_Options(t *testing.T) {
 	// Skip this test as it requires proper initialization
 	t.Skip("BasePath test requires framework initialization")
 }
-
 
 func TestReplication_Exec_Validations(t *testing.T) {
 	// Skip this test as it requires proper framework initialization
@@ -155,13 +154,13 @@ func TestScope_Interface(t *testing.T) {
 			Name:         "Source Folder",
 		},
 		Dst: &mo_teamfolder.TeamFolder{
-			TeamFolderId: "tf_dst", 
+			TeamFolderId: "tf_dst",
 			Name:         "Dest Folder",
 		},
 	}
-	
+
 	scope := NewScope(pair)
-	
+
 	// Test Pair method
 	returnedPair := scope.Pair()
 	if returnedPair.Src.TeamFolderId != "tf_src" {
@@ -175,11 +174,11 @@ func TestScope_Interface(t *testing.T) {
 func TestMirrorOpts_MultipleOptions(t *testing.T) {
 	// Test applying multiple options
 	opts := &mirrorOpts{}
-	
+
 	// Apply both options
 	opts = ArchiveOnSuccess()(opts)
 	opts = SkipVerify()(opts)
-	
+
 	if !opts.archiveOnSuccess {
 		t.Error("Expected archiveOnSuccess to be true")
 	}
@@ -196,11 +195,11 @@ func TestReplication_EmptyTargetNames(t *testing.T) {
 func TestReplication_CaseInsensitiveMatching(t *testing.T) {
 	// Test case-insensitive matching in PartialScope
 	targetNames := []string{"Marketing", "SALES", "engineering"}
-	
+
 	// Test folder names that should match
 	testFolders := []string{
 		"marketing",
-		"Marketing", 
+		"Marketing",
 		"MARKETING",
 		"sales",
 		"Sales",
@@ -209,7 +208,7 @@ func TestReplication_CaseInsensitiveMatching(t *testing.T) {
 		"Engineering",
 		"ENGINEERING",
 	}
-	
+
 	for _, folderName := range testFolders {
 		matched := false
 		fnl := strings.ToLower(folderName)
@@ -219,7 +218,7 @@ func TestReplication_CaseInsensitiveMatching(t *testing.T) {
 				break
 			}
 		}
-		
+
 		if !matched {
 			t.Errorf("Folder name '%s' should have matched target names", folderName)
 		}

@@ -1,8 +1,9 @@
 package app_msg_container_impl
 
 import (
-	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"testing"
+    "testing"
+
+    "github.com/watermint/toolbox/infra/ui/app_msg"
 )
 
 func TestAltCompile(t *testing.T) {

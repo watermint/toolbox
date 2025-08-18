@@ -16,7 +16,7 @@ func TestMemberNamespaceSummary_Fields(t *testing.T) {
 		ExternalFolders:   1,
 		AppFolders:        4,
 	}
-	
+
 	if summary.Email != "test@example.com" {
 		t.Errorf("Expected email 'test@example.com', got %s", summary.Email)
 	}
@@ -48,7 +48,7 @@ func TestTeamNamespaceSummary_Fields(t *testing.T) {
 		NamespaceType:  "shared_folder",
 		NamespaceCount: 42,
 	}
-	
+
 	if summary.NamespaceType != "shared_folder" {
 		t.Errorf("Expected namespace type 'shared_folder', got %s", summary.NamespaceType)
 	}
@@ -62,7 +62,7 @@ func TestTeamFolderSummary_Fields(t *testing.T) {
 		Name:                "Engineering Team Folder",
 		NumNamespacesInside: 15,
 	}
-	
+
 	if summary.Name != "Engineering Team Folder" {
 		t.Errorf("Expected name 'Engineering Team Folder', got %s", summary.Name)
 	}

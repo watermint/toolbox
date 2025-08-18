@@ -27,21 +27,21 @@ func TestReadme_ExecWithDebug(t *testing.T) {
 				t.Logf("Warning: Failed to clean up test directory: %v", err)
 			}
 		}()
-		
+
 		// Create readme instance
 		readme := &Readme{
 			Path: mo_path.NewFileSystemPath(filepath.Join(testDir, "README.txt")),
 		}
-		
+
 		// Execute with debug info
 		t.Logf("Starting readme generation in test mode")
 		err = readme.Exec(c)
 		if err != nil {
 			t.Fatalf("Readme execution failed: %v", err)
 		}
-		
+
 		t.Logf("Readme generation completed successfully")
-		
+
 		// Verify output when not in test mode
 		if !c.Feature().IsTest() {
 			// Check if file was created

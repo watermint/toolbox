@@ -1,13 +1,14 @@
 package rc_value
 
 import (
-	"encoding/json"
-	"flag"
-	"github.com/watermint/toolbox/domain/dropbox/model/mo_time"
-	"github.com/watermint/toolbox/essentials/encoding/es_json"
-	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/quality/infra/qt_control"
-	"testing"
+    "encoding/json"
+    "flag"
+    "testing"
+
+    "github.com/watermint/toolbox/domain/dropbox/model/mo_time"
+    "github.com/watermint/toolbox/essentials/encoding/es_json"
+    "github.com/watermint/toolbox/infra/control/app_control"
+    "github.com/watermint/toolbox/quality/infra/qt_control"
 )
 
 type ValueMoTimeTimeRecipe struct {

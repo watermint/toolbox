@@ -1,17 +1,18 @@
 package dc_readme
 
 import (
-	"github.com/watermint/toolbox/infra/control/app_catalogue"
-	"github.com/watermint/toolbox/infra/control/app_definitions"
-	"github.com/watermint/toolbox/infra/doc/dc_index"
-	"github.com/watermint/toolbox/infra/doc/dc_section"
-	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"github.com/watermint/toolbox/infra/recipe/rc_spec"
-	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/infra/ui/app_msg_container"
-	"github.com/watermint/toolbox/infra/ui/app_ui"
-	"sort"
-	"strings"
+    "sort"
+    "strings"
+
+    "github.com/watermint/toolbox/infra/control/app_catalogue"
+    "github.com/watermint/toolbox/infra/control/app_definitions"
+    "github.com/watermint/toolbox/infra/doc/dc_index"
+    "github.com/watermint/toolbox/infra/doc/dc_section"
+    "github.com/watermint/toolbox/infra/recipe/rc_recipe"
+    "github.com/watermint/toolbox/infra/recipe/rc_spec"
+    "github.com/watermint/toolbox/infra/ui/app_msg"
+    "github.com/watermint/toolbox/infra/ui/app_msg_container"
+    "github.com/watermint/toolbox/infra/ui/app_ui"
 )
 
 func NewCommand(forPublish bool, media dc_index.MediaType, container app_msg_container.Container) dc_section.Section {

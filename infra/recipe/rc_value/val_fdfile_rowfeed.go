@@ -1,24 +1,25 @@
 package rc_value
 
 import (
-	"compress/gzip"
-	"github.com/watermint/toolbox/essentials/encoding/es_json"
-	"github.com/watermint/toolbox/essentials/file/es_filepath"
-	"github.com/watermint/toolbox/essentials/go/es_reflect"
-	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/essentials/strings/es_case"
-	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/feed/fd_file"
-	"github.com/watermint/toolbox/infra/feed/fd_file_impl"
-	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"github.com/watermint/toolbox/infra/security/sc_random"
-	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/infra/ui/app_ui"
-	"io"
-	"os"
-	"path/filepath"
-	"reflect"
-	"strings"
+    "compress/gzip"
+    "io"
+    "os"
+    "path/filepath"
+    "reflect"
+    "strings"
+
+    "github.com/watermint/toolbox/essentials/encoding/es_json"
+    "github.com/watermint/toolbox/essentials/es_go/es_reflect"
+    "github.com/watermint/toolbox/essentials/file/es_filepath"
+    "github.com/watermint/toolbox/essentials/log/esl"
+    "github.com/watermint/toolbox/essentials/strings/es_case"
+    "github.com/watermint/toolbox/infra/control/app_control"
+    "github.com/watermint/toolbox/infra/feed/fd_file"
+    "github.com/watermint/toolbox/infra/feed/fd_file_impl"
+    "github.com/watermint/toolbox/infra/recipe/rc_recipe"
+    "github.com/watermint/toolbox/infra/security/sc_random"
+    "github.com/watermint/toolbox/infra/ui/app_msg"
+    "github.com/watermint/toolbox/infra/ui/app_ui"
 )
 
 const (

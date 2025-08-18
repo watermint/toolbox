@@ -1,9 +1,10 @@
 package dc_index
 
 import (
-	"fmt"
-	"github.com/watermint/toolbox/essentials/go/es_lang"
-	"github.com/watermint/toolbox/essentials/log/esl"
+    "fmt"
+
+    "github.com/watermint/toolbox/essentials/es_go/es_lang"
+    "github.com/watermint/toolbox/essentials/log/esl"
 )
 
 const (

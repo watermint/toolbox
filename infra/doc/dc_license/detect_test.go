@@ -1,8 +1,9 @@
 package dc_license
 
 import (
-	"github.com/watermint/toolbox/essentials/log/esl"
-	"testing"
+    "testing"
+
+    "github.com/watermint/toolbox/essentials/log/esl"
 )
 
 func TestDetect(t *testing.T) {

@@ -1,16 +1,17 @@
 package rp_writer_impl
 
 import (
-	"encoding/csv"
-	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/report/rp_column"
-	"github.com/watermint/toolbox/infra/report/rp_column_impl"
-	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/infra/report/rp_writer"
-	"os"
-	"path/filepath"
-	"sync"
+    "encoding/csv"
+    "os"
+    "path/filepath"
+    "sync"
+
+    "github.com/watermint/toolbox/essentials/log/esl"
+    "github.com/watermint/toolbox/infra/control/app_control"
+    "github.com/watermint/toolbox/infra/report/rp_column"
+    "github.com/watermint/toolbox/infra/report/rp_column_impl"
+    "github.com/watermint/toolbox/infra/report/rp_model"
+    "github.com/watermint/toolbox/infra/report/rp_writer"
 )
 
 func NewCsvWriter(name string, ctl app_control.Control) rp_writer.Writer {

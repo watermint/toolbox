@@ -1,9 +1,10 @@
 package da_griddata
 
 import (
-	"github.com/watermint/toolbox/essentials/io/es_stdout"
-	"github.com/watermint/toolbox/infra/control/app_control"
-	"sync"
+    "sync"
+
+    "github.com/watermint/toolbox/essentials/io/es_stdout"
+    "github.com/watermint/toolbox/infra/control/app_control"
 )
 
 func NewConsoleWriter(formatter GridDataFormatter, pw PlainGridDataWriter) GridDataWriter {

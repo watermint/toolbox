@@ -258,7 +258,7 @@ func TestOptTimeInterval(t *testing.T) {
 
 func TestOptShorten(t *testing.T) {
 	opts := CaptureAggregatorOpts{}
-	
+
 	// Test enabling
 	optFunc := OptShorten(true)
 	result := optFunc(opts)
@@ -519,13 +519,13 @@ func TestCaImpl_EmptyDatabase(t *testing.T) {
 
 func TestResponseCodeCategorization(t *testing.T) {
 	testCases := []struct {
-		code     int
-		is2xx    bool
-		is3xx    bool
-		is4xx    bool
-		is429    bool
-		is5xx    bool
-		isOther  bool
+		code    int
+		is2xx   bool
+		is3xx   bool
+		is4xx   bool
+		is429   bool
+		is5xx   bool
+		isOther bool
 	}{
 		{200, true, false, false, false, false, false},
 		{201, true, false, false, false, false, false},

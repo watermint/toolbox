@@ -17,7 +17,7 @@ func TestReplayPath_ErrorCases(t *testing.T) {
 			os.Setenv(app_definitions.EnvNameReplayPath, originalEnv)
 		}
 	}()
-	
+
 	// Test with empty optional string
 	emptyOpt := mo_string.NewOptional("")
 	_, err := ReplayPath(emptyOpt)
@@ -49,12 +49,12 @@ func TestReplayPath_PathFormatting(t *testing.T) {
 			hasError: false,
 		},
 	}
-	
+
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
 			opt := mo_string.NewOptional(tc.input)
 			path, err := ReplayPath(opt)
-			
+
 			if tc.hasError && err == nil {
 				t.Error("Expected error but got nil")
 			}
@@ -78,12 +78,12 @@ func TestReplayPath_ComplexScenarios(t *testing.T) {
 			os.Unsetenv(app_definitions.EnvNameReplayPath)
 		}
 	}()
-	
+
 	// Test with both path and env var set - path should take precedence
 	os.Setenv(app_definitions.EnvNameReplayPath, "/env/replay")
 	opt := mo_string.NewOptional("/direct/replay")
 	path, err := ReplayPath(opt)
-	
+
 	if err != nil {
 		t.Errorf("Expected no error, got %v", err)
 	}

@@ -252,7 +252,7 @@ func TestHasEntryOf_InvalidTable(t *testing.T) {
 
 		// Define a struct that doesn't exist as a table
 		type NonExistentTable struct {
-			ID   uint   `gorm:"primaryKey"`
+			ID   uint `gorm:"primaryKey"`
 			Name string
 		}
 
@@ -376,13 +376,13 @@ func TestQueueConstants(t *testing.T) {
 		teamScanQueueNamespaceMember: "scan_namespace_member",
 		teamScanQueueReceivedFile:    "scan_received_file",
 		teamScanQueueSharedLink:      "scan_shared_link",
-		teamScanQueueTeamFolder:     "scan_team_folder",
-		teamSummarizeEntry:          "resolve_entry",
+		teamScanQueueTeamFolder:      "scan_team_folder",
+		teamSummarizeEntry:           "resolve_entry",
 		teamSummarizeFolderImmediate: "resolve_folder_immediate",
-		teamSummarizeFolderPath:     "resolve_folder_path",
+		teamSummarizeFolderPath:      "resolve_folder_path",
 		teamSummarizeFolderRecursive: "resolve_folder_recursive",
-		teamSummarizeNamespace:      "resolve_namespace",
-		teamSummarizeTeamFolder:     "resolve_team_folder",
+		teamSummarizeNamespace:       "resolve_namespace",
+		teamSummarizeTeamFolder:      "resolve_team_folder",
 		teamSummarizeTeamFolderEntry: "resolve_team_folder_entry",
 	}
 

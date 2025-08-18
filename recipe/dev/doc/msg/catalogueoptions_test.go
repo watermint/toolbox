@@ -16,7 +16,7 @@ func TestCatalogueOptions_DryRun(t *testing.T) {
 
 func TestCatalogueOptions_GenerateOptionDescription(t *testing.T) {
 	z := &CatalogueOptions{}
-	
+
 	tests := []struct {
 		name      string
 		fieldName string
@@ -108,22 +108,21 @@ func TestCatalogueOptions_GenerateOptionDescription(t *testing.T) {
 			expected:  "Visibility option: unknown",
 		},
 	}
-	
+
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			result := z.generateOptionDescription(tt.fieldName, tt.option)
 			if result != tt.expected {
-				t.Errorf("generateOptionDescription(%q, %q) = %q, want %q", 
+				t.Errorf("generateOptionDescription(%q, %q) = %q, want %q",
 					tt.fieldName, tt.option, result, tt.expected)
 			}
 		})
 	}
 }
 
-
 func TestCatalogueOptions_EmptyOptions(t *testing.T) {
 	z := &CatalogueOptions{}
-	
+
 	// Test empty option handling
 	result := z.generateOptionDescription("field", "")
 	expected := "field: "
@@ -134,7 +133,7 @@ func TestCatalogueOptions_EmptyOptions(t *testing.T) {
 
 func TestCatalogueOptions_FieldNameCaseInsensitive(t *testing.T) {
 	z := &CatalogueOptions{}
-	
+
 	// Test that field names are case insensitive
 	testCases := []struct {
 		fieldName string
@@ -147,7 +146,7 @@ func TestCatalogueOptions_FieldNameCaseInsensitive(t *testing.T) {
 		{"base_path", "root", "Full access to all folders with permissions"},
 		{"BASE_PATH", "root", "Full access to all folders with permissions"},
 	}
-	
+
 	for _, tc := range testCases {
 		t.Run(tc.fieldName, func(t *testing.T) {
 			result := z.generateOptionDescription(tc.fieldName, tc.option)
@@ -161,7 +160,7 @@ func TestCatalogueOptions_FieldNameCaseInsensitive(t *testing.T) {
 
 func TestCatalogueOptions_AllFormats(t *testing.T) {
 	z := &CatalogueOptions{}
-	
+
 	// Test all format options
 	formats := []struct {
 		option   string
@@ -173,7 +172,7 @@ func TestCatalogueOptions_AllFormats(t *testing.T) {
 		{"pdf", "PDF document format"},
 		{"unknown_format", "Format: unknown_format"},
 	}
-	
+
 	for _, f := range formats {
 		t.Run(f.option, func(t *testing.T) {
 			result := z.generateOptionDescription("format", f.option)

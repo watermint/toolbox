@@ -13,7 +13,7 @@ import (
 func TestNewTurnstile(t *testing.T) {
 	mockKvs := NewEmpty()
 	turnstile := NewTurnstile(mockKvs)
-	
+
 	if turnstile == nil {
 		t.Error("Expected non-nil turnstile")
 	}
@@ -22,12 +22,12 @@ func TestNewTurnstile(t *testing.T) {
 func TestTurnstileImpl_PutString(t *testing.T) {
 	mockKvs := &mockKvs{data: make(map[string]string)}
 	turnstile := NewTurnstile(mockKvs)
-	
+
 	err := turnstile.PutString("key1", "value1")
 	if err != nil {
 		t.Errorf("PutString should not return error, got: %v", err)
 	}
-	
+
 	// Verify the value was stored in the underlying KVS
 	if mockKvs.data["key1"] != "value1" {
 		t.Errorf("Expected value1, got %s", mockKvs.data["key1"])
@@ -37,13 +37,13 @@ func TestTurnstileImpl_PutString(t *testing.T) {
 func TestTurnstileImpl_PutJson(t *testing.T) {
 	mockKvs := &mockKvs{data: make(map[string]string)}
 	turnstile := NewTurnstile(mockKvs)
-	
+
 	jsonData := json.RawMessage(`{"test": "value"}`)
 	err := turnstile.PutJson("key1", jsonData)
 	if err != nil {
 		t.Errorf("PutJson should not return error, got: %v", err)
 	}
-	
+
 	// Verify the JSON was stored
 	if mockKvs.data["key1"] != string(jsonData) {
 		t.Errorf("Expected %s, got %s", jsonData, mockKvs.data["key1"])
@@ -53,13 +53,13 @@ func TestTurnstileImpl_PutJson(t *testing.T) {
 func TestTurnstileImpl_PutJsonModel(t *testing.T) {
 	mockKvs := &mockKvs{data: make(map[string]string)}
 	turnstile := NewTurnstile(mockKvs)
-	
+
 	testModel := map[string]string{"test": "value"}
 	err := turnstile.PutJsonModel("key1", testModel)
 	if err != nil {
 		t.Errorf("PutJsonModel should not return error, got: %v", err)
 	}
-	
+
 	// Verify that PutJsonModel delegates to the underlying KVS
 }
 
@@ -67,7 +67,7 @@ func TestTurnstileImpl_GetString(t *testing.T) {
 	mockKvs := &mockKvs{data: make(map[string]string)}
 	mockKvs.data["key1"] = "value1"
 	turnstile := NewTurnstile(mockKvs)
-	
+
 	value, err := turnstile.GetString("key1")
 	if err != nil {
 		t.Errorf("GetString should not return error, got: %v", err)
@@ -75,7 +75,7 @@ func TestTurnstileImpl_GetString(t *testing.T) {
 	if value != "value1" {
 		t.Errorf("Expected value1, got %s", value)
 	}
-	
+
 	// Verify that GetString delegates to the underlying KVS
 }
 
@@ -84,7 +84,7 @@ func TestTurnstileImpl_GetJson(t *testing.T) {
 	jsonData := `{"test": "value"}`
 	mockKvs.data["key1"] = jsonData
 	turnstile := NewTurnstile(mockKvs)
-	
+
 	result, err := turnstile.GetJson("key1")
 	if err != nil {
 		t.Errorf("GetJson should not return error, got: %v", err)
@@ -92,7 +92,7 @@ func TestTurnstileImpl_GetJson(t *testing.T) {
 	if string(result) != jsonData {
 		t.Errorf("Expected %s, got %s", jsonData, result)
 	}
-	
+
 	// Verify that GetJson delegates to the underlying KVS
 }
 
@@ -100,13 +100,13 @@ func TestTurnstileImpl_GetJsonModel(t *testing.T) {
 	mockKvs := &mockKvs{data: make(map[string]string)}
 	mockKvs.data["key1"] = `{"test": "value"}`
 	turnstile := NewTurnstile(mockKvs)
-	
+
 	var result map[string]string
 	err := turnstile.GetJsonModel("key1", &result)
 	if err != nil {
 		t.Errorf("GetJsonModel should not return error, got: %v", err)
 	}
-	
+
 	// Verify that GetJsonModel delegates to the underlying KVS
 }
 
@@ -114,12 +114,12 @@ func TestTurnstileImpl_Delete(t *testing.T) {
 	mockKvs := &mockKvs{data: make(map[string]string)}
 	mockKvs.data["key1"] = "value1"
 	turnstile := NewTurnstile(mockKvs)
-	
+
 	err := turnstile.Delete("key1")
 	if err != nil {
 		t.Errorf("Delete should not return error, got: %v", err)
 	}
-	
+
 	// Verify that Delete delegates to the underlying KVS
 }
 
@@ -128,7 +128,7 @@ func TestTurnstileImpl_ForEach(t *testing.T) {
 	mockKvs.data["key1"] = "value1"
 	mockKvs.data["key2"] = "value2"
 	turnstile := NewTurnstile(mockKvs)
-	
+
 	count := 0
 	err := turnstile.ForEach(func(key string, value []byte) error {
 		count++
@@ -137,7 +137,7 @@ func TestTurnstileImpl_ForEach(t *testing.T) {
 	if err != nil {
 		t.Errorf("ForEach should not return error, got: %v", err)
 	}
-	
+
 	// Verify that ForEach delegates to the underlying KVS
 }
 
@@ -147,40 +147,40 @@ func TestTurnstileImpl_ConcurrentAccess(t *testing.T) {
 		mutex: &sync.Mutex{},
 	}
 	turnstile := NewTurnstile(mockKvs)
-	
+
 	// Test concurrent access
 	numGoroutines := 10
 	numOpsPerGoroutine := 100
-	
+
 	var wg sync.WaitGroup
 	wg.Add(numGoroutines)
-	
+
 	for i := 0; i < numGoroutines; i++ {
 		go func(id int) {
 			defer wg.Done()
 			for j := 0; j < numOpsPerGoroutine; j++ {
 				key := fmt.Sprintf("key_%d_%d", id, j)
 				value := fmt.Sprintf("value_%d_%d", id, j)
-				
+
 				err := turnstile.PutString(key, value)
 				if err != nil {
 					t.Errorf("PutString failed: %v", err)
 				}
-				
+
 				// Small delay to increase chance of race conditions
 				time.Sleep(time.Microsecond)
 			}
 		}(i)
 	}
-	
+
 	wg.Wait()
-	
+
 	// Verify all values were stored
 	expectedCount := numGoroutines * numOpsPerGoroutine
 	mockKvs.mutex.Lock()
 	actualCount := len(mockKvs.data)
 	mockKvs.mutex.Unlock()
-	
+
 	if actualCount != expectedCount {
 		t.Errorf("Expected %d entries, got %d", expectedCount, actualCount)
 	}

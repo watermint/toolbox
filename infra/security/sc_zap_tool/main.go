@@ -1,4 +1,4 @@
-package main
+package sc_zap_tool
 
 import (
 	"crypto/sha256"

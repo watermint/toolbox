@@ -25,13 +25,13 @@ type Verify struct {
 }
 
 type ValidationResult struct {
-	Key                string   `json:"key"`
-	EnglishMessage     string   `json:"english_message"`
-	JapaneseMessage    string   `json:"japanese_message,omitempty"`
-	EnglishVariables   []string `json:"english_variables"`
-	JapaneseVariables  []string `json:"japanese_variables,omitempty"`
-	IssueType          string   `json:"issue_type,omitempty"`
-	IssueDescription   string   `json:"issue_description,omitempty"`
+	Key               string   `json:"key"`
+	EnglishMessage    string   `json:"english_message"`
+	JapaneseMessage   string   `json:"japanese_message,omitempty"`
+	EnglishVariables  []string `json:"english_variables"`
+	JapaneseVariables []string `json:"japanese_variables,omitempty"`
+	IssueType         string   `json:"issue_type,omitempty"`
+	IssueDescription  string   `json:"issue_description,omitempty"`
 }
 
 func (z *Verify) Preset() {
@@ -41,10 +41,10 @@ func (z *Verify) extractVariables(message string) []string {
 	// Regular expression to match {{.Variable}} patterns
 	re := regexp.MustCompile(`{{\.([^}]+)}}`)
 	matches := re.FindAllStringSubmatch(message, -1)
-	
+
 	variables := make([]string, 0, len(matches))
 	seen := make(map[string]bool)
-	
+
 	for _, match := range matches {
 		if len(match) > 1 {
 			variable := match[1]
@@ -54,7 +54,7 @@ func (z *Verify) extractVariables(message string) []string {
 			}
 		}
 	}
-	
+
 	sort.Strings(variables)
 	return variables
 }
@@ -63,13 +63,13 @@ func (z *Verify) variablesEqual(vars1, vars2 []string) bool {
 	if len(vars1) != len(vars2) {
 		return false
 	}
-	
+
 	for i := range vars1 {
 		if vars1[i] != vars2[i] {
 			return false
 		}
 	}
-	
+
 	return true
 }
 
@@ -133,9 +133,9 @@ func (z *Verify) Exec(c app_control.Control) error {
 	for _, key := range keys {
 		enMessage := enMessages[key]
 		jaMessage, jaExists := jaMessages[key]
-		
+
 		enVariables := z.extractVariables(enMessage)
-		
+
 		result := ValidationResult{
 			Key:              key,
 			EnglishMessage:   enMessage,
@@ -150,10 +150,10 @@ func (z *Verify) Exec(c app_control.Control) error {
 			result.JapaneseMessage = jaMessage
 			jaVariables := z.extractVariables(jaMessage)
 			result.JapaneseVariables = jaVariables
-			
+
 			if !z.variablesEqual(enVariables, jaVariables) {
 				result.IssueType = "variable_mismatch"
-				result.IssueDescription = fmt.Sprintf("Variable mismatch: English has %v, Japanese has %v", 
+				result.IssueDescription = fmt.Sprintf("Variable mismatch: English has %v, Japanese has %v",
 					enVariables, jaVariables)
 				hasErrors = true
 			}
@@ -170,17 +170,17 @@ func (z *Verify) Exec(c app_control.Control) error {
 
 	if hasErrors {
 		ui.Error(z.ValidationError.With("ErrorCount", len(validationResults)))
-		
+
 		// Output detailed validation results as JSON
 		encoder := json.NewEncoder(out)
 		encoder.SetIndent("", "  ")
 		encoder.SetEscapeHTML(false)
-		
+
 		if err := encoder.Encode(validationResults); err != nil {
 			l.Error("Unable to encode validation results", esl.Error(err))
 			return err
 		}
-		
+
 		return fmt.Errorf("validation failed with %d errors", len(validationResults))
 	} else {
 		ui.Success(z.AllValid.With("TotalMessages", len(enMessages)))
@@ -189,7 +189,7 @@ func (z *Verify) Exec(c app_control.Control) error {
 	ui.Info(z.Summary.
 		With("TotalMessages", len(enMessages)).
 		With("TranslatedMessages", len(jaMessages)).
-		With("MissingTranslations", len(enMessages) - len(jaMessages)).
+		With("MissingTranslations", len(enMessages)-len(jaMessages)).
 		With("ValidationErrors", len(validationResults)))
 
 	return nil

@@ -1,7 +1,7 @@
 package dc_license
 
 import (
-	"github.com/watermint/toolbox/essentials/go/es_module"
+	"github.com/watermint/toolbox/essentials/es_go/es_module"
 	"github.com/watermint/toolbox/essentials/log/esl"
 )
 

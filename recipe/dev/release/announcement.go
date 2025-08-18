@@ -6,7 +6,7 @@ import (
 	"github.com/watermint/toolbox/domain/github/api/gh_conn"
 	"github.com/watermint/toolbox/domain/github/service/sv_graphql"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
-	"github.com/watermint/toolbox/essentials/go/es_project"
+	"github.com/watermint/toolbox/essentials/es_go/es_project"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/doc/dc_announcement"

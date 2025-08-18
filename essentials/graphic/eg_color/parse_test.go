@@ -3,7 +3,7 @@ package eg_color
 import (
 	"testing"
 
-	"github.com/watermint/toolbox/essentials/go/es_errors"
+	"github.com/watermint/toolbox/essentials/es_go/es_errors"
 )
 
 func TestParseColor(t *testing.T) {

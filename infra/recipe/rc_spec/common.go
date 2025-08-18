@@ -1,12 +1,13 @@
 package rc_spec
 
 import (
-	"flag"
-	"github.com/watermint/toolbox/infra/control/app_opt"
-	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"github.com/watermint/toolbox/infra/recipe/rc_value"
-	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/infra/ui/app_ui"
+    "flag"
+
+    "github.com/watermint/toolbox/infra/control/app_opt"
+    "github.com/watermint/toolbox/infra/recipe/rc_recipe"
+    "github.com/watermint/toolbox/infra/recipe/rc_value"
+    "github.com/watermint/toolbox/infra/ui/app_msg"
+    "github.com/watermint/toolbox/infra/ui/app_ui"
 )
 
 func NewCommonValue() *CommonValues {

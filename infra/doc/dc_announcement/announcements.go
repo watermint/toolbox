@@ -1,13 +1,14 @@
 package dc_announcement
 
 import (
-	"github.com/watermint/toolbox/essentials/encoding/es_json"
-	"github.com/watermint/toolbox/essentials/go/es_project"
-	"github.com/watermint/toolbox/infra/doc/dc_section"
-	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/infra/ui/app_ui"
-	"os"
-	"path/filepath"
+    "os"
+    "path/filepath"
+
+    "github.com/watermint/toolbox/essentials/encoding/es_json"
+    "github.com/watermint/toolbox/essentials/es_go/es_project"
+    "github.com/watermint/toolbox/infra/doc/dc_section"
+    "github.com/watermint/toolbox/infra/ui/app_msg"
+    "github.com/watermint/toolbox/infra/ui/app_ui"
 )
 
 type AnnouncementNode struct {

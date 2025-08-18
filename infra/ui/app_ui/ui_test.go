@@ -15,7 +15,7 @@ func TestDefinitionList(t *testing.T) {
 	mc := app_msg_container_impl.NewSingleWithMessagesForTest(map[string]string{
 		"raw": "{{.Raw}}",
 	})
-	
+
 	definitions := []Definition{
 		{
 			Term:        app_msg.Raw("-path"),
@@ -36,7 +36,7 @@ func TestDefinitionList(t *testing.T) {
 		output := MakeMarkdown(mc, func(ui UI) {
 			ui.DefinitionList(definitions)
 		})
-		
+
 		// Check that markdown format is correct
 		t.Logf("Markdown output:\n%s", output)
 		if !strings.Contains(output, "**-path**") {
@@ -54,7 +54,7 @@ func TestDefinitionList(t *testing.T) {
 		dg := es_dialogue.DenyAll()
 		ui := NewConsole(mc, lg, &buf, dg)
 		ui.DefinitionList(definitions)
-		
+
 		output := buf.String()
 		t.Logf("Console output:\n%s", output)
 		if !strings.Contains(output, "-path") {
@@ -70,7 +70,7 @@ func TestDefinitionList(t *testing.T) {
 		output := MakeConsoleDemo(mc, func(ui UI) {
 			ui.DefinitionList(definitions)
 		})
-		
+
 		t.Logf("Plain output:\n%s", output)
 		if !strings.Contains(output, "-path") {
 			t.Error("Expected term in plain output")

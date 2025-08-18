@@ -1,7 +1,7 @@
 package module
 
 import (
-	"github.com/watermint/toolbox/essentials/go/es_module"
+	"github.com/watermint/toolbox/essentials/es_go/es_module"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"

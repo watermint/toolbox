@@ -1,10 +1,11 @@
 package app_msg_container_impl
 
 import (
-	"encoding/json"
-	"fmt"
-	"github.com/watermint/toolbox/essentials/go/es_lang"
-	"github.com/watermint/toolbox/infra/ui/app_msg"
+    "encoding/json"
+    "fmt"
+
+    "github.com/watermint/toolbox/essentials/es_go/es_lang"
+    "github.com/watermint/toolbox/infra/ui/app_msg"
 )
 
 type Alt struct {

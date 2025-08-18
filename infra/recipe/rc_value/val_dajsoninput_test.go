@@ -1,12 +1,13 @@
 package rc_value
 
 import (
-	"flag"
-	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/data/da_json"
-	"github.com/watermint/toolbox/quality/infra/qt_control"
-	"github.com/watermint/toolbox/quality/infra/qt_file"
-	"testing"
+    "flag"
+    "testing"
+
+    "github.com/watermint/toolbox/infra/control/app_control"
+    "github.com/watermint/toolbox/infra/data/da_json"
+    "github.com/watermint/toolbox/quality/infra/qt_control"
+    "github.com/watermint/toolbox/quality/infra/qt_file"
 )
 
 type ValueDaJsonInputSample struct {

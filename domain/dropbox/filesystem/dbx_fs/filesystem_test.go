@@ -13,16 +13,16 @@ func TestNewFileSystem(t *testing.T) {
 	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
 		ctx := dbx_client_impl.NewMock("mock", ctl)
 		fs := NewFileSystem(ctx)
-		
+
 		if fs == nil {
 			t.Fatal("Expected non-nil filesystem")
 		}
-		
+
 		dbxFs, ok := fs.(*dbxFs)
 		if !ok {
 			t.Fatal("Expected dbxFs type")
 		}
-		
+
 		if dbxFs.ctx == nil {
 			t.Error("Context not set")
 		}
@@ -31,7 +31,7 @@ func TestNewFileSystem(t *testing.T) {
 
 func TestDbxFs_OperationalComplexity(t *testing.T) {
 	fs := &dbxFs{}
-	
+
 	testCases := []struct {
 		name       string
 		numEntries int
@@ -68,7 +68,7 @@ func TestDbxFs_OperationalComplexity(t *testing.T) {
 			expected:   int64(ApiComplexityThreshold * 2),
 		},
 	}
-	
+
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
 			entries := make([]es_filesystem.Entry, tc.numEntries)
@@ -98,7 +98,7 @@ func TestDbxFs_EntryInterface(t *testing.T) {
 	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
 		ctx := dbx_client_impl.NewMock("mock", ctl)
 		fs := NewFileSystem(ctx)
-		
+
 		// Type assertion to ensure interface is implemented
 		var _ es_filesystem.FileSystem = fs
 	})

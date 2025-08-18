@@ -66,10 +66,10 @@ func TestEmailFilter(t *testing.T) {
 
 func TestEmailFilter_Accept(t *testing.T) {
 	tests := []struct {
-		name         string
-		filterEmail  string
-		input        interface{}
-		wantAccept   bool
+		name        string
+		filterEmail string
+		input       interface{}
+		wantAccept  bool
 	}{
 		// Direct email matches
 		{

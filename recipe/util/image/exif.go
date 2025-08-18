@@ -1,7 +1,7 @@
 package image
 
 import (
-	"github.com/watermint/toolbox/essentials/go/es_project"
+	"github.com/watermint/toolbox/essentials/es_go/es_project"
 	"github.com/watermint/toolbox/essentials/image/ei_exif"
 	"github.com/watermint/toolbox/essentials/model/mo_image"
 	"github.com/watermint/toolbox/essentials/model/mo_path"

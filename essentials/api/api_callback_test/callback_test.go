@@ -1,17 +1,18 @@
-package api_callback_test
+package api_callback
 
 import (
 	"errors"
+	"net/http"
+	"net/url"
+	"sync"
+	"testing"
+
 	"github.com/watermint/toolbox/essentials/api/api_callback"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/runtime/es_open"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/security/sc_random"
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
-	"net/http"
-	"net/url"
-	"sync"
-	"testing"
 )
 
 var (

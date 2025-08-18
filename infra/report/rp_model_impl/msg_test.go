@@ -9,7 +9,7 @@ func TestMsgTransactionReport(t *testing.T) {
 	if MTransactionReport == nil {
 		t.Error("Expected MTransactionReport to be initialized")
 	}
-	
+
 	// Test that messages are accessible
 	_ = MTransactionReport.Success
 	_ = MTransactionReport.Failure
@@ -22,7 +22,7 @@ func TestMsgColumnSpec(t *testing.T) {
 	if MColumnSpec == nil {
 		t.Error("Expected MColumnSpec to be initialized")
 	}
-	
+
 	// Test that messages are accessible
 	_ = MColumnSpec.TransactionRowStatus
 	_ = MColumnSpec.TransactionRowReason

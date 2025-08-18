@@ -32,7 +32,7 @@ func BodyOptionsTable(ui app_ui.UI, subHeader app_msg.Message, sv rc_recipe.Spec
 		// Build description with default value
 		description := sv.ValueDesc(k)
 		descParts := []string{ui.Text(description)}
-		
+
 		// Add available options for SelectString types with descriptions
 		if val := sv.Value(k); val != nil {
 			if _, typeAttr := val.Spec(); typeAttr != nil {
@@ -74,13 +74,13 @@ func BodyOptionsTable(ui app_ui.UI, subHeader app_msg.Message, sv rc_recipe.Spec
 									optionDescs = append(optionDescs, option)
 								}
 							}
-							
+
 							// Format the options differently based on whether we have descriptions
 							if hasDescriptions && len(optionsList) > 2 {
 								// Use bullet list format for better readability when we have descriptions
 								descParts = append(descParts, "Options:")
 								for _, desc := range optionDescs {
-									descParts = append(descParts, "  • " + desc)
+									descParts = append(descParts, "  • "+desc)
 								}
 							} else {
 								// Use inline format for simple options
@@ -91,18 +91,18 @@ func BodyOptionsTable(ui app_ui.UI, subHeader app_msg.Message, sv rc_recipe.Spec
 				}
 			}
 		}
-		
+
 		// Add default value
 		if vd != "" {
 			descParts = append(descParts, fmt.Sprintf("Default: %s", vd))
 		}
-		
+
 		definitions = append(definitions, app_ui.Definition{
 			Term:        app_msg.Raw(opt),
 			Description: app_msg.Raw(strings.Join(descParts, ". ")),
 		})
 	}
-	
+
 	ui.DefinitionList(definitions)
 	ui.Break()
 }

@@ -2,7 +2,7 @@ package eg_text
 
 import (
 	"github.com/golang/freetype/truetype"
-	"github.com/watermint/toolbox/essentials/go/es_errors"
+	"github.com/watermint/toolbox/essentials/es_go/es_errors"
 	"github.com/watermint/toolbox/essentials/graphic/eg_geom"
 	"golang.org/x/image/font"
 )
