@@ -297,11 +297,6 @@ lang: ja
 | [util text case up]({{ site.baseurl }}/ja/commands/util-text-case-up.html)                                                       | 大文字のテキストを表示する                                                   |
 | [util text encoding from]({{ site.baseurl }}/ja/commands/util-text-encoding-from.html)                                           | 指定されたエンコーディングからUTF-8テキストファイルに変換します.             |
 | [util text encoding to]({{ site.baseurl }}/ja/commands/util-text-encoding-to.html)                                               | UTF-8テキストファイルから指定されたエンコーディングに変換する.               |
-| [util text nlp english entity]({{ site.baseurl }}/ja/commands/util-text-nlp-english-entity.html)                                 | 英文をエンティティに分割する                                                 |
-| [util text nlp english sentence]({{ site.baseurl }}/ja/commands/util-text-nlp-english-sentence.html)                             | 英文を文章に分割する                                                         |
-| [util text nlp english token]({{ site.baseurl }}/ja/commands/util-text-nlp-english-token.html)                                   | 英文をトークンに分割する                                                     |
-| [util text nlp japanese token]({{ site.baseurl }}/ja/commands/util-text-nlp-japanese-token.html)                                 | 日本語テキストのトークン化                                                   |
-| [util text nlp japanese wakati]({{ site.baseurl }}/ja/commands/util-text-nlp-japanese-wakati.html)                               | 分かち書き(日本語テキストのトークン化)                                       |
 | [util tidy move dispatch]({{ site.baseurl }}/ja/commands/util-tidy-move-dispatch.html)                                           | ファイルを整理                                                               |
 | [util tidy move simple]({{ site.baseurl }}/ja/commands/util-tidy-move-simple.html)                                               | ローカルファイルをアーカイブします                                           |
 | [util time now]({{ site.baseurl }}/ja/commands/util-time-now.html)                                                               | 現在の時刻を表示                                                             |

@@ -412,50 +412,51 @@ lang: ja
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks: "",
-  	Path:    "dev lifecycle planchangepath",
-  	CliArgs: strings.Join({
-  		"-announce-url URL -compatibility-file /LOCAL/PATH/TO/compat",
-+ 		".json -message-file /LOCAL/PATH/TO/messages",
-  		`.json -date "2020-04-01 17:58:38" -current-path RECIPE -former-p`,
-  		"ath RECIPE",
-  	}, ""),
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 9 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{Name: "AnnounceUrl", Desc: "アナウンスURL", TypeName: "string"},
-  		&{Name: "Compact", Desc: "コンパクトな出力を生成する", Default: "false", TypeName: "bool", ...},
-  		&{Name: "CompatibilityFile", Desc: "互換性ファイル", Default: "catalogue/catalogue_compatibility.json", TypeName: "essentials.model.mo_path.file_system_path_impl", ...},
-+ 		&{
-+ 			Name:     "CurrentBase",
-+ 			Desc:     "現在のレシピのベースパス",
-+ 			Default:  "citron",
-+ 			TypeName: "string",
-+ 		},
-  		&{Name: "CurrentPath", Desc: "現在のCLIパス", TypeName: "string"},
-  		&{Name: "Date", Desc: "発効日", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]any{"optional": bool(false)}},
-+ 		&{
-+ 			Name:     "FormerBase",
-+ 			Desc:     "旧レシピのベースパス",
-+ 			Default:  "recipe",
-+ 			TypeName: "string",
-+ 		},
-  		&{Name: "FormerPath", Desc: "旧CLIパス", TypeName: "string"},
-+ 		&{
-+ 			Name:     "MessageFile",
-+ 			Desc:     "メッセージファイルのパス",
-+ 			Default:  "resources/messages/en/messages.json",
-+ 			TypeName: "essentials.model.mo_path.file_system_path_impl",
-+ 			TypeAttr: map[string]any{"shouldExist": bool(false)},
-+ 		},
-  	},
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-  	... // 2 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 3 identical fields
+  	Remarks: "",
+  	Path:    "dev lifecycle planchangepath",
+  	CliArgs: strings.Join({
+  		"-announce-url URL -compatibility-file /LOCAL/PATH/TO/compat.json",
+  		" -",
++ 		"message-file /LOCAL/PATH/TO/messages.json -",
+  		`date "2020-04-01 17:58:38" -current-path RECIPE -former-path REC`,
+  		"IPE",
+  	}, ""),
+  	CliNote:         "",
+  	ConnUsePersonal: false,
+  	... // 9 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{Name: "AnnounceUrl", Desc: "アナウンスURL", TypeName: "string"},
+  		&{Name: "Compact", Desc: "コンパクトな出力を生成する", Default: "false", TypeName: "bool", ...},
+  		&{Name: "CompatibilityFile", Desc: "互換性ファイル", Default: "catalogue/catalogue_compatibility.json", TypeName: "essentials.model.mo_path.file_system_path_impl", ...},
++ 		&{
++ 			Name:     "CurrentBase",
++ 			Desc:     "現在のレシピのベースパス",
++ 			Default:  "citron",
++ 			TypeName: "string",
++ 		},
+  		&{Name: "CurrentPath", Desc: "現在のCLIパス", TypeName: "string"},
+  		&{Name: "Date", Desc: "発効日", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]any{"optional": bool(false)}},
++ 		&{
++ 			Name:     "FormerBase",
++ 			Desc:     "旧レシピのベースパス",
++ 			Default:  "recipe",
++ 			TypeName: "string",
++ 		},
+  		&{Name: "FormerPath", Desc: "旧CLIパス", TypeName: "string"},
++ 		&{
++ 			Name:     "MessageFile",
++ 			Desc:     "メッセージファイルのパス",
++ 			Default:  "resources/messages/en/messages.json",
++ 			TypeName: "essentials.model.mo_path.file_system_path_impl",
++ 			TypeAttr: map[string]any{"shouldExist": bool(false)},
++ 		},
+  	},
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+  	... // 2 identical fields
+  }
 ```

@@ -23,23 +23,23 @@ lang: ja
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 17 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{Name: "Compact", Desc: "コンパクトな出力", Default: "false", TypeName: "bool", ...},
-- 		&{
-- 			Name:     "Lines",
-- 			Desc:     "JSON Lines (https://jsonlines.org/) フォーマットの読み込み",
-- 			Default:  "false",
-- 			TypeName: "bool",
-- 		},
-  		&{Name: "Path", Desc: "ファイルパス", TypeName: "Path"},
-  		&{Name: "Query", Desc: "クエリー文字列。 ", TypeName: "string"},
-  	},
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-  	... // 2 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 17 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{Name: "Compact", Desc: "コンパクトな出力", Default: "false", TypeName: "bool", ...},
+- 		&{
+- 			Name:     "Lines",
+- 			Desc:     "JSON Lines (https://jsonlines.org/) フォーマットの読み込み",
+- 			Default:  "false",
+- 			TypeName: "bool",
+- 		},
+  		&{Name: "Path", Desc: "ファイルパス", TypeName: "Path"},
+  		&{Name: "Query", Desc: "クエリー文字列。 ", TypeName: "string"},
+  	},
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+  	... // 2 identical fields
+  }
 ```

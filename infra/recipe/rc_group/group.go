@@ -8,8 +8,9 @@ import (
 )
 
 type MsgHeader struct {
-	Header  app_msg.Message
-	License app_msg.Message
+	Header           app_msg.Message
+	KtloAnnouncement app_msg.Message
+	License          app_msg.Message
 }
 
 var (
@@ -20,6 +21,8 @@ func AppHeader(ui app_ui.UI, version string) {
 	ui.Header(MHeader.Header.With("AppVersion", version).With("AppName", app_definitions.Name))
 	ui.Info(app_msg.Raw(app_definitions.Copyright))
 	ui.Info(MHeader.License)
+	ui.Break()
+	ui.Info(MHeader.KtloAnnouncement)
 	ui.Break()
 }
 

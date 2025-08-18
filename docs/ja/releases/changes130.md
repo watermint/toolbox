@@ -38,16 +38,16 @@ lang: ja
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "github_public"},
-+ 	ConnScopes:      map[string]string{"Peer": "github_repo"},
-  	Services:        {"github"},
-  	IsSecret:        true,
-  	... // 12 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: false,
+- 	ConnScopes:      map[string]string{"Peer": "github_public"},
++ 	ConnScopes:      map[string]string{"Peer": "github_repo"},
+  	Services:        {"github"},
+  	IsSecret:        true,
+  	... // 12 identical fields
+  }
 ```
 
 ## 追加されたレポート
@@ -66,16 +66,16 @@ lang: ja
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "google_calendar"},
-+ 	ConnScopes:      map[string]string{"Peer": "google_calendar2024"},
-  	Services:        {"google_calendar"},
-  	IsSecret:        false,
-  	... // 12 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: false,
+- 	ConnScopes:      map[string]string{"Peer": "google_calendar"},
++ 	ConnScopes:      map[string]string{"Peer": "google_calendar2024"},
+  	Services:        {"google_calendar"},
+  	IsSecret:        false,
+  	... // 12 identical fields
+  }
 ```
 # コマンド仕様の変更: `google mail filter add`
 
@@ -85,16 +85,16 @@ lang: ja
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "google_mail"},
-+ 	ConnScopes:      map[string]string{"Peer": "google_mail2024"},
-  	Services:        {"google_mail"},
-  	IsSecret:        false,
-  	... // 12 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: false,
+- 	ConnScopes:      map[string]string{"Peer": "google_mail"},
++ 	ConnScopes:      map[string]string{"Peer": "google_mail2024"},
+  	Services:        {"google_mail"},
+  	IsSecret:        false,
+  	... // 12 identical fields
+  }
 ```
 # コマンド仕様の変更: `google mail filter batch add`
 
@@ -104,16 +104,16 @@ lang: ja
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "google_mail"},
-+ 	ConnScopes:      map[string]string{"Peer": "google_mail2024"},
-  	Services:        {"google_mail"},
-  	IsSecret:        false,
-  	... // 12 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: false,
+- 	ConnScopes:      map[string]string{"Peer": "google_mail"},
++ 	ConnScopes:      map[string]string{"Peer": "google_mail2024"},
+  	Services:        {"google_mail"},
+  	IsSecret:        false,
+  	... // 12 identical fields
+  }
 ```
 # コマンド仕様の変更: `google mail filter delete`
 
@@ -123,16 +123,16 @@ lang: ja
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "google_mail"},
-+ 	ConnScopes:      map[string]string{"Peer": "google_mail2024"},
-  	Services:        {"google_mail"},
-  	IsSecret:        false,
-  	... // 12 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: false,
+- 	ConnScopes:      map[string]string{"Peer": "google_mail"},
++ 	ConnScopes:      map[string]string{"Peer": "google_mail2024"},
+  	Services:        {"google_mail"},
+  	IsSecret:        false,
+  	... // 12 identical fields
+  }
 ```
 # コマンド仕様の変更: `google mail filter list`
 
@@ -142,16 +142,16 @@ lang: ja
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "google_mail"},
-+ 	ConnScopes:      map[string]string{"Peer": "google_mail2024"},
-  	Services:        {"google_mail"},
-  	IsSecret:        false,
-  	... // 12 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: false,
+- 	ConnScopes:      map[string]string{"Peer": "google_mail"},
++ 	ConnScopes:      map[string]string{"Peer": "google_mail2024"},
+  	Services:        {"google_mail"},
+  	IsSecret:        false,
+  	... // 12 identical fields
+  }
 ```
 # コマンド仕様の変更: `google mail label add`
 
@@ -161,16 +161,16 @@ lang: ja
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "google_mail"},
-+ 	ConnScopes:      map[string]string{"Peer": "google_mail2024"},
-  	Services:        {"google_mail"},
-  	IsSecret:        false,
-  	... // 12 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: false,
+- 	ConnScopes:      map[string]string{"Peer": "google_mail"},
++ 	ConnScopes:      map[string]string{"Peer": "google_mail2024"},
+  	Services:        {"google_mail"},
+  	IsSecret:        false,
+  	... // 12 identical fields
+  }
 ```
 # コマンド仕様の変更: `google mail label delete`
 
@@ -180,16 +180,16 @@ lang: ja
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "google_mail"},
-+ 	ConnScopes:      map[string]string{"Peer": "google_mail2024"},
-  	Services:        {"google_mail"},
-  	IsSecret:        false,
-  	... // 12 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: false,
+- 	ConnScopes:      map[string]string{"Peer": "google_mail"},
++ 	ConnScopes:      map[string]string{"Peer": "google_mail2024"},
+  	Services:        {"google_mail"},
+  	IsSecret:        false,
+  	... // 12 identical fields
+  }
 ```
 # コマンド仕様の変更: `google mail label list`
 
@@ -199,16 +199,16 @@ lang: ja
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "google_mail"},
-+ 	ConnScopes:      map[string]string{"Peer": "google_mail2024"},
-  	Services:        {"google_mail"},
-  	IsSecret:        false,
-  	... // 12 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: false,
+- 	ConnScopes:      map[string]string{"Peer": "google_mail"},
++ 	ConnScopes:      map[string]string{"Peer": "google_mail2024"},
+  	Services:        {"google_mail"},
+  	IsSecret:        false,
+  	... // 12 identical fields
+  }
 ```
 # コマンド仕様の変更: `google mail label rename`
 
@@ -218,16 +218,16 @@ lang: ja
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "google_mail"},
-+ 	ConnScopes:      map[string]string{"Peer": "google_mail2024"},
-  	Services:        {"google_mail"},
-  	IsSecret:        false,
-  	... // 12 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: false,
+- 	ConnScopes:      map[string]string{"Peer": "google_mail"},
++ 	ConnScopes:      map[string]string{"Peer": "google_mail2024"},
+  	Services:        {"google_mail"},
+  	IsSecret:        false,
+  	... // 12 identical fields
+  }
 ```
 # コマンド仕様の変更: `google mail message label add`
 
@@ -237,16 +237,16 @@ lang: ja
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "google_mail"},
-+ 	ConnScopes:      map[string]string{"Peer": "google_mail2024"},
-  	Services:        {"google_mail"},
-  	IsSecret:        false,
-  	... // 12 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: false,
+- 	ConnScopes:      map[string]string{"Peer": "google_mail"},
++ 	ConnScopes:      map[string]string{"Peer": "google_mail2024"},
+  	Services:        {"google_mail"},
+  	IsSecret:        false,
+  	... // 12 identical fields
+  }
 ```
 # コマンド仕様の変更: `google mail message label delete`
 
@@ -256,16 +256,16 @@ lang: ja
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "google_mail"},
-+ 	ConnScopes:      map[string]string{"Peer": "google_mail2024"},
-  	Services:        {"google_mail"},
-  	IsSecret:        false,
-  	... // 12 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: false,
+- 	ConnScopes:      map[string]string{"Peer": "google_mail"},
++ 	ConnScopes:      map[string]string{"Peer": "google_mail2024"},
+  	Services:        {"google_mail"},
+  	IsSecret:        false,
+  	... // 12 identical fields
+  }
 ```
 # コマンド仕様の変更: `google mail message list`
 
@@ -275,16 +275,16 @@ lang: ja
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "google_mail"},
-+ 	ConnScopes:      map[string]string{"Peer": "google_mail2024"},
-  	Services:        {"google_mail"},
-  	IsSecret:        false,
-  	... // 12 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: false,
+- 	ConnScopes:      map[string]string{"Peer": "google_mail"},
++ 	ConnScopes:      map[string]string{"Peer": "google_mail2024"},
+  	Services:        {"google_mail"},
+  	IsSecret:        false,
+  	... // 12 identical fields
+  }
 ```
 # コマンド仕様の変更: `google mail message processed list`
 
@@ -294,16 +294,16 @@ lang: ja
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "google_mail"},
-+ 	ConnScopes:      map[string]string{"Peer": "google_mail2024"},
-  	Services:        {"google_mail"},
-  	IsSecret:        false,
-  	... // 12 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: false,
+- 	ConnScopes:      map[string]string{"Peer": "google_mail"},
++ 	ConnScopes:      map[string]string{"Peer": "google_mail2024"},
+  	Services:        {"google_mail"},
+  	IsSecret:        false,
+  	... // 12 identical fields
+  }
 ```
 # コマンド仕様の変更: `google mail message send`
 
@@ -313,16 +313,16 @@ lang: ja
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "google_mail"},
-+ 	ConnScopes:      map[string]string{"Peer": "google_mail2024"},
-  	Services:        {"google_mail"},
-  	IsSecret:        true,
-  	... // 12 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: false,
+- 	ConnScopes:      map[string]string{"Peer": "google_mail"},
++ 	ConnScopes:      map[string]string{"Peer": "google_mail2024"},
+  	Services:        {"google_mail"},
+  	IsSecret:        true,
+  	... // 12 identical fields
+  }
 ```
 # コマンド仕様の変更: `google mail sendas add`
 
@@ -332,16 +332,16 @@ lang: ja
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "google_mail"},
-+ 	ConnScopes:      map[string]string{"Peer": "google_mail2024"},
-  	Services:        {"google_mail"},
-  	IsSecret:        false,
-  	... // 12 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: false,
+- 	ConnScopes:      map[string]string{"Peer": "google_mail"},
++ 	ConnScopes:      map[string]string{"Peer": "google_mail2024"},
+  	Services:        {"google_mail"},
+  	IsSecret:        false,
+  	... // 12 identical fields
+  }
 ```
 # コマンド仕様の変更: `google mail sendas delete`
 
@@ -351,16 +351,16 @@ lang: ja
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "google_mail"},
-+ 	ConnScopes:      map[string]string{"Peer": "google_mail2024"},
-  	Services:        {"google_mail"},
-  	IsSecret:        false,
-  	... // 12 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: false,
+- 	ConnScopes:      map[string]string{"Peer": "google_mail"},
++ 	ConnScopes:      map[string]string{"Peer": "google_mail2024"},
+  	Services:        {"google_mail"},
+  	IsSecret:        false,
+  	... // 12 identical fields
+  }
 ```
 # コマンド仕様の変更: `google mail sendas list`
 
@@ -370,16 +370,16 @@ lang: ja
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "google_mail"},
-+ 	ConnScopes:      map[string]string{"Peer": "google_mail2024"},
-  	Services:        {"google_mail"},
-  	IsSecret:        false,
-  	... // 12 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: false,
+- 	ConnScopes:      map[string]string{"Peer": "google_mail"},
++ 	ConnScopes:      map[string]string{"Peer": "google_mail2024"},
+  	Services:        {"google_mail"},
+  	IsSecret:        false,
+  	... // 12 identical fields
+  }
 ```
 # コマンド仕様の変更: `google mail thread list`
 
@@ -389,16 +389,16 @@ lang: ja
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "google_mail"},
-+ 	ConnScopes:      map[string]string{"Peer": "google_mail2024"},
-  	Services:        {"google_mail"},
-  	IsSecret:        false,
-  	... // 12 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: false,
+- 	ConnScopes:      map[string]string{"Peer": "google_mail"},
++ 	ConnScopes:      map[string]string{"Peer": "google_mail2024"},
+  	Services:        {"google_mail"},
+  	IsSecret:        false,
+  	... // 12 identical fields
+  }
 ```
 # コマンド仕様の変更: `google sheets sheet append`
 
@@ -408,16 +408,16 @@ lang: ja
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "google_sheets"},
-+ 	ConnScopes:      map[string]string{"Peer": "google_sheets2024"},
-  	Services:        {"google_sheets"},
-  	IsSecret:        false,
-  	... // 12 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: false,
+- 	ConnScopes:      map[string]string{"Peer": "google_sheets"},
++ 	ConnScopes:      map[string]string{"Peer": "google_sheets2024"},
+  	Services:        {"google_sheets"},
+  	IsSecret:        false,
+  	... // 12 identical fields
+  }
 ```
 # コマンド仕様の変更: `google sheets sheet clear`
 
@@ -427,16 +427,16 @@ lang: ja
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "google_sheets"},
-+ 	ConnScopes:      map[string]string{"Peer": "google_sheets2024"},
-  	Services:        {"google_sheets"},
-  	IsSecret:        false,
-  	... // 12 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: false,
+- 	ConnScopes:      map[string]string{"Peer": "google_sheets"},
++ 	ConnScopes:      map[string]string{"Peer": "google_sheets2024"},
+  	Services:        {"google_sheets"},
+  	IsSecret:        false,
+  	... // 12 identical fields
+  }
 ```
 # コマンド仕様の変更: `google sheets sheet create`
 
@@ -446,16 +446,16 @@ lang: ja
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "google_sheets"},
-+ 	ConnScopes:      map[string]string{"Peer": "google_sheets2024"},
-  	Services:        {"google_sheets"},
-  	IsSecret:        false,
-  	... // 12 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: false,
+- 	ConnScopes:      map[string]string{"Peer": "google_sheets"},
++ 	ConnScopes:      map[string]string{"Peer": "google_sheets2024"},
+  	Services:        {"google_sheets"},
+  	IsSecret:        false,
+  	... // 12 identical fields
+  }
 ```
 # コマンド仕様の変更: `google sheets sheet delete`
 
@@ -465,16 +465,16 @@ lang: ja
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "google_sheets"},
-+ 	ConnScopes:      map[string]string{"Peer": "google_sheets2024"},
-  	Services:        {"google_sheets"},
-  	IsSecret:        false,
-  	... // 12 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: false,
+- 	ConnScopes:      map[string]string{"Peer": "google_sheets"},
++ 	ConnScopes:      map[string]string{"Peer": "google_sheets2024"},
+  	Services:        {"google_sheets"},
+  	IsSecret:        false,
+  	... // 12 identical fields
+  }
 ```
 # コマンド仕様の変更: `google sheets sheet export`
 
@@ -484,16 +484,16 @@ lang: ja
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "google_sheets"},
-+ 	ConnScopes:      map[string]string{"Peer": "google_sheets2024"},
-  	Services:        {"google_sheets"},
-  	IsSecret:        false,
-  	... // 12 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: false,
+- 	ConnScopes:      map[string]string{"Peer": "google_sheets"},
++ 	ConnScopes:      map[string]string{"Peer": "google_sheets2024"},
+  	Services:        {"google_sheets"},
+  	IsSecret:        false,
+  	... // 12 identical fields
+  }
 ```
 # コマンド仕様の変更: `google sheets sheet import`
 
@@ -503,16 +503,16 @@ lang: ja
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "google_sheets"},
-+ 	ConnScopes:      map[string]string{"Peer": "google_sheets2024"},
-  	Services:        {"google_sheets"},
-  	IsSecret:        false,
-  	... // 12 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: false,
+- 	ConnScopes:      map[string]string{"Peer": "google_sheets"},
++ 	ConnScopes:      map[string]string{"Peer": "google_sheets2024"},
+  	Services:        {"google_sheets"},
+  	IsSecret:        false,
+  	... // 12 identical fields
+  }
 ```
 # コマンド仕様の変更: `google sheets sheet list`
 
@@ -522,16 +522,16 @@ lang: ja
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "google_sheets"},
-+ 	ConnScopes:      map[string]string{"Peer": "google_sheets2024"},
-  	Services:        {"google_sheets"},
-  	IsSecret:        false,
-  	... // 12 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: false,
+- 	ConnScopes:      map[string]string{"Peer": "google_sheets"},
++ 	ConnScopes:      map[string]string{"Peer": "google_sheets2024"},
+  	Services:        {"google_sheets"},
+  	IsSecret:        false,
+  	... // 12 identical fields
+  }
 ```
 # コマンド仕様の変更: `google sheets spreadsheet create`
 
@@ -541,16 +541,16 @@ lang: ja
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "google_sheets"},
-+ 	ConnScopes:      map[string]string{"Peer": "google_sheets2024"},
-  	Services:        {"google_sheets"},
-  	IsSecret:        false,
-  	... // 12 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: false,
+- 	ConnScopes:      map[string]string{"Peer": "google_sheets"},
++ 	ConnScopes:      map[string]string{"Peer": "google_sheets2024"},
+  	Services:        {"google_sheets"},
+  	IsSecret:        false,
+  	... // 12 identical fields
+  }
 ```
 # コマンド仕様の変更: `util desktop screenshot interval`
 
@@ -560,31 +560,31 @@ lang: ja
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 17 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{Name: "Count", Desc: "スクリーンショットの枚数。値が1未満の場合、"..., Default: "-1", TypeName: "int", ...},
-  		&{
-  			... // 2 identical fields
-  			Default:  "0",
-  			TypeName: "essentials.model.mo_int.range_int",
-  			TypeAttr: map[string]any{
-- 				"max":   float64(2),
-+ 				"max":   float64(1),
-  				"min":   float64(0),
-  				"value": float64(0),
-  			},
-  		},
-  		&{Name: "Interval", Desc: "スクリーンショットの間隔秒数。", Default: "10", TypeName: "int", ...},
-  		&{Name: "NamePattern", Desc: "スクリーンショットファイルの名前パターン。\xe4"..., Default: "{% raw %}{{.{% endraw %}Sequence}}_{% raw %}{{.{% endraw %}Timestamp}}.png", TypeName: "string", ...},
-  		... // 2 identical elements
-  	},
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-  	... // 2 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 17 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{Name: "Count", Desc: "スクリーンショットの枚数。値が1未満の場合、"..., Default: "-1", TypeName: "int", ...},
+  		&{
+  			... // 2 identical fields
+  			Default:  "0",
+  			TypeName: "essentials.model.mo_int.range_int",
+  			TypeAttr: map[string]any{
+- 				"max":   float64(2),
++ 				"max":   float64(1),
+  				"min":   float64(0),
+  				"value": float64(0),
+  			},
+  		},
+  		&{Name: "Interval", Desc: "スクリーンショットの間隔秒数。", Default: "10", TypeName: "int", ...},
+  		&{Name: "NamePattern", Desc: "スクリーンショットファイルの名前パターン。\xe4"..., Default: "{% raw %}{{.{% endraw %}Sequence}}_{% raw %}{{.{% endraw %}Timestamp}}.png", TypeName: "string", ...},
+  		... // 2 identical elements
+  	},
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+  	... // 2 identical fields
+  }
 ```
 # コマンド仕様の変更: `util desktop screenshot snap`
 
@@ -594,26 +594,26 @@ lang: ja
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 17 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{
-  			... // 2 identical fields
-  			Default:  "0",
-  			TypeName: "essentials.model.mo_int.range_int",
-  			TypeAttr: map[string]any{
-- 				"max":   float64(2),
-+ 				"max":   float64(1),
-  				"min":   float64(0),
-  				"value": float64(0),
-  			},
-  		},
-  		&{Name: "Path", Desc: "スクリーンショットを保存するパス", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]any{"shouldExist": bool(false)}},
-  	},
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-  	... // 2 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 17 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{
+  			... // 2 identical fields
+  			Default:  "0",
+  			TypeName: "essentials.model.mo_int.range_int",
+  			TypeAttr: map[string]any{
+- 				"max":   float64(2),
++ 				"max":   float64(1),
+  				"min":   float64(0),
+  				"value": float64(0),
+  			},
+  		},
+  		&{Name: "Path", Desc: "スクリーンショットを保存するパス", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]any{"shouldExist": bool(false)}},
+  	},
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+  	... // 2 identical fields
+  }
 ```

@@ -41,8 +41,8 @@ watermint toolboxはApache License, Version 2.0でライセンスされていま
 
 # お知らせ
 
+* [#911 watermint toolbox will no longer be actively maintained](https://github.com/watermint/toolbox/discussions/911)
 * [#906 AI Powered Q&A Bot on ChatGPT](https://github.com/watermint/toolbox/discussions/906)
-* [#905 Deprecation: Some of utilities command will be removed after release of 2025-08-01](https://github.com/watermint/toolbox/discussions/905)
 
 # セキュリティとプライバシー
 
