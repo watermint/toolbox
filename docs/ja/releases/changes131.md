@@ -35,16 +35,16 @@ lang: ja
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "github_repo"},
-+ 	ConnScopes:      map[string]string{"Peer": "github_public"},
-  	Services:        {"github"},
-  	IsSecret:        true,
-  	... // 12 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: false,
+- 	ConnScopes:      map[string]string{"Peer": "github_repo"},
++ 	ConnScopes:      map[string]string{"Peer": "github_public"},
+  	Services:        {"github"},
+  	IsSecret:        true,
+  	... // 12 identical fields
+  }
 ```
 # コマンド仕様の変更: `log cat job`
 
@@ -54,24 +54,24 @@ lang: ja
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 17 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{
-  			Name:     "Id",
-  			Desc:     "ジョブID",
-  			Default:  "",
-- 			TypeName: "string",
-+ 			TypeName: "essentials.model.mo_string.opt_string",
-  			TypeAttr: nil,
-  		},
-  		&{Name: "Kind", Desc: "ログの種別", Default: "toolbox", TypeName: "essentials.model.mo_string.select_string_internal", ...},
-  		&{Name: "Path", Desc: "ワークスペースへのパス.", TypeName: "essentials.model.mo_string.opt_string"},
-  	},
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-  	... // 2 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 17 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{
+  			Name:     "Id",
+  			Desc:     "ジョブID",
+  			Default:  "",
+- 			TypeName: "string",
++ 			TypeName: "essentials.model.mo_string.opt_string",
+  			TypeAttr: nil,
+  		},
+  		&{Name: "Kind", Desc: "ログの種別", Default: "toolbox", TypeName: "essentials.model.mo_string.select_string_internal", ...},
+  		&{Name: "Path", Desc: "ワークスペースへのパス.", TypeName: "essentials.model.mo_string.opt_string"},
+  	},
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+  	... // 2 identical fields
+  }
 ```
