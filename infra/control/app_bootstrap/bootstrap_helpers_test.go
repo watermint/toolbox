@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/watermint/toolbox/essentials/go/es_lang"
+	"github.com/watermint/toolbox/essentials/es_go/es_lang"
 )
 
 func TestParseArgs(t *testing.T) {
@@ -33,7 +33,7 @@ func TestParseArgs(t *testing.T) {
 			expected: 3,
 		},
 	}
-	
+
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
 			if len(tc.args) != tc.expected {
@@ -65,7 +65,7 @@ func TestLanguageParsing(t *testing.T) {
 			expected: es_lang.Japanese,
 		},
 	}
-	
+
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
 			// Test language parsing logic
@@ -80,7 +80,7 @@ func TestLanguageParsing(t *testing.T) {
 			default:
 				lang = es_lang.Default
 			}
-			
+
 			// For auto, we can't predict exact result, so just ensure it's valid
 			if tc.input != "auto" && lang != tc.expected {
 				t.Errorf("Expected language %v, got %v", tc.expected, lang)
@@ -89,21 +89,20 @@ func TestLanguageParsing(t *testing.T) {
 	}
 }
 
-
 func TestFlagSetCreation(t *testing.T) {
 	// Test that we can create flag sets without panics
 	fs := flag.NewFlagSet("test", flag.ContinueOnError)
-	
+
 	// Add some test flags
 	quiet := fs.Bool("quiet", false, "Suppress output")
 	verbose := fs.Bool("verbose", false, "Verbose output")
-	
+
 	// Parse empty args
 	err := fs.Parse([]string{})
 	if err != nil {
 		t.Errorf("Failed to parse empty args: %v", err)
 	}
-	
+
 	// Check defaults
 	if *quiet {
 		t.Error("quiet flag should default to false")
@@ -111,7 +110,7 @@ func TestFlagSetCreation(t *testing.T) {
 	if *verbose {
 		t.Error("verbose flag should default to false")
 	}
-	
+
 	// Parse with flags
 	err = fs.Parse([]string{"-quiet", "-verbose"})
 	if err != nil {
@@ -129,13 +128,13 @@ func TestEnvironmentVariables(t *testing.T) {
 		{"TEST_LANG", "en"},
 		{"TEST_DEBUG", "1"},
 	}
-	
+
 	// Set test environment variables
 	for _, env := range testEnvVars {
 		os.Setenv(env.name, env.value)
 		defer os.Unsetenv(env.name)
 	}
-	
+
 	// Verify they're set
 	for _, env := range testEnvVars {
 		if val := os.Getenv(env.name); val != env.value {
@@ -176,7 +175,7 @@ func TestOutputFilterValidation(t *testing.T) {
 			isValid: true,
 		},
 	}
-	
+
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
 			// Basic validation - non-empty filters should contain at least one character
@@ -191,7 +190,7 @@ func TestOutputFilterValidation(t *testing.T) {
 func TestConcurrencyDefaults(t *testing.T) {
 	// Test concurrency default values
 	defaultConcurrency := 0 // 0 means use number of CPUs
-	
+
 	if defaultConcurrency < 0 {
 		t.Error("Default concurrency should not be negative")
 	}
@@ -207,7 +206,7 @@ func TestTimeouts(t *testing.T) {
 		{"medium", 30 * time.Second},
 		{"long", 5 * time.Minute},
 	}
-	
+
 	for _, tt := range testTimeouts {
 		t.Run(tt.name, func(t *testing.T) {
 			if tt.timeout <= 0 {
@@ -244,7 +243,7 @@ func TestPathValidation(t *testing.T) {
 			isValid: false,
 		},
 	}
-	
+
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
 			isValid := tc.path != ""
@@ -263,20 +262,20 @@ func TestExperimentFlags(t *testing.T) {
 		"feature_with_underscore",
 		"feature-with-dash",
 	}
-	
+
 	for _, exp := range experiments {
 		if !isValidExperimentName(exp) {
 			t.Errorf("Experiment name '%s' should be valid", exp)
 		}
 	}
-	
+
 	// Test invalid experiment names
 	invalidExperiments := []string{
 		"",
 		" ",
 		"feature with space",
 	}
-	
+
 	for _, exp := range invalidExperiments {
 		if isValidExperimentName(exp) {
 			t.Errorf("Experiment name '%s' should be invalid", exp)

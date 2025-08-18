@@ -60,8 +60,8 @@ func (z *Options) Exec(c app_control.Control) error {
 	// Generate option description messages
 	for _, field := range fields {
 		if err := z.generateOptionMessages(c, field); err != nil {
-			l.Error("Failed to generate messages for field", 
-				esl.Error(err), 
+			l.Error("Failed to generate messages for field",
+				esl.Error(err),
 				esl.String("recipe", field.RecipePath),
 				esl.String("field", field.FieldName))
 			ui.Error(z.GenerationError.With("Field", field.FieldName).With("Recipe", field.RecipePath))
@@ -99,14 +99,14 @@ func (z *Options) scanSelectStringFields(c app_control.Control, targetPath strin
 				if structType, ok := typeSpec.Type.(*ast.StructType); ok {
 					structName := typeSpec.Name.Name
 					packagePath := z.getPackagePath(path)
-					
+
 					for _, field := range structType.Fields.List {
 						if z.isSelectStringField(field) && len(field.Names) > 0 {
 							fieldName := field.Names[0].Name
-							
+
 							// Get message prefix from package path
 							messagePrefix := z.buildMessagePrefix(packagePath, structName)
-							
+
 							selectField := SelectStringField{
 								RecipePath:    path,
 								StructName:    structName,
@@ -204,9 +204,9 @@ func (z *Options) generateOptionMessages(c app_control.Control, field SelectStri
 
 	// Generate option description messages for each unique option value
 	for _, option := range options {
-		optionKey := fmt.Sprintf("%s.flag.%s.options.%s", 
-			field.MessagePrefix, 
-			field.FieldNameLow, 
+		optionKey := fmt.Sprintf("%s.flag.%s.options.%s",
+			field.MessagePrefix,
+			field.FieldNameLow,
 			es_case.ToLowerSnakeCase(option))
 
 		// Generate a descriptive message for the option
@@ -217,8 +217,8 @@ func (z *Options) generateOptionMessages(c app_control.Control, field SelectStri
 		} else {
 			// Create the message using the existing add command logic
 			if err := z.createMessage(c, optionKey, optionDescription); err != nil {
-				l.Error("Failed to create option message", 
-					esl.Error(err), 
+				l.Error("Failed to create option message",
+					esl.Error(err),
 					esl.String("key", optionKey))
 				return err
 			}

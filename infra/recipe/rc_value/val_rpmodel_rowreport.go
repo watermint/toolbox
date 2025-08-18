@@ -1,14 +1,15 @@
 package rc_value
 
 import (
-	"github.com/watermint/toolbox/essentials/encoding/es_json"
-	"github.com/watermint/toolbox/essentials/go/es_reflect"
-	"github.com/watermint/toolbox/essentials/strings/es_case"
-	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/infra/report/rp_model_impl"
-	"reflect"
+    "reflect"
+
+    "github.com/watermint/toolbox/essentials/encoding/es_json"
+    "github.com/watermint/toolbox/essentials/es_go/es_reflect"
+    "github.com/watermint/toolbox/essentials/strings/es_case"
+    "github.com/watermint/toolbox/infra/control/app_control"
+    "github.com/watermint/toolbox/infra/recipe/rc_recipe"
+    "github.com/watermint/toolbox/infra/report/rp_model"
+    "github.com/watermint/toolbox/infra/report/rp_model_impl"
 )
 
 func newValueRpModelRowReport(name string) rc_recipe.Value {

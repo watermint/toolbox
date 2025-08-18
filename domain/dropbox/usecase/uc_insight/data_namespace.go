@@ -9,7 +9,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_namespace"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedfolder"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
-	"github.com/watermint/toolbox/essentials/go/es_lang"
+	"github.com/watermint/toolbox/essentials/es_go/es_lang"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"gorm.io/gorm"

@@ -1,11 +1,12 @@
 package da_griddata
 
 import (
-	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/control/app_control"
-	"os"
-	"path/filepath"
-	"sync"
+    "os"
+    "path/filepath"
+    "sync"
+
+    "github.com/watermint/toolbox/essentials/log/esl"
+    "github.com/watermint/toolbox/infra/control/app_control"
 )
 
 func NewPlainWriter(name, path string, formatter GridDataFormatter, writer PlainGridDataWriter) GridDataWriter {

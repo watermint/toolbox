@@ -3,8 +3,8 @@ package es_size
 import (
 	"encoding/json"
 	"errors"
+	"github.com/watermint/toolbox/essentials/es_go/es_lang"
 	"github.com/watermint/toolbox/essentials/file/es_filesystem"
-	"github.com/watermint/toolbox/essentials/go/es_lang"
 	"github.com/watermint/toolbox/essentials/kvs/kv_kvs"
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
 	"github.com/watermint/toolbox/essentials/log/esl"

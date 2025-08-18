@@ -1,7 +1,7 @@
 package ei_exif
 
 import (
-	"github.com/watermint/toolbox/essentials/go/es_project"
+	"github.com/watermint/toolbox/essentials/es_go/es_project"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"path/filepath"
 	"testing"

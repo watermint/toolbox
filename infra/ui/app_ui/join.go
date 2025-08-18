@@ -1,8 +1,9 @@
 package app_ui
 
 import (
-	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"strings"
+    "strings"
+
+    "github.com/watermint/toolbox/infra/ui/app_msg"
 )
 
 func Join(ui UI, messages ...app_msg.Message) app_msg.Message {

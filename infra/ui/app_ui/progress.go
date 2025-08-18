@@ -1,9 +1,10 @@
 package app_ui
 
 import (
-	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"sync"
-	"time"
+    "sync"
+    "time"
+
+    "github.com/watermint/toolbox/infra/ui/app_msg"
 )
 
 const (

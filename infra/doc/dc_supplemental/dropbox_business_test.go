@@ -1,10 +1,11 @@
 package dc_supplemental
 
 import (
-	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/doc/dc_index"
-	"github.com/watermint/toolbox/quality/infra/qt_control"
-	"testing"
+    "testing"
+
+    "github.com/watermint/toolbox/infra/control/app_control"
+    "github.com/watermint/toolbox/infra/doc/dc_index"
+    "github.com/watermint/toolbox/quality/infra/qt_control"
 )
 
 func TestNewDbxCatalogue(t *testing.T) {
@@ -37,7 +38,7 @@ func TestDbxCat_Recipe(t *testing.T) {
 			t.Error("Expected Recipe method to panic for non-existent path")
 		}
 	}()
-	
+
 	spec := dbxCat.Recipe("non-existent-path")
 	// Should not reach here
 	t.Error("Recipe method should have panicked, but got:", spec)
@@ -68,7 +69,7 @@ func TestDbxCat_RecipeTable(t *testing.T) {
 				t.Logf("RecipeTable panicked as expected with invalid paths: %v", r)
 			}
 		}()
-		
+
 		// This will likely panic, but that's the expected behavior
 		paths := []string{"dropbox", "file", "list"}
 		dbxCat.RecipeTable("test-table", ctl.UI(), paths)
@@ -96,7 +97,7 @@ func TestNewDropboxBusiness(t *testing.T) {
 
 		// Test that it implements the Document interface methods
 		docImpl := doc.(*DropboxBusiness)
-		
+
 		// Test DocDesc
 		desc := docImpl.DocDesc()
 		if desc == nil {
@@ -509,7 +510,7 @@ func TestMsgDropboxBusiness(t *testing.T) {
 func TestSkipDropboxBusinessCommandDoc(t *testing.T) {
 	// Test the global flag
 	originalValue := SkipDropboxBusinessCommandDoc
-	
+
 	// Test setting to true
 	SkipDropboxBusinessCommandDoc = true
 	if !SkipDropboxBusinessCommandDoc {

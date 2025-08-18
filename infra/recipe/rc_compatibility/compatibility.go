@@ -1,13 +1,14 @@
 package rc_compatibility
 
 import (
-	"encoding/json"
-	"github.com/watermint/toolbox/essentials/log/esl"
-	"golang.org/x/exp/slices"
-	"os"
-	"reflect"
-	"strings"
-	"time"
+    "encoding/json"
+    "os"
+    "reflect"
+    "strings"
+    "time"
+
+    "github.com/watermint/toolbox/essentials/log/esl"
+    "golang.org/x/exp/slices"
 )
 
 var (

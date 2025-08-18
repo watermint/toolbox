@@ -1,13 +1,14 @@
 package rc_value
 
 import (
-	"flag"
-	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/data/da_griddata"
-	"github.com/watermint/toolbox/quality/infra/qt_control"
-	"github.com/watermint/toolbox/quality/infra/qt_file"
-	"os"
-	"testing"
+    "flag"
+    "os"
+    "testing"
+
+    "github.com/watermint/toolbox/infra/control/app_control"
+    "github.com/watermint/toolbox/infra/data/da_griddata"
+    "github.com/watermint/toolbox/quality/infra/qt_control"
+    "github.com/watermint/toolbox/quality/infra/qt_file"
 )
 
 type ValueDaGridDataOutputRecipe struct {

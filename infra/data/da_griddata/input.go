@@ -1,14 +1,15 @@
 package da_griddata
 
 import (
-	"errors"
-	"github.com/watermint/toolbox/essentials/encoding/es_unicode"
-	"github.com/watermint/toolbox/essentials/io/es_file_read"
-	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"io"
-	"os"
+    "errors"
+    "io"
+    "os"
+
+    "github.com/watermint/toolbox/essentials/encoding/es_unicode"
+    "github.com/watermint/toolbox/essentials/io/es_file_read"
+    "github.com/watermint/toolbox/essentials/log/esl"
+    "github.com/watermint/toolbox/infra/control/app_control"
+    "github.com/watermint/toolbox/infra/ui/app_msg"
 )
 
 type GridDataInput interface {

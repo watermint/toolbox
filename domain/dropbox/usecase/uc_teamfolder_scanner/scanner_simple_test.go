@@ -42,7 +42,7 @@ func TestScanImpl_StorageOperations(t *testing.T) {
 	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
 		// Create empty KVS for testing
 		kvs := kv_kvs_impl.NewEmpty()
-		
+
 		// Test basic KVS operations
 		err := kvs.PutString("test_key", "test_value")
 		if err != nil {
@@ -168,10 +168,10 @@ func TestScanImpl_FilterValidation(t *testing.T) {
 
 			// Test with valid filters
 			validFilters := []string{
-				"",           // empty filter
-				"project",    // simple filter
-				"Project*",   // wildcard
-				"test|demo",  // OR filter
+				"",          // empty filter
+				"project",   // simple filter
+				"Project*",  // wildcard
+				"test|demo", // OR filter
 			}
 
 			for _, filterStr := range validFilters {
@@ -208,7 +208,7 @@ func TestScanImpl_ErrorScenarios(t *testing.T) {
 			scanner := New(ctl, ctx, ScanTimeoutShort, dbx_filesystem.BaseNamespaceRoot)
 
 			// Test error scenarios
-			
+
 			// Test with nil filter should error
 			_, err := scanner.Scan(nil)
 			if err == nil {

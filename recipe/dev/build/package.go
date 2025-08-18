@@ -6,7 +6,7 @@ import (
 	"fmt"
 	mo_dbx_path "github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/essentials/ambient/ea_indicator"
-	"github.com/watermint/toolbox/essentials/go/es_lang"
+	"github.com/watermint/toolbox/essentials/es_go/es_lang"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_path"
 	"github.com/watermint/toolbox/essentials/model/mo_string"

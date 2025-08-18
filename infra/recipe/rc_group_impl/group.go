@@ -1,13 +1,14 @@
 package rc_group_impl
 
 import (
-	"errors"
-	"github.com/watermint/toolbox/infra/recipe/rc_group"
-	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/infra/ui/app_ui"
-	"sort"
-	"strings"
+    "errors"
+    "sort"
+    "strings"
+
+    "github.com/watermint/toolbox/infra/recipe/rc_group"
+    "github.com/watermint/toolbox/infra/recipe/rc_recipe"
+    "github.com/watermint/toolbox/infra/ui/app_msg"
+    "github.com/watermint/toolbox/infra/ui/app_ui"
 )
 
 type MsgGroup struct {

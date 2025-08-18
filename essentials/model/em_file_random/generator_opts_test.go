@@ -7,7 +7,7 @@ import (
 
 func TestDefault(t *testing.T) {
 	opts := Default()
-	
+
 	// Check default values
 	if opts.fileSizeRangeMax != 2048 {
 		t.Errorf("Expected fileSizeRangeMax to be 2048, got %d", opts.fileSizeRangeMax)
@@ -27,7 +27,7 @@ func TestDefault(t *testing.T) {
 	if opts.depthRangeMax != 8 {
 		t.Errorf("Expected depthRangeMax to be 8, got %d", opts.depthRangeMax)
 	}
-	
+
 	// Check date ranges are reasonable
 	now := time.Now()
 	if opts.fileDateRangeMax.After(now.Add(time.Minute)) {
@@ -37,7 +37,7 @@ func TestDefault(t *testing.T) {
 	if opts.fileDateRangeMin.Before(expectedMin.Add(-time.Hour)) || opts.fileDateRangeMin.After(expectedMin.Add(time.Hour)) {
 		t.Error("Expected fileDateRangeMin to be around 2 years ago")
 	}
-	
+
 	// Seed should be non-zero
 	if opts.seed == 0 {
 		t.Error("Expected seed to be non-zero")
@@ -51,14 +51,14 @@ func TestOpts_Apply(t *testing.T) {
 	if result.numFiles != opts.numFiles {
 		t.Error("Apply with no options should return unchanged opts")
 	}
-	
+
 	// Test with single option
 	opt1 := NumFiles(500)
 	result = opts.Apply([]Opt{opt1})
 	if result.numFiles != 500 {
 		t.Errorf("Expected numFiles to be 500, got %d", result.numFiles)
 	}
-	
+
 	// Test with multiple options
 	opt2 := Depth(10)
 	opt3 := Seed(12345)
@@ -77,14 +77,14 @@ func TestOpts_Apply(t *testing.T) {
 func TestFileSize(t *testing.T) {
 	opts := Default()
 	modified := FileSize(100, 5000)(opts)
-	
+
 	if modified.fileSizeRangeMin != 100 {
 		t.Errorf("Expected fileSizeRangeMin to be 100, got %d", modified.fileSizeRangeMin)
 	}
 	if modified.fileSizeRangeMax != 5000 {
 		t.Errorf("Expected fileSizeRangeMax to be 5000, got %d", modified.fileSizeRangeMax)
 	}
-	
+
 	// Other fields should remain unchanged
 	if modified.numFiles != opts.numFiles {
 		t.Error("FileSize option should not modify numFiles")
@@ -95,9 +95,9 @@ func TestFileDate(t *testing.T) {
 	opts := Default()
 	minDate := time.Date(2020, 1, 1, 0, 0, 0, 0, time.UTC)
 	maxDate := time.Date(2023, 12, 31, 23, 59, 59, 0, time.UTC)
-	
+
 	modified := FileDate(minDate, maxDate)(opts)
-	
+
 	if !modified.fileDateRangeMin.Equal(minDate) {
 		t.Errorf("Expected fileDateRangeMin to be %v, got %v", minDate, modified.fileDateRangeMin)
 	}
@@ -109,11 +109,11 @@ func TestFileDate(t *testing.T) {
 func TestDepth(t *testing.T) {
 	opts := Default()
 	modified := Depth(15)(opts)
-	
+
 	if modified.depthRangeMax != 15 {
 		t.Errorf("Expected depthRangeMax to be 15, got %d", modified.depthRangeMax)
 	}
-	
+
 	// Test with zero depth
 	modified = Depth(0)(opts)
 	if modified.depthRangeMax != 0 {
@@ -124,7 +124,7 @@ func TestDepth(t *testing.T) {
 func TestNumDescendant(t *testing.T) {
 	opts := Default()
 	modified := NumDescendant(100, 20)(opts)
-	
+
 	if modified.maxFilesInFolder != 100 {
 		t.Errorf("Expected maxFilesInFolder to be 100, got %d", modified.maxFilesInFolder)
 	}
@@ -136,7 +136,7 @@ func TestNumDescendant(t *testing.T) {
 func TestNumFiles(t *testing.T) {
 	opts := Default()
 	modified := NumFiles(2500)(opts)
-	
+
 	if modified.numFiles != 2500 {
 		t.Errorf("Expected numFiles to be 2500, got %d", modified.numFiles)
 	}
@@ -145,7 +145,7 @@ func TestNumFiles(t *testing.T) {
 func TestSeed(t *testing.T) {
 	opts := Default()
 	modified := Seed(9876543210)(opts)
-	
+
 	if modified.seed != 9876543210 {
 		t.Errorf("Expected seed to be 9876543210, got %d", modified.seed)
 	}
@@ -160,7 +160,7 @@ func TestChainedOptions(t *testing.T) {
 		Seed(11111),
 		NumDescendant(50, 10),
 	})
-	
+
 	if opts.numFiles != 3000 {
 		t.Errorf("Expected numFiles to be 3000, got %d", opts.numFiles)
 	}

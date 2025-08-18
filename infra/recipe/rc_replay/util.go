@@ -1,11 +1,12 @@
 package rc_replay
 
 import (
-	"errors"
-	"github.com/watermint/toolbox/essentials/file/es_filepath"
-	"github.com/watermint/toolbox/essentials/model/mo_string"
-	"github.com/watermint/toolbox/infra/control/app_definitions"
-	"os"
+    "errors"
+    "os"
+
+    "github.com/watermint/toolbox/essentials/file/es_filepath"
+    "github.com/watermint/toolbox/essentials/model/mo_string"
+    "github.com/watermint/toolbox/infra/control/app_definitions"
 )
 
 var (

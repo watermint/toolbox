@@ -1,20 +1,21 @@
 package rp_writer_impl
 
 import (
-	"bufio"
-	"encoding/json"
-	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/essentials/text/es_sort"
-	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/report/rp_column"
-	"github.com/watermint/toolbox/infra/report/rp_column_impl"
-	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/infra/report/rp_writer"
-	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/infra/ui/app_ui"
-	"os"
-	"path/filepath"
-	"sync"
+    "bufio"
+    "encoding/json"
+    "os"
+    "path/filepath"
+    "sync"
+
+    "github.com/watermint/toolbox/essentials/log/esl"
+    "github.com/watermint/toolbox/essentials/text/es_sort"
+    "github.com/watermint/toolbox/infra/control/app_control"
+    "github.com/watermint/toolbox/infra/report/rp_column"
+    "github.com/watermint/toolbox/infra/report/rp_column_impl"
+    "github.com/watermint/toolbox/infra/report/rp_model"
+    "github.com/watermint/toolbox/infra/report/rp_writer"
+    "github.com/watermint/toolbox/infra/ui/app_msg"
+    "github.com/watermint/toolbox/infra/ui/app_ui"
 )
 
 type MsgSortedWriter struct {

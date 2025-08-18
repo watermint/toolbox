@@ -73,12 +73,12 @@ func (z *List) Exec(c app_control.Control) error {
 	projectRoot := getProjectRoot(c.Workspace())
 	buildDir := filepath.Join(projectRoot, "build")
 	coverageFile := filepath.Join(buildDir, "coverage.out")
-	
+
 	// Ensure build directory exists
 	if err := os.MkdirAll(buildDir, 0755); err != nil {
 		l.Debug("Unable to create build directory", esl.Error(err))
 	}
-	
+
 	// Run go test with coverage
 	ui.Info(z.MsgRunningCoverage.With("M", app_msg.Raw(fmt.Sprintf("Running coverage analysis (threshold: %d%%)...", z.Threshold))))
 
@@ -287,56 +287,56 @@ func (z *List) enrichWithCoverageProfile(packages []PackageCoverage, coverageFil
 
 	// Parse the coverage profile to get accurate statement counts
 	packageStats := make(map[string]*PackageStats)
-	
+
 	lines := strings.Split(string(profileBytes), "\n")
 	for _, line := range lines {
 		line = strings.TrimSpace(line)
 		if line == "" || strings.HasPrefix(line, "mode:") {
 			continue
 		}
-		
+
 		// Parse line format: package/file.go:startLine.startCol,endLine.endCol numStmt covered
 		parts := strings.Fields(line)
 		if len(parts) != 3 {
 			continue
 		}
-		
+
 		filePath := parts[0]
 		numStmt, _ := strconv.Atoi(parts[1])
 		covered, _ := strconv.Atoi(parts[2])
-		
+
 		// Extract package from file path
 		pkgName := extractPackageFromPath(filePath)
 		if pkgName == "" {
 			continue
 		}
-		
+
 		if packageStats[pkgName] == nil {
 			packageStats[pkgName] = &PackageStats{
 				Package: pkgName,
 			}
 		}
-		
+
 		packageStats[pkgName].TotalStatements += numStmt
 		if covered > 0 {
 			packageStats[pkgName].CoveredStatements += numStmt
 		}
 	}
-	
+
 	// Create a map for quick lookup of existing packages
 	packageMap := make(map[string]*PackageCoverage)
 	for i := range packages {
 		packageMap[packages[i].Package] = &packages[i]
 	}
-	
+
 	// Update existing packages and add new ones from profile
 	for pkgName, stats := range packageStats {
 		if stats.TotalStatements == 0 {
 			continue
 		}
-		
+
 		coverage := float64(stats.CoveredStatements) / float64(stats.TotalStatements) * 100
-		
+
 		if existingPkg, exists := packageMap[pkgName]; exists {
 			// Update existing package with accurate counts
 			existingPkg.Statements = stats.TotalStatements
@@ -352,7 +352,7 @@ func (z *List) enrichWithCoverageProfile(packages []PackageCoverage, coverageFil
 			packages = append(packages, newPkg)
 		}
 	}
-	
+
 	return packages
 }
 
@@ -368,7 +368,7 @@ func extractPackageFromPath(filePath string) string {
 	if lastSlash == -1 {
 		return ""
 	}
-	
+
 	pkgPath := filePath[:lastSlash]
 	return pkgPath
 }

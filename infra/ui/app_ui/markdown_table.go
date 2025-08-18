@@ -1,13 +1,14 @@
 package app_ui
 
 import (
-	"fmt"
-	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/essentials/strings/es_width"
-	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/infra/ui/app_msg_container"
-	"io"
-	"strings"
+    "fmt"
+    "io"
+    "strings"
+
+    "github.com/watermint/toolbox/essentials/log/esl"
+    "github.com/watermint/toolbox/essentials/strings/es_width"
+    "github.com/watermint/toolbox/infra/ui/app_msg"
+    "github.com/watermint/toolbox/infra/ui/app_msg_container"
 )
 
 func newMdTable(sy Syntax, wr io.Writer, mc app_msg_container.Container, name string) Table {

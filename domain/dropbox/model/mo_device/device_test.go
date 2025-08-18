@@ -68,7 +68,7 @@ func TestMetadata_Web(t *testing.T) {
 		"ip_address": "192.168.1.1",
 		"country": "US"
 	}`)
-	
+
 	metadata := &Metadata{
 		Raw:          webRaw,
 		Tag:          DeviceTypeWeb,
@@ -107,7 +107,7 @@ func TestMetadata_Desktop(t *testing.T) {
 		"platform": "Windows",
 		"is_delete_on_unlink_supported": true
 	}`)
-	
+
 	metadata := &Metadata{
 		Raw:          desktopRaw,
 		Tag:          DeviceTypeDesktop,
@@ -146,7 +146,7 @@ func TestMetadata_Mobile(t *testing.T) {
 		"client_version": "8.2.0",
 		"os_version": "iOS 14.0"
 	}`)
-	
+
 	metadata := &Metadata{
 		Raw:          mobileRaw,
 		Tag:          "desktop", // Bug in implementation requires "desktop" tag
@@ -334,7 +334,7 @@ func TestMobile(t *testing.T) {
 func TestNewMemberSession(t *testing.T) {
 	// Since we can't import mo_member due to potential circular dependencies,
 	// we'll test what we can by creating the necessary structures
-	
+
 	// This test verifies the function exists and has the right signature
 	// Real testing would require mo_member.Member type
 }
@@ -353,26 +353,26 @@ func TestMemberSession_Session(t *testing.T) {
 			"updated": "2023-01-01T01:00:00Z"
 		}
 	}`)
-	
+
 	ms := &MemberSession{
 		Raw:          raw,
 		TeamMemberId: "dbmid:test123",
 		DeviceTag:    DeviceTypeWeb,
 	}
-	
+
 	session := ms.Session()
 	if session == nil {
 		t.Error("Expected session to be returned")
 	}
-	
+
 	if session.EntryTeamMemberId() != "dbmid:test123" {
 		t.Error("Expected team member ID to match")
 	}
-	
+
 	if session.EntryTag() != DeviceTypeWeb {
 		t.Error("Expected tag to match")
 	}
-	
+
 	// Test with invalid session data
 	invalidRaw := json.RawMessage(`{
 		"profile": {
@@ -381,13 +381,13 @@ func TestMemberSession_Session(t *testing.T) {
 		"device_tag": "web_session",
 		"session": "invalid"
 	}`)
-	
+
 	ms2 := &MemberSession{
 		Raw:          invalidRaw,
 		TeamMemberId: "dbmid:test123",
 		DeviceTag:    DeviceTypeWeb,
 	}
-	
+
 	// Should still return a session, even if empty
 	session2 := ms2.Session()
 	if session2 == nil {
@@ -428,7 +428,7 @@ func TestMemberSessionStruct(t *testing.T) {
 		OsVersion:                 "iOS 14.0",
 		LastCarrier:               "Verizon",
 	}
-	
+
 	// Just verify all fields are accessible
 	if ms.TeamMemberId != "dbmid:test123" {
 		t.Error("Expected TeamMemberId to be set")

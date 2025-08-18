@@ -25,7 +25,7 @@ func TestSkipReasonConstants(t *testing.T) {
 
 func TestOpts_DefaultValues(t *testing.T) {
 	opts := Opts{}
-	
+
 	if opts.SyncDelete() {
 		t.Error("Expected SyncDelete to be false by default")
 	}
@@ -48,13 +48,13 @@ func TestOpts_DefaultValues(t *testing.T) {
 
 func TestSyncDelete(t *testing.T) {
 	opts := Opts{}
-	
+
 	// Test enabling
 	newOpts := SyncDelete(true)(opts)
 	if !newOpts.SyncDelete() {
 		t.Error("Expected SyncDelete to be true after enabling")
 	}
-	
+
 	// Test disabling
 	newOpts = SyncDelete(false)(newOpts)
 	if newOpts.SyncDelete() {
@@ -64,12 +64,12 @@ func TestSyncDelete(t *testing.T) {
 
 func TestSyncOverwrite(t *testing.T) {
 	opts := Opts{}
-	
+
 	newOpts := SyncOverwrite(true)(opts)
 	if !newOpts.SyncOverwrite() {
 		t.Error("Expected SyncOverwrite to be true after enabling")
 	}
-	
+
 	newOpts = SyncOverwrite(false)(newOpts)
 	if newOpts.SyncOverwrite() {
 		t.Error("Expected SyncOverwrite to be false after disabling")
@@ -78,7 +78,7 @@ func TestSyncOverwrite(t *testing.T) {
 
 func TestSyncDontCompareTime(t *testing.T) {
 	opts := Opts{}
-	
+
 	newOpts := SyncDontCompareTime(true)(opts)
 	if !newOpts.SyncDontCompareTime() {
 		t.Error("Expected SyncDontCompareTime to be true after enabling")
@@ -87,7 +87,7 @@ func TestSyncDontCompareTime(t *testing.T) {
 
 func TestSyncDontCompareContent(t *testing.T) {
 	opts := Opts{}
-	
+
 	newOpts := SyncDontCompareContent(true)(opts)
 	if !newOpts.SyncDontCompareContent() {
 		t.Error("Expected SyncDontCompareContent to be true after enabling")
@@ -96,7 +96,7 @@ func TestSyncDontCompareContent(t *testing.T) {
 
 func TestOptimizePreventCreateFolder(t *testing.T) {
 	opts := Opts{}
-	
+
 	newOpts := OptimizePreventCreateFolder(true)(opts)
 	if !newOpts.OptimizeReduceCreateFolder() {
 		t.Error("Expected OptimizeReduceCreateFolder to be true after enabling")
@@ -105,10 +105,10 @@ func TestOptimizePreventCreateFolder(t *testing.T) {
 
 func TestWithNameFilter(t *testing.T) {
 	opts := Opts{}
-	
+
 	// Use nil filter for simplicity in testing
 	_ = WithNameFilter(nil)(opts)
-	
+
 	// The option function should work without error
 	// We can't directly test the filter since it's private
 }
@@ -116,16 +116,16 @@ func TestWithNameFilter(t *testing.T) {
 func TestOnCopySuccess(t *testing.T) {
 	opts := Opts{}
 	called := false
-	
+
 	listener := func(source es_filesystem.Entry, target es_filesystem.Entry) {
 		called = true
 	}
-	
+
 	newOpts := OnCopySuccess(listener)(opts)
-	
+
 	// Call with nil entries to test the listener mechanism
 	newOpts.OnCopySuccess(nil, nil)
-	
+
 	if !called {
 		t.Error("Expected OnCopySuccess listener to be called")
 	}
@@ -134,18 +134,18 @@ func TestOnCopySuccess(t *testing.T) {
 func TestOnCopyFailure(t *testing.T) {
 	opts := Opts{}
 	called := false
-	
+
 	listener := func(source es_filesystem.Path, err es_filesystem.FileSystemError) {
 		called = true
 	}
-	
+
 	newOpts := OnCopyFailure(listener)(opts)
-	
+
 	sourcePath := es_filesystem_model.NewPath("/source.txt")
 	mockError := es_filesystem_model.NewError(errors.New("test error"), es_filesystem_model.ErrorTypeOther)
-	
+
 	newOpts.OnCopyFailure(sourcePath, mockError)
-	
+
 	if !called {
 		t.Error("Expected OnCopyFailure listener to be called")
 	}
@@ -154,16 +154,16 @@ func TestOnCopyFailure(t *testing.T) {
 func TestOnDeleteSuccess(t *testing.T) {
 	opts := Opts{}
 	called := false
-	
+
 	listener := func(target es_filesystem.Path) {
 		called = true
 	}
-	
+
 	newOpts := OnDeleteSuccess(listener)(opts)
-	
+
 	targetPath := es_filesystem_model.NewPath("/target.txt")
 	newOpts.OnDeleteSuccess(targetPath)
-	
+
 	if !called {
 		t.Error("Expected OnDeleteSuccess listener to be called")
 	}
@@ -172,18 +172,18 @@ func TestOnDeleteSuccess(t *testing.T) {
 func TestOnDeleteFailure(t *testing.T) {
 	opts := Opts{}
 	called := false
-	
+
 	listener := func(target es_filesystem.Path, err es_filesystem.FileSystemError) {
 		called = true
 	}
-	
+
 	newOpts := OnDeleteFailure(listener)(opts)
-	
+
 	targetPath := es_filesystem_model.NewPath("/target.txt")
 	mockError := es_filesystem_model.NewError(errors.New("test error"), es_filesystem_model.ErrorTypeOther)
-	
+
 	newOpts.OnDeleteFailure(targetPath, mockError)
-	
+
 	if !called {
 		t.Error("Expected OnDeleteFailure listener to be called")
 	}
@@ -192,16 +192,16 @@ func TestOnDeleteFailure(t *testing.T) {
 func TestOnCreateFolderSuccess(t *testing.T) {
 	opts := Opts{}
 	called := false
-	
+
 	listener := func(target es_filesystem.Path) {
 		called = true
 	}
-	
+
 	newOpts := OnCreateFolderSuccess(listener)(opts)
-	
+
 	targetPath := es_filesystem_model.NewPath("/newfolder")
 	newOpts.OnCreateFolderSuccess(targetPath)
-	
+
 	if !called {
 		t.Error("Expected OnCreateFolderSuccess listener to be called")
 	}
@@ -210,18 +210,18 @@ func TestOnCreateFolderSuccess(t *testing.T) {
 func TestOnCreateFolderFailure(t *testing.T) {
 	opts := Opts{}
 	called := false
-	
+
 	listener := func(target es_filesystem.Path, err es_filesystem.FileSystemError) {
 		called = true
 	}
-	
+
 	newOpts := OnCreateFolderFailure(listener)(opts)
-	
+
 	targetPath := es_filesystem_model.NewPath("/newfolder")
 	mockError := es_filesystem_model.NewError(errors.New("test error"), es_filesystem_model.ErrorTypeOther)
-	
+
 	newOpts.OnCreateFolderFailure(targetPath, mockError)
-	
+
 	if !called {
 		t.Error("Expected OnCreateFolderFailure listener to be called")
 	}
@@ -231,18 +231,18 @@ func TestOnSkip(t *testing.T) {
 	opts := Opts{}
 	called := false
 	var receivedReason SkipReason
-	
+
 	listener := func(reason SkipReason, source es_filesystem.Entry, target es_filesystem.Path) {
 		called = true
 		receivedReason = reason
 	}
-	
+
 	newOpts := OnSkip(listener)(opts)
-	
+
 	targetPath := es_filesystem_model.NewPath("/target.txt")
-	
+
 	newOpts.OnSkip(SkipSame, nil, targetPath)
-	
+
 	if !called {
 		t.Error("Expected OnSkip listener to be called")
 	}
@@ -253,12 +253,12 @@ func TestOnSkip(t *testing.T) {
 
 func TestOpts_ListenersWithNil(t *testing.T) {
 	opts := Opts{}
-	
+
 	// Test that calling listeners when they're nil doesn't panic
 	sourcePath := es_filesystem_model.NewPath("/source.txt")
 	targetPath := es_filesystem_model.NewPath("/target.txt")
 	mockError := es_filesystem_model.NewError(errors.New("test error"), es_filesystem_model.ErrorTypeOther)
-	
+
 	// These should not panic
 	opts.OnCopySuccess(nil, nil)
 	opts.OnCopyFailure(sourcePath, mockError)
@@ -271,9 +271,9 @@ func TestOpts_ListenersWithNil(t *testing.T) {
 
 func TestOpts_Apply_NoOptions(t *testing.T) {
 	opts := Opts{}
-	
+
 	result := opts.Apply([]Opt{})
-	
+
 	// Should return the same opts
 	if result.SyncDelete() != opts.SyncDelete() {
 		t.Error("Apply with no options should return same opts")
@@ -282,9 +282,9 @@ func TestOpts_Apply_NoOptions(t *testing.T) {
 
 func TestOpts_Apply_SingleOption(t *testing.T) {
 	opts := Opts{}
-	
+
 	result := opts.Apply([]Opt{SyncDelete(true)})
-	
+
 	if !result.SyncDelete() {
 		t.Error("Expected SyncDelete to be true after applying single option")
 	}
@@ -292,13 +292,13 @@ func TestOpts_Apply_SingleOption(t *testing.T) {
 
 func TestOpts_Apply_MultipleOptions(t *testing.T) {
 	opts := Opts{}
-	
+
 	result := opts.Apply([]Opt{
 		SyncDelete(true),
 		SyncOverwrite(true),
 		SyncDontCompareTime(true),
 	})
-	
+
 	if !result.SyncDelete() {
 		t.Error("Expected SyncDelete to be true")
 	}
@@ -312,13 +312,13 @@ func TestOpts_Apply_MultipleOptions(t *testing.T) {
 
 func TestOpts_Apply_OptionsOverride(t *testing.T) {
 	opts := Opts{}
-	
+
 	// Apply conflicting options - last one should win
 	result := opts.Apply([]Opt{
 		SyncDelete(true),
 		SyncDelete(false),
 	})
-	
+
 	if result.SyncDelete() {
 		t.Error("Expected later option to override earlier one")
 	}
@@ -326,14 +326,14 @@ func TestOpts_Apply_OptionsOverride(t *testing.T) {
 
 func TestWithProgress(t *testing.T) {
 	opts := Opts{}
-	
+
 	// Create a mock progress container (nil is valid)
 	newOpts := WithProgress(nil)(opts)
-	
+
 	if newOpts.Progress() != nil {
 		t.Error("Expected progress to be nil")
 	}
-	
+
 	// We can't easily test with a real container without more dependencies,
 	// but we can verify the option function works
 }

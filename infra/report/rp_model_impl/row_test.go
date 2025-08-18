@@ -40,7 +40,6 @@ func TestRowReport_Basic(t *testing.T) {
 	report.Close() // Should not panic
 }
 
-
 // Test model for testing
 type TestModel struct {
 	Name  string `json:"name"`

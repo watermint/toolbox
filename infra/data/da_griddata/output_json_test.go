@@ -1,11 +1,12 @@
 package da_griddata
 
 import (
-	"bytes"
-	"encoding/json"
-	"strings"
-	"testing"
-	"github.com/watermint/toolbox/essentials/log/esl"
+    "bytes"
+    "encoding/json"
+    "strings"
+    "testing"
+
+    "github.com/watermint/toolbox/essentials/log/esl"
 )
 
 func TestNewJsonWriter(t *testing.T) {
@@ -13,7 +14,7 @@ func TestNewJsonWriter(t *testing.T) {
 	if w == nil {
 		t.Error("Expected non-nil JSON writer")
 	}
-	
+
 	jw, ok := w.(*jsonWriter)
 	if !ok {
 		t.Error("Expected jsonWriter type")
@@ -25,7 +26,7 @@ func TestNewJsonWriter(t *testing.T) {
 
 func TestJsonWriter_FileSuffix(t *testing.T) {
 	w := &jsonWriter{}
-	
+
 	suffix := w.FileSuffix()
 	if suffix != ".json" {
 		t.Errorf("Expected file suffix '.json', got '%s'", suffix)
@@ -36,7 +37,7 @@ func TestJsonWriter_WriteRow(t *testing.T) {
 	w := &jsonWriter{}
 	l := esl.Default()
 	formatter := &PlainGridDataFormatter{}
-	
+
 	tests := []struct {
 		name   string
 		row    int
@@ -78,7 +79,7 @@ func TestJsonWriter_WriteRow(t *testing.T) {
 			column: []interface{}{map[string]interface{}{"key": "value"}, []int{1, 2, 3}},
 		},
 	}
-	
+
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			buf := &bytes.Buffer{}
@@ -86,16 +87,16 @@ func TestJsonWriter_WriteRow(t *testing.T) {
 			if err != nil {
 				t.Errorf("Unexpected error: %v", err)
 			}
-			
+
 			result := strings.TrimSpace(buf.String())
-			
+
 			// Verify it's valid JSON
 			var parsed []interface{}
 			err = json.Unmarshal([]byte(result), &parsed)
 			if err != nil {
 				t.Errorf("Invalid JSON output: %v", err)
 			}
-			
+
 			// Verify the number of elements
 			if len(parsed) != len(tt.column) {
 				t.Errorf("Expected %d elements, got %d", len(tt.column), len(parsed))
@@ -108,7 +109,7 @@ func TestJsonWriter_WriteRow_Error(t *testing.T) {
 	w := &jsonWriter{}
 	l := esl.Default()
 	formatter := &PlainGridDataFormatter{}
-	
+
 	// Test with writer that always fails
 	errWriter := &errorJsonWriter{}
 	err := w.WriteRow(l, errWriter, formatter, 0, []interface{}{"test"})
@@ -129,7 +130,7 @@ func TestJsonWriter_WriteRow_MarshalError(t *testing.T) {
 	w := &jsonWriter{}
 	l := esl.Default()
 	formatter := &badFormatter{}
-	
+
 	buf := &bytes.Buffer{}
 	err := w.WriteRow(l, buf, formatter, 0, []interface{}{"test"})
 	if err == nil {

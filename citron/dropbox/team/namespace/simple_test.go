@@ -2,7 +2,7 @@ package namespace
 
 import (
 	"testing"
-	
+
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 )
@@ -49,12 +49,12 @@ func TestSummary_TestMethod(t *testing.T) {
 
 func TestSummary_SkipMemberSummaryFlag(t *testing.T) {
 	summary := &Summary{}
-	
+
 	// Test default value
 	if summary.SkipMemberSummary {
 		t.Error("Expected SkipMemberSummary to be false by default")
 	}
-	
+
 	// Test setting value
 	summary.SkipMemberSummary = true
 	if !summary.SkipMemberSummary {
@@ -66,13 +66,13 @@ func TestNamespaceTypes(t *testing.T) {
 	// Test various namespace type strings used in the code
 	namespaceTypes := []string{
 		"app_folder",
-		"team_member_folder", 
+		"team_member_folder",
 		"team_member_root",
 		"shared_folder",
 		"team_folder",
 		"team_folder (inside team folder)",
 	}
-	
+
 	for _, nt := range namespaceTypes {
 		// Verify the strings are valid (non-empty)
 		if nt == "" {
@@ -87,7 +87,7 @@ func TestSummaryStructInitialization(t *testing.T) {
 		SkipMemberSummary: true,
 		// Other fields would be initialized by Preset()
 	}
-	
+
 	if !summary.SkipMemberSummary {
 		t.Error("Expected SkipMemberSummary to be true")
 	}
@@ -96,7 +96,7 @@ func TestSummaryStructInitialization(t *testing.T) {
 func TestListStructInitialization(t *testing.T) {
 	// Test that List struct can be initialized
 	list := &List{}
-	
+
 	// Verify the struct is not nil
 	if list == nil {
 		t.Error("Expected List struct to be initialized")

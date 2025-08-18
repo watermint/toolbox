@@ -17,18 +17,18 @@ import (
 
 type Batch struct {
 	rc_recipe.RemarkSecret
-	MsgLang          mo_string.SelectString
-	Limit            mo_int.RangeInt
-	Interactive      app_msg.Message
-	PromptReview     app_msg.Message
-	PromptApprove    app_msg.Message
-	PromptSkip       app_msg.Message
-	PromptStop       app_msg.Message
-	InvalidChoice    app_msg.Message
-	Approved         app_msg.Message
-	Skipped          app_msg.Message
-	SessionComplete  app_msg.Message
-	NoUnreviewed     app_msg.Message
+	MsgLang         mo_string.SelectString
+	Limit           mo_int.RangeInt
+	Interactive     app_msg.Message
+	PromptReview    app_msg.Message
+	PromptApprove   app_msg.Message
+	PromptSkip      app_msg.Message
+	PromptStop      app_msg.Message
+	InvalidChoice   app_msg.Message
+	Approved        app_msg.Message
+	Skipped         app_msg.Message
+	SessionComplete app_msg.Message
+	NoUnreviewed    app_msg.Message
 }
 
 func (z *Batch) Preset() {
@@ -62,7 +62,7 @@ func (z *Batch) Exec(c app_control.Control) error {
 	// Load review.json if exists
 	reviewPath := filepath.Join("resources", "messages", z.MsgLang.Value(), "review.json")
 	reviewed := make(map[string]bool)
-	
+
 	if reviewData, err := os.ReadFile(reviewPath); err == nil {
 		if err := json.Unmarshal(reviewData, &reviewed); err != nil {
 			l.Warn("Unable to parse review file", esl.Error(err))
@@ -101,7 +101,7 @@ func (z *Batch) Exec(c app_control.Control) error {
 
 	for i, key := range unreviewed {
 		message := messages[key]
-		
+
 		ui.Info(z.PromptReview.
 			With("Index", i+1).
 			With("Total", len(unreviewed)).
@@ -115,7 +115,7 @@ func (z *Batch) Exec(c app_control.Control) error {
 				ui.Info(z.PromptStop)
 				goto done
 			}
-			
+
 			input = strings.TrimSpace(strings.ToLower(input))
 
 			switch input {
@@ -142,10 +142,10 @@ func (z *Batch) Exec(c app_control.Control) error {
 				continue
 			}
 		}
-		next:
+	next:
 	}
 
-	done:
+done:
 	// Save updated review.json
 	if approvedCount > 0 {
 		reviewData, err := json.MarshalIndent(reviewed, "", "  ")

@@ -10,7 +10,7 @@ func TestBasicCredential_Serialize(t *testing.T) {
 		Username: "testuser",
 		Password: "testpass",
 	}
-	
+
 	expected := "testuser:testpass"
 	if cred.Serialize() != expected {
 		t.Errorf("Expected %s, got %s", expected, cred.Serialize())
@@ -22,15 +22,15 @@ func TestBasicCredential_HeaderValue(t *testing.T) {
 		Username: "user",
 		Password: "pass",
 	}
-	
+
 	serialized := cred.Serialize()
 	encoded := base64.StdEncoding.EncodeToString([]byte(serialized))
 	expected := "Basic " + encoded
-	
+
 	if cred.HeaderValue() != expected {
 		t.Errorf("Expected %s, got %s", expected, cred.HeaderValue())
 	}
-	
+
 	// Verify the header value is correctly formatted
 	if cred.HeaderValue()[:6] != "Basic " {
 		t.Error("Header value should start with 'Basic '")
@@ -39,7 +39,7 @@ func TestBasicCredential_HeaderValue(t *testing.T) {
 
 func TestNewNoAuthBasicEntity(t *testing.T) {
 	entity := NewNoAuthBasicEntity()
-	
+
 	if entity.KeyName != "" {
 		t.Error("KeyName should be empty")
 	}
@@ -62,9 +62,9 @@ func TestBasicEntity_Entity(t *testing.T) {
 		Description: "test description",
 		Timestamp:   "2024-01-01T00:00:00Z",
 	}
-	
+
 	entity := basicEntity.Entity()
-	
+
 	if entity.KeyName != basicEntity.KeyName {
 		t.Errorf("KeyName mismatch: expected %s, got %s", basicEntity.KeyName, entity.KeyName)
 	}
@@ -94,19 +94,19 @@ func TestBasicEntity_HashSeed(t *testing.T) {
 			Password: "pass1",
 		},
 	}
-	
+
 	hashSeed := basicEntity.HashSeed()
-	
+
 	expected := []string{
 		"a", "key1",
 		"p", "peer1",
 		"c", "user1:pass1",
 	}
-	
+
 	if len(hashSeed) != len(expected) {
 		t.Fatalf("HashSeed length mismatch: expected %d, got %d", len(expected), len(hashSeed))
 	}
-	
+
 	for i, v := range expected {
 		if hashSeed[i] != v {
 			t.Errorf("HashSeed[%d] mismatch: expected %s, got %s", i, v, hashSeed[i])
@@ -116,11 +116,11 @@ func TestBasicEntity_HashSeed(t *testing.T) {
 
 func TestDeserializeBasicCredential(t *testing.T) {
 	tests := []struct {
-		name        string
-		credential  string
-		wantUser    string
-		wantPass    string
-		wantErr     bool
+		name       string
+		credential string
+		wantUser   string
+		wantPass   string
+		wantErr    bool
 	}{
 		{
 			name:       "valid credential",
@@ -159,23 +159,23 @@ func TestDeserializeBasicCredential(t *testing.T) {
 			wantErr:    true,
 		},
 	}
-	
+
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			cred, err := DeserializeBasicCredential(tt.credential)
-			
+
 			if tt.wantErr {
 				if err == nil {
 					t.Error("Expected error but got none")
 				}
 				return
 			}
-			
+
 			if err != nil {
 				t.Errorf("Unexpected error: %v", err)
 				return
 			}
-			
+
 			if cred.Username != tt.wantUser {
 				t.Errorf("Username mismatch: expected %s, got %s", tt.wantUser, cred.Username)
 			}
@@ -195,12 +195,12 @@ func TestDeserializeBasicEntity(t *testing.T) {
 		Description: "test",
 		Timestamp:   "2024-01-01T00:00:00Z",
 	}
-	
+
 	basicEntity, err := DeserializeBasicEntity(entity)
 	if err != nil {
 		t.Fatalf("Unexpected error: %v", err)
 	}
-	
+
 	if basicEntity.KeyName != entity.KeyName {
 		t.Errorf("KeyName mismatch: expected %s, got %s", entity.KeyName, basicEntity.KeyName)
 	}
@@ -219,14 +219,14 @@ func TestDeserializeBasicEntity(t *testing.T) {
 	if basicEntity.Timestamp != entity.Timestamp {
 		t.Errorf("Timestamp mismatch: expected %s, got %s", entity.Timestamp, basicEntity.Timestamp)
 	}
-	
+
 	// Test invalid credential format
 	invalidEntity := Entity{
 		KeyName:    "test-key",
 		PeerName:   "test-peer",
 		Credential: "invalid-no-colon",
 	}
-	
+
 	_, err = DeserializeBasicEntity(invalidEntity)
 	if err == nil {
 		t.Error("Expected error for invalid credential format")
@@ -245,16 +245,16 @@ func TestBasicEntity_RoundTrip(t *testing.T) {
 		Description: "round trip test",
 		Timestamp:   "2024-01-01T12:00:00Z",
 	}
-	
+
 	// Convert to Entity
 	entity := original.Entity()
-	
+
 	// Convert back to BasicEntity
 	restored, err := DeserializeBasicEntity(entity)
 	if err != nil {
 		t.Fatalf("Failed to deserialize: %v", err)
 	}
-	
+
 	// Verify all fields match
 	if restored.KeyName != original.KeyName {
 		t.Errorf("KeyName mismatch after round trip")

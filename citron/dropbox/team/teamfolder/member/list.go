@@ -12,7 +12,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_folder_member"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_team_content"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_teamfolder_scanner"
-	"github.com/watermint/toolbox/essentials/go/es_lang"
+	"github.com/watermint/toolbox/essentials/es_go/es_lang"
 	"github.com/watermint/toolbox/essentials/kvs/kv_kvs"
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
 	"github.com/watermint/toolbox/essentials/model/mo_filter"

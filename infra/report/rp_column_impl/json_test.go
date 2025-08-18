@@ -1,9 +1,10 @@
 package rp_column_impl
 
 import (
-	"encoding/json"
-	"github.com/google/go-cmp/cmp"
-	"testing"
+    "encoding/json"
+    "testing"
+
+    "github.com/google/go-cmp/cmp"
 )
 
 func TestHeaders(t *testing.T) {

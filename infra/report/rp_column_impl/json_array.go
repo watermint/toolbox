@@ -1,10 +1,11 @@
 package rp_column_impl
 
 import (
-	"encoding/json"
-	"fmt"
-	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/report/rp_column"
+    "encoding/json"
+    "fmt"
+
+    "github.com/watermint/toolbox/essentials/log/esl"
+    "github.com/watermint/toolbox/infra/report/rp_column"
 )
 
 func NewJson(header []string) rp_column.Column {

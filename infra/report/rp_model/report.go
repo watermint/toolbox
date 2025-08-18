@@ -1,11 +1,12 @@
 package rp_model
 
 import (
-	"errors"
-	"github.com/watermint/toolbox/infra/doc/dc_recipe"
-	"github.com/watermint/toolbox/infra/report/rp_column"
-	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/infra/ui/app_ui"
+    "errors"
+
+    "github.com/watermint/toolbox/infra/doc/dc_recipe"
+    "github.com/watermint/toolbox/infra/report/rp_column"
+    "github.com/watermint/toolbox/infra/ui/app_msg"
+    "github.com/watermint/toolbox/infra/ui/app_ui"
 )
 
 type ReportOpt func(o *ReportOpts) *ReportOpts

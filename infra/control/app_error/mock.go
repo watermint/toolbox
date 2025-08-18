@@ -1,18 +1,18 @@
 package app_error
 
 import (
-	"github.com/watermint/toolbox/infra/control/app_control"
+    "github.com/watermint/toolbox/infra/control/app_control"
 )
 
 func NewMock() ErrorReport {
-	return mockImpl{}
+    return mockImpl{}
 }
 
 type mockImpl struct {
 }
 
 func (z mockImpl) Up(ctl app_control.Control) error {
-	return nil
+    return nil
 }
 
 func (z mockImpl) Down() {

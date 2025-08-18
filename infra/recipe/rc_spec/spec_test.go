@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
-	"github.com/watermint/toolbox/essentials/go/es_lang"
+	"github.com/watermint/toolbox/essentials/es_go/es_lang"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/doc/dc_index"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -562,14 +562,14 @@ type mockPartialAnnotatedRecipe struct {
 	irreversible bool
 }
 
-func (m *mockPartialAnnotatedRecipe) Seed() rc_recipe.Recipe      { return &m.mockRecipe }
-func (m *mockPartialAnnotatedRecipe) IsExperimental() bool        { return m.experimental }
-func (m *mockPartialAnnotatedRecipe) IsIrreversible() bool        { return m.irreversible }
-func (m *mockPartialAnnotatedRecipe) IsTransient() bool           { return false }
-func (m *mockPartialAnnotatedRecipe) IsSecret() bool              { return false }
-func (m *mockPartialAnnotatedRecipe) IsConsole() bool             { return false }
-func (m *mockPartialAnnotatedRecipe) IsLicenseRequired() bool     { return false }
-func (m *mockPartialAnnotatedRecipe) IsDeprecated() bool          { return false }
+func (m *mockPartialAnnotatedRecipe) Seed() rc_recipe.Recipe  { return &m.mockRecipe }
+func (m *mockPartialAnnotatedRecipe) IsExperimental() bool    { return m.experimental }
+func (m *mockPartialAnnotatedRecipe) IsIrreversible() bool    { return m.irreversible }
+func (m *mockPartialAnnotatedRecipe) IsTransient() bool       { return false }
+func (m *mockPartialAnnotatedRecipe) IsSecret() bool          { return false }
+func (m *mockPartialAnnotatedRecipe) IsConsole() bool         { return false }
+func (m *mockPartialAnnotatedRecipe) IsLicenseRequired() bool { return false }
+func (m *mockPartialAnnotatedRecipe) IsDeprecated() bool      { return false }
 
 func TestSpecValueSelfContained_Doc(t *testing.T) {
 	recipe := &mockRecipe{}
@@ -645,7 +645,7 @@ func TestSpecValueSelfContained_Restore(t *testing.T) {
 	err := qt_control.WithControl(func(c app_control.Control) error {
 		// Create a simple JSON for restoration
 		jsonData := es_json.MustParseString(`{"Value": "restored_value"}`)
-		
+
 		restoredRecipe, err := spec.Restore(jsonData, c)
 		if err != nil {
 			t.Error("Restore should not error", err)

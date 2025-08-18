@@ -15,7 +15,7 @@ func TestDiff_PublicAPI(t *testing.T) {
 		t.Run("DefaultInit", func(t *testing.T) {
 			d := &Diff{}
 			d.Preset()
-			
+
 			// Verify the struct is properly initialized
 			if d == nil {
 				t.Error("Expected Diff to be initialized")
@@ -29,7 +29,7 @@ func TestDiff_PublicAPI(t *testing.T) {
 				Release2: mo_string.NewOptional("release2"),
 			}
 			d.Preset()
-			
+
 			if !d.Release1.IsExists() {
 				t.Error("Expected Release1 to exist")
 			}
@@ -44,7 +44,7 @@ func TestDiff_PublicAPI(t *testing.T) {
 				FilePath: mo_string.NewOptional("/tmp/diff.md"),
 			}
 			d.Preset()
-			
+
 			if !d.FilePath.IsExists() {
 				t.Error("Expected FilePath to exist")
 			}
@@ -56,7 +56,7 @@ func TestDiff_PublicAPI(t *testing.T) {
 				DocLang: mo_string.NewOptional("ja"),
 			}
 			d.Preset()
-			
+
 			if !d.DocLang.IsExists() {
 				t.Error("Expected DocLang to exist")
 			}
@@ -83,7 +83,7 @@ func TestDoc_PublicAPI(t *testing.T) {
 		t.Run("DefaultInit", func(t *testing.T) {
 			d := &Doc{}
 			d.Preset()
-			
+
 			// Verify the struct is properly initialized
 			if d == nil {
 				t.Error("Expected Doc to be initialized")
@@ -96,7 +96,7 @@ func TestDoc_PublicAPI(t *testing.T) {
 				Lang: mo_string.NewOptional("en"),
 			}
 			d.Preset()
-			
+
 			if !d.Lang.IsExists() {
 				t.Error("Expected Lang to exist")
 			}
@@ -111,7 +111,7 @@ func TestDoc_PublicAPI(t *testing.T) {
 				FilePath: mo_string.NewOptional("/tmp/spec.json.gz"),
 			}
 			d.Preset()
-			
+
 			if !d.FilePath.IsExists() {
 				t.Error("Expected FilePath to exist")
 			}
@@ -141,7 +141,7 @@ func TestDoc_PublicAPI(t *testing.T) {
 // Test message fields are properly initialized
 func TestDiff_Messages(t *testing.T) {
 	d := &Diff{}
-	
+
 	// Check that message fields exist
 	// We can't check their actual values without initializing the messages,
 	// but we can verify the fields exist
@@ -166,7 +166,7 @@ func TestDiff_Messages(t *testing.T) {
 		"TableHeaderPath",
 		"TableHeaderTitle",
 	}
-	
+
 	// This is a compile-time check that these fields exist
 	_ = d.ReleaseCurrent
 	_ = d.ReleaseVersion
@@ -187,7 +187,7 @@ func TestDiff_Messages(t *testing.T) {
 	_ = d.TableHeaderDesc
 	_ = d.TableHeaderPath
 	_ = d.TableHeaderTitle
-	
+
 	// If we got here, all fields exist
 	t.Logf("All %d message fields exist", len(messageFields))
 }

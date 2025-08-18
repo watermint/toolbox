@@ -7,7 +7,7 @@ import (
 
 func TestEntity_NoCredential(t *testing.T) {
 	timestamp := time.Now().Format(time.RFC3339)
-	
+
 	entity := Entity{
 		KeyName:     "test-key",
 		Scope:       "read write",

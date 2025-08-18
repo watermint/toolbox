@@ -2,8 +2,8 @@ package build
 
 import (
 	"fmt"
-	"github.com/watermint/toolbox/essentials/go/es_generate"
-	"github.com/watermint/toolbox/essentials/go/es_project"
+	"github.com/watermint/toolbox/essentials/es_go/es_generate"
+	"github.com/watermint/toolbox/essentials/es_go/es_project"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/infra/control/app_control"

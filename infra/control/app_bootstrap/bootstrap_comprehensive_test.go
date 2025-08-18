@@ -10,7 +10,7 @@ func TestBootstrap_PublicAPI(t *testing.T) {
 	if bs == nil {
 		t.Fatal("NewBootstrap should not return nil")
 	}
-	
+
 	// Verify it returns the correct implementation
 	if _, ok := bs.(*bsImpl); !ok {
 		t.Fatal("NewBootstrap should return *bsImpl")
@@ -22,7 +22,7 @@ func TestMRun_GlobalVariable(t *testing.T) {
 	if MRun == nil {
 		t.Fatal("MRun should be initialized")
 	}
-	
+
 	// Test some key fields exist
 	if MRun.ErrorInvalidArgument == nil {
 		t.Error("ErrorInvalidArgument should be initialized")
@@ -41,13 +41,10 @@ func TestMRun_GlobalVariable(t *testing.T) {
 	}
 }
 
-
-
-
 func TestBootstrapInterface(t *testing.T) {
 	// Verify Bootstrap interface is properly implemented
 	var _ Bootstrap = &bsImpl{}
-	
+
 	// Test that NewBootstrap returns correct type
 	bs := NewBootstrap()
 	if _, ok := bs.(*bsImpl); !ok {

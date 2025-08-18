@@ -1,9 +1,10 @@
 package app_msg_container_impl
 
 import (
-	"github.com/watermint/toolbox/essentials/go/es_lang"
-	"github.com/watermint/toolbox/infra/ui/app_msg_container"
-	"testing"
+    "testing"
+
+    "github.com/watermint/toolbox/essentials/es_go/es_lang"
+    "github.com/watermint/toolbox/infra/ui/app_msg_container"
 )
 
 func TestNewMultilingual(t *testing.T) {

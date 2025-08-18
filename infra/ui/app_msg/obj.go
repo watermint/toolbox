@@ -1,11 +1,12 @@
 package app_msg
 
 import (
-	"github.com/watermint/toolbox/essentials/go/es_reflect"
-	"github.com/watermint/toolbox/essentials/strings/es_case"
-	"github.com/watermint/toolbox/infra/control/app_definitions"
-	"reflect"
-	"strings"
+    "reflect"
+    "strings"
+
+    "github.com/watermint/toolbox/essentials/es_go/es_reflect"
+    "github.com/watermint/toolbox/essentials/strings/es_case"
+    "github.com/watermint/toolbox/infra/control/app_definitions"
 )
 
 func applyReflect(mot reflect.Type, mov reflect.Value) {

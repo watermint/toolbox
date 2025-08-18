@@ -1,14 +1,15 @@
 package rp_model_impl
 
 import (
-	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/control/app_definitions"
-	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/infra/report/rp_writer"
-	"github.com/watermint/toolbox/infra/report/rp_writer_impl"
-	"go.uber.org/atomic"
-	"sync"
+    "sync"
+
+    "github.com/watermint/toolbox/essentials/log/esl"
+    "github.com/watermint/toolbox/infra/control/app_control"
+    "github.com/watermint/toolbox/infra/control/app_definitions"
+    "github.com/watermint/toolbox/infra/report/rp_model"
+    "github.com/watermint/toolbox/infra/report/rp_writer"
+    "github.com/watermint/toolbox/infra/report/rp_writer_impl"
+    "go.uber.org/atomic"
 )
 
 func NewRowReport(name string) *RowReport {

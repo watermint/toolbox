@@ -25,7 +25,7 @@ func TestTransactionReport_Basic(t *testing.T) {
 	input := &TestModel{Name: "input", Value: 1}
 	result := &TestModel{Name: "result", Value: 2}
 	report.SetModel(input, result)
-	
+
 	// Test that model was set
 	if report.model == nil {
 		t.Error("Expected model to be set after SetModel")
@@ -35,10 +35,10 @@ func TestTransactionReport_Basic(t *testing.T) {
 func TestTransactionReport_Spec(t *testing.T) {
 	// Test NewTransactionReport
 	report := NewTransactionReport("spec-test")
-	
+
 	// Set model first
 	report.SetModel(&TestModel{}, &TestModel{})
-	
+
 	// Test Spec
 	spec := report.Spec()
 	if spec.Name() != "spec-test" {
@@ -48,13 +48,12 @@ func TestTransactionReport_Spec(t *testing.T) {
 
 func TestTransactionReport_SetCtl(t *testing.T) {
 	report := NewTransactionReport("setctl-test")
-	
+
 	// Test that ctl is initially nil
 	if report.ctl != nil {
 		t.Error("Expected initial ctl to be nil")
 	}
-	
+
 	// Test Close without opening
 	report.Close() // Should not panic
 }
-

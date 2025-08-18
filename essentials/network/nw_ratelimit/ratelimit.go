@@ -1,7 +1,7 @@
 package nw_ratelimit
 
 import (
-	"github.com/watermint/toolbox/essentials/go/es_goroutine"
+	"github.com/watermint/toolbox/essentials/es_go/es_goroutine"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"sync"
 	"time"

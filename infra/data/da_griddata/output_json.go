@@ -1,9 +1,10 @@
 package da_griddata
 
 import (
-	"encoding/json"
-	"github.com/watermint/toolbox/essentials/log/esl"
-	"io"
+    "encoding/json"
+    "io"
+
+    "github.com/watermint/toolbox/essentials/log/esl"
 )
 
 func NewJsonWriter() PlainGridDataWriter {

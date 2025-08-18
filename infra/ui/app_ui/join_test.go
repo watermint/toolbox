@@ -1,10 +1,11 @@
 package app_ui
 
 import (
-	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/infra/ui/app_msg_container_impl"
-	"testing"
+    "testing"
+
+    "github.com/watermint/toolbox/essentials/log/esl"
+    "github.com/watermint/toolbox/infra/ui/app_msg"
+    "github.com/watermint/toolbox/infra/ui/app_msg_container_impl"
 )
 
 func TestJoin(t *testing.T) {

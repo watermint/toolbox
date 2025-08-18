@@ -1,17 +1,18 @@
 package rc_value
 
 import (
-	"github.com/watermint/toolbox/essentials/encoding/es_json"
-	"github.com/watermint/toolbox/essentials/file/es_filepath"
-	"github.com/watermint/toolbox/essentials/go/es_reflect"
-	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
-	"github.com/watermint/toolbox/essentials/kvs/kv_storage_impl"
-	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"os"
-	"path/filepath"
-	"reflect"
+    "os"
+    "path/filepath"
+    "reflect"
+
+    "github.com/watermint/toolbox/essentials/encoding/es_json"
+    "github.com/watermint/toolbox/essentials/es_go/es_reflect"
+    "github.com/watermint/toolbox/essentials/file/es_filepath"
+    "github.com/watermint/toolbox/essentials/kvs/kv_storage"
+    "github.com/watermint/toolbox/essentials/kvs/kv_storage_impl"
+    "github.com/watermint/toolbox/essentials/log/esl"
+    "github.com/watermint/toolbox/infra/control/app_control"
+    "github.com/watermint/toolbox/infra/recipe/rc_recipe"
 )
 
 func newValueKvStorageStorage(name string) rc_recipe.Value {

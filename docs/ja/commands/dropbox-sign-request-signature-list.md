@@ -42,6 +42,8 @@ watermint toolbox xx.x.xxx
 © 2016-2025 Takayuki Okazaki
 オープンソースライセンスのもと配布されています. 詳細は`license`コマンドでご覧ください.
 
+このプロジェクトは積極的にメンテナンスされていません。詳細については、https://github.com/watermint/toolbox/discussions/911 をご覧ください。
+
 クレデンシャルを入力してください.
 ```
 

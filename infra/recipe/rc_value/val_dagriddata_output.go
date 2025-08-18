@@ -1,11 +1,12 @@
 package rc_value
 
 import (
-	"github.com/watermint/toolbox/essentials/encoding/es_json"
-	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/data/da_griddata"
-	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"reflect"
+    "reflect"
+
+    "github.com/watermint/toolbox/essentials/encoding/es_json"
+    "github.com/watermint/toolbox/infra/control/app_control"
+    "github.com/watermint/toolbox/infra/data/da_griddata"
+    "github.com/watermint/toolbox/infra/recipe/rc_recipe"
 )
 
 func newValueDaGridDataOutput(recipe interface{}, name string) rc_recipe.Value {

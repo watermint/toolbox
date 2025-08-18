@@ -10,21 +10,21 @@ import (
 const (
 	AuthenticationGuideDescKey = "auth.guide.desc"
 	AuthenticationGuideTitle   = "auth.guide.title"
-	AuthGuideOverview         = "auth.guide.overview"
-	AuthGuideDropboxAuth      = "auth.guide.dropbox"
-	AuthGuideTokenManagement  = "auth.guide.token"
-	AuthGuideTroubleshooting  = "auth.guide.troubleshooting"
-	AuthGuideSecurityTips     = "auth.guide.security"
+	AuthGuideOverview          = "auth.guide.overview"
+	AuthGuideDropboxAuth       = "auth.guide.dropbox"
+	AuthGuideTokenManagement   = "auth.guide.token"
+	AuthGuideTroubleshooting   = "auth.guide.troubleshooting"
+	AuthGuideSecurityTips      = "auth.guide.security"
 )
 
 type MsgAuthenticationGuide struct {
-	DocDesc            app_msg.Message
-	Title              app_msg.Message
-	Overview           app_msg.Message
-	DropboxAuth        app_msg.Message
-	TokenManagement    app_msg.Message
-	Troubleshooting    app_msg.Message
-	SecurityTips       app_msg.Message
+	DocDesc         app_msg.Message
+	Title           app_msg.Message
+	Overview        app_msg.Message
+	DropboxAuth     app_msg.Message
+	TokenManagement app_msg.Message
+	Troubleshooting app_msg.Message
+	SecurityTips    app_msg.Message
 }
 
 var (

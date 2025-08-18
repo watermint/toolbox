@@ -2,7 +2,7 @@ package nw_retry
 
 import (
 	"github.com/watermint/toolbox/essentials/api/api_client"
-	"github.com/watermint/toolbox/essentials/go/es_goroutine"
+	"github.com/watermint/toolbox/essentials/es_go/es_goroutine"
 	"github.com/watermint/toolbox/essentials/http/es_response"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/network/nw_client"

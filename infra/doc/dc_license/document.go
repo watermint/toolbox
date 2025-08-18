@@ -1,14 +1,15 @@
 package dc_license
 
 import (
-	"encoding/json"
-	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/control/app_resource"
-	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/infra/ui/app_ui"
-	"sort"
-	"strings"
+    "encoding/json"
+    "sort"
+    "strings"
+
+    "github.com/watermint/toolbox/essentials/log/esl"
+    "github.com/watermint/toolbox/infra/control/app_control"
+    "github.com/watermint/toolbox/infra/control/app_resource"
+    "github.com/watermint/toolbox/infra/ui/app_msg"
+    "github.com/watermint/toolbox/infra/ui/app_ui"
 )
 
 type MsgLicense struct {

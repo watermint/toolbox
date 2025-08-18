@@ -15,7 +15,7 @@ import (
 	"github.com/itchyny/gojq"
 	"github.com/pkg/profile"
 	"github.com/watermint/toolbox/essentials/ambient/ea_indicator"
-	"github.com/watermint/toolbox/essentials/go/es_lang"
+	"github.com/watermint/toolbox/essentials/es_go/es_lang"
 	"github.com/watermint/toolbox/essentials/io/es_stdout"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/network/nw_bandwidth"
@@ -273,29 +273,18 @@ func (z *bsImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 		for _, key := range app_license_key.AvailableKeys(wb.Workspace()) {
 			_, err := app_license.LoadAndCacheLicense(key, app_definitions.SupplementRepositoryLicenseUrl, wb.Workspace().Secrets())
 			if errors.Is(err, app_license.ErrorLicenseNetwork) {
-				ui.Failure(MRun.ErrorLicenseNetwork)
-				app_exit.Abort(app_exit.FailureLicenseExpired)
+				ctl.Log().Debug("License network error", esl.Error(err))
 			}
 			if licenseErr == nil && err != nil {
 				licenseErr = err
 			}
 		}
-		if app_definitions.IsProduction() {
-			ui.Failure(MRun.ErrorLicenseExpired)
-			app_exit.Abort(app_exit.FailureLicenseExpired)
-		} else {
-			ui.Error(MRun.WarnLicenseExpiredOnNonProductionMode)
-		}
+		ctl.Log().Debug("License expired", esl.Error(licenseErr))
 	}
 
 	// Check lifecycle
 	if active, warn := license.IsLifecycleWithinLimit(); !active {
-		if app_definitions.IsProduction() {
-			ui.Failure(MRun.ErrorLifecycleEnded)
-			app_exit.Abort(app_exit.FailureBinaryExpired)
-		} else {
-			ui.Error(MRun.WarnLifecycleErrorOnNonProductionMode)
-		}
+		ctl.Log().Debug("Application lifecycle ended")
 	} else if warn {
 		ui.Info(MRun.WarnLifecycleNearEnd.With(
 			"Expiration",
@@ -304,8 +293,7 @@ func (z *bsImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 
 	// Check license of the recipe
 	if rcp.IsLicenseRequired() && !license.IsRecipeEnabled(rcp.CliPath()) {
-		ui.Failure(MRun.ErrorLicenseRequired.With("CliPath", rcp.CliPath()))
-		app_exit.Abort(app_exit.FailureLicenseRequired)
+		ctl.Log().Debug("License required for recipe", esl.String("recipe", rcp.CliPath()))
 	}
 
 	// Bootstrap recipe

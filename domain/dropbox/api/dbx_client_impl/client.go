@@ -1,6 +1,8 @@
 package dbx_client_impl
 
 import (
+	"net/http"
+
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_async"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_async_impl"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
@@ -25,7 +27,6 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/control/app_feature"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
-	"net/http"
 )
 
 func NewMock(name string, ctl app_control.Control) dbx_client.Client {
@@ -101,7 +102,7 @@ func newClientWithToken(ctl app_control.Control, l esl.Logger, app api_auth.OAut
 	opts = append(opts, nw_rest_factory.Auth(func(client nw_client.Rest) nw_client.Rest {
 		return nw_auth.NewOAuthRestClient(entity, ctl.AuthRepository(), client)
 	}))
-	opts = append(opts)
+
 	return nw_rest_factory.New(opts...)
 }
 

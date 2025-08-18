@@ -8,15 +8,15 @@ import (
 )
 
 type MsgBestPracticesGuide struct {
-	DocDesc              app_msg.Message
-	Title                app_msg.Message
-	GeneralPractices     app_msg.Message
+	DocDesc                 app_msg.Message
+	Title                   app_msg.Message
+	GeneralPractices        app_msg.Message
 	PerformanceOptimization app_msg.Message
-	SecurityPractices    app_msg.Message
-	AutomationTips       app_msg.Message
-	DataManagement       app_msg.Message
-	TeamCollaboration    app_msg.Message
-	MaintenanceAndUpdates app_msg.Message
+	SecurityPractices       app_msg.Message
+	AutomationTips          app_msg.Message
+	DataManagement          app_msg.Message
+	TeamCollaboration       app_msg.Message
+	MaintenanceAndUpdates   app_msg.Message
 }
 
 var (

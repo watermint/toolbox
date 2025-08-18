@@ -3,7 +3,7 @@ package eg_geom
 import (
 	"strings"
 
-	"github.com/watermint/toolbox/essentials/go/es_errors"
+	"github.com/watermint/toolbox/essentials/es_go/es_errors"
 )
 
 type Position int

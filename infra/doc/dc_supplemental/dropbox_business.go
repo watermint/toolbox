@@ -1,15 +1,16 @@
 package dc_supplemental
 
 import (
-	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/control/app_catalogue"
-	"github.com/watermint/toolbox/infra/doc/dc_index"
-	"github.com/watermint/toolbox/infra/doc/dc_section"
-	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"github.com/watermint/toolbox/infra/recipe/rc_spec"
-	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/infra/ui/app_ui"
-	"sort"
+    "sort"
+
+    "github.com/watermint/toolbox/essentials/log/esl"
+    "github.com/watermint/toolbox/infra/control/app_catalogue"
+    "github.com/watermint/toolbox/infra/doc/dc_index"
+    "github.com/watermint/toolbox/infra/doc/dc_section"
+    "github.com/watermint/toolbox/infra/recipe/rc_recipe"
+    "github.com/watermint/toolbox/infra/recipe/rc_spec"
+    "github.com/watermint/toolbox/infra/ui/app_msg"
+    "github.com/watermint/toolbox/infra/ui/app_ui"
 )
 
 var (

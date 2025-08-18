@@ -42,6 +42,8 @@ watermint toolbox xx.x.xxx
 © 2016-2025 Takayuki Okazaki
 オープンソースライセンスのもと配布されています. 詳細は`license`コマンドでご覧ください.
 
+このプロジェクトは積極的にメンテナンスされていません。詳細については、https://github.com/watermint/toolbox/discussions/911 をご覧ください。
+
 認可URLを開きます:
 https://app.asana.com/-/oauth_authorize?client_id=xxxxxxxxxxxxxxxx&redirect_uri=http%3A%2F%2Flocalhost%3A7800%2Fconnect%2Fauth&response_type=code&scope=default&state=xxxxxxxx
 

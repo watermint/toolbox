@@ -55,7 +55,7 @@ func (z *List) Exec(c app_control.Control) error {
 	// Load review.json if exists
 	reviewPath := filepath.Join("resources", "messages", z.MsgLang.Value(), "review.json")
 	reviewed := make(map[string]bool)
-	
+
 	if reviewData, err := os.ReadFile(reviewPath); err == nil {
 		if err := json.Unmarshal(reviewData, &reviewed); err != nil {
 			l.Warn("Unable to parse review file", esl.Error(err))
@@ -68,7 +68,7 @@ func (z *List) Exec(c app_control.Control) error {
 	if z.Prefix.IsExists() {
 		prefix = z.Prefix.Value()
 	}
-	
+
 	for key := range messages {
 		if !reviewed[key] {
 			if prefix == "" || strings.HasPrefix(key, prefix) {

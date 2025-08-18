@@ -1,11 +1,12 @@
 package app_ui
 
 import (
-	"fmt"
-	"github.com/watermint/toolbox/infra/report/rp_artifact"
-	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/infra/ui/app_msg_container"
-	"go.uber.org/atomic"
+    "fmt"
+
+    "github.com/watermint/toolbox/infra/report/rp_artifact"
+    "github.com/watermint/toolbox/infra/ui/app_msg"
+    "github.com/watermint/toolbox/infra/ui/app_msg_container"
+    "go.uber.org/atomic"
 )
 
 type Syntax interface {

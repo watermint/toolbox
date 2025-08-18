@@ -8,19 +8,19 @@ import (
 	"path/filepath"
 	"sort"
 
-	"github.com/watermint/toolbox/essentials/go/es_lang"
+	"github.com/watermint/toolbox/essentials/es_go/es_lang"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/infra/control/app_catalogue"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_feature"
-	"github.com/watermint/toolbox/quality/recipe/qtr_options"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_spec"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_messages"
 	"github.com/watermint/toolbox/quality/infra/qt_msgusage"
+	"github.com/watermint/toolbox/quality/recipe/qtr_options"
 )
 
 type Preflight struct {
@@ -93,14 +93,14 @@ func (z *Preflight) sortMessages(c app_control.Control, filename string) error {
 func (z *Preflight) verifySelectStringOptions(c app_control.Control) error {
 	l := c.Log()
 	ui := c.UI()
-	
+
 	l.Info("Verifying SelectString option descriptions")
-	
+
 	missingOptions, err := qtr_options.VerifySelectStringOptions(c)
 	if err != nil {
 		return err
 	}
-	
+
 	if len(missingOptions) > 0 {
 		l.Warn("Missing SelectString option descriptions", esl.Int("count", len(missingOptions)))
 		ui.Error(app_msg.Raw(fmt.Sprintf("\nMissing %d SelectString option descriptions:", len(missingOptions))))
@@ -110,7 +110,7 @@ func (z *Preflight) verifySelectStringOptions(c app_control.Control) error {
 		ui.Info(app_msg.Raw("\nTo generate these, run: dev doc msg options --target-path ."))
 		return fmt.Errorf("missing %d SelectString option descriptions", len(missingOptions))
 	}
-	
+
 	l.Info("All SelectString options have descriptions")
 	return nil
 }
@@ -194,7 +194,7 @@ func (z *Preflight) Exec(c app_control.Control) error {
 				qt_msgusage.Record().Touch(m.Key())
 				l.Debug("message", esl.String("key", m.Key()), esl.String("text", c.UI().Text(m)))
 			}
-			
+
 		}
 
 		l.Info("Verify ingredients")
@@ -225,7 +225,7 @@ func (z *Preflight) Exec(c app_control.Control) error {
 			ll.Debug("feature agreement", esl.String("msg", c.UI().Text(app_feature.OptInAgreement(f))))
 			ll.Debug("feature desc", esl.String("msg", c.UI().Text(app_feature.OptInDescription(f))))
 		}
-		
+
 		// Touch all SelectString option messages to mark them as used
 		qtr_options.TouchSelectStringOptions(c, func(key string) {
 			qt_msgusage.Record().Touch(key)

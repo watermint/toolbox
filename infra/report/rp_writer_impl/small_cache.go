@@ -1,10 +1,11 @@
 package rp_writer_impl
 
 import (
-	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/infra/report/rp_writer"
-	"sync"
+    "sync"
+
+    "github.com/watermint/toolbox/infra/control/app_control"
+    "github.com/watermint/toolbox/infra/report/rp_model"
+    "github.com/watermint/toolbox/infra/report/rp_writer"
 )
 
 const (

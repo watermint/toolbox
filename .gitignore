@@ -10,7 +10,6 @@
 .DS_Store
 .coverprofile
 .dropbox
-CLAUDE.md
 /.idea
 /build
 /dist

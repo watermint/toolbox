@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_time"
-	"github.com/watermint/toolbox/essentials/go/es_project"
+	"github.com/watermint/toolbox/essentials/es_go/es_project"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_path"
 	"github.com/watermint/toolbox/infra/control/app_catalogue"

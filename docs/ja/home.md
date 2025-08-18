@@ -6,7 +6,7 @@ Dropbox、Figma、Google、GitHubなどのウェブサービス用の多目的�
 
 # watermint toolboxでもっとできること
 
-watermint toolboxには、日々の作業を解決するための277コマンドが用意されています. 例えば、あなたがDropbox for teamsの管理者で、グループを管理する必要がある場合。グループコマンドを使って、グループを一括作成したり、グループにメンバーを一括追加することができます.
+watermint toolboxには、日々の作業を解決するための272コマンドが用意されています. 例えば、あなたがDropbox for teamsの管理者で、グループを管理する必要がある場合。グループコマンドを使って、グループを一括作成したり、グループにメンバーを一括追加することができます.
 
 ![Demo]({{ site.baseurl }}/images/demo.gif)
 
@@ -41,8 +41,8 @@ watermint toolboxはApache License, Version 2.0でライセンスされていま
 
 # お知らせ
 
+* [#911 watermint toolbox will no longer be actively maintained](https://github.com/watermint/toolbox/discussions/911)
 * [#906 AI Powered Q&A Bot on ChatGPT](https://github.com/watermint/toolbox/discussions/906)
-* [#905 Deprecation: Some of utilities command will be removed after release of 2025-08-01](https://github.com/watermint/toolbox/discussions/905)
 
 # セキュリティとプライバシー
 

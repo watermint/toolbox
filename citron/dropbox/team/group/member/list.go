@@ -9,7 +9,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_group_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_group"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_group_member"
-	"github.com/watermint/toolbox/essentials/go/es_goroutine"
+	"github.com/watermint/toolbox/essentials/es_go/es_goroutine"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/infra/control/app_control"

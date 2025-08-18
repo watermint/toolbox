@@ -1,16 +1,17 @@
 package rp_model_impl
 
 import (
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
-	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/control/app_definitions"
-	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/infra/report/rp_writer"
-	"github.com/watermint/toolbox/infra/report/rp_writer_impl"
-	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"go.uber.org/atomic"
-	"sync"
+    "sync"
+
+    "github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
+    "github.com/watermint/toolbox/essentials/log/esl"
+    "github.com/watermint/toolbox/infra/control/app_control"
+    "github.com/watermint/toolbox/infra/control/app_definitions"
+    "github.com/watermint/toolbox/infra/report/rp_model"
+    "github.com/watermint/toolbox/infra/report/rp_writer"
+    "github.com/watermint/toolbox/infra/report/rp_writer_impl"
+    "github.com/watermint/toolbox/infra/ui/app_msg"
+    "go.uber.org/atomic"
 )
 
 func NewTransactionReport(name string) *TransactionReport {

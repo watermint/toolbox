@@ -9,6 +9,14 @@
 
 watermint toolboxは、Dropbox、Figma、GitHubなどのウェブサービス用の多目的ユーティリティコマンドラインツールです。このツールの目的は、クラウドサービスのユーザーやシステム管理者に、ワークフローを自動化する方法を提供し、いくつかの問題に対する回避策を提供することです。
 
+# ⚠️ メンテナンス状況
+
+**⚠️ 重要なお知らせ：このプロジェクトは積極的にメンテナンスされていません。**
+
+2025年8月より、このプロジェクトはKTLO（Keep The Lights On）モードに移行しました。現在のバージョンは引き続き機能しますが、新機能、バグ修正、API更新は実装されません。必要に応じて最小限のセキュリティ更新のみが適用される場合があります。
+
+この決定の詳細と代替案の推奨については、[プロジェクトメンテナンス状況 - ディスカッション #911](https://github.com/watermint/toolbox/discussions/911) をご覧ください。
+
 # ライセンスと免責条項
 
 watermint toolboxはApache License, Version 2.0でライセンスされています。
@@ -58,8 +66,8 @@ brew install toolbox
 
 # お知らせ
 
+* [#911 watermint toolbox will no longer be actively maintained](https://github.com/watermint/toolbox/discussions/911)
 * [#906 AI Powered Q&A Bot on ChatGPT](https://github.com/watermint/toolbox/discussions/906)
-* [#905 Deprecation: Some of utilities command will be removed after release of 2025-08-01](https://github.com/watermint/toolbox/discussions/905)
 
 # セキュリティとプライバシー
 
@@ -104,6 +112,8 @@ watermint toolbox xx.x.xxx
 
 © 2016-2025 Takayuki Okazaki
 オープンソースライセンスのもと配布されています. 詳細は`license`コマンドでご覧ください.
+
+このプロジェクトは積極的にメンテナンスされていません。詳細については、https://github.com/watermint/toolbox/discussions/911 をご覧ください。
 
 Dropbox用ツールとDropbox for teams
 
@@ -425,11 +435,6 @@ Dropbox用ツールとDropbox for teams
 | [util text case up](docs/ja/commands/util-text-case-up.md)                                                       | 大文字のテキストを表示する                                                   |
 | [util text encoding from](docs/ja/commands/util-text-encoding-from.md)                                           | 指定されたエンコーディングからUTF-8テキストファイルに変換します.             |
 | [util text encoding to](docs/ja/commands/util-text-encoding-to.md)                                               | UTF-8テキストファイルから指定されたエンコーディングに変換する.               |
-| [util text nlp english entity](docs/ja/commands/util-text-nlp-english-entity.md)                                 | 英文をエンティティに分割する                                                 |
-| [util text nlp english sentence](docs/ja/commands/util-text-nlp-english-sentence.md)                             | 英文を文章に分割する                                                         |
-| [util text nlp english token](docs/ja/commands/util-text-nlp-english-token.md)                                   | 英文をトークンに分割する                                                     |
-| [util text nlp japanese token](docs/ja/commands/util-text-nlp-japanese-token.md)                                 | 日本語テキストのトークン化                                                   |
-| [util text nlp japanese wakati](docs/ja/commands/util-text-nlp-japanese-wakati.md)                               | 分かち書き(日本語テキストのトークン化)                                       |
 | [util tidy move dispatch](docs/ja/commands/util-tidy-move-dispatch.md)                                           | ファイルを整理                                                               |
 | [util tidy move simple](docs/ja/commands/util-tidy-move-simple.md)                                               | ローカルファイルをアーカイブします                                           |
 | [util time now](docs/ja/commands/util-time-now.md)                                                               | 現在の時刻を表示                                                             |

@@ -1,20 +1,21 @@
 package rp_writer_impl
 
 import (
-	"bytes"
-	"encoding/json"
-	"github.com/itchyny/gojq"
-	"github.com/watermint/toolbox/essentials/encoding/es_json"
-	"github.com/watermint/toolbox/essentials/io/es_stdout"
-	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/infra/report/rp_writer"
-	"io"
-	"os"
-	"path/filepath"
-	"reflect"
-	"sync"
+    "bytes"
+    "encoding/json"
+    "io"
+    "os"
+    "path/filepath"
+    "reflect"
+    "sync"
+
+    "github.com/itchyny/gojq"
+    "github.com/watermint/toolbox/essentials/encoding/es_json"
+    "github.com/watermint/toolbox/essentials/io/es_stdout"
+    "github.com/watermint/toolbox/essentials/log/esl"
+    "github.com/watermint/toolbox/infra/control/app_control"
+    "github.com/watermint/toolbox/infra/report/rp_model"
+    "github.com/watermint/toolbox/infra/report/rp_writer"
 )
 
 var (

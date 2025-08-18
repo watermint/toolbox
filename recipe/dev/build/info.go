@@ -5,7 +5,7 @@ import (
 	"errors"
 	"github.com/go-git/go-git/v5"
 	"github.com/tidwall/gjson"
-	"github.com/watermint/toolbox/essentials/go/es_project"
+	"github.com/watermint/toolbox/essentials/es_go/es_project"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_definitions"
@@ -59,7 +59,7 @@ func (z *Info) Exec(c app_control.Control) error {
 
 	headName := string(head.Name())
 	var branch string
-	
+
 	if strings.HasPrefix(headName, "refs/heads/") {
 		branch = strings.ReplaceAll(headName, "refs/heads/", "")
 	} else {

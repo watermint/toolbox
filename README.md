@@ -9,6 +9,14 @@
 
 The watermint toolbox is the multi-purpose utility command-line tool for web services including Dropbox, Figma, GitHub, etc. The purpose of the tool is to provide users of cloud services and system administrators with a way to automate workflows and provide a work-around for some issues.
 
+# ⚠️ Maintenance Status
+
+**⚠️ Important Notice: This project is no longer actively maintained.**
+
+As of August 2025, this project has entered Keep The Lights On (KTLO) mode. While the current version will continue to function, no new features, bug fixes, or API updates will be implemented. Only minimal security updates may be applied as needed.
+
+For more details about this decision and recommendations for alternatives, please see: [Project Maintenance Status - Discussion #911](https://github.com/watermint/toolbox/discussions/911)
+
 # Licensing & Disclaimers
 
 watermint toolbox is licensed under the Apache License, Version 2.0.
@@ -45,8 +53,8 @@ In general, new security issues are discovered every day. To avoid leaving these
 
 # Announcements
 
+* [#911 watermint toolbox will no longer be actively maintained](https://github.com/watermint/toolbox/discussions/911)
 * [#906 AI Powered Q&A Bot on ChatGPT](https://github.com/watermint/toolbox/discussions/906)
-* [#905 Deprecation: Some of utilities command will be removed after release of 2025-08-01](https://github.com/watermint/toolbox/discussions/905)
 
 # Security and privacy
 
@@ -90,6 +98,8 @@ watermint toolbox xx.x.xxx
 
 © 2016-2025 Takayuki Okazaki
 Licensed under open source licenses. Use the `license` command for more detail.
+
+This project is no longer actively maintained. For more details, see: https://github.com/watermint/toolbox/discussions/911
 
 Tools for Dropbox and Dropbox for Teams
 
@@ -411,11 +421,6 @@ Available commands:
 | [util text case up](docs/commands/util-text-case-up.md)                                                       | Print upper case text                                                                                |
 | [util text encoding from](docs/commands/util-text-encoding-from.md)                                           | Convert text encoding to UTF-8 text file from specified encoding.                                    |
 | [util text encoding to](docs/commands/util-text-encoding-to.md)                                               | Convert text encoding to specified encoding from UTF-8 text file.                                    |
-| [util text nlp english entity](docs/commands/util-text-nlp-english-entity.md)                                 | Split English text into entities                                                                     |
-| [util text nlp english sentence](docs/commands/util-text-nlp-english-sentence.md)                             | Split English text into sentences                                                                    |
-| [util text nlp english token](docs/commands/util-text-nlp-english-token.md)                                   | Split English text into tokens                                                                       |
-| [util text nlp japanese token](docs/commands/util-text-nlp-japanese-token.md)                                 | Tokenize Japanese text                                                                               |
-| [util text nlp japanese wakati](docs/commands/util-text-nlp-japanese-wakati.md)                               | Wakachigaki (tokenize Japanese text)                                                                 |
 | [util tidy move dispatch](docs/commands/util-tidy-move-dispatch.md)                                           | Dispatch files                                                                                       |
 | [util tidy move simple](docs/commands/util-tidy-move-simple.md)                                               | Archive local files                                                                                  |
 | [util time now](docs/commands/util-time-now.md)                                                               | Display current time                                                                                 |

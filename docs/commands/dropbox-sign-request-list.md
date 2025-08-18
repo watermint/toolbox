@@ -42,6 +42,8 @@ watermint toolbox xx.x.xxx
 © 2016-2025 Takayuki Okazaki
 Licensed under open source licenses. Use the `license` command for more detail.
 
+This project is no longer actively maintained. For more details, see: https://github.com/watermint/toolbox/discussions/911
+
 Please enter your credential(s).
 ```
 

@@ -34,6 +34,7 @@ func (z Readme) DocDesc() app_msg.Message {
 func (z Readme) Sections() []dc_section.Section {
 	sections := make([]dc_section.Section, 0)
 	sections = append(sections, NewHeader(z.forPublish))
+	sections = append(sections, NewKtloAnnouncement())
 	sections = append(sections, NewLicense())
 	if z.forPublish {
 		sections = append(sections, NewRelease())

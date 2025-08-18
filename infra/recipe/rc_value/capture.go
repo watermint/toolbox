@@ -1,15 +1,16 @@
 package rc_value
 
 import (
-	"compress/gzip"
-	"github.com/watermint/toolbox/essentials/encoding/es_json"
-	"github.com/watermint/toolbox/essentials/file/es_filepath"
-	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/security/sc_random"
-	"io"
-	"os"
-	"path/filepath"
+    "compress/gzip"
+    "io"
+    "os"
+    "path/filepath"
+
+    "github.com/watermint/toolbox/essentials/encoding/es_json"
+    "github.com/watermint/toolbox/essentials/file/es_filepath"
+    "github.com/watermint/toolbox/essentials/log/esl"
+    "github.com/watermint/toolbox/infra/control/app_control"
+    "github.com/watermint/toolbox/infra/security/sc_random"
 )
 
 type CapturedData struct {

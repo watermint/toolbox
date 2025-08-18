@@ -3,7 +3,7 @@ package resources
 import (
 	"encoding/base32"
 	"encoding/json"
-	"github.com/watermint/toolbox/essentials/go/es_resource"
+	"github.com/watermint/toolbox/essentials/es_go/es_resource"
 	"golang.org/x/crypto/sha3"
 	"strings"
 	"time"

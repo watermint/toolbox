@@ -8,15 +8,15 @@ import (
 )
 
 type MsgErrorHandlingGuide struct {
-	DocDesc                app_msg.Message
-	Title                  app_msg.Message
-	CommonErrors           app_msg.Message
-	NetworkErrors          app_msg.Message
-	AuthenticationErrors   app_msg.Message
-	FileSystemErrors       app_msg.Message
-	RateLimitErrors       app_msg.Message
-	APIErrors             app_msg.Message
-	DebugTechniques       app_msg.Message
+	DocDesc              app_msg.Message
+	Title                app_msg.Message
+	CommonErrors         app_msg.Message
+	NetworkErrors        app_msg.Message
+	AuthenticationErrors app_msg.Message
+	FileSystemErrors     app_msg.Message
+	RateLimitErrors      app_msg.Message
+	APIErrors            app_msg.Message
+	DebugTechniques      app_msg.Message
 }
 
 var (

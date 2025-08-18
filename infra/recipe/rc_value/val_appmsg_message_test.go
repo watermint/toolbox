@@ -1,10 +1,11 @@
 package rc_value
 
 import (
-	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/quality/infra/qt_control"
-	"testing"
+    "testing"
+
+    "github.com/watermint/toolbox/infra/control/app_control"
+    "github.com/watermint/toolbox/infra/ui/app_msg"
+    "github.com/watermint/toolbox/quality/infra/qt_control"
 )
 
 type ValueAppMsgMessageRecipe struct {

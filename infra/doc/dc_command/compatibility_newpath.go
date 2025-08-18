@@ -1,13 +1,14 @@
 package dc_command
 
 import (
-	"github.com/watermint/toolbox/infra/doc/dc_index"
-	"github.com/watermint/toolbox/infra/doc/dc_section"
-	"github.com/watermint/toolbox/infra/recipe/rc_compatibility"
-	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/infra/ui/app_ui"
-	"strings"
+    "strings"
+
+    "github.com/watermint/toolbox/infra/doc/dc_index"
+    "github.com/watermint/toolbox/infra/doc/dc_section"
+    "github.com/watermint/toolbox/infra/recipe/rc_compatibility"
+    "github.com/watermint/toolbox/infra/recipe/rc_recipe"
+    "github.com/watermint/toolbox/infra/ui/app_msg"
+    "github.com/watermint/toolbox/infra/ui/app_ui"
 )
 
 func NewCompatibilityNewPath(media dc_index.MediaType, spec rc_recipe.Spec, pathPair rc_compatibility.PathPair, newPathSpec rc_compatibility.PathChangeDefinition) dc_section.Document {

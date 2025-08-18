@@ -4,7 +4,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_insight"
-	"github.com/watermint/toolbox/essentials/go/es_lang"
+	"github.com/watermint/toolbox/essentials/es_go/es_lang"
 	"github.com/watermint/toolbox/essentials/model/mo_int"
 	"github.com/watermint/toolbox/essentials/model/mo_path"
 	"github.com/watermint/toolbox/essentials/model/mo_string"

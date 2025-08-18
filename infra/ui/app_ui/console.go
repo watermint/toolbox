@@ -99,7 +99,7 @@ func (z conImpl) DefinitionList(definitions []Definition) {
 	for _, def := range definitions {
 		term := z.mc.Compile(def.Term)
 		desc := z.mc.Compile(def.Description)
-		
+
 		// Display term in bold white
 		es_color.Boldfln(z.wr, "%s", term)
 		// Display description indented

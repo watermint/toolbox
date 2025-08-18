@@ -1,20 +1,21 @@
 package fd_file_impl
 
 import (
-	"compress/gzip"
-	"encoding/csv"
-	"errors"
-	"github.com/watermint/toolbox/essentials/encoding/es_unicode"
-	"github.com/watermint/toolbox/essentials/log/esl"
-	es_case2 "github.com/watermint/toolbox/essentials/strings/es_case"
-	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/feed/fd_file"
-	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"io"
-	"os"
-	"reflect"
-	"strconv"
-	"strings"
+    "compress/gzip"
+    "encoding/csv"
+    "errors"
+    "io"
+    "os"
+    "reflect"
+    "strconv"
+    "strings"
+
+    "github.com/watermint/toolbox/essentials/encoding/es_unicode"
+    "github.com/watermint/toolbox/essentials/log/esl"
+    es_case2 "github.com/watermint/toolbox/essentials/strings/es_case"
+    "github.com/watermint/toolbox/infra/control/app_control"
+    "github.com/watermint/toolbox/infra/feed/fd_file"
+    "github.com/watermint/toolbox/infra/ui/app_msg"
 )
 
 type MsgRowFeed struct {

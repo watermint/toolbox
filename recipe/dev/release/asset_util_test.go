@@ -233,7 +233,7 @@ func TestIdentifyPlatform_EdgeCases(t *testing.T) {
 					}
 				}()
 			}
-			
+
 			result := IdentifyPlatform(tc.asset)
 			if result != tc.expected {
 				t.Errorf("Expected platform '%s', got '%s'", tc.expected, result)

@@ -1,16 +1,17 @@
 package app_ui
 
 import (
-	"bytes"
-	"fmt"
-	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/essentials/strings/es_width"
-	"github.com/watermint/toolbox/essentials/terminal/es_dialogue"
-	"github.com/watermint/toolbox/infra/report/rp_artifact"
-	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/infra/ui/app_msg_container"
-	"io"
-	"strings"
+    "bytes"
+    "fmt"
+    "io"
+    "strings"
+
+    "github.com/watermint/toolbox/essentials/log/esl"
+    "github.com/watermint/toolbox/essentials/strings/es_width"
+    "github.com/watermint/toolbox/essentials/terminal/es_dialogue"
+    "github.com/watermint/toolbox/infra/report/rp_artifact"
+    "github.com/watermint/toolbox/infra/ui/app_msg"
+    "github.com/watermint/toolbox/infra/ui/app_msg_container"
 )
 
 func MakeConsoleDemo(mc app_msg_container.Container, f func(ui UI)) string {
@@ -118,7 +119,7 @@ func (z plainImpl) DefinitionList(definitions []Definition) {
 	for _, def := range definitions {
 		term := z.mc.Compile(def.Term)
 		desc := z.mc.Compile(def.Description)
-		
+
 		// Simple plain text format with indentation
 		_, _ = fmt.Fprintf(z.wr, "%s\n", term)
 		_, _ = fmt.Fprintf(z.wr, "  %s\n\n", desc)

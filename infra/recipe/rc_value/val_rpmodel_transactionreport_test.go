@@ -1,11 +1,12 @@
 package rc_value
 
 import (
-	"flag"
-	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/quality/infra/qt_control"
-	"testing"
+    "flag"
+    "testing"
+
+    "github.com/watermint/toolbox/infra/control/app_control"
+    "github.com/watermint/toolbox/infra/report/rp_model"
+    "github.com/watermint/toolbox/quality/infra/qt_control"
 )
 
 type ValueRpModelTransactionReportRecipeData struct {
